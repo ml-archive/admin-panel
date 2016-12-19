@@ -1,0 +1,7 @@
+os:
+  - linux
+language: generic
+sudo: required
+dist: trusty
+script:
+  - eval "$(curl -sL https://swift.vapor.sh/ci)"
