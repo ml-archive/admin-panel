@@ -1,0 +1,30 @@
+.panel-body.panel-body-collapse {
+	padding: 0;
+}
+
+.panel-heading .panel-actions {
+	margin: 0;
+	padding: 0;
+	float: right;
+}
+
+.panel-heading ul.panel-actions {
+	list-style: none;
+	> li {
+		display: inline-block;
+		@include whitespace($type: margin, $side: left, $size: sm);
+		&:first-child {
+			margin-left: 0;
+		}
+	}
+}
+
+.panel-heading .fa {
+	font-size: 80%;
+}
+
+.panel-title .label {
+	@include whitespace($type: margin, $side: left, $size: sm);
+	display: inline-block;
+	transform: translateY(-1px);
+}

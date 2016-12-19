@@ -1,0 +1,45 @@
+.page-header {
+	@include background-color($gray-lighter);
+
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+.core-layout__content > .page-header {
+
+}
+
+.page-header__breadcrumbs,
+.page-header__top-section,
+.page-header__bottom-section {
+	@include whitespace($side: vertical, $size: sm);
+	@include whitespace($side: horizontal);
+}
+.page-header__actions {
+
+}
+
+.page-header__actions,
+.page-header__top-section,
+.page-header__bottom-section {
+	@include layout($wrap: false);
+	justify-content: space-between;
+	align-items: center;
+}
+
+.page-header__top-section {
+	:first-child,
+	:last-child {
+
+	}
+}
+.page-header__bottom-section {
+	:first-child,
+	:last-child {
+
+	}
+}
+
+.page-header__bottom-section h1 {
+	margin: 0;
+}

@@ -1,0 +1,70 @@
+.dropdown-menu[class*="animate"] {
+	display: block;
+	visibility: hidden;
+}
+.dropdown.open .dropdown-menu[class*="animate"],
+.dropup.open .dropdown-menu[class*="animate"] {
+	visibility: visible;
+}
+
+.dropdown-menu.animate-expand {
+	opacity: 0;
+	max-height: 0;
+	transition: all $animation-timing-base $animation-easing-beziered;
+
+	.dropdown-content {
+		transition: opacity $animation-timing-base $animation-easing-relaxed,
+					transform $animation-timing-base $animation-easing-beziered;
+		opacity: 0;
+	}
+}
+.dropdown .dropdown-menu.animate-expand {
+	transform-origin: top center;
+	.dropdown-content {
+		transform: translate3d(0,-20px,0);
+	}
+}
+.dropup .dropdown-menu.animate-expand {
+	transform-origin: bottom center;
+	.dropdown-content {
+		transform: translate3d(0,20px,0);
+	}
+}
+
+.dropdown.open .dropdown-menu.animate-expand,
+.dropup.open .dropdown-menu.animate-expand {
+	opacity: 1;
+	max-height: $animation-expand-magic-number;
+
+	.dropdown-content {
+		opacity: 1;
+		transform: translate3d(0,0,0);
+	}
+}
+
+.dropdown-menu.animate-fade {
+	transition: all $animation-timing-base $animation-easing-relaxed;
+	opacity: 0;
+}
+.dropdown.open .dropdown-menu.animate-fade,
+.dropup.open .dropdown-menu.animate-fade {
+	opacity: 1;
+}
+
+.dropdown-menu.animate-fade-up {
+	transition: all $animation-timing-base $animation-easing-relaxed;
+	opacity: 0;
+}
+
+.dropdown .dropdown-menu.animate-fade-up {
+	transform: translate3d(0,10px,0);
+}
+.dropup .dropdown-menu.animate-fade-up {
+	transform: translate3d(0,10px,0);
+}
+
+.dropdown.open .dropdown-menu.animate-fade-up,
+.dropup.open .dropdown-menu.animate-fade-up {
+	opacity: 1;
+	transform: translate3d(0,0,0);
+}

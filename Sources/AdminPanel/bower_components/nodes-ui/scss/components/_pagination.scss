@@ -1,0 +1,21 @@
+.pagination {
+	margin: 1.5rem 0 0;
+
+	> li {
+		> a, span {
+			padding: 0.2rem 1.2rem;
+		}
+	}
+
+	> .disabled > a, > .disabled > a:focus, > .disabled > a:hover,
+	> .disabled > span, > .disabled > span:focus, > .disabled > span:hover {
+		color: $gray;
+		background: $gray-lighter;
+	}
+}
+
+.paginator {
+	min-height: 0.1rem;
+	line-height: 0;
+	overflow: hidden;
+}

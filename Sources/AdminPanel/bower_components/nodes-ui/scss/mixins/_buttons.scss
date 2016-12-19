@@ -1,0 +1,131 @@
+@mixin button-theme(
+	$color,
+	$background,
+	$border,
+	
+	$hover-color: $color,
+	$hover-background: $background,
+	$hover-border: $border,
+	
+	$active-color: $color,
+	$active-background: $background,
+	$active-border: $border,
+	
+	$border-hover-modifier: 0%,
+	$border-active-modifier: 5%
+) {
+	color: $color;
+	background-color: $background;
+	border-color: $border;
+
+	&:focus,
+	&.focus {
+		color: $active-color;
+		background-color: $active-background;
+		border-color: darken($active-border, $border-active-modifier);
+	}
+	&:hover,
+	&.hover {
+		color: $hover-color;
+		background-color: $hover-background;
+		border-color: darken($hover-border, $border-hover-modifier);
+	}
+	&:active,
+	&.active,
+	.open > &.dropdown-toggle {
+		color: $active-color;
+		background-color: $active-background;
+		border-color: darken($active-border, $border-active-modifier);
+
+		&:hover,
+		&.hover,
+		&:focus,
+		&.focus {
+			color: $active-color;
+			background-color: $active-background;
+			border-color: darken($active-border, $border-active-modifier);
+		}
+	}
+	&:active,
+	&.active,
+	.open > &.dropdown-toggle {
+		background-image: none;
+	}
+	&.disabled,
+	&[disabled],
+	fieldset[disabled] & {
+		&,
+		&:hover,
+		&.hover,
+		&:focus,
+		&.focus,
+		&:active,
+		&.active {
+			background-color: $background;
+			border-color: $border;
+		}
+	}
+
+	.badge {
+		color: $background;
+		background-color: $color;
+	}
+}
+
+@mixin button-ghost(
+	$color,
+	$hover-color,
+	$active-color
+) {
+	color: $color;
+	background-color: transparent;
+	border-color: transparent;
+
+	&:focus,
+	&.focus {
+		color: $active-color;
+		background-color: transparent;
+		border-color: transparent;
+	}
+	&:hover,
+	&.hover {
+		color: $hover-color;
+		background-color: transparent;
+		border-color: transparent;
+	}
+	&:active,
+	&.active,
+	.open > &.dropdown-toggle {
+		color: $active-color;
+		background-color: transparent;
+		border-color: transparent;
+
+		&:hover,
+		&.hover,
+		&:focus,
+		&.focus {
+			color: $active-color;
+			background-color: transparent;
+			border-color: transparent;
+		}
+	}
+	&:active,
+	&.active,
+	.open > &.dropdown-toggle {
+		background-image: none;
+	}
+	&.disabled,
+	&[disabled],
+	fieldset[disabled] & {
+		&,
+		&:hover,
+		&.hover,
+		&:focus,
+		&.focus,
+		&:active,
+		&.active {
+			background-color: transparent;
+			border-color: transparent;
+		}
+	}
+}

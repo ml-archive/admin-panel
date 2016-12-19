@@ -1,0 +1,8 @@
+<div class="application-brand">
+    <a class="logo" href="/admin/dashboard">
+        #embed("Layout/Elements/logo")
+    </a>
+    <h1 class="application-title">
+        Sandbox
+    </h1>
+</div>

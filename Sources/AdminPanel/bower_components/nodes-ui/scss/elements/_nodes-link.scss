@@ -1,0 +1,28 @@
+a.nodes-link {
+	padding: 0 0.2rem;
+	outline: none;
+	display: inline-block;
+	overflow: hidden;
+	text-align: center;
+	text-decoration: none;
+
+	> span {
+		padding: 0 0.2rem;
+		position: relative;
+		display: inline-block;
+		@include transition-transform(0.3s);
+
+		&:before {
+			content: attr(data-hover);
+			font-weight: 600;
+			position: absolute;
+			top: 100%; left: 0;
+			@include translate3d(0,0,0);
+		}
+	}
+
+	&:hover span,
+	&:focus span {
+		@include translate(0, -100%);
+	}
+}

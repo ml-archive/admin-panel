@@ -1,0 +1,15 @@
+.btn {
+	&:active,
+	&.active {
+		box-shadow: none;
+	}
+
+	&:focus,
+	&.focus,
+	&:active
+	&.active,
+	&:active:focus,
+	&.active.focus {
+		outline: none;
+	}
+}

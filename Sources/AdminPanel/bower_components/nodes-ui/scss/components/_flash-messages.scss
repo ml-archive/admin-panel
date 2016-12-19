@@ -1,0 +1,39 @@
+#environment-notice {
+	width: 100%;
+	border-width: 1px;
+	border-style: solid;
+	padding: 10px 25px;
+	position: fixed;
+	bottom: 0; left: 0;
+	z-index: 9999;
+
+	p {
+		font-size: 1.2rem;
+		font-weight: bold;
+		margin: 0;
+		text-transform: uppercase;
+		text-align: center;
+
+		> .fa {
+			margin-right: 2px;
+		}
+	}
+
+	&.local {
+		border-color: #fdd3da;
+		background-color: rgba(254, 229, 233, 0.85);
+
+		p {
+			color: #df4660;
+		}
+	}
+
+	&.staging {
+		border-color: #f9e2c4;
+		background-color: rgba(253, 243, 230, 0.85);
+
+		p {
+			color: #d79b4e;
+		}
+	}
+}

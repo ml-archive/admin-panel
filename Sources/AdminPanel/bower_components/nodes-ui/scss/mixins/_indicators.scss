@@ -1,0 +1,41 @@
+@mixin indicator-size($size: null, $radius: null) {
+	@if $size == null {
+		$size: $whitespace-root * $whitespace-base-modifier;
+	} @else if $size == default {
+		$size: $whitespace-root * $whitespace-base-modifier;
+	} @else if $size == xs {
+		$size: $whitespace-root;
+	} @else if $size == sm {
+		$size: $whitespace-root * $whitespace-small-modifier;
+	} @else if $size == lg {
+		$size: $whitespace-root * $whitespace-large-modifier;
+	} @else if $size == xl {
+		$size: $whitespace-root * $whitespace-xlarge-modifier;
+	}
+
+	@if $radius == null {
+		$radius: $size / 2;
+	} @else {
+		$radius: $radius;
+	}
+
+	display: inline-block;
+	vertical-align: middle;
+
+	&:after {
+		content: '';
+		display: block;
+
+		width: $radius;
+		height: $radius;
+		top: $radius / 2;
+		left: $radius / 2;
+		border-radius: 50%;
+	}
+}
+
+@mixin indicator-color($color: $success-color) {
+	&:after {
+		@include background-color($color);
+	}
+}

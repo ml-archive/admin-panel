@@ -1,0 +1,55 @@
+.uppercase {
+	text-transform: uppercase;
+}
+.lowercase {
+	text-transform: lowercase;
+}
+
+.font-bold {
+	font-weight: $font-weight-bold;
+}
+.font-semi-bold {
+	font-weight: $font-weight-semi-bold;
+}
+.font-light {
+	font-weight: $font-weight-light;
+}
+.font-semi-light {
+	font-weight: $font-weight-semi-light;
+}
+
+.font-base {
+	font-size: $font-size-base !important;
+}
+.font-small {
+	font-size: $font-size-small !important;
+}
+.font-large {
+	font-size: $font-size-large !important;
+}
+
+.ws-nowrap {
+	white-space: nowrap;
+}
+.ws-pre {
+	white-space: pre;
+}
+.ws-pre-line {
+	white-space: pre-line;
+}
+.ws-pre-wrap {
+	white-space: pre-wrap;
+}
+
+.va-top {
+	vertical-align: top !important;
+}
+.va-middle {
+	vertical-align: middle !important;
+}
+.va-bottom {
+	vertical-align: bottom !important;
+}
+.va-baseline {
+	vertical-align: baseline !important;
+}

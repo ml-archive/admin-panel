@@ -1,0 +1,15 @@
+@include headings() {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+article, .article, .content {
+	@include headings($from: 1, $to: 3) {
+		margin-top: $line-height-computed;
+		margin-bottom: ($line-height-computed / 2);
+	}
+	@include headings($from: 4, $to: 6) {
+		margin-top: ($line-height-computed / 2);
+		margin-bottom: ($line-height-computed / 2);
+	}
+}

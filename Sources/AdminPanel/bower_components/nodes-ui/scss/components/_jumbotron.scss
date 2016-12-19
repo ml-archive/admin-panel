@@ -1,0 +1,50 @@
+//
+// Jumbotron
+// --------------------------------------------------
+
+
+.jumbotron {
+	margin-bottom: 0;
+
+	.container &,
+	.container-fluid {
+		border-radius: 0; // Never round corners on jumbotrons
+	}
+
+	@media screen and (min-width: $screen-sm-min) {
+		@include whitespace($type: padding, $side: vertical, $size: xl); // Override Bootstraps unconfigurable padding
+
+		.container &,
+		.container-fluid &,
+		.layout & {
+			padding-left:  0;
+			padding-right: 0;
+		}
+		h1,
+		.h1 {
+			font-size: $jumbotron-heading-font-size;
+		}
+	}
+}
+
+.jumbotron.jumbotron-inverse {
+	color: $jumbotron-inverse-color;
+	background-color: $jumbotron-inverse-bg;
+
+	h1,
+	.h1 {
+		color: $jumbotron-inverse-heading-color;
+	}
+
+	p {
+		color: $jumbotron-inverse-color;
+	}
+
+	a {
+		color: $secondary-color-light;
+	}
+
+	> hr {
+		border-top-color: darken($jumbotron-inverse-bg, 10%);
+	}
+}

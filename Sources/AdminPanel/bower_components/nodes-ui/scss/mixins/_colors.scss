@@ -1,0 +1,10 @@
+@mixin background-color($color) {
+	background-color: $color;
+}
+@mixin font-color($color) {
+	color: $color;
+}
+@mixin font-shade($color, $opacity) {
+	color: $color;
+	opacity: $opacity;
+}

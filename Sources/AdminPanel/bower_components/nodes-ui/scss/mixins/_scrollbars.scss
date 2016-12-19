@@ -1,0 +1,19 @@
+@mixin scrollbar($background-color: transparent, $thumb-color: $primary-color) {
+	&::-webkit-scrollbar {
+		-webkit-appearance: none;
+		width: 12px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background-color: #{$background-color};
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: #{$thumb-color};
+		height: 6px;
+		border: 4px solid rgba(0, 0, 0, 0);
+		background-clip: padding-box;
+		border-radius: 9px;
+		box-shadow: inset -1px -1px 0px rgba(0, 0, 0, 0.05), inset 1px 1px 0px rgba(0, 0, 0, 0.05);
+	}
+}

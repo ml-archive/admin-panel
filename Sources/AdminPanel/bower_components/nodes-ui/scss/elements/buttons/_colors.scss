@@ -1,0 +1,112 @@
+.btn.btn-default {
+	@include button-theme(
+			$secondary-color-darker,
+			$white,
+			$secondary-color-lighter,
+			$secondary-color-darker,
+			darken($white, 5%),
+			darken($secondary-color-lighter, 5%),
+			$secondary-color-darker,
+			darken($white, 10%),
+			darken($secondary-color-lighter, 10%)
+	);
+}
+.btn.btn-primary {
+	@include button-theme(
+			$white,
+			$primary-color,
+			$primary-color,
+			$white,
+			$primary-color-dark,
+			$primary-color-dark,
+			$white,
+			darken($primary-color-dark, 5%),
+			darken($primary-color-dark, 10%)
+	);
+}
+
+.btn.btn-secondary {
+	@include button-theme(
+			$white,
+			$secondary-color,
+			$secondary-color,
+			$white,
+			$secondary-color-dark,
+			$secondary-color-dark,
+			$white,
+			darken($secondary-color-dark, 5%),
+			darken($secondary-color-dark, 10%)
+	);
+}
+
+.btn.btn-info {
+	@include button-theme(
+			$white,
+			$info-color,
+			$info-color,
+			$white,
+			$info-color-dark,
+			$info-color-dark,
+			$white,
+			darken($info-color-dark, 5%),
+			darken($info-color-dark, 10%)
+	);
+}
+
+.btn.btn-success {
+	@include button-theme(
+			$white,
+			$success-color,
+			$success-color,
+			$white,
+			$success-color-dark,
+			$success-color-dark,
+			$white,
+			darken($success-color-dark, 5%),
+			darken($success-color-dark, 10%)
+	);
+}
+
+.btn.btn-warning {
+	@include button-theme(
+			$white,
+			$warning-color,
+			$warning-color,
+			$white,
+			$warning-color-dark,
+			$warning-color-dark,
+			$white,
+			darken($warning-color-dark, 5%),
+			darken($warning-color-dark, 10%)
+	);
+}
+
+.btn.btn-danger {
+	@include button-theme(
+			$white,
+			$danger-color,
+			$danger-color,
+			$white,
+			$danger-color-dark,
+			$danger-color-dark,
+			$white,
+			darken($danger-color-dark, 5%),
+			darken($danger-color-dark, 10%)
+	);
+}
+
+.btn.btn-transparent {
+	@include button-ghost(
+			$secondary-color-light,
+			darken($secondary-color-light, 5%),
+			darken($secondary-color-light, 8%)
+	);
+}
+
+.btn.btn-link {
+	@include button-ghost(
+			$secondary-color-light,
+			$secondary-color,
+			$secondary-color
+	);
+}

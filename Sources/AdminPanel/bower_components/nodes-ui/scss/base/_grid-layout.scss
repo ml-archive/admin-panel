@@ -1,0 +1,13 @@
+.container-no-gutter {
+	padding-right: 0;
+	padding-left: 0;
+}
+.container-fluid {
+	padding-right: 0;
+	padding-left: 0;
+	width: 100%;
+}
+.row.no-gutter > [class*='col-'] {
+	padding-right:0;
+	padding-left:0;
+}

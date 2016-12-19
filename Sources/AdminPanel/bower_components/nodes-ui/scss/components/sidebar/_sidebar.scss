@@ -1,0 +1,28 @@
+.core-layout__sidebar {
+	@include background-color($secondary-color-dark);
+}
+
+.sidebar__header {
+	@include clearfix;
+	@include whitespace($side: vertical, $type: margin);
+	@include font-color($secondary-color-light);
+
+	a {
+		.fa {
+			@include whitespace($side: right, $size: sm);
+		}
+
+		&:hover, &.hover,
+		&:active, &.active,
+		&:focus, &.focus {
+			text-decoration: none;
+		}
+	}
+}
+.sidebar__content {
+	@include scrollbar();
+}
+
+.sidebar__content .list-group-item {
+	padding-left: ($whitespace-root * $whitespace-base-modifier) - 6px;
+}

@@ -1,0 +1,26 @@
+.breadcrumb {
+	margin-bottom: 0;
+	text-transform: uppercase;
+
+	a {
+		@include font-color($secondary-color-light);
+	}
+
+	li + li:before {
+		display: block;
+		width: 20px;
+		height: 20px;
+		content: '›';
+		font-size: 20px;
+		float: left;
+		line-height: 18px;
+	}
+
+	> .active {
+		@include font-color($secondary-color-light);
+		font-weight: 600;
+	}
+}
+.page-header .breadcrumb {
+	padding: 0;
+}

@@ -1,0 +1,92 @@
+#extend("Layout/base")
+
+#export("breadcrumbs") {
+<li>
+    <a href="/admin/users">Backend users</a>
+</li>
+<li class="active">
+    <span>Roles</span>
+</li>
+}
+
+#export("page-header") {
+<div>
+    <h3>Roles</h3>
+</div>
+<div>
+    <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#()roleModal">
+        <span class="fa fa-plus"></span>
+        <span>Create role</span>
+    </button>
+</div>
+}
+
+#export("content") {
+<div class="row">
+    <div class="col-xs-12">
+        <br>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="col-xs-4">Title</th>
+                    <th class="col-xs-5">Slug</th>
+                    <th class="col-xs-1 text-center">Default</th>
+                    <th class="col-xs-2 text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                #loop(roles, "role") {
+                <tr>
+                    <td>#(role.title)</td>
+                    <td>#(role.slug)</td>
+                    #if(role.is_default) {
+                    <td class="text-center success">
+                        <span class="fa fa-check"></span>
+                    </td>
+                    } ##else() {
+                    <td class="text-center danger">
+                        <span class="fa fa-times"></span>
+                    </td>
+                    }
+                    <td class="text-center">
+                        <a href="/admin/backend_users/roles/default/#(role.id)" class="btn btn-sm btn-default" data-tooltip="true" title="Set as default">
+                            <span class="fa fa-heart"></span>
+                            <span class="sr-only">Set as default</span>
+                        </a>
+                        <a href="/admin/backend_users/roles/delete/#(role.id)" class="btn btn-sm btn-danger" data-tooltip="true" title="Delete user">
+                            <span class="fa fa-times"></span>
+                            <span class="sr-only">Delete user</span>
+                        </a>
+                    <td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="roleModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="roleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <header class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="roleModalLabel">Create role</h4>
+            </header>
+            <form method="post" action="/admin/backend_users/roles/create">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="roleName" class="sr-only">Role title</label>
+                        <input type="text" id="roleName" class="form-control" name="title" placeholder="Name of role" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create role</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+}

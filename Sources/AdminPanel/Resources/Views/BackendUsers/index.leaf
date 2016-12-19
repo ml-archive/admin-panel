@@ -1,0 +1,71 @@
+#extend("Layout/base")
+
+#export("breadcrumbs") {
+    <li class="active">
+        <span>Backend users</span>
+    </li>
+}
+
+#export("page-header") {
+<div>
+    <h3>Backend users</h3>
+</div>
+<div>
+    <div class="layout horizontal center justified padding-vertical-sm">
+        <form class="form-inline search-form margin-right margin-left-md-auto">
+            <div class="form-group action-wrapper no-margin-bottom">
+                <button type="submit" class="btn btn-transparent action-wrap-action action-wrap-right action-wrap-sm">
+                    <i class="fa fa-search"></i>
+                </button>
+                <input type="text" id="search" class="form-control input-sm action-wrap-item action-wrap-right" name="search" placeholder="Search" value="">
+            </div>
+        </form>
+        
+        <a href="/admin/backend_users/create" class="btn btn-primary btn-sm pull-right">
+            <span class="fa fa-user-plus"></span>
+            <span class="hidden-xs">Create backend user</span>
+        </a>
+    </div>
+</div>
+}
+
+#export("content") {
+<div class="row">
+    <div class="col-xs-12">
+        <br>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="col-xs-1 text-center">ID</th>
+                    <th class="col-xs-4">Name</th>
+                    <th class="col-xs-3">E-mail</th>
+                    <th class="col-xs-2 text-center">Role</th>
+                    <th class="col-xs-2 text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                #loop(users, "user") {
+                <tr>
+                    <td class="text-center">#(user.id)</td>
+                    <td>#(user.name)</td>
+                    <td>
+                        <a href="#(user.email)">#(user.email)</a>
+                    </td>
+                    <td class="text-center">#(user.role)</td>
+                    <td class="text-center">
+                        <a href="/admin/backend_users/edit/#(user.id)" class="btn btn-sm btn-default" data-tooltip="true" title="Edit details">
+                            <span class="fa fa-pencil"></span>
+                            <span class="sr-only">Edit details</span>
+                        </a>
+                        <a href="/admin/backend_users/delete/#(user.id)" class="btn btn-sm btn-danger" data-tooltip="true" title="Delete user">
+                            <span class="fa fa-times"></span>
+                            <span class="sr-only">Delete user</span>
+                        </a>
+                    <td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+}

@@ -1,0 +1,11 @@
+#extend("Layout/base")
+
+#export("page-header") {
+<div>
+    <h3>Dashboard</h3>
+</div>
+}
+
+#export("content") {
+
+}

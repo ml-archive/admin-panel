@@ -1,0 +1,124 @@
+#navigation {
+	> ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		> li {
+			border-bottom: 0.1rem solid #e0e0e0;
+
+			> a {
+				color: $gray-darker;
+				text-decoration: none;
+				position: relative;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				display: block;
+
+				.icon {
+					width: 5.1rem;
+					font-size: 1.7rem;
+					padding: 1.6rem;
+					background: $gray-lighter;
+					text-align: center;
+					display: inline-block;
+
+					.fa {
+						display: block;
+					}
+
+					+ span {
+						font-size: 1.4rem;
+						padding: 1.2rem 1.0rem 1.1rem;
+						display: inline-block;
+
+						&:after {
+							content: '›';
+							position: absolute;
+							top: 12px; right: 16px;
+						}
+					}
+				}
+
+				.badge {
+					position: absolute;
+					top: 15px; right: 30px;
+				}
+
+				&:hover {
+					color: $brand-primary;
+
+					.badge {
+						background-color: $brand-primary;
+					}
+				}
+			}
+
+			/* Submenu */
+			> ul {
+				marign: 0;
+				padding: 0 0.8rem;
+				border-top: 0.1rem solid #e0e0e0;
+				background: $gray-lighter;
+				list-style: none;
+				display: none;
+
+				> li {
+					border-top: 0.1rem solid #e8e8e8;
+
+					&:first-child {
+						border-color: transparent;
+					}
+
+					> a {
+						color: $gray-darker;
+						margin: 0 0.2rem;
+						padding: 1.2rem 1.0rem;
+						white-space: nowrap;
+						text-overflow: ellipsis;
+						overflow: hidden;
+						display: block;
+						text-decoration: none;
+
+						.fa {
+							margin-right: 0.8rem;
+						}
+
+						&:hover {
+							color: $brand-primary;
+						}
+					}
+
+					&.selected {
+						a {
+							color: $brand-primary;
+						}
+					}
+				}
+			}
+
+			/* Selected item */
+			&.selected {
+				> a {
+					color: $brand-primary;
+
+					.icon {
+						padding: 1.6rem 1.6rem 1.6rem 1.3rem;
+						border-left: 0.3rem solid $brand-primary;
+					}
+				}
+
+				> ul {
+					display: block;
+
+					> li.selected {
+						a {
+							color: $brand-primary;
+						}
+					}
+				}
+			}
+		}
+	}
+}

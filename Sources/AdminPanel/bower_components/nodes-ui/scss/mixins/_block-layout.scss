@@ -1,0 +1,43 @@
+@mixin block-layout (
+	$per-row: false,
+	$spacing: $block-layout-spacing,
+	$include-spacing: true,
+	$base-style: true) {
+
+	@if $base-style {
+		display: block;
+		padding: 0;
+		margin: 0;
+		@include clearfix;
+
+		> li {
+			display: block;
+			float: $default-float;
+			height: auto;
+			@if $include-spacing {
+				padding: 0 ($spacing/2) $spacing;
+			}
+		}
+	}
+
+	@if $per-row {
+		> li {
+			list-style: none;
+			@if $include-spacing {
+				padding: 0 ($spacing/2) $spacing;
+			}
+			width: 100%/$per-row;
+
+			&:nth-of-type(1n) { clear: none; }
+			&:nth-of-type(#{$per-row}n+1) { clear: both; }
+		}
+	}
+}
+
+@mixin block-layout-html-classes($size, $include-spacing) {
+	@for $i from 1 through $block-layout-elements {
+		.#{$size}-block-layout-#{($i)} {
+			@include block-layout($i, $block-layout-spacing, $include-spacing, true);
+		}
+	}
+}

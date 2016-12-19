@@ -1,0 +1,29 @@
+@mixin layout($direction: horizontal, $inline: false, $reverse: false, $wrap: true, $wrap-reverse: false) {
+	@if $inline == false {
+		display: flex;
+	} @else if $inline == true {
+		display: inline-flex;
+	}
+
+	@if $direction == horizontal and $reverse == false {
+		flex-direction: row;
+	} @else if $direction == horizontal and $reverse == true {
+		flex-direction: row-reverse;
+	} @else if $direction == vertical and $reverse == false {
+		flex-direction: column;
+	} @else if $direction == vertical and $reverse == true {
+		flex-direction: column-reverse;
+	}
+
+	@if $wrap == true and $wrap-reverse == false {
+		flex-wrap: wrap;
+	} @else if $wrap == true and $wrap-reverse == true {
+		flex-wrap: wrap-reverse;
+	} @else if $wrap == false {
+		flex-wrap: nowrap;
+	}
+}
+
+@mixin flex($flex-grow: 1, $flex-shrink: 0, $flex-basis: auto) {
+	flex: #{$flex-grow} #{$flex-shrink} #{$flex-basis};
+}

@@ -1,0 +1,66 @@
+#translations {
+	#translateSections {
+		.nav-tabs {
+			border: 0;
+
+			> li {
+				margin: 0;
+				border-top: 1px solid #dddddd;
+				border-bottom: 1px solid transparent;
+                position: relative;
+
+				> a {
+					margin: 0;
+					border: 0;
+					border-radius: 0;
+                    z-index: 0;
+				}
+
+				+ li {
+					margin: 0;
+				}
+
+				&:last-child {
+					border-bottom-color: #dddddd;
+				}
+
+                .section-image {
+                    cursor: pointer;
+                    position: absolute;
+                    top: 9px;
+                    right: 15px;
+                    z-index: 1;
+                }
+
+				&.active {
+					border-top-color: darken($brand-primary, 20%);
+					border-bottom-color: darken($brand-primary, 20%);
+
+					> a {
+						color: #ffffff;
+						background-color: $brand-primary;
+					}
+
+					+ li {
+						border-top: 1px solid transparent;
+					}
+
+                    .section-image {
+                        color: #ffffff;
+                    }
+				}
+			}
+		}
+	}
+
+	.translation-value {
+		&:hover {
+			color: $brand-primary;
+			cursor: pointer;
+		}
+
+		&.warning:hover {
+			color: darken($state-warning-text, 10%);
+		}
+	}
+}

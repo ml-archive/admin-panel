@@ -1,0 +1,64 @@
+{
+  "name": "nodes-ui",
+  "devDependencies": {
+    "assemble": "0.4.42",
+    "autoprefixer": "^6.0.3",
+    "cheerio": "^0.20.0",
+    "ghooks": "1.0.3",
+    "grunt": "~0.4.4",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-compress": "~0.7.0",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-connect": "~0.7.1",
+    "grunt-contrib-copy": "~0.5.0",
+    "grunt-contrib-uglify": "~0.4.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-gh-pages": "^0.10.0",
+    "grunt-newer": "^0.7.0",
+    "grunt-postcss": "^0.6.0",
+    "grunt-sass": "^1.1.0-beta",
+    "grunt-usemin": "^3.1.1",
+    "grunt-wiredep": "^2.0.0",
+    "handlebars-helper-rel": "~0.1.2",
+    "handlebars-helper-slugify": "~0.2.0",
+    "handlebars-helpers": "^0.5.8",
+    "highlight.js": "~7.3.0",
+    "jasmine-jquery": "imtapps/node-jasmine-jquery",
+    "load-grunt-config": "~0.16.0",
+    "semantic-release": "^4.3.5",
+    "validate-commit-msg": "1.1.1"
+  },
+  "keywords": [
+    "handlebars-helper-rel",
+    "handlebars-helper-slugify"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nodes-frontend/nodes-ui.git"
+  },
+  "scripts": {
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+  },
+  "version": "0.0.0",
+  "config": {
+    "ghooks": {
+      "commit-msg": "validate-commit-msg"
+    },
+    "validate-commit-msg": {
+      "types": [
+        "feat",
+        "fix",
+        "docs",
+        "style",
+        "refactor",
+        "perf",
+        "test",
+        "chore",
+        "revert",
+        "custom"
+      ],
+      "warnOnFail": false,
+      "maxSubjectLength": 100
+    }
+  }
+}

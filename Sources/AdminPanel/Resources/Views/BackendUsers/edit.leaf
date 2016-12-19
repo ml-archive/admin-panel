@@ -1,0 +1,134 @@
+#extend("Layout/base")
+
+#export("breadcrumbs") {
+<li>
+    <a href="/admin/backend_users">Backend users</a>
+</li>
+<li class="active">
+    #if(backendUser) {
+    <span>Edit backend user</span>
+    } ##else() {
+    <span>Create backend user</span>
+    }
+</li>
+}
+
+#export("page-header") {
+<div>
+    #if(backendUser) {
+    <h3>Edit backend user</h3>
+    } ##else() {
+    <h3>Create backend user</h3>
+    }
+</div>
+}
+
+#export("content") {
+
+    #if(backendUser) {
+    <form method="post" action="/admin/backend_users/edit/#(backendUser.id)">
+    } ##else() {
+    <form method="post" action="/admin/backend_users/create">
+    }
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <h4 class="margin-top">User details</h4>
+            <hr/>
+            <div class="margin-vertical-sm">
+                <div class="form-group">
+                    <label for="backendUserFormName">Name</label>
+                    <input type="text" id="backendUserFormName" class="form-control" name="name" value="#if(backendUser) { #(backendUser.name) }" required>
+                </div>
+                <div class="form-group">
+                    <label for="backendUserFormEmail">E-mail</label>
+                    <input type="email" id="backendUserFormEmail" class="form-control" name="email" value="#if(backendUser) { #(backendUser.email) }" required>
+                </div>
+                <div class="form-group">
+                    <label for="backendUserFormRole">Role</label>
+                    <select name="role" class="form-control id=backendUserFormRole">
+                        #loop(roles, "role") {
+                            <!--TODO AUTO SELECT selected or default-->
+                            #if(backendUser) {
+                                #if(role.slug == backendUser.role) { <!--DOES NOT WORK AT THE MOMENT -->
+                                    <option value="#(role.slug)" selected>#(role.title)</option>
+                                } ##else() {
+                                    <option value="#(role.slug)">#(role.title)</option>
+                                }
+                            } ##else() {
+                                <option value="#(role.slug)">#(role.title)</option>
+                            }
+                        }
+                    </select>
+                    
+                </div>
+                
+                <!-- FIX IF & Make checkbox -->
+                #if(backendUser) {
+                } ##else() {
+                <div class="form-group">
+                    <label for="backendUserFormSendMail">Send mail with information</label>
+                    <select name="send_mail" class="form-control" id="backendUserFormSendMail">
+                        <option value="true" selected>Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+                }
+                
+            </div>
+            <br>
+            <h4 class="margin-top">
+                Choose password <small class="text-gray-dark">(leave empty for random) (min. 8 characters)</small>
+            </h4>
+            <hr/>
+            <div class="margin-top">
+                <div class="form-group">
+                    <label for="backendUserFormPassword">Password</label>
+                    <input type="password" id="backendUserFormPassword" class="form-control" name="password" minlength="8">
+                </div>
+            
+                <div class="form-group">
+                    <label for="backendUserFormRepeatPassword">Repeat password</label>
+                    <input type="password" id="backendUserFormRepeatPassword" class="form-control" name="passwordRepeat" minlength="8">
+                </div>
+               
+               <!-- FIX Preselected & Make checkbox -->
+                <div class="form-group">
+                    <label for="backendUserFormResetPwOnLogin">Reset password on next login</label>
+                    <select name="should_reset_password" class="form-control" id="backendUserFormResetPwOnLogin">
+                        <option value="true">Yes</option>
+                        <option value="false" selected>No</option>
+                    </select>
+                </div>
+                <!--
+                <div class="form-group">
+                    <input name="should_reset_password" value="false" type="hidden">
+                    <label>
+                        <input type="checkbox" id="backendUserFormResetPwOnLogin" name="should_reset_password">
+                        Reset password on next login
+                    </label>
+                </div>
+                 -->
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6">
+            <h4 class="margin-top">Image</h4>
+            <hr>
+            <div class="margin-vertical-sm">
+                <div class="form-group">
+                    <label for="companyImage">Upload image</label>
+                    <input type="file" id="companyImage" class="form-control" name="image">
+                </div>
+                <div class="form-group">
+                    <img class="img-thumbnail" src="http://dummyimage.com/250x250" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <hr>
+            <input type="submit" class="btn btn-primary form-control" value="#if(backendUser) { Edit backend user } ##else() { Create backend user }">
+        </div>
+    </div>
+</form>
+}

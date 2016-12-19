@@ -1,0 +1,5 @@
+.has-feedback {
+	label.sr-only ~.form-control-feedback {
+		top: 14px;
+	}
+}

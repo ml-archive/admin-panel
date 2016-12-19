@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Sandbox</title>
+        <link rel="stylesheet" media="screen" href="/css/app.css">
+            </head>
+    <body>
+        <script src="/js/all.js"></script>
+    </body>
+</html>
+
+<div class="layout vertical fit page-login">
+    <div id="login" class="panel panel-default">
+        <div class="panel-body">
+            
+            <div class="panel-heading">
+                <div class="logo">
+                    #embed("Layout/Elements/logo")
+                </div>
+                <h3 class="panel-title margin-bottom">Forgot password</h3>
+            </div>
+            #embed("Layout/Elements/alerts")
+            <form method="post" action="/admin/login/reset">
+                <div class="form-group action-wrapper">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" class="form-control" name="email" placeholder="Insert email" required>
+                </div>
+
+                <div class="form-group clearfix">
+                <div class="pull-right">
+                    <a href="/admin">Back to login</a>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary form-control" value="Send">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

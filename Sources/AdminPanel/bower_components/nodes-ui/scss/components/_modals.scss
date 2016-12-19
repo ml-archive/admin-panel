@@ -1,0 +1,13 @@
+.modal {
+	&.nodes-delete {
+		.modal-body .fa {
+			margin-right: 0.3rem
+		}
+	}
+
+	.modal-footer {
+		.btn {
+			min-width: 6.5rem;
+		}
+	}
+}

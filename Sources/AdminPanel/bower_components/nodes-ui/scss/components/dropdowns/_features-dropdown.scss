@@ -1,0 +1,14 @@
+.dropdown.dropdown-features {
+
+	.dropdown-menu {
+		min-width: $core-sidebar-width;
+	}
+
+	.dropdown-content {
+		padding: 0;
+	}
+
+	.dropdown-content__title:first-of-type {
+		border-bottom: 1px solid $secondary-color;
+	}
+}

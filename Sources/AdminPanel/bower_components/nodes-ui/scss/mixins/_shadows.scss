@@ -1,0 +1,13 @@
+@mixin shadow($distance: 1) {
+	@if $distance == 1 {
+		box-shadow: $shadow-distance-1;
+	} @else if $distance == 2 {
+		box-shadow: $shadow-distance-2;
+	} @else if $distance == 3 {
+		box-shadow: $shadow-distance-3;
+	} @else if $distance == 4 {
+		box-shadow: $shadow-distance-4;
+	} @else if $distance == 5 {
+		box-shadow: $shadow-distance-5;
+	}
+}

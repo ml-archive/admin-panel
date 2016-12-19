@@ -1,0 +1,44 @@
+.table.table-collapse {
+	> thead > tr {
+		th,
+		td {
+			padding: $padding-xs-vertical/2 $padding-xs-horizontal;
+		}
+	}
+	> tbody > tr {
+		> th,
+		> td {
+			padding: $padding-xs-vertical $padding-xs-horizontal;
+		}
+	}
+
+	@media (min-width: $screen-md-min) {
+		> thead > tr {
+			th,
+			td {
+				padding: $padding-small-vertical $padding-small-horizontal;
+			}
+		}
+		> tbody > tr {
+			> th,
+			> td {
+				padding: $padding-base-vertical $padding-small-horizontal;
+			}
+		}
+	}
+
+	@media (min-width: $screen-md-min) {
+		> thead > tr {
+			th,
+			td {
+				padding: $padding-base-vertical $padding-large-vertical;
+			}
+		}
+		> tbody > tr {
+			> th,
+			> td {
+				padding: $padding-base-horizontal;
+			}
+		}
+	}
+}

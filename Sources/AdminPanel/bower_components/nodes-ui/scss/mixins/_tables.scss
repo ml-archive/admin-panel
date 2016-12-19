@@ -1,0 +1,213 @@
+@mixin table-coloring($state: 'default') {
+
+	$color: $gray;
+	$color-shade: $gray-dark;
+
+	$color-light: $gray-light;
+	$color-light-shade: $gray;
+
+	$color-lighter: $gray-lighter;
+	$color-lighter-shade: $gray-light;
+	
+	@if $state == 'info' {
+		$color: $info-color;
+		$color-shade: $info-color-dark;
+
+		$color-light: $info-color-light;
+		$color-light-shade: $info-color;
+
+		$color-lighter: $info-color-lighter;
+		$color-lighter-shade: $info-color-light;
+	}
+	@else if $state == 'success' {
+		$color: $success-color;
+		$color-shade: $success-color-dark;
+
+		$color-light: $success-color-light;
+		$color-light-shade: $success-color;
+
+		$color-lighter: $success-color-lighter;
+		$color-lighter-shade: $success-color-light;
+	}
+	@else if $state == 'warning' {
+		$color: $warning-color;
+		$color-shade: $warning-color-dark;
+
+		$color-light: $warning-color-light;
+		$color-light-shade: $warning-color;
+
+		$color-lighter: $warning-color-lighter;
+		$color-lighter-shade: $warning-color-light;
+	}
+	@else if $state == 'danger' {
+		$color: $danger-color;
+		$color-shade: $danger-color-dark;
+
+		$color-light: $danger-color-light;
+		$color-light-shade: $danger-color;
+
+		$color-lighter: $danger-color-lighter;
+		$color-lighter-shade: $danger-color-light;
+	}
+	@else if $state == 'default' {
+		$color: $gray;
+		$color-shade: $gray-dark;
+
+		$color-light: $gray-light;
+		$color-light-shade: $gray;
+
+		$color-lighter: $gray-lighter;
+		$color-lighter-shade: $gray-light;
+	}
+	
+	.table {
+		> thead,
+		> tbody,
+		> tfoot {
+			> tr {
+				> th.#{$state},
+				> td.#{$state} {
+					background-color: $color-lighter;
+					color: transparentize($black, $text-shade-dark-secondary-opacity);
+					&.shaded {
+						background-color: $color-lighter-shade;
+					}
+				}
+				&.#{$state} > th,
+				&.#{$state} > td {
+					background-color: $color-lighter;
+					color: transparentize($black, $text-shade-dark-secondary-opacity);
+				}
+
+				&.#{$state}.shaded > th,
+				&.#{$state}.shaded > td {
+					background-color: $color-lighter-shade;
+					color: transparentize($black, $text-shade-dark-secondary-opacity);
+				}
+			}
+		}
+	}
+	.table-striped {
+		thead,
+		tbody,
+		tfoot {
+			> tr:nth-of-type(odd) {
+				> th.#{$state},
+				> td.#{$state} {
+					background-color: $color-light;
+					&.shaded {
+						background-color: $color-light-shade;
+					}
+				}
+			}
+			> tr:nth-of-type(even) {
+				> th.#{$state},
+				> td.#{$state} {
+					background-color: $color-lighter;
+					&.shaded {
+						background-color: $color-lighter-shade;
+					}
+				}
+			}
+
+			> tr:nth-of-type(odd) {
+				&.#{$state} > th,
+				&.#{$state} > td {
+					background-color: $color-light;
+				}
+
+				&.#{$state}.shaded > th,
+				&.#{$state}.shaded > td {
+					background-color: $color-light-shade;
+				}
+			}
+			> tr:nth-of-type(even) {
+				&.#{$state} > th,
+				&.#{$state} > td {
+					background-color: $color-lighter;
+				}
+
+				&.#{$state}.shaded > th,
+				&.#{$state}.shaded > td {
+					background-color: $color-lighter-shade;
+				}
+			}
+		}
+	}
+	.table.table-hover {
+		thead,
+		tbody,
+		tfoot {
+			> tr.#{$state}:hover {
+				> th,
+				> td {
+					background-color: $color-light;
+				}
+
+				&.shaded {
+					> th,
+					> td {
+						background-color: $color-light-shade;
+					}
+				}
+			}
+		}
+	}
+
+	.table-striped.table-hover {
+		thead,
+		tbody,
+		tfoot {
+			tr:nth-of-type(odd):hover {
+				> th.#{$state},
+				> td.#{$state} {
+					background-color: $color;
+					color: transparentize($black, $text-shade-dark-secondary-opacity);
+					&.shaded {
+						background-color: $color-shade;
+						color: transparentize($black, $text-shade-dark-secondary-opacity);
+					}
+				}
+			}
+			tr:nth-of-type(even):hover {
+				> th.#{$state},
+				> td.#{$state} {
+					background-color: $color-light;
+					color: transparentize($black, $text-shade-dark-secondary-opacity);
+					&.shaded {
+						background-color: $color-light-shade;
+						color: transparentize($black, $text-shade-dark-secondary-opacity);
+					}
+				}
+			}
+			tr.#{$state}:nth-of-type(odd):hover {
+				> th,
+				> td {
+					background-color: $color;
+					color: transparentize($black, $text-shade-dark-secondary-opacity);
+				}
+				&.shaded {
+					> th,
+					> td {
+						background-color: $color-shade;
+						color: transparentize($black, $text-shade-dark-secondary-opacity);
+					}
+				}
+			}
+			tr.#{$state}:nth-of-type(even):hover {
+				> th,
+				> td {
+					background-color: $color-light;
+					color: transparentize($black, $text-shade-dark-secondary-opacity);
+				}
+				&.shaded {
+					> th,
+					> td {
+						background-color: $color-light-shade;
+						color: transparentize($black, $text-shade-dark-secondary-opacity);
+					}
+				}
+			}
+		}
+	}
+}

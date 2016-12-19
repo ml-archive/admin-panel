@@ -1,0 +1,123 @@
+.list-group-item {
+	padding: 0;
+	@include whitespace($side: horizontal);
+	@include whitespace($side: vertical, $size: sm);
+	@include layout($wrap: false);
+	align-items: center;
+
+	border-left: 6px solid transparent;
+
+	.fa {
+		@include whitespace($side: right, $size: sm, $type: margin);
+	}
+
+	.fa + .fa,
+	.fa.pull-right {
+		margin-left: auto;
+	}
+
+	.btn-group {
+		margin-left: auto;
+		opacity: 0;
+		transition: opacity $animation-timing-short $animation-easing-relaxed;
+	}
+
+	.badge {
+		margin-left: auto;
+	}
+
+	&:hover, &.hover,
+	&:focus, &.focus,
+	&:active, &.active {
+		@include background-color(transparent);
+		.btn-group {
+			opacity: 1;
+		}
+	}
+
+	&:active, &.active {
+		color: $black;
+		border-left-color: $primary-color;
+	}
+
+	&.active:hover {
+		color: $black;
+		@include background-color(transparent);
+	}
+
+	&.active .badge {
+		color: $badge-color;
+		background-color: $badge-bg;
+	}
+}
+
+.list-group.list-group-inverse .list-group-item {
+	@include background-color($secondary-color-dark);
+	color: $white;
+	border-left: 6px solid $secondary-color-dark;
+
+	a {
+		display: block;
+		width: 100%;
+		color: $white;
+	}
+
+	&:hover, &.hover,
+	&:focus, &.focus,
+	&:active, &.active {
+		cursor: pointer;
+		@include background-color($secondary-color-dark);
+		a {
+			@include background-color($secondary-color-dark);
+			text-decoration: none;
+		}
+	}
+
+	&:hover, &.hover {
+		&:not(.active) {
+			@include font-color($primary-color);
+			a {
+				@include font-color($primary-color);
+			}
+		}
+		[class*="btn"] {
+			color: $white;
+		}
+	}
+
+	&:active, &.active {
+		border-color: $primary-color;
+	}
+
+	.btn-group .btn {
+		@include background-color(transparent);
+		border-color: $secondary-color;
+		&:hover, &.hover,
+		&:focus, &.focus,
+		&:active, &.active {
+			@include font-color(darken($white, 10%));
+		}
+	}
+	
+	.badge {
+		background-color: $secondary-color-light;
+	}
+}
+
+.list-group-bordered .list-group-item {
+	&.active {
+		color: $primary-color;
+		border: 1px solid $list-group-border;
+		.fa {
+			color: $black;
+		}
+	}
+
+	&.active:hover {
+		background-color: $list-group-hover-bg;
+	}
+}
+
+.list-group.list-group-transparent .list-group-item {
+	background-color: transparent;
+}
