@@ -45,3 +45,7 @@ vapor run admin-panel:seed
 
 ### Dependencies
 https://github.com/nodes-vapor/storage
+
+### UI package
+Github: https://github.com/nodes-frontend/nodes-ui
+Doc: https://nodes-frontend.github.io/nodes-ui/
