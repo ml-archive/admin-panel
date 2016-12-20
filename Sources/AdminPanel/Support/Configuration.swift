@@ -23,9 +23,19 @@ public struct Configuration {
     public let loadRoutes: Bool
     
     public init(drop: Droplet) throws {
-        self.name                = try Configuration.extract(field: .name, drop: drop)
+<<<<<<< Updated upstream
+        self.name                = try Configuragtion.extract(field: .name, drop: drop)
         self.unauthorizedPath    = try Configuration.extract(field: .unauthorizedPath, drop: drop)
         self.loadRoutes          = try Configuration.extract(field: .loadRoutes, drop: drop)
+=======
+        try self.init(config: drop.config)
+    }
+    
+    public init(config: Config) throws {
+        self.name                = try Configuration.extract(field: .name, config: config)
+        self.unauthorizedPath    = try Configuration.extract(field: .unauthorizedPath, config: config)
+        self.loadRoutes          = try Configuration.extract(field: .loadRoutes, config: config)
+>>>>>>> Stashed changes
     }
     
     public func makeNode() -> Node {
@@ -36,16 +46,16 @@ public struct Configuration {
         ])
     }
     
-    private static func extract(field: Field , drop: Droplet) throws -> String {
-        guard let string = drop.config[field.path]?.string else {
+    private static func extract(field: Field, config: Config) throws -> String {
+        guard let string = config[field.path]?.string else {
             throw field.error
         }
         
         return string
     }
     
-    private static func extract(field: Field , drop: Droplet) throws -> Bool {
-        guard let bool = drop.config[field.path]?.bool else {
+    private static func extract(field: Field, config: Config) throws -> Bool {
+        guard let bool = config[field.path]?.bool else {
             throw field.error
         }
         
