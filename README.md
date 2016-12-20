@@ -27,7 +27,7 @@ import AdminPanel
 
 And add provider
 ```
-try drop.addProvider(AdminPanel.Provider(drop: drop))
+try drop.addProvider(AdminPanel.Provider.self)
 ```
 
 Either copy the views in or change the folder to read the views from, fx
