@@ -90,7 +90,12 @@ public final class BackendUser: Auth.User, Model {
         }
         
         if let file: Multipart.File = request.multipart?["image"]?.file {
-            //image = try Storage.upload(bytes: file.data)
+            do {
+                image = try Storage.upload(bytes: file.data)
+            } catch {
+                print(error)
+            }
+            
             //try Storage.upload(multipart: multipart)
         }
         
