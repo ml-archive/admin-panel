@@ -89,7 +89,8 @@ public final class BackendUser: Auth.User, Model {
             shouldResetPassword = shouldResetPasswordTemp == "true"
         }
         
-        if let multipart: Multipart = request.multipart?["image"] {
+        if let file: Multipart.File = request.multipart?["image"]?.file {
+            //image = try Storage.upload(bytes: file.data)
             //try Storage.upload(multipart: multipart)
         }
         
