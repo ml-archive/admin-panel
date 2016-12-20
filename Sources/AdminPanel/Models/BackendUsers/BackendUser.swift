@@ -18,6 +18,7 @@ public final class BackendUser: Auth.User, Model {
     public var email: Valid<Email>
     public var password: String
     public var role: String // TODO check
+    public var image: String?
     public var createdAt: DateInRegion
     public var updatedAt: DateInRegion
     public var shouldResetPassword: Bool = false
@@ -89,7 +90,7 @@ public final class BackendUser: Auth.User, Model {
         }
         
         if let multipart: Multipart = request.multipart?["image"] {
-            Storage.upload(entity: <#T##FileEntity#>)
+            //try Storage.upload(multipart: multipart)
         }
         
         self.updatedAt = DateInRegion()
@@ -116,6 +117,7 @@ public final class BackendUser: Auth.User, Model {
             table.string("email", unique: true)
             table.string("password")
             table.string("role")
+            table.string("image", optional: true)
             table.bool("should_reset_password", default: Node(false))
             table.custom("created_at", type: "DATETIME", optional: true)
             table.custom("updated_at", type: "DATETIME", optional: true)
