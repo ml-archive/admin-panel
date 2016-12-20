@@ -3,10 +3,12 @@
 [![Build Status](https://travis-ci.org/nodes-vapor/admin-panel.svg?branch=master)](https://travis-ci.org/nodes-vapor/admin-panel)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/nodes-vapor/admin-panel/master/LICENSE)
 
-
-
-
 #Installation
+Update your `Package.swift` file.
+```swift
+.Package(url: "https://github.com/nodes-vapor/admin-panel", majorVersion: 0)
+```
+
 
 #### Config
 Create config adminpanel.json
