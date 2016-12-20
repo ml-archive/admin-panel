@@ -15,7 +15,7 @@ Create config adminpanel.json
 
 ```
 {
-    "name": "MyTestProject",
+    "name": "MyProject",
     "unauthorizedPath": "/admin/login",
     "loadRoutes": true
 }
