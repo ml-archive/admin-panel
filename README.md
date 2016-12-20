@@ -36,3 +36,6 @@ drop.view = LeafRenderer(
     viewsDir: Droplet().workDir + "/Packages/AdminPanel-0.1.0/Sources/AdminPanel/Resources/Views"
 )
 ```
+
+### Dependencies
+https://github.com/nodes-vapor/storage
