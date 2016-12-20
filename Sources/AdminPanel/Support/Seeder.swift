@@ -3,10 +3,10 @@ import Admin
 import TurnstileCrypto
 
 public final class Seeder: Command {
-    public let id = "seeder"
+    public let id = "admin-panel:seed"
     
     public let help: [String] = [
-        "Seeds the database"
+        "Seeds the database for admin panel"
     ]
     
     public let console: ConsoleProtocol
@@ -21,9 +21,9 @@ public final class Seeder: Command {
         
         let backendUserRoles = [
             try BackendUserRole(node: [
-                "title": "Super admin",
-                "slug": "super-admin",
-                "is_default": false,
+                    "title": "Super admin",
+                    "slug": "super-admin",
+                    "is_default": false,
                 ]),
             try BackendUserRole(node: [
                 "title": "Admin",
