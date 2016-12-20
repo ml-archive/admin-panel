@@ -36,8 +36,8 @@ public final class BackendUsersController {
      */
     public func create(request: Request) throws -> ResponseRepresentable {
         return try drop.view.make("BackendUsers/edit", [
-                "roles": BackendUserRole.all().makeNode()
-            ], for: request)
+            "roles": BackendUserRole.all().makeNode()
+        ], for: request)
     }
     
     /**

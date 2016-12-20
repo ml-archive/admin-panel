@@ -26,9 +26,9 @@
 #export("content") {
 
     #if(backendUser) {
-    <form method="post" action="/admin/backend_users/edit/#(backendUser.id)">
+    <form method="post" action="/admin/backend_users/edit/#(backendUser.id)" enctype="multipart/form-data">
     } ##else() {
-    <form method="post" action="/admin/backend_users/create">
+    <form method="post" action="/admin/backend_users/create" enctype="multipart/form-data">
     }
     <div class="row">
         <div class="col-xs-12 col-md-6">
@@ -115,8 +115,8 @@
             <hr>
             <div class="margin-vertical-sm">
                 <div class="form-group">
-                    <label for="companyImage">Upload image</label>
-                    <input type="file" id="companyImage" class="form-control" name="image">
+                    <label for="backendUserImage">Upload image</label>
+                    <input type="file" id="backendUserImage" class="form-control" name="image">
                 </div>
                 <div class="form-group">
                     <img class="img-thumbnail" src="http://dummyimage.com/250x250" alt="">

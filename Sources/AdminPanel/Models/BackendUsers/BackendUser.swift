@@ -6,6 +6,7 @@ import Turnstile
 import TurnstileCrypto
 import SwiftDate
 import Auth
+import Storage
 
 public final class BackendUser: Auth.User, Model {
     
@@ -17,6 +18,7 @@ public final class BackendUser: Auth.User, Model {
     public var email: Valid<Email>
     public var password: String
     public var role: String // TODO check
+    public var image: String?
     public var createdAt: DateInRegion
     public var updatedAt: DateInRegion
     public var shouldResetPassword: Bool = false
@@ -87,6 +89,11 @@ public final class BackendUser: Auth.User, Model {
             shouldResetPassword = shouldResetPasswordTemp == "true"
         }
         
+        if let file: Multipart.File = request.multipart?["image"]?.file {
+            //image = try Storage.upload(bytes: file.data)
+            //try Storage.upload(multipart: multipart)
+        }
+        
         self.updatedAt = DateInRegion()
         self.createdAt = DateInRegion()
     }
@@ -111,6 +118,7 @@ public final class BackendUser: Auth.User, Model {
             table.string("email", unique: true)
             table.string("password")
             table.string("role")
+            table.string("image", optional: true)
             table.bool("should_reset_password", default: Node(false))
             table.custom("created_at", type: "DATETIME", optional: true)
             table.custom("updated_at", type: "DATETIME", optional: true)
