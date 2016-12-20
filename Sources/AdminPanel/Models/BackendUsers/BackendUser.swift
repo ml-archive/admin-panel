@@ -6,6 +6,7 @@ import Turnstile
 import TurnstileCrypto
 import SwiftDate
 import Auth
+import Storage
 
 public final class BackendUser: Auth.User, Model {
     
@@ -85,6 +86,10 @@ public final class BackendUser: Auth.User, Model {
         
         if let shouldResetPasswordTemp: String = request.data["should_reset_password"]?.string {
             shouldResetPassword = shouldResetPasswordTemp == "true"
+        }
+        
+        if let multipart: Multipart = request.multipart?["image"] {
+            Storage.upload(entity: <#T##FileEntity#>)
         }
         
         self.updatedAt = DateInRegion()
