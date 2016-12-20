@@ -33,8 +33,7 @@ public final class Provider: Vapor.Provider {
     }
     
     public init(config: Config) throws {
-        // Don't use this init, it's only there cause of protocol
-        throw Abort.serverError
+        config = try Configuration(config: config)
     }
     
     
