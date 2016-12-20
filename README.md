@@ -15,7 +15,7 @@ Create config adminpanel.json
 
 ```
 {
-    "name": "Sandbox2",
+    "name": "MyTestProject",
     "unauthorizedPath": "/admin/login",
     "loadRoutes": true
 }
