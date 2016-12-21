@@ -20,9 +20,9 @@ public final class LoginController {
                 throw Abort.custom(status: .forbidden, message: "Forbidden")
             }
             
-            return Response(redirect: "/admin/dashboard")//.flash(.success, "Logged in as \(user.email.value)")
+            return Response(redirect: "/admin/dashboard").flash(.success, "Logged in as \(user.email.value)")
         } catch {
-            return Response(redirect: "/admin/login")//.flash(.error, "Please login")
+            return Response(redirect: "/admin/login").flash(.error, "Please login")
         }
     }
     
@@ -45,7 +45,7 @@ public final class LoginController {
         var token = try BackendUserResetPasswordTokens(email: user.email.value)
         try token.save()
         
-        return Response(redirect: "/admin/login")//.flash(.success, "Message sent")
+        return Response(redirect: "/admin/login").flash(.success, "Message sent")
     }
     
     public func form(request: Request) throws -> ResponseRepresentable {
@@ -64,9 +64,9 @@ public final class LoginController {
             
             // Todo deal with remember me
         
-            return Response(redirect: "/admin/dashboard")//.flash(.success, "Logged in as \(credentials.username)")
+            return Response(redirect: "/admin/dashboard").flash(.success, "Logged in as \(credentials.username)")
         } catch {
-            return Response(redirect: "/admin/login")//.flash(.error, "Failed to login")
+            return Response(redirect: "/admin/login").flash(.error, "Failed to login")
         }
         
     }

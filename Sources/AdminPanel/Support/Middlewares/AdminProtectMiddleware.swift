@@ -12,7 +12,11 @@ public class AdminProtectMiddleware: Middleware {
         do {
             try request.storage["user"] = request.auth.user()
         } catch {
-            return Response(redirect: "/admin/login")//.flash(.error, "Session expired login again")
+            /*
+            let credentials = UsernamePassword(username: "tech@nodes.dk", password: "admin")
+            try request.auth.login(credentials)
+            */
+            return Response(redirect: "/admin/login").flash(.error, "Session expired login again")
         }
         
         return try next.respond(to: request)
