@@ -5,6 +5,3 @@ extension String {
         return CryptoRandom.bytes(length).base64String
     }
 }
-
-
-

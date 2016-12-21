@@ -11,7 +11,7 @@ public final class BackendUsersController {
     
     public func logout(request: Request) throws -> ResponseRepresentable {
         try request.auth.logout()
-        return Response(redirect: "/admin").flash(.error, "User is logged out");
+        return Response(redirect: "/admin").flash(.error, "User is logged out")
     }
     
     /**
