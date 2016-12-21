@@ -6,7 +6,7 @@ import Turnstile
 import TurnstileCrypto
 import SwiftDate
 import Auth
-import Storage
+//import Storage
 
 public final class BackendUser: Auth.User, Model {
     
@@ -91,7 +91,7 @@ public final class BackendUser: Auth.User, Model {
         
         if let file: Multipart.File = request.multipart?["image"]?.file {
             do {
-                image = try Storage.upload(bytes: file.data)
+                //image = try Storage.upload(bytes: file.data)
             } catch {
                 print(error)
             }
