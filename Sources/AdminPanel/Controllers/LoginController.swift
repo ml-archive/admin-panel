@@ -45,7 +45,7 @@ public final class LoginController {
         var token = try BackendUserResetPasswordTokens(email: user.email.value)
         try token.save()
         
-        return Response(redirect: "/admin/login").flash(.success, "Message sent");
+        return Response(redirect: "/admin/login").flash(.success, "Message sent")
     }
     
     public func form(request: Request) throws -> ResponseRepresentable {
@@ -66,7 +66,7 @@ public final class LoginController {
         
             return Response(redirect: "/admin/dashboard").flash(.success, "Logged in as \(credentials.username)")
         } catch {
-            return Response(redirect: "/admin/login").flash(.error, "Failed to login");
+            return Response(redirect: "/admin/login").flash(.error, "Failed to login")
         }
         
     }
