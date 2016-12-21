@@ -11,7 +11,7 @@ public final class BackendUsersController {
     
     public func logout(request: Request) throws -> ResponseRepresentable {
         try request.auth.logout()
-        return Response(redirect: "/admin").flash(.error, "User is logged out");
+        return Response(redirect: "/admin")//.flash(.error, "User is logged out")
     }
     
     /**
@@ -53,12 +53,12 @@ public final class BackendUsersController {
             
             // TODO Send welcome mail
             
-            return Response(redirect: "/admin/backend_users").flash(.success, "User created")
+            return Response(redirect: "/admin/backend_users")//.flash(.success, "User created")
         } catch let error as ValidationErrorProtocol {
             let message = "Validation error: \(error.message)"
-            return Response(redirect: "/admin/backend_users/create").flash(.error, message)
+            return Response(redirect: "/admin/backend_users/create")//.flash(.error, message)
         } catch {
-            return Response(redirect: "/admin/backend_users/create").flash(.error, "Failed to create user")
+            return Response(redirect: "/admin/backend_users/create")//.flash(.error, "Failed to create user")
         }
     }
     
@@ -112,9 +112,9 @@ public final class BackendUsersController {
     public func destroy(request: Request, user: BackendUser) throws -> ResponseRepresentable {
         do {
             try user.delete()
-            return Response(redirect: "/admin/backend_users").flash(.success, "Deleted user")
+            return Response(redirect: "/admin/backend_users")//.flash(.success, "Deleted user")
         } catch {
-            return Response(redirect: "/admin/backend_users").flash(.error, "Failed to delete user")
+            return Response(redirect: "/admin/backend_users")//.flash(.error, "Failed to delete user")
         }
     }
  

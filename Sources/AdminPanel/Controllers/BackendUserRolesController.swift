@@ -28,12 +28,12 @@ public final class BackendUserRolesController {
         do {
             var role = try BackendUserRole(request: request)
             try role.save()
-            return Response(redirect: "/admin/backend_users/roles").flash(.success, "Role created");
+            return Response(redirect: "/admin/backend_users/roles")//.flash(.success, "Role created")
         }catch let error as ValidationErrorProtocol {
             let message = "Validation error: \(error.message)"
-            return Response(redirect: "/admin/backend_users/roles").flash(.error, message);
+            return Response(redirect: "/admin/backend_users/roles")//.flash(.error, message)
         }catch {
-            return Response(redirect: "/admin/backend_users/roles").flash(.error, "Failed to save role");
+            return Response(redirect: "/admin/backend_users/roles")//.flash(.error, "Failed to save role")
         }
     }
     
@@ -42,7 +42,7 @@ public final class BackendUserRolesController {
             // Set all roles to not default
             for entry in try BackendUserRole.all() {
                 var editableRole = entry
-                editableRole.isDefault = false;
+                editableRole.isDefault = false
                 try editableRole.save()
             }
             
@@ -51,9 +51,9 @@ public final class BackendUserRolesController {
             editableRole.isDefault = true
             try editableRole.save()
             
-            return Response(redirect: "/admin/backend_users/roles").flash(.success, "Role is default");
+            return Response(redirect: "/admin/backend_users/roles")//.flash(.success, "Role is default")
         } catch {
-            return Response(redirect: "/admin/backend_users/roles").flash(.error, "Failed to update role");
+            return Response(redirect: "/admin/backend_users/roles")//.flash(.error, "Failed to update role")
         }
     }
     
@@ -62,9 +62,9 @@ public final class BackendUserRolesController {
 
             try role.delete()
             
-            return Response(redirect: "/admin/backend_users/roles").flash(.success, "Role is deleted");
+            return Response(redirect: "/admin/backend_users/roles")//.flash(.success, "Role is deleted")
         } catch {
-            return Response(redirect: "/admin/backend_users/roles").flash(.error, "Failed to delete role");
+            return Response(redirect: "/admin/backend_users/roles")//.flash(.error, "Failed to delete role")
         }
     }
 }

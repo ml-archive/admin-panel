@@ -12,7 +12,7 @@ public class AdminProtectMiddleware: Middleware {
         do {
             try request.storage["user"] = request.auth.user()
         } catch {
-            return Response(redirect: "/admin/login").flash(.error, "Session expired login again");
+            return Response(redirect: "/admin/login")//.flash(.error, "Session expired login again")
         }
         
         return try next.respond(to: request)
