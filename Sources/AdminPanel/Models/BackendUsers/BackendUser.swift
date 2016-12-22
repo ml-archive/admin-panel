@@ -95,8 +95,6 @@ public final class BackendUser: Auth.User, Model {
             } catch {
                 print(error)
             }
-            
-            //try Storage.upload(multipart: multipart)
         }
         
         self.updatedAt = DateInRegion()

@@ -2,6 +2,7 @@ import Console
 import TurnstileCrypto
 
 public final class Seeder: Command {
+
     public let id = "admin-panel:seed"
     
     public let help: [String] = [
