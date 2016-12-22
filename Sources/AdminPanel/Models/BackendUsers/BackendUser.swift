@@ -22,6 +22,13 @@ public final class BackendUser: Auth.User, Model {
     public var createdAt: DateInRegion
     public var updatedAt: DateInRegion
     public var shouldResetPassword: Bool = false
+    public var imageUrl : String {
+        if let imageUrl: String = image?.string {
+            return imageUrl
+        } else {
+            return "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg"
+        }
+    }
     
     enum Error: Swift.Error {
         case userNotFound
