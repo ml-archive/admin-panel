@@ -37,7 +37,7 @@ try drop.addProvider(AdminPanel.Provider.self)
 Either copy the views in or change the folder to read the views from, fx
 ```
 drop.view = LeafRenderer(
-    viewsDir: Droplet().workDir + "/Packages/AdminPanel-0.1.1/Sources/AdminPanel/Resources/Views"
+    viewsDir: Droplet().workDir + "/Packages/AdminPanel-0.1.2/Sources/AdminPanel/Resources/Views"
 )
 ```
 ### Seed data
