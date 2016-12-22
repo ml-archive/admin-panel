@@ -10,7 +10,10 @@ public class AdminProtectMiddleware: Middleware {
     
     public func respond(to request: Request, chainingTo next: Responder) throws -> Response {
         do {
-            try request.storage["user"] = request.auth.user()
+            if let backendUser: BackendUser = try request.auth.user() as? BackendUser {
+                try request.storage["user"] = backendUser.toBackendView()
+            }
+            
         } catch {
             /*
             let credentials = UsernamePassword(username: "tech@nodes.dk", password: "admin")
