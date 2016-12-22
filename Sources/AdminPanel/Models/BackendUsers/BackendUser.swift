@@ -22,12 +22,9 @@ public final class BackendUser: Auth.User, Model {
     public var createdAt: DateInRegion
     public var updatedAt: DateInRegion
     public var shouldResetPassword: Bool = false
+    
     public var imageUrl : String {
-        if let imageUrl: String = image?.string {
-            return imageUrl
-        } else {
-            return "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg"
-        }
+        return "http://dummyimage.com/250x250"
     }
     
     enum Error: Swift.Error {
@@ -108,6 +105,21 @@ public final class BackendUser: Auth.User, Model {
         self.createdAt = DateInRegion()
     }
     
+    public func toBackendView() throws -> Node {
+        return try Node(node: [
+            "id": id,
+            "name": name.value,
+            "email": email.value,
+            "password": password,
+            "role": role,
+            "should_reset_password": shouldResetPassword,
+            "image": image,
+            "imageUrl": imageUrl,
+            "created_at": createdAt.string(custom: "yyyy-MM-dd HH:mm:ss"),
+            "updated_at": updatedAt.string(custom: "yyyy-MM-dd HH:mm:ss")
+            ])
+    }
+    
     public func makeNode(context: Context) throws -> Node {
         return try Node(node: [
             "id": id,
@@ -116,6 +128,7 @@ public final class BackendUser: Auth.User, Model {
             "password": password,
             "role": role,
             "should_reset_password": shouldResetPassword,
+            "image": image,
             "created_at": createdAt.string(custom: "yyyy-MM-dd HH:mm:ss"),
             "updated_at": updatedAt.string(custom: "yyyy-MM-dd HH:mm:ss")
         ])

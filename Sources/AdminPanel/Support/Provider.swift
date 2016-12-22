@@ -10,6 +10,8 @@ public final class Provider: Vapor.Provider {
             leaf.stem.register(Active())
         }
         
+        drop.storage["adminPanelConfig"] = config
+        
         drop.preparations.append(BackendUserResetPasswordTokens.self)
         drop.preparations.append(BackendUserRole.self)
         drop.preparations.append(BackendUser.self)

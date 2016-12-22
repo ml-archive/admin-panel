@@ -32,7 +32,7 @@ public struct Configuration {
         self.name                       = try Configuration.extract(field: .name, config: config)
         self.unauthorizedPath           = try Configuration.extract(field: .unauthorizedPath, config: config)
         self.loadRoutes                 = try Configuration.extract(field: .loadRoutes, config: config)
-        self.profileImageFallbackUrl    = try Configuration.extract(field: .loadRoutes, config: config)
+        self.profileImageFallbackUrl    = try Configuration.extract(field: .profileImageFallbackUrl, config: config)
     }
     
     public func makeNode() -> Node {

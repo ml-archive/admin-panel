@@ -1,7 +1,7 @@
 <div class="top-bar__actions-right">
     <div class="dropdown dropdown-user">
         <button class="btn btn-transparent dropdown-toggle user__info-button" data-toggle="dropdown">
-            <img class="user__info-avatar img-responsive img-circle" src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg">
+            <img class="user__info-avatar img-responsive img-circle" src="#(request.storage.user.imageUrl)">
                 <span class="user__info-name">
                     #(request.storage.user.email)
                     <span class="caret"></span>
@@ -12,7 +12,7 @@
                 <p class="dropdown-content__title">User</p>
                 <div class="user">
                     <div class="user__profile">
-                        <img class="user__info-avatar img-responsive img-circle" src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg">
+<img class="user__info-avatar img-responsive img-circle" src="#(request.storage.user.imageUrl)">
                             </div>
                     <div class="user__info">
                         <span class="user__info-name">
