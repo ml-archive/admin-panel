@@ -6,7 +6,7 @@
 #Installation
 Update your `Package.swift` file.
 ```swift
-.Package(url: "https://github.com/nodes-vapor/adminpanel", majorVersion: 0)
+.Package(url: "https://github.com/nodes-vapor/admin-panel", majorVersion: 0)
 ```
 
 
