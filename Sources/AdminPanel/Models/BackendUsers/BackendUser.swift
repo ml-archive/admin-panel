@@ -23,8 +23,8 @@ public final class BackendUser: Auth.User, Model {
     public var updatedAt: DateInRegion
     public var shouldResetPassword: Bool = false
     
-    public var imageUrl : String {
-        return "http://dummyimage.com/250x250"
+    public var imageUrl: String {
+        return Configuration.shared?.profileImageFallbackUrl ?? "http://dummyimage.com/250x250"
     }
     
     enum Error: Swift.Error {

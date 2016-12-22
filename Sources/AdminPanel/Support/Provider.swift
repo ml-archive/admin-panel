@@ -11,6 +11,7 @@ public final class Provider: Vapor.Provider {
         }
         
         drop.storage["adminPanelConfig"] = config
+        Configuration.shared = config
         
         drop.preparations.append(BackendUserResetPasswordTokens.self)
         drop.preparations.append(BackendUserRole.self)

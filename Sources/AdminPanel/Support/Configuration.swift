@@ -3,6 +3,9 @@ import Vapor
 import HTTP
 
 public struct Configuration {
+    
+    public static var shared: Configuration?
+    
     public enum Field: String {
         case name                       = "adminpanel.name"
         case unauthorizedPath           = "adminpanel.unauthorizedPath"
