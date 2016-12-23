@@ -1,16 +1,25 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-    <title>#(request.storage.adminPanel.name)</title>
-    <link rel="stylesheet" media="screen" href="/css/app.css">
-</head>
+    <head>
+        <title>#(request.storage.adminPanel.name)</title>
+        <meta charset="utf-8">
+        <meta name="robots" content="noindex, nofollow">
+        <meta name="viewport" content="width=device-width">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Mono|Work+Sans:400,500,600" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" media="screen" href="/css/styles.css">
+    </head>
     
-<body class="production fullbleed">
-    #import("page")
+    <body class="production fullbleed">
 
-    
-    <script src="/js/all.js"></script>
-    <script src="Js/vendor.js"></script>
-</body>
+        #import("page")
+
+        <script src="/js/vendor.js"></script>
+        <script src="/js/project.js"></script>
+        #import("page-js")
+        <script src="//cdn.ckeditor.com/4.5.2/standard/ckeditor.js"></script>
+
+    </body>
 </html>
 

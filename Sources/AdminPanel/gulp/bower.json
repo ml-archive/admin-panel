@@ -15,6 +15,10 @@
 		"eonasdan-bootstrap-datetimepicker": "~4.17.37",
 		"mjolnic-bootstrap-colorpicker": "~2.3.0",
 		"devbridge-autocomplete": "~1.2.24",
-		"spinkit": "~1.2.5"
+		"spinkit": "~1.2.5",
+		"nouislider": "^9.0.0"
+	},
+	"resolutions": {
+		"eonasdan-bootstrap-datetimepicker": "master"
 	}
 }
