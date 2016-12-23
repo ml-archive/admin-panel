@@ -49,6 +49,31 @@ vapor run admin-panel:seed
 https://github.com/nodes-vapor/storage
 
 ### UI package
+
+#### Prerequisites
+
+- node.js > v4.0
+- npm > v3.0
+- bower > 2.0
+
+#### Setup
+
+- Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/gulp` to the root of your project 
+- Run `npm install` > `bower install` > `gulp build`
+
+#### Theming
+
+- Update variables in the `_variables.scss` file located in `/Resources/Assets/Scss` (ie. `$primary-color`)
+- Compile the styles by running `gulp build`
+
+#### JavaScript
+
+Put your JavaScript files in `/Resources/Assets/Js` - if you need specific js for a specific page- place this file in the `Pages` subfolder.
+ 
+When compiling, all files *not* in `Pages` will be concatinated and minified. Page specific js is only minified.
+
+#### Read more
+
 Github: https://github.com/nodes-frontend/nodes-ui
 
 Doc: https://nodes-frontend.github.io/nodes-ui/

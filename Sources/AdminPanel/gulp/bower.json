@@ -1,0 +1,24 @@
+{
+	"name": "vapor",
+	"private": true,
+	"dependencies": {
+		"nodes-ui": "latest",
+		"jquery": "~2.1.4",
+		"bootstrap-sass": "^3.3.5",
+		"font-awesome": "^4.6.3",
+		"Chart.js": "~1.0.2",
+		"bootbox.js": "4.4.0",
+		"slick-carousel": "~1.5.8",
+		"velocity": "~1.2.3",
+		"right-height": "https://github.com/cferdinandi/right-height.git#~4.1.0",
+		"tether-drop": "~1.4.2",
+		"eonasdan-bootstrap-datetimepicker": "~4.17.37",
+		"mjolnic-bootstrap-colorpicker": "~2.3.0",
+		"devbridge-autocomplete": "~1.2.24",
+		"spinkit": "~1.2.5",
+		"nouislider": "^9.0.0"
+	},
+	"resolutions": {
+		"eonasdan-bootstrap-datetimepicker": "master"
+	}
+}

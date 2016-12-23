@@ -1,6 +1,6 @@
 <div class="application-brand">
     <a class="logo" href="/admin/dashboard">
-        #embed("Layout/Elements/logo")
+        #embed("Layout/Partials/Elements/logo")
     </a>
     <h1 class="application-title">
         Sandbox

@@ -1,4 +1,4 @@
-#extend("Layout/base")
+#extend("Layout/layout-page-sidebar")
 
 #export("breadcrumbs") {
 <li>
