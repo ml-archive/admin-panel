@@ -1,8 +1,0 @@
-@mixin headings($from: 1, $to: 6){
-	@for $i from $from through $to{
-		h#{$i},
-		.h#{$i} {
-			@content
-		}
-	}
-}
