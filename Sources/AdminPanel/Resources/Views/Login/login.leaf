@@ -14,29 +14,28 @@
         <form method="post" action="/admin/login">
             <div class="form-group action-wrapper">
                 <label for="email">E-mail</label>
-                <input type="email" id="email" class="form-control" name="email" required placeholder="Insert email">
+                <input type="email" id="email" class="form-control" name="email" required placeholder="Insert email"/>
             </div>
+
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" class="form-control" name="password" required placeholder="Insert password">
+                <input type="password" id="password" class="form-control" name="password" required placeholder="Insert password"/>
             </div>
 
+            <div class="form-group clearfix">
+                <div class="checkbox pull-left">
+                    <label for="nodes-login-remember">
+                        <input type="checkbox" id="nodes-login-remember" name="remember"/>
+                        Remember me
+                    </label>
+                </div>
+                <div class="pull-right margin-vertical-sm">
+                    <a href="/admin/login/reset">Forgot password?</a>
+                </div>
+            </div>
 
-            <!--
-             <div class="form-group clearfix">
-             <div class="checkbox pull-left">
-             <label for="nodes-login-remember">
-             <input type="checkbox" id="nodes-login-remember" class="form-control" name="remember" >
-             Remember me
-             </label>
-             </div>
-             <div class="pull-right">
-             <a href="/admin/login/reset">Forgot password?</a>
-             </div>
-             </div>
-             -->
             <div class="form-group">
-                <input type="submit" class="btn btn-primary form-control" value="Login">
+                <input type="submit" class="btn btn-primary form-control" value="Login"/>
             </div>
         </form>
     </div>
