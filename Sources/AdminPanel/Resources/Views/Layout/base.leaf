@@ -6,72 +6,11 @@
 </head>
     
 <body class="production fullbleed">
-    <div class="layout vertical core-layout">
-        <div class="core-layout__topbar">
-            <section class="top-bar">
-                <div class="top-bar__left">
-                    <button href="#()" class="btn btn-transparent core__left-sidebar-toggle">
-                        <i class="fa fa-bars"></i>
-                    </button>
-                    #embed("Layout/Top-bar/logo")
-                </div>
-                <div class="top-bar__right">
-                    #embed("Layout/Top-bar/actions-left")
-                    #embed("Layout/Top-bar/actions-right")
-                </div>
-            </section>
-        </div>
-            
-        <div class="core-layout__page">
-            <div class="core-layout__sidebar-wrapper">
-                <section class="core-layout__sidebar">
-                    <div class="core-layout__sidebar-mobile-navigation">
-                        #embed("Layout/Navigation/navigation-mobile")
-                    </div>
-                    <div class="sidebar sidebar__navigation">
-                        <div class="sidebar__navigation-top">
-                            #import("navigation-top")
-                        </div>
-                        
-                        <div class="sidebar__navigation-middle">
-                            <nav class="list-group list-group-inverse">
-                                #embed("Layout/Navigation/navigation")
-                            </nav>
-                        </div>
-                        
-                        <div class="sidebar__navigation-bottom">
-                            #import("navigation-bottom")
-                        </div>
-                        
-                    </div>
-                </section>
-            </div>
-                
-            <section class="core-layout__content">
-                <div class="page-header">
-                    #embed("Layout/Elements/alerts")
-                    <div class="page-header__breadcrumbs">
-                        <ol class="breadcrumb">
-                            <li>
-                                <a href="/admin/dashboard">Dashboard</a>
-                            </li>
-                            #import("breadcrumbs")
-                        </ol>
-                    </div>
-                    
-                    <div class="page-header__top-section">
-                        #import("page-header")
-                    </div>
-                </div>
-                <div class="page-content">
-                    <div class="container-fluid">
-                        #import("content")
-                    </div>
-                </div>
-            </section˝>
-        </div>
-    </div>
+    #import("page")
+
+    
     <script src="/js/all.js"></script>
+    <script src="Js/vendor.js"></script>
 </body>
 </html>
 

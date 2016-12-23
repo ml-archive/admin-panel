@@ -1,37 +1,55 @@
-const elixir = require('laravel-elixir');
+'use strict';
 
-/*
- |--------------------------------------------------------------------------
- | Elixir Asset Management
- |--------------------------------------------------------------------------
- |
- | Elixir provides a clean, fluent API for defining some basic Gulp tasks
- | for your Laravel application. By default, we are compiling the Sass
- | file for our application, as well as publishing vendor resources.
- |
- */
+var path = require('path');
+var fs = require('fs');
 
-// Folder pahts
-Elixir.config.appPath         = "../App";
-Elixir.config.publicPath      = "../Public";
-Elixir.config.assetsPath      = "Resources/Assets";
-Elixir.config.viewsPath       = "Resources/Views";
+var gulp = require('gulp');
+var mainBowerFiles = require('main-bower-files');
 
-// (S)CSS options
-Elixir.config.css.sass.folder = "Sass"
+var sass = require('gulp-sass');
+var autoprefixer = require('autoprefixer');
+var postcss = require('gulp-postcss');
+var cssmin = require('gulp-cssmin');
 
-// JavaScript options
-Elixir.config.js.folder       = "Js"
+var uglify = require('gulp-uglify');
+var concatSourcemaps = require('gulp-concat-sourcemap');
+var concat = require('gulp-concat');
+var gulpIf = require('gulp-if');
 
+var NODES_BOWER_PACKAGES = require('./bower_components/nodes-ui/bower.json');
+var PROJECT_BOWER_PACKAGES = require('./bower.json');
+var IGNORED_BOWER_PACKAGES = [
+    "!**/bower_components/bootstrap/dist/js/bootstrap.js",
+    "!**/bower_components/blueimp-tmpl/js/tmpl.js"
+];
 
-// Mix it up!
-elixir(mix => {
-    mix.sass("app.scss")
-       .scripts([
-           "../../../bower_components/jquery/dist/jquery.js",
-           "../../../bower_components/bootstrap-sass/assets/javascripts/bootstrap.js",
-           "../../../bower_components/Chart.js/Chart.js",
-           "../../../bower_components/nodes-ui/js/nodes.compiled.js",
-           "app.js"
-       ])
+gulp.task('vendor-scripts', function() {
+    
+    var MERGED_PKGS = PROJECT_BOWER_PACKAGES;
+    
+    for(var pkg in NODES_BOWER_PACKAGES.dependencies) {
+        if(!PROJECT_BOWER_PACKAGES.dependencies.hasOwnProperty(pkg)) {
+            MERGED_PKGS.dependencies[pkg] = NODES_BOWER_PACKAGES.dependencies[pkg];
+        }
+    }
+    
+    try {
+        fs.writeFileSync('bower.json', JSON.stringify(MERGED_PKGS, null, '\t'));
+    } catch(err) {
+        return console.log('Error updating project bower.json file!', err);
+    }
+    
+    var filterFiles = ['**/*.js', '!**/*.js.map'].concat(IGNORED_BOWER_PACKAGES);
+    var jsFileName = 'vendor.js';
+    console.log('AAA', mainBowerFiles({
+        filter: filterFiles
+    }))
+    
+    return gulp.src(mainBowerFiles({
+        filter: filterFiles
+    }))
+        .pipe(concat(jsFileName, {sourcesContent: true}))
+        .pipe(uglify()).on('error', console.error.bind(console))
+        .pipe(gulp.dest('./Resources/Assets/Js'));
+    
 });

@@ -1,4 +1,4 @@
-#extend("Layout/base")
+#extend("Layout/layout-page-sidebar")
 
 #export("breadcrumbs") {
 <li>
@@ -37,11 +37,11 @@
             <div class="margin-vertical-sm">
                 <div class="form-group">
                     <label for="backendUserFormName">Name</label>
-                    <input type="text" id="backendUserFormName" class="form-control" name="name" value="#if(backendUser) { #(backendUser.name) }" required>
+                    <input type="text" id="backendUserFormName" class="form-control" name="name" value="#if(backendUser) { #(backendUser.name) }" required/>
                 </div>
                 <div class="form-group">
                     <label for="backendUserFormEmail">E-mail</label>
-                    <input type="email" id="backendUserFormEmail" class="form-control" name="email" value="#if(backendUser) { #(backendUser.email) }" required>
+                    <input type="email" id="backendUserFormEmail" class="form-control" name="email" value="#if(backendUser) { #(backendUser.email) }" required/>
                 </div>
                 <div class="form-group">
                     <label for="backendUserFormRole">Role</label>
@@ -75,7 +75,7 @@
                 }
                 
             </div>
-            <br>
+            <br/>
             <h4 class="margin-top">
                 Choose password <small class="text-gray-dark">(leave empty for random) (min. 8 characters)</small>
             </h4>
@@ -83,12 +83,12 @@
             <div class="margin-top">
                 <div class="form-group">
                     <label for="backendUserFormPassword">Password</label>
-                    <input type="password" id="backendUserFormPassword" class="form-control" name="password" minlength="8">
+                    <input type="password" id="backendUserFormPassword" class="form-control" name="password" minlength="8"/>
                 </div>
             
                 <div class="form-group">
                     <label for="backendUserFormRepeatPassword">Repeat password</label>
-                    <input type="password" id="backendUserFormRepeatPassword" class="form-control" name="passwordRepeat" minlength="8">
+                    <input type="password" id="backendUserFormRepeatPassword" class="form-control" name="passwordRepeat" minlength="8"/>
                 </div>
                
                <!-- FIX Preselected & Make checkbox -->
@@ -116,17 +116,17 @@
             <div class="margin-vertical-sm">
                 <div class="form-group">
                     <label for="backendUserImage">Upload image</label>
-                    <input type="file" id="backendUserImage" class="form-control" name="image">
+                    <input type="file" id="backendUserImage" class="form-control" name="image"/>
                 </div>
                 <div class="form-group">
-                    <img class="img-thumbnail" src="http://dummyimage.com/250x250" alt="">
+                    <img class="img-thumbnail" src="http://dummyimage.com/250x250" alt=""/>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <hr>
+            <hr/>
             <input type="submit" class="btn btn-primary form-control" value="#if(backendUser) { Edit backend user } ##else() { Create backend user }">
         </div>
     </div>
