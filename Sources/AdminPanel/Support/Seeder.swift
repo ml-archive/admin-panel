@@ -1,23 +1,30 @@
 import Console
 import TurnstileCrypto
+import Vapor
 
 public final class Seeder: Command {
 
-    public let id = "admin-panel:seed"
+    public let id = "admin-panel:seeder"
     
     public let help: [String] = [
         "Seeds the database for admin panel"
     ]
     
     public let console: ConsoleProtocol
+    public let drop: Droplet
     
-    public init(console: ConsoleProtocol) {
-        self.console = console
+    public init(drop: Droplet) {
+        self.drop = drop
+        self.console = drop.console
     }
     
     public func run(arguments: [String]) throws {
         
         console.info("Started the seeder");
+        
+        // BUG FIX WHILE WAITING FOR VAPOR UPDATE
+        BackendUser.database = drop.database
+        BackendUserRole.database = drop.database
         
         let backendUserRoles = [
             try BackendUserRole(node: [
