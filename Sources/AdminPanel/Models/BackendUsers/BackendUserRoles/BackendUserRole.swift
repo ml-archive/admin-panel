@@ -3,6 +3,7 @@ import Fluent
 import Foundation
 import HTTP
 import SwiftDate
+import Slugify
 
 public final class BackendUserRole: Model {
     public static var entity = "backend_user_roles"
