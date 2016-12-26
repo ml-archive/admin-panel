@@ -51,18 +51,18 @@ public final class BackendUsersController {
             
             // Random the password if no password is set
             var password = String.randomAlphaNumericString(8)
-            var sendPassword = true
+            var randomPassword = true
             if let requestedPassword = request.data["password"]?.string {
                 if(requestedPassword != "") {
                     password = requestedPassword
-                    sendPassword = false
+                    randomPassword = false
                 }
             }
             
             var backendUser = try BackendUser(request: request, password: password)
             try backendUser.save()
             
-            try Mailer.sendWelcomeMail(drop: drop, backendUser: backendUser, password: sendPassword ? password : nil)
+            try Mailer.sendWelcomeMail(drop: drop, backendUser: backendUser, password: randomPassword ? password : nil)
             
             return Response(redirect: "/admin/backend_users").flash(.success, "User created")
         } catch let error as ValidationErrorProtocol {

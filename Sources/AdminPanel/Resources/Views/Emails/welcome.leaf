@@ -13,7 +13,7 @@
         <strong>E-mail</strong>: #(backendUser.email)
         <br>
         
-        #if(showPassword) {
+        #if(randomPassword) {
             <strong>Password</strong>: #(password)
             <p><em>Note: Password was randomly generated. You will be asked to change your password at your first login.</em></p>
         }
