@@ -15,11 +15,12 @@ public class AdminProtectMiddleware: Middleware {
             }
             
         } catch {
-            
+            /*
             let credentials = UsernamePassword(username: "tech@nodes.dk", password: "admin")
             try request.auth.login(credentials)
-            
-            return Response(redirect: "/admin/login").flash(.error, "Session expired login again")
+            */
+            let unauthorizedPath = Configuration.shared?.unauthorizedPath ?? "/admin/login"
+            return Response(redirect: unauthorizedPath).flash(.error, "Session expired login again")
         }
         
         return try next.respond(to: request)
