@@ -21,13 +21,15 @@ public class Mailer {
         
         let from = EmailAddress(name: fromName, address: fromEmail)
         
+        let url = drop.config["app", "url"]?.string ?? "missing url"
+        
         // Generate HTML
         let html = try drop.view.make("Emails/welcome", [
             "name": Node(Configuration.shared?.name.string ?? "Project"),
             "backendUser": try backendUser.toBackendView(),
             "password": Node(password ?? ""),
             "randomPassword": password != nil ? true : false,
-            "url": "https://google.com"
+            "url": url
         ]).data.string()
         
         
