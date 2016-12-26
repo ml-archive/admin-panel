@@ -48,16 +48,28 @@ public final class BackendUsersController {
      */
     public func store(request: Request) throws -> ResponseRepresentable {
         do {
-            var backendUser = try BackendUser(request: request)
+            
+            // Random the password if no password is set
+            var password = String.randomAlphaNumericString(8)
+            var sendPassword = true
+            if let requestedPassword = request.data["password"]?.string {
+                if(requestedPassword != "") {
+                    password = requestedPassword
+                    sendPassword = false
+                }
+            }
+            
+            var backendUser = try BackendUser(request: request, password: password)
             try backendUser.save()
             
-            // TODO Send welcome mail
+            try Mailer.sendWelcomeMail(drop: drop, backendUser: backendUser, password: sendPassword ? password : nil)
             
             return Response(redirect: "/admin/backend_users").flash(.success, "User created")
         } catch let error as ValidationErrorProtocol {
             let message = "Validation error: \(error.message)"
             return Response(redirect: "/admin/backend_users/create").flash(.error, message)
         } catch {
+            print(error)
             return Response(redirect: "/admin/backend_users/create").flash(.error, "Failed to create user")
         }
     }

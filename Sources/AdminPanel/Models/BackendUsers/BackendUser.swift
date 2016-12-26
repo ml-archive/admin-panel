@@ -70,29 +70,20 @@ public final class BackendUser: Auth.User, Model {
         self.createdAt = DateInRegion()
     }
     
-    public init(request: Request) throws {
+    public init(request: Request, password: String) throws {
         name = try (request.data["name"]?.string ?? "").validated()
         email = try request.data["email"].validated()
         
-        // Random password if no password is set
-        if let passwordString: String = request.data["password"]?.string {
-            _ = try passwordString.validated(by: PasswordStrong())
-            
-            if(passwordString != "") {
-                throw Abort.badRequest
-            }
-            password = BCrypt.hash(password: passwordString)
-        } else {
-            password = BCrypt.hash(password: String.randomAlphaNumericString())
-        }
+        _ = try password.validated(by: PasswordStrong())
+        self.password = BCrypt.hash(password: password)
         
         role = request.data["role"]?.string ?? "user"
-        
         
         if let shouldResetPasswordTemp: String = request.data["should_reset_password"]?.string {
             shouldResetPassword = shouldResetPasswordTemp == "true"
         }
         
+        /*
         if let file: Multipart.File = request.multipart?["image"]?.file {
             do {
                 //image = try Storage.upload(bytes: file.data)
@@ -100,6 +91,7 @@ public final class BackendUser: Auth.User, Model {
                 print(error)
             }
         }
+         */
         
         self.updatedAt = DateInRegion()
         self.createdAt = DateInRegion()
