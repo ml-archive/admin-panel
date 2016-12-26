@@ -62,7 +62,10 @@ public final class BackendUsersController {
             var backendUser = try BackendUser(request: request, password: password)
             try backendUser.save()
             
-            try Mailer.sendWelcomeMail(drop: drop, backendUser: backendUser, password: randomPassword ? password : nil)
+            // Send welcome mail
+            if(request.data["send_mail"]?.string == "true") {
+                try Mailer.sendWelcomeMail(drop: drop, backendUser: backendUser, password: randomPassword ? password : nil)
+            }
             
             return Response(redirect: "/admin/backend_users").flash(.success, "User created")
         } catch let error as ValidationErrorProtocol {

@@ -95,8 +95,8 @@
                 <div class="form-group">
                     <label for="backendUserFormResetPwOnLogin">Reset password on next login</label>
                     <select name="should_reset_password" class="form-control" id="backendUserFormResetPwOnLogin">
-                        <option value="true">Yes</option>
-                        <option value="false" selected>No</option>
+                        <option value="true" selected>Yes</option>
+                        <option value="false">No</option>
                     </select>
                 </div>
                 <!--
