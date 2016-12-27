@@ -19,26 +19,10 @@ public final class BackendUserResetPasswordTokens: Model {
     
     public init(email: String) throws {
         self.email = try email.validated()
-        token = BackendUserResetPasswordTokens.randomAlphaNumericString(length: 64)
+        token = String.randomAlphaNumericString(64)
         expireAt = DateInRegion() + 1.hour
         createdAt = DateInRegion()
         updatedAt = DateInRegion()
-    }
-    
-    static func randomAlphaNumericString(length: Int) -> String {
-        
-        let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        let allowedCharsCount = UInt32(allowedChars.characters.count)
-        var randomString = ""
-        
-        for _ in 0..<length {
-            let randomNum = Int(arc4random_uniform(allowedCharsCount))
-            let randomIndex = allowedChars.index(allowedChars.startIndex, offsetBy: randomNum)
-            let newCharacter = allowedChars[randomIndex]
-            randomString += String(newCharacter)
-        }
-        
-        return randomString
     }
     
     public init(node: Node, in context: Context) throws {
