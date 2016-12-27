@@ -5,6 +5,13 @@
 
 ![image](https://cloud.githubusercontent.com/assets/1279756/21502899/83ff79dc-cc53-11e6-8222-40bfa773d361.png)
 
+### Features
+ - Admin user system with roles
+ - Welcome mails
+ - Reset password
+ - Dashboard with easy graphs
+ - SSO logins
+
 #Installation
 Update your `Package.swift` file.
 ```swift
