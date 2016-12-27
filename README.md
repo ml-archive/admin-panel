@@ -58,7 +58,8 @@ https://github.com/nodes-vapor/storage
 
 #### Setup
 
-- Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/gulp` to the root of your project 
+- Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/gulp` to the root of your project
+- Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/Resources/Assets` to the `Resources` folder in your project
 - Run `npm install` > `bower install` > `gulp build`
 
 #### Theming

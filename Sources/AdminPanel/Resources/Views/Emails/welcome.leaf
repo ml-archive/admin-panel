@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <title>Invitation to #(name) admin panel</title>
+    </head>
+    
+    <body>
+        <h4><strong>Hello</strong> #(backendUser.name),</h4>
+        <p>You have been invited to join #(name) admin panel.</p>
+        <p>The backend can be accessed here:<br><a href="#(url)">#(url)</a></p>
+        <p>
+        You can login with following credentials:<br>
+        <br>
+        <strong>E-mail</strong>: #(backendUser.email)
+        <br>
+        
+        #if(randomPassword) {
+            <strong>Password</strong>: #(password)
+            <p><em>Note: Password was randomly generated. You will be asked to change your password at your first login.</em></p>
+        }
+        
+        <p><strong>Best regards</strong><br>#(name)</p>
+    </body>
+</html>
+
+
+

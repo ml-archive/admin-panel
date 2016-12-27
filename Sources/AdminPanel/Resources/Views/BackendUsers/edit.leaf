@@ -90,13 +90,13 @@
                     <label for="backendUserFormRepeatPassword">Repeat password</label>
                     <input type="password" id="backendUserFormRepeatPassword" class="form-control" name="passwordRepeat" minlength="8"/>
                 </div>
-               
+
                <!-- FIX Preselected & Make checkbox -->
                 <div class="form-group">
                     <label for="backendUserFormResetPwOnLogin">Reset password on next login</label>
                     <select name="should_reset_password" class="form-control" id="backendUserFormResetPwOnLogin">
-                        <option value="true">Yes</option>
-                        <option value="false" selected>No</option>
+                        <option value="true" selected>Yes</option>
+                        <option value="false">No</option>
                     </select>
                 </div>
                 <!--
