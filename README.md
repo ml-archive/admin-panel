@@ -60,6 +60,7 @@ https://github.com/nodes-vapor/storage
 
 - Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/gulp` to the root of your project
 - Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/Resources/Assets` to the `Resources` folder in your project
+- Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/Public/favicon.ico` and the `favicon` folder to the `Public` folder in your project
 - Run `npm install` > `bower install` > `gulp build`
 
 #### Theming
