@@ -6,20 +6,21 @@ public class Mailer {
     public static func sendWelcomeMail(drop: Droplet, backendUser: BackendUser, password: String?) throws {
         guard let smtpUser = drop.config["mail", "user"]?.string,
             let smtpPassword = drop.config["mail", "password"]?.string,
-            let fromName = drop.config["mail", "fromName"]?.string,
             let fromEmail = drop.config["mail", "fromEmail"]?.string,
             let smtpHost = drop.config["mail", "smtpHost"]?.string,
-            let smtpPort = drop.config["mail", "smtpPort"]?.int
+            let smtpPort = drop.config["mail", "smtpPort"]?.int,
+            let name = Configuration.shared?.name.string
         else {
                 return
         }
+        
         
         let credentials = SMTPCredentials(
             user: smtpUser,
             pass: smtpPassword
         )
         
-        let from = EmailAddress(name: fromName, address: fromEmail)
+        let from = EmailAddress(name: name, address: fromEmail)
         
         let url = drop.config["app", "url"]?.string ?? "missing url"
         
