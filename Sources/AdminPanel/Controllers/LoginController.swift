@@ -49,7 +49,9 @@ public final class LoginController {
     }
     
     public func form(request: Request) throws -> ResponseRepresentable {
-        return try drop.view.make("Login/login", for: request)
+        return try drop.view.make("Login/login", [
+            "next": request.query?["next"]?.node ?? nil
+            ], for: request)
     }
     
     public func submit(request: Request) throws -> ResponseRepresentable {
@@ -60,11 +62,19 @@ public final class LoginController {
         let credentials = UsernamePassword(username: username, password: password)
     
         do {
+            
             try request.auth.login(credentials)
             
-            // Todo deal with remember me
+            var redirect = "/admin/dashboard"
+            if let next: String = request.query?["next"]?.string{
+                if(next != "") {
+                    redirect = next
+                }
+            }
+            
+            // Todo deal with remember me            
         
-            return Response(redirect: "/admin/dashboard").flash(.success, "Logged in as \(credentials.username)")
+            return Response(redirect: redirect).flash(.success, "Logged in as \(credentials.username)")
         } catch {
             return Response(redirect: "/admin/login").flash(.error, "Failed to login")
         }
