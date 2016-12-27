@@ -85,24 +85,24 @@ public final class LoginController {
      * - return: Response
      */
     public func submit(request: Request) throws -> ResponseRepresentable {
-        // Get our credentials
+        
+        // Guard credentials
         guard let username = request.data["email"]?.string, let password = request.data["password"]?.string else {
             throw Abort.custom(status: Status.badRequest, message: "Missing username or password")
         }
-        let credentials = UsernamePassword(username: username, password: password)
-    
+        
         do {
+            try request.auth.login(UsernamePassword(username: username, password: password))
             
-            try request.auth.login(credentials)
-            
+            // Generate redirect path
             var redirect = "/admin/dashboard"
             if let next: String = request.query?["next"]?.string, !next.isEmpty {
                 redirect = next
             }
             
-            // Todo deal with remember me            
+            // TODO, "remember me"            
         
-            return Response(redirect: redirect).flash(.success, "Logged in as \(credentials.username)")
+            return Response(redirect: redirect).flash(.success, "Logged in as \(username)")
         } catch {
             return Response(redirect: "/admin/login").flash(.error, "Failed to login")
         }
