@@ -49,12 +49,9 @@ public final class LoginController {
      * - return: View
      */
     public func resetPasswordSubmit(request: Request) throws -> ResponseRepresentable {
-        guard let email = request.data["email"]?.string else {
-            throw Abort.custom(status: Status.badRequest, message: "Missing email")
-        }
-        
-        guard let user: BackendUser = try BackendUser.query().filter("email", email).first() else {
-            throw Abort.custom(status: Status.badRequest, message: "Email doesn ot exist")
+        guard let email = request.data["email"]?.string, let user: BackendUser = try BackendUser.query().filter("email", email).first() else {
+            return Response(redirect: "/admin/login/reset").flash(.error, "Email was not found")
+            //return Response(redirect: "/admin/login").flash(.success, "E-mail with instructions sent")
         }
         
         // Consider expiring old tokes for this user
@@ -63,7 +60,7 @@ public final class LoginController {
         var token = try BackendUserResetPasswordTokens(email: user.email.value)
         try token.save()
         
-        return Response(redirect: "/admin/login").flash(.success, "Message sent")
+        return Response(redirect: "/admin/login").flash(.success, "E-mail with instructions sent")
     }
     
     /**
@@ -100,7 +97,7 @@ public final class LoginController {
                 redirect = next
             }
             
-            // TODO, "remember me"            
+            // TODO, "remember me"
         
             return Response(redirect: redirect).flash(.success, "Logged in as \(username)")
         } catch {
