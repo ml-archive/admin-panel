@@ -84,6 +84,10 @@ public final class BackendUserResetPasswordTokens: Model {
         ])
     }
     
+    public func canBeUsed() -> Bool {
+        return true
+    }
+    
     public static func prepare(_ database: Database) throws {
         try database.create("backend_reset_password_tokens") { table in
             table.id()

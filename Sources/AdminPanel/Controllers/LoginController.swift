@@ -5,6 +5,7 @@ import HTTP
 import Turnstile
 import TurnstileCrypto
 import TurnstileWeb
+import SwiftDate
 
 public final class LoginController {
     
@@ -46,7 +47,7 @@ public final class LoginController {
      * Reset password submit
      *
      * - param: Request
-     * - return: View
+     * - return: Response
      */
     public func resetPasswordSubmit(request: Request) throws -> ResponseRepresentable {
         guard let email = request.data["email"]?.string, let backendUser: BackendUser = try BackendUser.query().filter("email", email).first() else {
@@ -71,6 +72,72 @@ public final class LoginController {
         } catch {
             return Response(redirect: "/admin/login/reset").flash(.error, "Error occurred")
         }
+    }
+    
+    /**
+     * Reset password form
+     *
+     * - param: Request
+     * - return: ResponseRepresentable
+     */
+    public func resetPasswordTokenForm(request: Request) throws -> ResponseRepresentable {
+        guard let tokenStr = request.parameters["token"]?.string else {
+            throw Abort.custom(status: .badRequest, message: "Missing token")
+        }
+        
+        guard let token = try BackendUserResetPasswordTokens.query().filter("token", tokenStr).first() else {
+            throw Abort.custom(status: .badRequest, message: "Token does not exist")
+        }
+        
+        if(!token.canBeUsed()) {
+            throw Abort.custom(status: .badRequest, message: "Token does not exist")
+        }
+        
+        
+        return try drop.view.make("ResetPassword/form", [
+            "token": token
+        ], for: request)
+    }
+    
+    public func resetPasswordTokenSubmit(request: Request) throws -> ResponseRepresentable {
+        guard let tokenStr = request.data["token"]?.string, let email = request.data["email"]?.string,
+            let password = request.data["password"]?.string, let passwordRepeat = request.data["password_repeat"]?.string else {
+                throw Abort.badRequest
+        }
+        
+        guard var token = try BackendUserResetPasswordTokens.query().filter("token", tokenStr).first() else {
+            throw Abort.custom(status: .badRequest, message: "Token does not exist")
+        }
+        
+        if !token.canBeUsed() {
+            throw Abort.custom(status: .badRequest, message: "Token does not exist")
+        }
+        
+        if token.email.value != email {
+            throw Abort.custom(status: .badRequest, message: "Token does not match email")
+        }
+        
+        if(password != passwordRepeat) {
+            return Response(redirect: "admin/login/reset" + tokenStr).flash(.error, "Passwords did not match")
+        }
+        
+        if !password.passes(PasswordStrong()) {
+            return Response(redirect: "admin/login/reset" + tokenStr).flash(.error, "Passwords did not match requirement")
+        }
+        
+        guard var backendUser = try BackendUser.query().filter("email", email).first() else {
+            throw Abort.custom(status: .badRequest, message: "User was not found")
+        }
+        
+        // Set usedAt & save
+        token.usedAt = DateInRegion()
+        try token.save()
+        
+        // Set new password & save
+        try backendUser.setPassword(password)
+        try backendUser.save()
+        
+        return Response(redirect: "/admin/login").flash(.success, "Password is reset")
     }
     
     /**

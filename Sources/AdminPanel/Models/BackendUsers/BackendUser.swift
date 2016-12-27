@@ -97,6 +97,10 @@ public final class BackendUser: Auth.User, Model {
         self.createdAt = DateInRegion()
     }
     
+    public func setPassword(_ password: String) throws {
+        self.password = BCrypt.hash(password: password)
+    }
+    
     public func toBackendView() throws -> Node {
         return try Node(node: [
             "id": id,
