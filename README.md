@@ -32,7 +32,17 @@ Create config adminpanel.json
     "resetPasswordViewPath": "Emails/reset-password"
 }
 
+```
 
+Create config mail.json
+```
+{
+    "smtpHost": "smtp.mailgun.org",
+    "smtpPort": "465",
+    "user": "",
+    "password": "",
+    "fromEmail": ""
+}
 ```
 
 ### main.swift
