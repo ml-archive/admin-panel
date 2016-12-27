@@ -63,7 +63,7 @@
                 </div>
             </div>
             <div class="page-content">
-                <div class="container-fluid">
+                <div class="container-fluid container-no-gutter">
                     #import("content")
                 </div>
             </div>

@@ -25,11 +25,11 @@
 
 #export("content") {
 
-    #if(backendUser) {
+#if(backendUser) {
     <form method="post" action="/admin/backend_users/edit/#(backendUser.id)" enctype="multipart/form-data">
-    } ##else() {
+} ##else() {
     <form method="post" action="/admin/backend_users/create" enctype="multipart/form-data">
-    }
+}
     <div class="row">
         <div class="col-xs-12 col-md-6">
             <h4 class="margin-top">User details</h4>
@@ -59,9 +59,9 @@
                             }
                         }
                     </select>
-                    
+
                 </div>
-                
+
                 <!-- FIX IF & Make checkbox -->
                 #if(backendUser) {
                 } ##else() {
@@ -73,7 +73,7 @@
                     </select>
                 </div>
                 }
-                
+
             </div>
             <br/>
             <h4 class="margin-top">
@@ -85,7 +85,7 @@
                     <label for="backendUserFormPassword">Password</label>
                     <input type="password" id="backendUserFormPassword" class="form-control" name="password" minlength="8"/>
                 </div>
-            
+
                 <div class="form-group">
                     <label for="backendUserFormRepeatPassword">Repeat password</label>
                     <input type="password" id="backendUserFormRepeatPassword" class="form-control" name="passwordRepeat" minlength="8"/>

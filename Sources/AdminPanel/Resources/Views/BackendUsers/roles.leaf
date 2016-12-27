@@ -22,9 +22,8 @@
 }
 
 #export("content") {
-<div class="row">
+<div class="row no-gutter">
     <div class="col-xs-12">
-        <br>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -53,7 +52,7 @@
                             <span class="fa fa-heart"></span>
                             <span class="sr-only">Set as default</span>
                         </a>
-                        <a href="/admin/backend_users/roles/delete/#(role.id)" class="btn btn-sm btn-danger" data-tooltip="true" title="Delete user">
+                        <a href="/admin/backend_users/roles/delete/#(role.id)" class="btn btn-sm btn-danger" data-tooltip="true" title="Delete user" data-delete="true" data-token="no-token">
                             <span class="fa fa-times"></span>
                             <span class="sr-only">Delete user</span>
                         </a>
