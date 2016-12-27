@@ -11,7 +11,7 @@ public struct Configuration {
         case unauthorizedPath           = "adminpanel.unauthorizedPath"
         case loadRoutes                 = "adminpanel.loadRoutes"
         case profileImageFallbackUrl    = "adminpanel.profileImageFallbackUrl"
-        case loginSuccessPath           = "loginSuccessPath"
+        case loginSuccessPath           = "adminpanel.loginSuccessPath"
         
         var path: [String] {
             return rawValue.components(separatedBy: ".")
