@@ -6,6 +6,8 @@ public class PasswordStrong: ValidationSuite {
         
         let evaluation = OnlyAlphanumeric.self
             && Count.min(8)
+            && HasNumeric.self
+            && HasCapatilzedLetter.self
         
         // TOOD add has numeric
         /// TODO has one big letter
