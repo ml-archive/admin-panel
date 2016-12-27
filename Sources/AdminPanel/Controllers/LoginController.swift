@@ -49,18 +49,28 @@ public final class LoginController {
      * - return: View
      */
     public func resetPasswordSubmit(request: Request) throws -> ResponseRepresentable {
-        guard let email = request.data["email"]?.string, let user: BackendUser = try BackendUser.query().filter("email", email).first() else {
+        guard let email = request.data["email"]?.string, let backendUser: BackendUser = try BackendUser.query().filter("email", email).first() else {
             return Response(redirect: "/admin/login/reset").flash(.error, "Email was not found")
             //return Response(redirect: "/admin/login").flash(.success, "E-mail with instructions sent")
         }
         
-        // Consider expiring old tokes for this user
-        
-        // Make a token
-        var token = try BackendUserResetPasswordTokens(email: user.email.value)
-        try token.save()
-        
-        return Response(redirect: "/admin/login").flash(.success, "E-mail with instructions sent")
+        do {
+            // TODO, when a direct delete func is added to fluent, change this for performance increase
+            for token in try BackendUserResetPasswordTokens.query().filter("email", email).all() {
+                try token.delete()
+            }
+            
+            // Make a token
+            var token = try BackendUserResetPasswordTokens(email: email)
+            try token.save()
+            
+            // Send mail
+            try Mailer.sendResetPasswordMail(drop: drop, backendUser: backendUser, token: token)
+            
+            return Response(redirect: "/admin/login").flash(.success, "E-mail with instructions sent")
+        } catch {
+            return Response(redirect: "/admin/login/reset").flash(.error, "Error occurred")
+        }
     }
     
     /**
