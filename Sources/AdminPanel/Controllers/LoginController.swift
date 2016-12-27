@@ -75,7 +75,7 @@ public final class LoginController {
     }
     
     /**
-     * Reset password form
+     * Reset password token form
      *
      * - param: Request
      * - return: ResponseRepresentable
@@ -99,6 +99,12 @@ public final class LoginController {
         ], for: request)
     }
     
+    /**
+     * Reset password token submit
+     *
+     * - param: Request
+     * - return: ResponseRepresentable
+     */
     public func resetPasswordTokenSubmit(request: Request) throws -> ResponseRepresentable {
         guard let tokenStr = request.data["token"]?.string, let email = request.data["email"]?.string,
             let password = request.data["password"]?.string, let passwordRepeat = request.data["password_repeat"]?.string else {

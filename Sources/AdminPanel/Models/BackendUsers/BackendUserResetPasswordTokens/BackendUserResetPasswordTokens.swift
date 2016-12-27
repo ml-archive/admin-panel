@@ -85,6 +85,14 @@ public final class BackendUserResetPasswordTokens: Model {
     }
     
     public func canBeUsed() -> Bool {
+        if usedAt != nil {
+            return false
+        }
+        
+        if expireAt.isInPast {
+            return false
+        }
+        
         return true
     }
     
