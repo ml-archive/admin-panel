@@ -45,8 +45,8 @@ public final class BackendUserRole: Model {
             "title": title.value,
             "slug": slug.value,
             "is_default": isDefault,
-            "created_at": createdAt.string(custom: "yyyy-MM-dd HH:mm:ss"),
-            "updated_at": updatedAt.string(custom: "yyyy-MM-dd HH:mm:ss")
+            "created_at": try createdAt.toDateTimeString(),
+            "updated_at": try updatedAt.toDateTimeString()
         ])
     }
     

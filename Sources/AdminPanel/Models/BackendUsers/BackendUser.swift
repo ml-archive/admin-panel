@@ -102,8 +102,8 @@ public final class BackendUser: Auth.User, Model {
             "should_reset_password": shouldResetPassword,
             "image": image,
             "imageUrl": imageUrl,
-            "created_at": createdAt.string(custom: "yyyy-MM-dd HH:mm:ss"),
-            "updated_at": updatedAt.string(custom: "yyyy-MM-dd HH:mm:ss")
+            "created_at": try createdAt.toDateTimeString(),
+            "updated_at": try updatedAt.toDateTimeString()
             ])
     }
     
@@ -116,8 +116,8 @@ public final class BackendUser: Auth.User, Model {
             "role": role,
             "should_reset_password": shouldResetPassword,
             "image": image,
-            "created_at": createdAt.string(custom: "yyyy-MM-dd HH:mm:ss"),
-            "updated_at": updatedAt.string(custom: "yyyy-MM-dd HH:mm:ss")
+            "created_at": try createdAt.toDateTimeString(),
+            "updated_at": try updatedAt.toDateTimeString()
         ])
     }
     
