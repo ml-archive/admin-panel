@@ -48,4 +48,12 @@ extension Date {
     public func toDateTimeString() throws -> String {
         return try self.to("yyyy-MM-dd HH:mm:ss")
     }
+    
+    public func isPast() -> Bool {
+        return self.compare(Date()).rawValue < 0
+    }
+    
+    public func isFuture() -> Bool {
+        return self.compare(Date()).rawValue > 0
+    }
 }

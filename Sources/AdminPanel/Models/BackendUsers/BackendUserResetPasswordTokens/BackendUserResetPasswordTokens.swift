@@ -56,7 +56,7 @@ public final class BackendUserResetPasswordTokens: Model {
             return false
         }
         
-        if expireAt.compare(Date()).rawValue < 0 {
+        if expireAt.isPast() {
             return false
         }
         
