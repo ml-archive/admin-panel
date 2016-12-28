@@ -136,7 +136,7 @@ public final class LoginController {
         }
         
         // Set usedAt & save
-        token.usedAt = DateInRegion()
+        token.usedAt = Date()
         try token.save()
         
         // Set new password & save

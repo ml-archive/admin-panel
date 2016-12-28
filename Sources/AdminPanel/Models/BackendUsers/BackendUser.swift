@@ -4,7 +4,6 @@ import Foundation
 import HTTP
 import Turnstile
 import TurnstileCrypto
-import SwiftDate
 import Auth
 //import Storage
 
@@ -19,8 +18,8 @@ public final class BackendUser: Auth.User, Model {
     public var password: String
     public var role: String // TODO check
     public var image: String?
-    public var createdAt: DateInRegion
-    public var updatedAt: DateInRegion
+    public var createdAt: Date
+    public var updatedAt: Date
     public var shouldResetPassword: Bool = false
     
     public var imageUrl: String {
@@ -48,17 +47,9 @@ public final class BackendUser: Auth.User, Model {
         
         shouldResetPassword = try node.extract("should_reset_password") ?? false
         
-        do {
-            createdAt = try DateInRegion(string: node.extract("created_at"), format: .custom("yyyy-MM-dd HH:mm:ss"))
-        } catch {
-            createdAt = DateInRegion()
-        }
         
-        do {
-            updatedAt = try DateInRegion(string: node.extract("updated_at"), format: .custom("yyyy-MM-dd HH:mm:ss"))
-        } catch {
-            updatedAt = DateInRegion()
-        }
+        createdAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("created_at"))
+        updatedAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("updated_at"))
     }
     
     public init(credentials: UsernamePassword) throws {
@@ -66,8 +57,8 @@ public final class BackendUser: Auth.User, Model {
         self.email = try credentials.username.validated()
         self.password = BCrypt.hash(password: credentials.password)
         self.role = ""
-        self.updatedAt = DateInRegion()
-        self.createdAt = DateInRegion()
+        self.updatedAt = Date()
+        self.createdAt = Date()
     }
     
     public init(request: Request, password: String) throws {
@@ -93,8 +84,8 @@ public final class BackendUser: Auth.User, Model {
         }
          */
         
-        self.updatedAt = DateInRegion()
-        self.createdAt = DateInRegion()
+        self.updatedAt = Date()
+        self.createdAt = Date()
     }
     
     public func setPassword(_ password: String) throws {
