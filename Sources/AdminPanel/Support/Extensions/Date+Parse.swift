@@ -13,7 +13,7 @@ extension Date {
         return dateFormatter.date(from: date) ?? Date()
     }
     
-    public func parse(_ date: String) -> Date {
+    public static func parse(_ date: String) -> Date {
         return Date.parse("yyyy-MM-dd HH:mm:ss", date)
     }
     
@@ -34,7 +34,18 @@ extension Date {
         return newDateUnw
     }
    
-    public func parseOrThrow(_ date: String?) throws -> Date {
+    public static func parseOrThrow(_ date: String?) throws -> Date {
         return try Date.parseOrThrow("yyyy-MM-dd HH:mm:ss", date)
+    }
+    
+    public func to(_ format: String) throws -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        
+        return dateFormatter.string(from: self)
+    }
+    
+    public func toDateTimeString() throws -> String {
+        return try self.to("yyyy-MM-dd HH:mm:ss")
     }
 }

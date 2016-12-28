@@ -44,10 +44,10 @@ public final class BackendUserResetPasswordTokens: Model {
             "id": id,
             "email": email.value,
             "token": token,
-            "used_at": usedAt?.string(custom: "yyyy-MM-dd HH:mm:ss") ?? nil,
-            "expire_at": expireAt.string(custom: "yyyy-MM-dd HH:mm:ss"),
-            "created_at": createdAt.string(custom: "yyyy-MM-dd HH:mm:ss"),
-            "updated_at": updatedAt.string(custom: "yyyy-MM-dd HH:mm:ss")
+            "used_at": try usedAt?.toDateTimeString() ?? nil,
+            "expire_at": try expireAt.toDateTimeString(),
+            "created_at": try createdAt.toDateTimeString(),
+            "updated_at": try updatedAt.toDateTimeString()
         ])
     }
     
@@ -56,7 +56,7 @@ public final class BackendUserResetPasswordTokens: Model {
             return false
         }
         
-        if expireAt.isInPast {
+        if expireAt > Date() {
             return false
         }
         
