@@ -25,6 +25,23 @@
 
 #export("content") {
 
+<div class="margin">
+    #form:textgroup("name", backendUser.name, fieldset)
+</div>
+
+
+<div class="margin">
+    <div class="form-group #ifFieldHasErrors(fieldset, "name") { has-error }">
+        <label class="control-label" for="name">#labelForField(fieldset, "name")</label>
+        <input type="text" class="form-control" id="name" value="#valueForField(fieldset, "name")"/>
+        #ifFieldHasErrors(fieldset, "name") {
+            #loopErrorsForField(fieldset, "name", "message") {
+                <span class="help-block">#(message)</span>
+            }
+        }
+    </div>
+</div>
+
 #if(backendUser) {
     <form method="post" action="/admin/backend_users/edit/#(backendUser.id)" enctype="multipart/form-data">
 } ##else() {
@@ -37,7 +54,7 @@
             <div class="margin-vertical-sm">
                 <div class="form-group">
                     <label for="backendUserFormName">Name</label>
-                    <input type="text" id="backendUserFormName" class="form-control" name="name" value="#if(backendUser) { #(backendUser.name) }" required/>
+                    <input type="text" id="backendUserFormName" class="form-control" name="name" value="#if(backendUser) { #(backendUser.name) }"/>
                 </div>
                 <div class="form-group">
                     <label for="backendUserFormEmail">E-mail</label>

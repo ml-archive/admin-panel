@@ -1,4 +1,5 @@
 import Vapor
+import VaporForms
 import HTTP
 
 public final class BackendUsersController {
@@ -35,8 +36,16 @@ public final class BackendUsersController {
      * - return: View
      */
     public func create(request: Request) throws -> ResponseRepresentable {
+        
+        let fieldset = Fieldset([
+            "name": StringField(
+                label: "Name"
+            )
+        ], requiring: ["name"])
+        
         return try drop.view.make("BackendUsers/edit", [
-            "roles": BackendUserRole.all().makeNode()
+            "roles": BackendUserRole.all().makeNode(),
+            "fieldset": fieldset
         ], for: request)
     }
     
@@ -49,6 +58,12 @@ public final class BackendUsersController {
     public func store(request: Request) throws -> ResponseRepresentable {
         do {
             
+            var fieldset = Fieldset([
+                "name": StringField(
+                    label: "Name"
+                )
+                ], requiring: ["name"])
+            
             // Random the password if no password is set
             var password = String.randomAlphaNumericString(8)
             var randomPassword = true
@@ -59,15 +74,25 @@ public final class BackendUsersController {
                 }
             }
             
-            var backendUser = try BackendUser(request: request, password: password)
-            try backendUser.save()
-            
-            // Send welcome mail
-            if(request.data["send_mail"]?.string == "true") {
-                try Mailer.sendWelcomeMail(drop: drop, backendUser: backendUser, password: randomPassword ? password : nil)
+            switch fieldset.validate(request.data) {
+            case .success:
+                var backendUser = try BackendUser(request: request, password: password)
+                try backendUser.save()
+                return Response(redirect: "/admin/backend_users").flash(.success, "User created")
+            case .failure:
+                return try drop.view.make("BackendUsers/edit", [
+                    "roles": BackendUserRole.all().makeNode(),
+                    "fieldset": fieldset
+                    ], for: request)
             }
             
-            return Response(redirect: "/admin/backend_users").flash(.success, "User created")
+            
+            // Send welcome mail
+            //if(request.data["send_mail"]?.string == "true") {
+            //    try Mailer.sendWelcomeMail(drop: drop, backendUser: backendUser, password: randomPassword ? password : nil)
+            //}
+            
+            
         } catch let error as ValidationErrorProtocol {
             let message = "Validation error: \(error.message)"
             return Response(redirect: "/admin/backend_users/create").flash(.error, message)
