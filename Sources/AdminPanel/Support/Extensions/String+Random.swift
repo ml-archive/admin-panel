@@ -4,15 +4,11 @@ extension String {
     public static func randomAlphaNumericString(_ length: Int = 64) -> String {
         let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         let len = UInt32(letters.length)
-        let max = len - 1
-        var randomString = ""
         
+        var randomString = ""
         for _ in 0 ..< length {
-            #if os(Linux)
-                let rand = Int(random() % (max + 1))
-            #else
-                let rand = Int(arc4random_uniform(UInt32(max)))
-            #endif
+            let rand = Int.random(min: 0, max: Int(len - 1))
+            
             
             var nextChar = letters.character(at: Int(rand))
             randomString += NSString(characters: &nextChar, length: 1) as String
