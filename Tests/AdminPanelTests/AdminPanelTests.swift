@@ -6,7 +6,6 @@ class AdminPanelTests: XCTestCase {
     func testRandomString() {
         let length = 10
         let randomString = String.randomAlphaNumericString(length)
-        
         XCTAssertEqual(randomString.characters.count, length)
     }
 
