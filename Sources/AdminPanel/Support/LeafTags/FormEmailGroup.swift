@@ -4,18 +4,14 @@ import Node
 import Vapor
 import VaporForms
 
-public enum Error: Swift.Error {
-    case parse
-}
-
-public class FormTextGroup: BasicTag {
+public class FormEmailGroup: BasicTag {
     public init(){}
-    public let name = "form:textgroup"
+    public let name = "form:emailgroup"
     
     public func run(arguments: [Argument]) throws -> Node? {
         
         /*
-         #form:textgroup(key, value, fieldset)
+         #form:emailgroup(key, value, fieldset)
          
          Arguments:
          [0] = The name of the input (the key that gets posted) *
@@ -28,37 +24,38 @@ public class FormTextGroup: BasicTag {
          The <label> will get its value from the Fieldset
          
          If the Fieldset has the "errors" property the form-group will get the has-error css class and all errors will be added as help-block's to the form-group
-       
+         
          given input:
-            
+         
          let fieldset = Fieldset([
-            "name": StringField(
-                label: "Name"
+            "email": StringField(
+                label: "E-mail",
+                String.EmailValidator()
             )
-         ], requiring: ["name"])
-            
-         #form:textgroup("name", "John Doe", fieldset)
+         ], requiring: ["email"])
+         
+         #form:emailgroup("email", "john@doe.net", fieldset)
          
          expected output if fieldset is valid:
          <div class="form-group">
-            <label class="control-label" for="name">Name</label>
-            <input class="form-control" type="text" id="name" name="name" value="John Doe" />
+            <label class="control-label" for="name">E-mail</label>
+            <input class="form-control" type="email" id="email" name="email" value="john@doe.net" />
          </div>
          
          expected output if fieldset is invalid:
          <div class="form-group has-error">
-            <label class="control-label" for="name">Name</label>
-            <input class="form-control" type="text" id="name" name="name" value="John Doe" />
-            <span class="help-block">...validation message</span>
+            <label class="control-label" for="name">E-mail</label>
+            <input class="form-control" type="email" id="email" name="email" value="john@doe.net" />
+            <span class="help-block">...validation message N</span>
          </div>
-        */
+         */
         
-
+        
         guard arguments.count == 3,
             let inputName: String = arguments[0].value?.string,
             let fieldsetNode = arguments[2].value?.nodeObject
-        else {
-            throw Error.parse
+            else {
+                throw Error.parse
         }
         
         let inputValue = arguments[1].value?.string ?? ""
@@ -72,13 +69,13 @@ public class FormTextGroup: BasicTag {
         
         // Start constructing the template
         var template = [String]()
-
+        
         template.append("<div class='form-group \(errors != nil ? "has-error" : "")'>")
         
         template.append("<label class='control-label' for='\(inputName)'>\(label)</label>")
         
-        template.append("<input class='form-control' type='text' id='\(inputName)' name='\(inputName)' value='\(inputValue)' />")
-      
+        template.append("<input class='form-control' type='email' id='\(inputName)' name='\(inputName)' value='\(inputValue)' />")
+        
         // If Fieldset has errors then loop through them and add help-blocks
         if(errors != nil) {
             for e in errors! {
