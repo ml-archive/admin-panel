@@ -13,6 +13,9 @@ public class ConfigPublishMiddleware: Middleware {
         
         request.storage["adminPanel"] = config.makeNode()
         
+        request.storage["_fieldset"] = try request.session().data["_fieldset"]
+        try request.session().data["_fieldset"] = nil
+        
         return try next.respond(to: request)
     }
 }

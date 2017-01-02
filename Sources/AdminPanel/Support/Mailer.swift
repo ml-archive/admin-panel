@@ -34,7 +34,7 @@ public class Mailer {
         
         
         let email: SMTP.Email = Email(from: from,
-                                      to: backendUser.email.value,
+                                      to: backendUser.email,
                                       subject: "Welcome to Admin Panel",
                                       body: EmailBody(type: .html, content: html))
         
@@ -75,7 +75,7 @@ public class Mailer {
         
         
         let email: SMTP.Email = Email(from: from,
-                                      to: backendUser.email.value,
+                                      to: backendUser.email,
                                       subject: "Reset password",
                                       body: EmailBody(type: .html, content: html))
         

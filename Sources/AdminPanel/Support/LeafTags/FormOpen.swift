@@ -27,7 +27,7 @@ public class FormOpen: BasicTag {
             let url: String = arguments[0].value?.string,
             let method: String = arguments[1].value?.string
             else {
-                throw Error.parse
+                throw Abort.serverError
         }
         
         let isFileupload = arguments[2].value?.bool ?? false

@@ -94,32 +94,9 @@
                         <option value="false">No</option>
                     </select>
                 </div>
-                <!--
-                <div class="form-group">
-                    <input name="should_reset_password" value="false" type="hidden">
-                    <label>
-                        <input type="checkbox" id="backendUserFormResetPwOnLogin" name="should_reset_password">
-                        Reset password on next login
-                    </label>
-                </div>
-                 -->
             </div>
         </div>
-        <!--
-        <div class="col-xs-12 col-md-6">
-            <h4 class="margin-top">Image</h4>
-            <hr>
-            <div class="margin-vertical-sm">
-                <div class="form-group">
-                    <label for="backendUserImage">Upload image</label>
-                    <input type="file" id="backendUserImage" class="form-control" name="image"/>
-                </div>
-                <div class="form-group">
-                    <img class="img-thumbnail" src="http://dummyimage.com/250x250" alt=""/>
-                </div>
-            </div>
-        </div>
-         -->
+        
     </div>
     <div class="row">
         <div class="col-xs-12">

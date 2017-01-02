@@ -56,7 +56,7 @@ public class FormNumberGroup: BasicTag {
             let inputName: String = arguments[0].value?.string,
             let fieldsetNode = arguments[2].value?.nodeObject
             else {
-                throw Error.parse
+                throw Abort.serverError
         }
         
         var inputValue:Any

@@ -4,10 +4,6 @@ import Node
 import Vapor
 import VaporForms
 
-public enum Error: Swift.Error {
-    case parse
-}
-
 public class FormTextGroup: BasicTag {
     public init(){}
     public let name = "form:textgroup"
@@ -58,10 +54,10 @@ public class FormTextGroup: BasicTag {
             let inputName: String = arguments[0].value?.string,
             let fieldsetNode = arguments[2].value?.nodeObject
         else {
-            throw Error.parse
+            throw Abort.custom(status: .internalServerError, message: "FormTextGroup parse error, expecting: #form:textgroup(\"name\", \"default\", fieldset)")
         }
         
-        
+        print(fieldsetNode["requiring"])
         
         let fieldset = fieldsetNode[inputName]
         

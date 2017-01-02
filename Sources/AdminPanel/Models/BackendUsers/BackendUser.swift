@@ -5,7 +5,6 @@ import HTTP
 import Turnstile
 import TurnstileCrypto
 import Auth
-//import Storage
 
 public final class BackendUser: Auth.User, Model {
     
@@ -13,10 +12,10 @@ public final class BackendUser: Auth.User, Model {
     public static var entity = "backend_users"
     
     public var id: Node?
-    public var name: Valid<NotEmpty>
-    public var email: Valid<Email>
+    public var name: String
+    public var email: String
     public var password: String
-    public var role: String // TODO check
+    public var role: String
     public var image: String?
     public var createdAt: Date
     public var updatedAt: Date
@@ -35,18 +34,13 @@ public final class BackendUser: Auth.User, Model {
     public init(node: Node, in context: Context) throws {
         id = try node.extract("id")
         
-        let nameTemp: String = try node.extract("name")
-        name = try nameTemp.validated()
-        
-        let emailTemp: String = try node.extract("email")
-        email = try emailTemp.validated()
-        
+        name = try node.extract("name")
+        email = try node.extract("email")
         password = try node.extract("password")
-        
         role = try node.extract("role")
-        
         shouldResetPassword = try node.extract("should_reset_password") ?? false
         
+        // TODO timestamps
         do {
             createdAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("created_at"))
         } catch {
@@ -61,27 +55,26 @@ public final class BackendUser: Auth.User, Model {
     }
     
     public init(credentials: UsernamePassword) throws {
-        self.name = try "N/A".validated()
-        self.email = try credentials.username.validated()
+        self.name = ""
+        self.email = credentials.username
         self.password = BCrypt.hash(password: credentials.password)
         self.role = ""
         self.updatedAt = Date()
         self.createdAt = Date()
     }
     
-    public init(request: Request, password: String) throws {
-        name = try (request.data["name"]?.string ?? "").validated()
-        email = try request.data["email"].validated()
+    public init(form: BackendUserForm) throws {
+        name = form.name
+        email = form.email
+        role = form.role
+        password = BCrypt.hash(password: form.password)
+        shouldResetPassword = false
         
-        _ = try password.validated(by: PasswordStrong())
-        self.password = BCrypt.hash(password: password)
-        
-        role = request.data["role"]?.string ?? "user"
-        
+        /*
         if let shouldResetPasswordTemp: String = request.data["should_reset_password"]?.string {
             shouldResetPassword = shouldResetPasswordTemp == "true"
         }
-        
+        */
         /*
         if let file: Multipart.File = request.multipart?["image"]?.file {
             do {
@@ -103,8 +96,8 @@ public final class BackendUser: Auth.User, Model {
     public func toBackendView() throws -> Node {
         return try Node(node: [
             "id": id,
-            "name": name.value,
-            "email": email.value,
+            "name": name,
+            "email": email,
             "password": password,
             "role": role,
             "should_reset_password": shouldResetPassword,
@@ -118,8 +111,8 @@ public final class BackendUser: Auth.User, Model {
     public func makeNode(context: Context) throws -> Node {
         return try Node(node: [
             "id": id,
-            "name": name.value,
-            "email": email.value,
+            "name": name,
+            "email": email,
             "password": password,
             "role": role,
             "should_reset_password": shouldResetPassword,
@@ -191,7 +184,7 @@ extension BackendUser {
         default: throw UnsupportedCredentialsError()
         }
         
-        if try BackendUser.query().filter("email", newUser.email.value).first() == nil {
+        if try BackendUser.query().filter("email", newUser.email).first() == nil {
             try newUser.save()
             return newUser
         } else {

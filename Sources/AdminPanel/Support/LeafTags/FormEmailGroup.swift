@@ -55,7 +55,7 @@ public class FormEmailGroup: BasicTag {
             let inputName: String = arguments[0].value?.string,
             let fieldsetNode = arguments[2].value?.nodeObject
             else {
-                throw Error.parse
+                throw Abort.serverError
         }
         
         let inputValue = arguments[1].value?.string ?? ""

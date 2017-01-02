@@ -48,11 +48,6 @@ public final class Helper {
         // Apply new node to request storage
         request.storage[flashKey] = flash
         
-        request.storage["_fieldset"] = try request.session().data["_fieldset"]
-        try request.session().data["_fieldset"] = nil
-        request.storage["_input"] = try request.session().data["_input"]
-        try request.session().data["_input"] = nil
-        
         // Clear new node
         try request.session().data[flashKey, State.new.rawValue] = nil
     }

@@ -26,7 +26,7 @@ public final class LoginController {
                 throw Abort.custom(status: .forbidden, message: "Forbidden")
             }
             
-            return Response(redirect: "/admin/dashboard").flash(.success, "Logged in as \(user.email.value)")
+            return Response(redirect: "/admin/dashboard").flash(.success, "Logged in as \(user.email)")
         } catch {
             return Response(redirect: "/admin/login").flash(.error, "Please login")
         }
