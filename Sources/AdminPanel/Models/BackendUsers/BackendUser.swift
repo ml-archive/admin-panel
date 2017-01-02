@@ -47,9 +47,17 @@ public final class BackendUser: Auth.User, Model {
         
         shouldResetPassword = try node.extract("should_reset_password") ?? false
         
+        do {
+            createdAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("created_at"))
+        } catch {
+            createdAt = Date()
+        }
         
-        createdAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("created_at"))
-        updatedAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("updated_at"))
+        do {
+            updatedAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("updated_at"))
+        } catch {
+            updatedAt = Date()
+        }
     }
     
     public init(credentials: UsernamePassword) throws {

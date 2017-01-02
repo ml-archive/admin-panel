@@ -44,6 +44,7 @@ public final class Seeder: Command {
                 ]),
             ]
         
+        print(backendUserRoles)
         backendUserRoles.forEach({
             var backendUserRole = $0
             console.info("Looping \(backendUserRole.title)")

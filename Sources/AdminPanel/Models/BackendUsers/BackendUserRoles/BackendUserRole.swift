@@ -27,8 +27,17 @@ public final class BackendUserRole: Model {
         
         isDefault = try node.extract("is_default") ?? false
         
-        createdAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("created_at"))
-        updatedAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("updated_at"))
+        do {
+            createdAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("created_at"))
+        } catch {
+            createdAt = Date()
+        }
+        
+        do {
+            updatedAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("updated_at"))
+        } catch {
+            updatedAt = Date()
+        }
     }
     
     public init(request: Request) throws {
