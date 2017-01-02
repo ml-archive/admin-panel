@@ -24,28 +24,11 @@
 }
 
 #export("content") {
-
-    <div class="margin">
-        
-        #form:open("/admin/backend_users/create", "post", true)
-        
-            #form:textgroup("name", "John Doe", fieldset)
-            
-            #form:emailgroup("email", "john@doe.com", fieldset)
-            
-            #form:passwordgroup("password", nil, fieldset)
-            
-            #form:numbergroup("age", foo, fieldset)
-            #form:numbergroup("age", bar, fieldset)
-            
-        #form:close()
-        
-    </div>
-
 #if(backendUser) {
-    <form method="post" action="/admin/backend_users/edit/#(backendUser.id)" enctype="multipart/form-data">
+    #form:open("/admin/backend_users/update", "POST", false)
+    <input type="hidden" name="id" value=#(backendUser.id)>
 } ##else() {
-    <form method="post" action="/admin/backend_users/create" enctype="multipart/form-data">
+    #form:open("/admin/backend_users/store", "POST", false)
 }
     <div class="row">
         <div class="col-xs-12 col-md-6">
@@ -53,16 +36,8 @@
             <hr/>
             <div class="margin-vertical-sm">
                 #form:textgroup("name", backendUser.name, fieldset)
-                #form:emailgroup("email", backendUser.email, fieldset)
+                #form:textgroup("email", backendUser.email, fieldset)
                 
-                <!--<div class="form-group">
-                    <label for="backendUserFormName">Name</label>
-                    <input type="text" id="backendUserFormName" class="form-control" name="name" value="#if(backendUser) { #(backendUser.name) }"/>
-                </div>
-                <div class="form-group">
-                    <label for="backendUserFormEmail">E-mail</label>
-                    <input type="email" id="backendUserFormEmail" class="form-control" name="email" value="#if(backendUser) { #(backendUser.email) }" required/>
-                </div>-->
                 <div class="form-group">
                     <label for="backendUserFormRole">Role</label>
                     <select name="role" class="form-control id=backendUserFormRole">
@@ -130,6 +105,7 @@
                  -->
             </div>
         </div>
+        <!--
         <div class="col-xs-12 col-md-6">
             <h4 class="margin-top">Image</h4>
             <hr>
@@ -143,6 +119,7 @@
                 </div>
             </div>
         </div>
+         -->
     </div>
     <div class="row">
         <div class="col-xs-12">

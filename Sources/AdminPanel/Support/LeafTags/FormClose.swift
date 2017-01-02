@@ -9,7 +9,6 @@ public class FormClose: BasicTag {
     public let name = "form:close"
     
     public func run(arguments: [Argument]) throws -> Node? {
-        
         /*
          #form:close()
          

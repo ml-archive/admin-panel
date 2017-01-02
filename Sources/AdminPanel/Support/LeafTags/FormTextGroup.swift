@@ -61,9 +61,14 @@ public class FormTextGroup: BasicTag {
             throw Error.parse
         }
         
-        let inputValue = arguments[1].value?.string ?? ""
+        
         
         let fieldset = fieldsetNode[inputName]
+        
+        var inputValue = arguments[1].value?.string ?? ""
+        if let existingValue: String = fieldset?["value"]?.string {
+            inputValue = existingValue
+        }
         
         let label = fieldset?["label"]?.string ?? inputName
         
