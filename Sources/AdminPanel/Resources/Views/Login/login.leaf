@@ -11,7 +11,8 @@
             <h3 class="panel-title margin-bottom">Login</h3>
         </div>
         #embed("Layout/Partials/Elements/alerts")
-        <form method="post" action="/admin/login">
+        
+        <form method="POST" action="/admin/login?next=#(next)">
             <div class="form-group action-wrapper">
                 <label for="email">E-mail</label>
                 <input type="email" id="email" class="form-control" name="email" required placeholder="Insert email"/>

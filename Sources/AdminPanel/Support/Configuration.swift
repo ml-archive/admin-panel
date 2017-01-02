@@ -11,6 +11,9 @@ public struct Configuration {
         case unauthorizedPath           = "adminpanel.unauthorizedPath"
         case loadRoutes                 = "adminpanel.loadRoutes"
         case profileImageFallbackUrl    = "adminpanel.profileImageFallbackUrl"
+        case loginSuccessPath           = "adminpanel.loginSuccessPath"
+        case welcomeMailViewPath        = "adminpanel.welcomeMailViewPath"
+        case resetPasswordViewPath      = "adminpanel.resetPasswordViewPath"
         
         var path: [String] {
             return rawValue.components(separatedBy: ".")
@@ -26,6 +29,9 @@ public struct Configuration {
     public let unauthorizedPath: String
     public let loadRoutes: Bool
     public let profileImageFallbackUrl: String
+    public let loginSuccessPath: String
+    public let welcomeMailViewPath: String
+    public let resetPasswordViewPath: String
     
     public init(drop: Droplet) throws {
         try self.init(config: drop.config)
@@ -36,13 +42,20 @@ public struct Configuration {
         self.unauthorizedPath           = try Configuration.extract(field: .unauthorizedPath, config: config)
         self.loadRoutes                 = try Configuration.extract(field: .loadRoutes, config: config)
         self.profileImageFallbackUrl    = try Configuration.extract(field: .profileImageFallbackUrl, config: config)
+        self.loginSuccessPath           = try Configuration.extract(field: .loginSuccessPath, config: config)
+        self.welcomeMailViewPath        = try Configuration.extract(field: .welcomeMailViewPath, config: config)
+        self.resetPasswordViewPath      = try Configuration.extract(field: .resetPasswordViewPath, config: config)
     }
     
     public func makeNode() -> Node {
         return Node([
-            "name": Node(name),
-            "unauthorizedPath": Node(unauthorizedPath),
-            "loadRoutes": Node(loadRoutes)
+            "name"                      : Node(name),
+            "unauthorizedPath"          : Node(unauthorizedPath),
+            "loadRoutes"                : Node(loadRoutes),
+            "profileImageFallbackUrl"   : Node(profileImageFallbackUrl),
+            "loginSuccessPath"          : Node(loginSuccessPath),
+            "welcomeMailViewPath"       : Node(welcomeMailViewPath),
+            "resetPasswordViewPath"     : Node(resetPasswordViewPath)
         ])
     }
     

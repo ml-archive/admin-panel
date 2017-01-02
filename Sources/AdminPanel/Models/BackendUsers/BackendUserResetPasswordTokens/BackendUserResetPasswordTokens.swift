@@ -2,7 +2,6 @@ import Vapor
 import Fluent
 import Foundation
 import HTTP
-import SwiftDate
 
 public final class BackendUserResetPasswordTokens: Model {
  
@@ -12,33 +11,17 @@ public final class BackendUserResetPasswordTokens: Model {
     public var id: Node?
     public var token: String
     public var email: Valid<Email>
-    public var expireAt: DateInRegion
-    public var usedAt: DateInRegion?
-    public var createdAt: DateInRegion
-    public var updatedAt: DateInRegion
+    public var expireAt: Date
+    public var usedAt: Date?
+    public var createdAt: Date
+    public var updatedAt: Date
     
     public init(email: String) throws {
         self.email = try email.validated()
-        token = BackendUserResetPasswordTokens.randomAlphaNumericString(length: 64)
-        expireAt = DateInRegion() + 1.hour
-        createdAt = DateInRegion()
-        updatedAt = DateInRegion()
-    }
-    
-    static func randomAlphaNumericString(length: Int) -> String {
-        
-        let allowedChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        let allowedCharsCount = UInt32(allowedChars.characters.count)
-        var randomString = ""
-        
-        for _ in 0..<length {
-            let randomNum = Int(arc4random_uniform(allowedCharsCount))
-            let randomIndex = allowedChars.index(allowedChars.startIndex, offsetBy: randomNum)
-            let newCharacter = allowedChars[randomIndex]
-            randomString += String(newCharacter)
-        }
-        
-        return randomString
+        token = String.randomAlphaNumericString(64)
+        expireAt = Date().addingTimeInterval(60*60) // 1h
+        createdAt = Date()
+        updatedAt = Date()
     }
     
     public init(node: Node, in context: Context) throws {
@@ -47,28 +30,12 @@ public final class BackendUserResetPasswordTokens: Model {
         let emailTemp: String = try node.extract("email")
         email = try emailTemp.validated()
         
-        do {
-            usedAt = try DateInRegion(string: node.extract("used_at"), format: .custom("yyyy-MM-dd HH:mm:ss"))
-        } catch {
-            usedAt = nil
-        }
+        createdAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("created_at"))
+        updatedAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("updated_at"))
+        expireAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("expire_at"))
         
-        do {
-            expireAt = try DateInRegion(string: node.extract("expire_at"), format: .custom("yyyy-MM-dd HH:mm:ss"))
-        } catch {
-            expireAt = DateInRegion()
-        }
-        
-        do {
-            createdAt = try DateInRegion(string: node.extract("created_at"), format: .custom("yyyy-MM-dd HH:mm:ss"))
-        } catch {
-            createdAt = DateInRegion()
-        }
-        
-        do {
-            updatedAt = try DateInRegion(string: node.extract("updated_at"), format: .custom("yyyy-MM-dd HH:mm:ss"))
-        } catch {
-            updatedAt = DateInRegion()
+        if let usedAt: String = try node.extract("used_at") {
+            self.usedAt = Date.parse("yyyy-MM-dd HH:mm:ss", usedAt)
         }
     }
   
@@ -77,11 +44,23 @@ public final class BackendUserResetPasswordTokens: Model {
             "id": id,
             "email": email.value,
             "token": token,
-            "used_at": usedAt?.string(custom: "yyyy-MM-dd HH:mm:ss") ?? nil,
-            "expire_at": expireAt.string(custom: "yyyy-MM-dd HH:mm:ss"),
-            "created_at": createdAt.string(custom: "yyyy-MM-dd HH:mm:ss"),
-            "updated_at": updatedAt.string(custom: "yyyy-MM-dd HH:mm:ss")
+            "used_at": try usedAt?.toDateTimeString() ?? nil,
+            "expire_at": try expireAt.toDateTimeString(),
+            "created_at": try createdAt.toDateTimeString(),
+            "updated_at": try updatedAt.toDateTimeString()
         ])
+    }
+    
+    public func canBeUsed() -> Bool {
+        if usedAt != nil {
+            return false
+        }
+        
+        if expireAt.isPast() {
+            return false
+        }
+        
+        return true
     }
     
     public static func prepare(_ database: Database) throws {

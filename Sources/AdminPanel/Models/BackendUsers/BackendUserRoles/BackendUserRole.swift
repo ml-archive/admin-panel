@@ -2,7 +2,6 @@ import Vapor
 import Fluent
 import Foundation
 import HTTP
-import SwiftDate
 import Slugify
 
 public final class BackendUserRole: Model {
@@ -13,8 +12,8 @@ public final class BackendUserRole: Model {
     public var title: Valid<NotEmpty>
     public var slug: Valid<NotEmpty>
     public var isDefault: Bool
-    public var createdAt: DateInRegion
-    public var updatedAt: DateInRegion
+    public var createdAt: Date
+    public var updatedAt: Date
     
     public init(node: Node, in context: Context) throws {
         id = try? node.extract("id")
@@ -28,25 +27,16 @@ public final class BackendUserRole: Model {
         
         isDefault = try node.extract("is_default") ?? false
         
-        do {
-            createdAt = try DateInRegion(string: node.extract("created_at"), format: .custom("yyyy-MM-dd HH:mm:ss"))
-        } catch {
-            createdAt = DateInRegion()
-        }
-        
-        do {
-            updatedAt = try DateInRegion(string: node.extract("updated_at"), format: .custom("yyyy-MM-dd HH:mm:ss"))
-        } catch {
-            updatedAt = DateInRegion()
-        }
+        createdAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("created_at"))
+        updatedAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("updated_at"))
     }
     
     public init(request: Request) throws {
         title = try (request.data["title"]?.string ?? "").validated()
         slug = try title.value.slugify().validated()
         isDefault = try BackendUserRole.query().first() != nil ? false : true
-        updatedAt = DateInRegion()
-        createdAt = DateInRegion()
+        updatedAt = Date()
+        createdAt = Date()
     }
     
     public func makeNode(context: Context) throws -> Node {
@@ -55,8 +45,8 @@ public final class BackendUserRole: Model {
             "title": title.value,
             "slug": slug.value,
             "is_default": isDefault,
-            "created_at": createdAt.string(custom: "yyyy-MM-dd HH:mm:ss"),
-            "updated_at": updatedAt.string(custom: "yyyy-MM-dd HH:mm:ss")
+            "created_at": try createdAt.toDateTimeString(),
+            "updated_at": try updatedAt.toDateTimeString()
         ])
     }
     

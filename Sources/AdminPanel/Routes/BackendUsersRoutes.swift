@@ -23,6 +23,6 @@ public struct BackendUsersRoutes: RouteCollection {
         
         builder.get("/edit", BackendUser.self, handler: controller.edit)
         builder.post("/edit", BackendUser.self, handler: controller.update)
-        builder.delete("/delete", BackendUser.self, handler: controller.destroy)
+        builder.post("/delete", BackendUser.self, handler: controller.destroy)
     }
 }

@@ -1,7 +1,16 @@
-# Admin panel
+# Admin panel, build easy customizable admin features for your app!
 [![Language](https://img.shields.io/badge/Swift-3-brightgreen.svg)](http://swift.org)
 [![Build Status](https://travis-ci.org/nodes-vapor/admin-panel.svg?branch=master)](https://travis-ci.org/nodes-vapor/admin-panel)
+[![codecov](https://codecov.io/gh/nodes-vapor/admin-panel/branch/master/graph/badge.svg)](https://codecov.io/gh/nodes-vapor/admin-panel)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/nodes-vapor/admin-panel/master/LICENSE)
+# Features
+ - Admin user system with roles
+ - Welcome mails
+ - Reset password
+ - Dashboard with easy graphs
+ - SSO logins
+ 
+![image](https://cloud.githubusercontent.com/assets/1279756/21502899/83ff79dc-cc53-11e6-8222-40bfa773d361.png)
 
 #Installation
 Update your `Package.swift` file.
@@ -17,11 +26,24 @@ Create config adminpanel.json
 {
     "name": "Sandbox2",
     "unauthorizedPath": "/admin/login",
+    "loginSuccessPath": "admin/dashboard",
     "loadRoutes": true,
-    "profileImageFallbackUrl": "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg"
+    "profileImageFallbackUrl": "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg",
+    "welcomeMailViewPath": "Emails/welcome",
+    "resetPasswordViewPath": "Emails/reset-password"
 }
 
+```
 
+Create config mail.json
+```
+{
+    "smtpHost": "smtp.mailgun.org",
+    "smtpPort": "465",
+    "user": "",
+    "password": "",
+    "fromEmail": ""
+}
 ```
 
 ### main.swift
@@ -37,7 +59,7 @@ try drop.addProvider(AdminPanel.Provider.self)
 Either copy the views in or change the folder to read the views from, fx
 ```
 drop.view = LeafRenderer(
-    viewsDir: Droplet().workDir + "/Packages/AdminPanel-0.1.2/Sources/AdminPanel/Resources/Views"
+    viewsDir: Droplet().workDir + "/Packages/AdminPanel-0.2.0/Sources/AdminPanel/Resources/Views"
 )
 ```
 ### Seed data
