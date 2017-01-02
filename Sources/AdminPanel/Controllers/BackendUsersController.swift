@@ -1,5 +1,29 @@
 import Vapor
+import VaporForms
 import HTTP
+
+struct UserForm: Form {
+    let name: String
+//    let email: String
+    
+    static var fieldset = Fieldset([
+        "name": StringField(
+            label: "Name"
+        )
+    ], requiring: ["name"])
+    
+    init(validatedData: [String: Node]) throws {
+        print("hvorfor kommer du aldrig her til :D ")
+        // validatedData is guaranteed to contain correct field names and values.
+        /*
+        firstName = validated["firstName"]!.string!
+        lastName = validated["lastName"]!.string!
+        email = validated["email"]!.string!
+ */
+        name = validatedData["name"]!.string!
+//        email = validatedData["email"]!.string!
+    }
+}
 
 public final class BackendUsersController {
     
@@ -35,8 +59,13 @@ public final class BackendUsersController {
      * - return: View
      */
     public func create(request: Request) throws -> ResponseRepresentable {
+        
+ 
         return try drop.view.make("BackendUsers/edit", [
-            "roles": BackendUserRole.all().makeNode()
+            "roles": BackendUserRole.all().makeNode(),
+            "fieldset": UserForm.fieldset,
+            "foo": 21,
+            "bar": 21.3436
         ], for: request)
     }
     
@@ -48,7 +77,7 @@ public final class BackendUsersController {
      */
     public func store(request: Request) throws -> ResponseRepresentable {
         do {
-            
+                      
             // Random the password if no password is set
             var password = String.randomAlphaNumericString(8)
             var randomPassword = true
@@ -59,15 +88,33 @@ public final class BackendUsersController {
                 }
             }
             
-            var backendUser = try BackendUser(request: request, password: password)
-            try backendUser.save()
+            let form = try UserForm(validating: request.data)
             
-            // Send welcome mail
-            if(request.data["send_mail"]?.string == "true") {
-                try Mailer.sendWelcomeMail(drop: drop, backendUser: backendUser, password: randomPassword ? password : nil)
+            var fieldSet = UserForm.fieldset
+            
+            switch fieldSet.validate(request.data) {
+            case .success:
+                var backendUser = try BackendUser(request: request, password: password)
+                try backendUser.save()
+                return Response(redirect: "/admin/backend_users").flash(.success, "User created")
+            case .failure:
+                try request.flash.add(.error, "FEJL")
+                try Helper.handleRequest(request)
+                return try drop.view.make("BackendUsers/edit", [
+                    "roles": BackendUserRole.all().makeNode(),
+                    "fieldset": fieldSet,
+                    "foo": 21,
+                    "bar": 21.3436
+                    ], for: request)
             }
             
-            return Response(redirect: "/admin/backend_users").flash(.success, "User created")
+            
+            // Send welcome mail
+            //if(request.data["send_mail"]?.string == "true") {
+            //    try Mailer.sendWelcomeMail(drop: drop, backendUser: backendUser, password: randomPassword ? password : nil)
+            //}
+            
+            
         } catch let error as ValidationErrorProtocol {
             let message = "Validation error: \(error.message)"
             return Response(redirect: "/admin/backend_users/create").flash(.error, message)
@@ -75,6 +122,7 @@ public final class BackendUsersController {
             print(error)
             return Response(redirect: "/admin/backend_users/create").flash(.error, "Failed to create user")
         }
+        
     }
     
     /**

@@ -25,6 +25,23 @@
 
 #export("content") {
 
+    <div class="margin">
+        
+        #form:open("/admin/backend_users/create", "post", true)
+        
+            #form:textgroup("name", "John Doe", fieldset)
+            
+            #form:emailgroup("email", "john@doe.com", fieldset)
+            
+            #form:passwordgroup("password", nil, fieldset)
+            
+            #form:numbergroup("age", foo, fieldset)
+            #form:numbergroup("age", bar, fieldset)
+            
+        #form:close()
+        
+    </div>
+
 #if(backendUser) {
     <form method="post" action="/admin/backend_users/edit/#(backendUser.id)" enctype="multipart/form-data">
 } ##else() {
@@ -35,14 +52,17 @@
             <h4 class="margin-top">User details</h4>
             <hr/>
             <div class="margin-vertical-sm">
-                <div class="form-group">
+                #form:textgroup("name", backendUser.name, fieldset)
+                #form:emailgroup("email", backendUser.email, fieldset)
+                
+                <!--<div class="form-group">
                     <label for="backendUserFormName">Name</label>
-                    <input type="text" id="backendUserFormName" class="form-control" name="name" value="#if(backendUser) { #(backendUser.name) }" required/>
+                    <input type="text" id="backendUserFormName" class="form-control" name="name" value="#if(backendUser) { #(backendUser.name) }"/>
                 </div>
                 <div class="form-group">
                     <label for="backendUserFormEmail">E-mail</label>
                     <input type="email" id="backendUserFormEmail" class="form-control" name="email" value="#if(backendUser) { #(backendUser.email) }" required/>
-                </div>
+                </div>-->
                 <div class="form-group">
                     <label for="backendUserFormRole">Role</label>
                     <select name="role" class="form-control id=backendUserFormRole">

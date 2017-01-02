@@ -7,7 +7,13 @@ public final class Provider: Vapor.Provider {
     public func boot(_ drop: Droplet) {
         
         if let leaf = drop.view as? LeafRenderer {
-            leaf.stem.register(Active())
+            leaf.stem.register(Active());
+            leaf.stem.register(FormOpen());
+            leaf.stem.register(FormClose());
+            leaf.stem.register(FormTextGroup());
+            leaf.stem.register(FormEmailGroup());
+            leaf.stem.register(FormPasswordGroup());
+            leaf.stem.register(FormNumberGroup());
         }
         
         drop.storage["adminPanelConfig"] = config
