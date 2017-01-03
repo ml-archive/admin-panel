@@ -15,7 +15,6 @@ public struct Configuration {
         case welcomeMailViewPath        = "adminpanel.welcomeMailViewPath"
         case resetPasswordViewPath      = "adminpanel.resetPasswordViewPath"
         case autoLoginFirstUser         = "adminpanel.autoLoginFirstUser"
-        case ssoRedirectUrl             = "adminpanel.ssoRedirectUrl"
         case ssoCallbackPath            = "adminpanel.ssoCallbackPath"
         
         var path: [String] {
@@ -38,7 +37,6 @@ public struct Configuration {
     public let autoLoginFirstUser: Bool
     public var ssoProvider: SSOProtocol?
     public let ssoCallbackPath: String?
-    public let ssoRedirectUrl: String?
     
     public init(drop: Droplet) throws {
         try self.init(config: drop.config)
@@ -53,7 +51,6 @@ public struct Configuration {
         welcomeMailViewPath        = try Configuration.extract(field: .welcomeMailViewPath, config: config)
         resetPasswordViewPath      = try Configuration.extract(field: .resetPasswordViewPath, config: config)
         autoLoginFirstUser         = try Configuration.extract(field: .autoLoginFirstUser, config: config)
-        ssoRedirectUrl             = config[Field.ssoRedirectUrl.path]?.string
         ssoCallbackPath            = config[Field.ssoCallbackPath.path]?.string
     }
     

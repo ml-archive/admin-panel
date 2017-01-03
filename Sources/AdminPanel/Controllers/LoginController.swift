@@ -187,7 +187,6 @@ public final class LoginController {
         }
     }
     
-    
     /// SSO login
     ///
     /// - Parameter request: request
@@ -205,7 +204,11 @@ public final class LoginController {
         return try ssoProvider.auth(request)
     }
     
-    
+    /// SSO callback
+    ///
+    /// - Parameter request: request
+    /// - Returns: return response
+    /// - Throws: throws Abort.custom internalServerError for missing config or sso
     public func ssoCallback(request: Request) throws -> ResponseRepresentable {
         guard let config: Configuration = drop.storage["adminPanelConfig"] as? Configuration else {
             throw Abort.custom(status: .internalServerError, message: "AdminPanel missing configuration")
@@ -215,6 +218,6 @@ public final class LoginController {
             throw Abort.custom(status: .internalServerError, message: "AdminPanel no SSO setup")
         }
         
-        return try ssoProvider.auth(request)
+        return try ssoProvider.callback(request)
     }
 }
