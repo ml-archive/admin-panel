@@ -14,6 +14,7 @@ public struct Configuration {
         case loginSuccessPath           = "adminpanel.loginSuccessPath"
         case welcomeMailViewPath        = "adminpanel.welcomeMailViewPath"
         case resetPasswordViewPath      = "adminpanel.resetPasswordViewPath"
+        case autoLoginFirstUser         = "adminpanel.autoLoginFirstUser"
         
         var path: [String] {
             return rawValue.components(separatedBy: ".")
@@ -32,6 +33,7 @@ public struct Configuration {
     public let loginSuccessPath: String
     public let welcomeMailViewPath: String
     public let resetPasswordViewPath: String
+    public let autoLoginFirstUser: Bool
     
     public init(drop: Droplet) throws {
         try self.init(config: drop.config)
@@ -45,6 +47,7 @@ public struct Configuration {
         self.loginSuccessPath           = try Configuration.extract(field: .loginSuccessPath, config: config)
         self.welcomeMailViewPath        = try Configuration.extract(field: .welcomeMailViewPath, config: config)
         self.resetPasswordViewPath      = try Configuration.extract(field: .resetPasswordViewPath, config: config)
+        self.autoLoginFirstUser         = try Configuration.extract(field: .autoLoginFirstUser, config: config)
     }
     
     public func makeNode() -> Node {

@@ -29,7 +29,7 @@ public final class Provider: Vapor.Provider {
             drop.group(AuthMiddleware<BackendUser>(), FlashMiddleware(), ConfigPublishMiddleware(config: config)) { auth in
                 auth.grouped("/").collection(LoginRoutes(droplet: drop))
                 
-                auth.group(AdminProtectMiddleware()) { secured in
+                auth.group(AdminProtectMiddleware(config)) { secured in
                     secured.grouped("/admin/dashboard").collection(DashboardRoutes(droplet: drop))
                     secured.grouped("/admin/backend_users").collection(BackendUsersRoutes(droplet: drop))
                     secured.grouped("/admin/backend_users/roles").collection(BackendUserRolesRoutes(droplet: drop))
