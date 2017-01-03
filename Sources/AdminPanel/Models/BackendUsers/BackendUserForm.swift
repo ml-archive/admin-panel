@@ -8,6 +8,7 @@ public struct BackendUserForm: Form {
     let password: String
     let sendMail: Bool
     var randomPassword = false
+    let shouldResetPassword: Bool
     
     public static let fieldset = Fieldset([
         "name": StringField(
@@ -29,6 +30,7 @@ public struct BackendUserForm: Form {
         ], requiring: ["name", "email", "role", "should_reset_password"])
     
     public init(validatedData: [String: Node]) throws {
+        
         guard let name = validatedData["name"]?.string,
         let email = validatedData["email"]?.string,
         let role = validatedData["role"]?.string
@@ -47,6 +49,14 @@ public struct BackendUserForm: Form {
         } else {
             password = String.randomAlphaNumericString(8)
             randomPassword = true
+        }
+        
+        if randomPassword {
+            shouldResetPassword = true
+        } else if validatedData["should_reset_password"] == "true" {
+            shouldResetPassword = true
+        } else {
+            shouldResetPassword = false
         }
     }
 }
