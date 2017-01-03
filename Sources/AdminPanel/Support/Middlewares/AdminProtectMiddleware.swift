@@ -20,7 +20,7 @@ public class AdminProtectMiddleware: Middleware {
         } catch {
             if configuration.autoLoginFirstUser, let backendUser: BackendUser = try BackendUser.query().first() {
                 
-                try request.auth.login(Identifier(id: backendUser.id!))
+                try request.auth.login(Identifier(id: backendUser.id ?? 0))
                 
                 if let backendUser: BackendUser = try request.auth.user() as? BackendUser {
                     try request.storage["user"] = backendUser.toBackendView()

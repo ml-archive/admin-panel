@@ -3,7 +3,13 @@
 #export("content") {
 <div id="login" class="panel panel-default">
     <div class="panel-body">
-
+        
+        #if(request.storage.adminPanel.sso) {
+        <a href="/admin/login/sso" id="alternative-login" class="sso">
+            <span class="sr-only">Nodes SSO</span>
+        </a>
+        }
+        
         <div class="panel-heading">
             <div class="logo">
                 #embed("Layout/Partials/Elements/logo")

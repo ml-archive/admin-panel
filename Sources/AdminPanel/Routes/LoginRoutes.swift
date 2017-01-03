@@ -7,9 +7,11 @@ public struct LoginRoutes: RouteCollection {
     public typealias Wrapped = Responder
     
     let drop: Droplet
+    let config: Configuration
     
-    public init(droplet: Droplet) {
+    public init(droplet: Droplet, config: Configuration) {
         drop = droplet
+        self.config = config
     }
     
     public func build<Builder: RouteBuilder>(_ builder: Builder) where Builder.Value == Wrapped {
@@ -29,5 +31,11 @@ public struct LoginRoutes: RouteCollection {
         builder.post("/admin/login/reset", handler: controller.resetPasswordSubmit);
         builder.get("/admin/login/reset/:token", handler: controller.resetPasswordTokenForm);
         builder.post("/admin/login/reset/change", handler: controller.resetPasswordTokenSubmit);
+        
+        // SSO
+        if config.ssoProvider != nil {
+            builder.get("/admin/login/sso", handler: controller.sso);
+            builder.post("/admin/login/sso", handler: controller.sso);
+        }
     }
 }

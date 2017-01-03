@@ -186,4 +186,35 @@ public final class LoginController {
             return Response(redirect: "/admin/login").flash(.error, "Failed to login")
         }
     }
+    
+    
+    /// SSO login
+    ///
+    /// - Parameter request: request
+    /// - Returns: return response
+    /// - Throws: throws Abort.custom internalServerError for missing config or sso
+    public func sso(request: Request) throws -> ResponseRepresentable {
+        guard let config: Configuration = drop.storage["adminPanelConfig"] as? Configuration else {
+            throw Abort.custom(status: .internalServerError, message: "AdminPanel missing configuration")
+        }
+        
+        guard let ssoProvider: SSOProtocol = config.ssoProvider else {
+            throw Abort.custom(status: .internalServerError, message: "AdminPanel no SSO setup")
+        }
+        
+        return try ssoProvider.auth(request)
+    }
+    
+    
+    public func ssoCallback(request: Request) throws -> ResponseRepresentable {
+        guard let config: Configuration = drop.storage["adminPanelConfig"] as? Configuration else {
+            throw Abort.custom(status: .internalServerError, message: "AdminPanel missing configuration")
+        }
+        
+        guard let ssoProvider: SSOProtocol = config.ssoProvider else {
+            throw Abort.custom(status: .internalServerError, message: "AdminPanel no SSO setup")
+        }
+        
+        return try ssoProvider.auth(request)
+    }
 }

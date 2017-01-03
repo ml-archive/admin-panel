@@ -36,7 +36,7 @@
             <hr/>
             <div class="margin-vertical-sm">
                 #form:textgroup("name", backendUser.name, fieldset)
-                #form:textgroup("email", backendUser.email, fieldset)
+                #form:emailgroup("email", backendUser.email, fieldset)
                 
                 <div class="form-group">
                     <label for="backendUserFormRole">Role</label>

@@ -15,6 +15,8 @@ public struct Configuration {
         case welcomeMailViewPath        = "adminpanel.welcomeMailViewPath"
         case resetPasswordViewPath      = "adminpanel.resetPasswordViewPath"
         case autoLoginFirstUser         = "adminpanel.autoLoginFirstUser"
+        case ssoRedirectUrl             = "adminpanel.ssoRedirectUrl"
+        case ssoCallbackPath            = "adminpanel.ssoCallbackPath"
         
         var path: [String] {
             return rawValue.components(separatedBy: ".")
@@ -34,20 +36,25 @@ public struct Configuration {
     public let welcomeMailViewPath: String
     public let resetPasswordViewPath: String
     public let autoLoginFirstUser: Bool
+    public var ssoProvider: SSOProtocol?
+    public let ssoCallbackPath: String?
+    public let ssoRedirectUrl: String?
     
     public init(drop: Droplet) throws {
         try self.init(config: drop.config)
     }
     
     public init(config: Config) throws {
-        self.name                       = try Configuration.extract(field: .name, config: config)
-        self.unauthorizedPath           = try Configuration.extract(field: .unauthorizedPath, config: config)
-        self.loadRoutes                 = try Configuration.extract(field: .loadRoutes, config: config)
-        self.profileImageFallbackUrl    = try Configuration.extract(field: .profileImageFallbackUrl, config: config)
-        self.loginSuccessPath           = try Configuration.extract(field: .loginSuccessPath, config: config)
-        self.welcomeMailViewPath        = try Configuration.extract(field: .welcomeMailViewPath, config: config)
-        self.resetPasswordViewPath      = try Configuration.extract(field: .resetPasswordViewPath, config: config)
-        self.autoLoginFirstUser         = try Configuration.extract(field: .autoLoginFirstUser, config: config)
+        name                       = try Configuration.extract(field: .name, config: config)
+        unauthorizedPath           = try Configuration.extract(field: .unauthorizedPath, config: config)
+        loadRoutes                 = try Configuration.extract(field: .loadRoutes, config: config)
+        profileImageFallbackUrl    = try Configuration.extract(field: .profileImageFallbackUrl, config: config)
+        loginSuccessPath           = try Configuration.extract(field: .loginSuccessPath, config: config)
+        welcomeMailViewPath        = try Configuration.extract(field: .welcomeMailViewPath, config: config)
+        resetPasswordViewPath      = try Configuration.extract(field: .resetPasswordViewPath, config: config)
+        autoLoginFirstUser         = try Configuration.extract(field: .autoLoginFirstUser, config: config)
+        ssoRedirectUrl             = config[Field.ssoRedirectUrl.path]?.string
+        ssoCallbackPath            = config[Field.ssoCallbackPath.path]?.string
     }
     
     public func makeNode() -> Node {
@@ -58,7 +65,8 @@ public struct Configuration {
             "profileImageFallbackUrl"   : Node(profileImageFallbackUrl),
             "loginSuccessPath"          : Node(loginSuccessPath),
             "welcomeMailViewPath"       : Node(welcomeMailViewPath),
-            "resetPasswordViewPath"     : Node(resetPasswordViewPath)
+            "resetPasswordViewPath"     : Node(resetPasswordViewPath),
+            "sso"                       : Node(ssoProvider != nil)
         ])
     }
     
@@ -69,6 +77,7 @@ public struct Configuration {
         
         return string
     }
+    
     
     private static func extract(field: Field, config: Config) throws -> Bool {
         guard let bool = config[field.path]?.bool else {

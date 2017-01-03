@@ -44,7 +44,7 @@ public final class BackendUsersController {
      * - return: View
      */
     public func create(request: Request) throws -> ResponseRepresentable {
-        return try drop.view.make("BackendUsers/edit", [
+        return try drop.view.make("Nodes/AdminPanel::BackendUsers/edit", [
             "roles": BackendUserRole.all().makeNode(),
             "fieldset": BackendUserForm.getFieldset(request),
             "defaultRole": BackendUserRole.query().filter("is_default", true).first()?.makeNode() ?? nil
