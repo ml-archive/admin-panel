@@ -14,6 +14,8 @@ public final class Provider: Vapor.Provider {
             leaf.stem.register(FormEmailGroup());
             leaf.stem.register(FormPasswordGroup());
             leaf.stem.register(FormNumberGroup());
+            leaf.stem.register(FormCheckboxGroup());
+            leaf.stem.register(FormSelectGroup());
         }
         
         drop.storage["adminPanelConfig"] = config

@@ -58,7 +58,7 @@ public final class BackendUserRole: Model {
             "updated_at": try updatedAt.toDateTimeString()
         ])
     }
-    
+ 
     public static func prepare(_ database: Database) throws {
         try database.create("backend_user_roles") { table in
             table.id()
