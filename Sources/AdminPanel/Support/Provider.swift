@@ -26,7 +26,7 @@ public final class Provider: Vapor.Provider {
         drop.commands.append(Seeder(drop: drop))
         
         if(config.loadRoutes) {
-            drop.group(AuthMiddleware<BackendUser>(), FlashMiddleware(), ConfigPublishMiddleware(config: config)) { auth in
+            drop.group(AuthMiddleware<BackendUser>(), FlashMiddleware(), ConfigPublishMiddleware(config: config), FieldsetMiddleware()) { auth in
                 auth.grouped("/").collection(LoginRoutes(droplet: drop))
                 
                 auth.group(AdminProtectMiddleware(config)) { secured in
