@@ -46,6 +46,10 @@ public final class BackendUsersController {
     public func create(request: Request) throws -> ResponseRepresentable {
         return try drop.view.make("Nodes/AdminPanel::BackendUsers/edit", [
             "roles": BackendUserRole.all().makeNode(),
+            "array": try [
+                "admin": "Administrator",
+                "super-admin": "Extreme Super Uber Administrator"
+            ].makeNode(),
             "fieldset": BackendUserForm.getFieldset(request),
             "defaultRole": BackendUserRole.query().filter("is_default", true).first()?.makeNode() ?? nil
         ], for: request)
@@ -92,6 +96,10 @@ public final class BackendUsersController {
         return try drop.view.make("BackendUsers/edit", [
             "fieldset": BackendUserForm.getFieldset(request),
             "backendUser": try user.makeNode(),
+            "array": try [
+                "admin": "Administrator",
+                "super-admin": "Extreme Super Uber Administrator"
+            ].makeNode(),
             "roles": BackendUserRole.all().makeNode(),
             "defaultRole": BackendUserRole.query().filter("is_default", true).first()?.makeNode() ?? nil
         ], for: request)

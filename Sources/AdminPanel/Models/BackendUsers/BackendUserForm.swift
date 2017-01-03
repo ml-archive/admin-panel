@@ -21,12 +21,12 @@ public struct BackendUserForm: Form {
         "role": StringField(
             label: "Role"
         ),
-        "should_reset_password": StringField(
+        "should_reset_password": BoolField(
             label: "Should reset password"
         ),
-        "send_mail": StringField(
+        "send_mail": BoolField(
             label: "Send mail with info"
-        )
+        ),
         ], requiring: ["name", "email", "role", "should_reset_password"])
     
     public init(validatedData: [String: Node]) throws {
