@@ -23,9 +23,8 @@ public struct BackendUserForm: Form {
         "should_reset_password": StringField(
             label: "Should reset password"
         ),
-        "should_reset_password": StringField(
-            label: "Should reset password"
-            //
+        "send_mail": StringField(
+            label: "Send mail with info"
         )
         ], requiring: ["name", "email", "role", "should_reset_password"])
     
