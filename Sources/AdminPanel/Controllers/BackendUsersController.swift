@@ -74,8 +74,7 @@ public final class BackendUsersController {
             
             return Response(redirect: "/admin/backend_users").flash(.success, "User created")
         }catch FormError.validationFailed(let fieldSet) {
-            try request.session().data["_fieldset"] = try fieldSet.makeNode()
-            return Response(redirect: "/admin/backend_users/create").flash(.error, "Validation error")
+            return Response(redirect: "/admin/backend_users/create").flash(.error, "Validation error").withFieldset(fieldSet)
         }catch {
             return Response(redirect: "/admin/backend_users/create").flash(.error, "Failed to create user")
         }
@@ -120,8 +119,7 @@ public final class BackendUsersController {
             
             return Response(redirect: "/admin/backend_users").flash(.success, "User created")
         }catch FormError.validationFailed(let fieldSet) {
-            try request.session().data["_fieldset"] = try fieldSet.makeNode()
-            return Response(redirect: "/admin/backend_users/create").flash(.error, "Validation error")
+            return Response(redirect: "/admin/backend_users/create").flash(.error, "Validation error").withFieldset(fieldSet)
         }catch {
             return Response(redirect: "/admin/backend_users/edit/" + String(id)).flash(.error, "Failed to create user")
         }

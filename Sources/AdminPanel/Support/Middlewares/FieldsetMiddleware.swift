@@ -10,6 +10,10 @@ public class FieldsetMiddleware: Middleware {
         request.storage["_fieldset"] = try request.session().data["_fieldset"]
         try request.session().data["_fieldset"] = nil
         
-        return try next.respond(to: request)
+        let respond = try next.respond(to: request)
+        
+        try request.session().data["_fieldset"] = respond.storage["_fieldset"] as? Node ?? nil
+        
+        return respond
     }
 }
