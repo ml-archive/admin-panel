@@ -63,33 +63,28 @@ public final class BackendUser: Auth.User, Model {
         self.createdAt = Date()
     }
     
-    public init(form: BackendUserForm) throws {
+    public init(form: BackendUserForm){
         name = form.name
         email = form.email
         role = form.role
         password = BCrypt.hash(password: form.password)
-        shouldResetPassword = false
-        
-        /*
-        if let shouldResetPasswordTemp: String = request.data["should_reset_password"]?.string {
-            shouldResetPassword = shouldResetPasswordTemp == "true"
-        }
-        */
-        /*
-        if let file: Multipart.File = request.multipart?["image"]?.file {
-            do {
-                //image = try Storage.upload(bytes: file.data)
-            } catch {
-                print(error)
-            }
-        }
-         */
+        shouldResetPassword = form.shouldResetPassword
         
         self.updatedAt = Date()
         self.createdAt = Date()
     }
     
-    public func setPassword(_ password: String) throws {
+    public func fill(form: BackendUserForm) {
+        name = form.name
+        email = form.email
+        role = form.role
+        
+        if(!form.randomPassword) {
+            setPassword(form.password)
+        }
+    }
+    
+    public func setPassword(_ password: String) {
         self.password = BCrypt.hash(password: password)
     }
     

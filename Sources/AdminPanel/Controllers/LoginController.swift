@@ -139,7 +139,7 @@ public final class LoginController {
         try token.save()
         
         // Set new password & save
-        try backendUser.setPassword(password)
+        backendUser.setPassword(password)
         try backendUser.save()
         
         return Response(redirect: "/admin/login").flash(.success, "Password is reset")
