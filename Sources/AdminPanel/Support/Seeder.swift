@@ -11,11 +11,11 @@ public final class Seeder: Command {
     ]
     
     public let console: ConsoleProtocol
-    public let drop: Droplet
+    public let dropet: Droplet
     
-    public init(drop: Droplet) {
-        self.drop = drop
-        self.console = drop.console
+    public init(dropet: Droplet) {
+        self.dropet = dropet
+        self.console = dropet.console
     }
     
     public func run(arguments: [String]) throws {
@@ -23,8 +23,8 @@ public final class Seeder: Command {
         console.info("Started the seeder");
         
         // BUG FIX WHILE WAITING FOR VAPOR UPDATE
-        BackendUser.database = drop.database
-        BackendUserRole.database = drop.database
+        BackendUser.database = dropet.database
+        BackendUserRole.database = dropet.database
         
         let backendUserRoles = [
             try BackendUserRole(node: [
