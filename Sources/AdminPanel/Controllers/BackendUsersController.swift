@@ -68,7 +68,7 @@ public final class BackendUsersController {
             
             // Send welcome mail
             if backendUserForm.sendMail {
-                let mailPw = backendUserForm.randomPassword ? backendUserForm.password : nil
+                let mailPw: String? = backendUserForm.randomPassword ? backendUserForm.password : nil
                 try Mailer.sendWelcomeMail(drop: drop, backendUser: backendUser, password: mailPw)
             }
             
