@@ -1,5 +1,6 @@
 import Vapor
 import Auth
+import Flash
 public final class Provider: Vapor.Provider {
     
     var config: Configuration

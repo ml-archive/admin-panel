@@ -2,6 +2,7 @@ import Vapor
 import VaporForms
 import HTTP
 import Fluent
+import Flash
 
 public final class BackendUsersController {
     
