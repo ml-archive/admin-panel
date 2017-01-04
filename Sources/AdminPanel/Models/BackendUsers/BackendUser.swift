@@ -5,6 +5,7 @@ import HTTP
 import Turnstile
 import TurnstileCrypto
 import Auth
+import Sugar
 
 public final class BackendUser: Auth.User, Model {
     
@@ -25,33 +26,15 @@ public final class BackendUser: Auth.User, Model {
         return Configuration.shared?.profileImageFallbackUrl ?? "http://dummyimage.com/250x250"
     }
     
-    enum Error: Swift.Error {
-        case userNotFound
-        case registerNotSupported
-        case unsupportedCredentials
-    }
-    
     public init(node: Node, in context: Context) throws {
         id = try node.extract("id")
-        
         name = try node.extract("name")
         email = try node.extract("email")
         password = try node.extract("password")
         role = try node.extract("role")
         shouldResetPassword = try node.extract("should_reset_password") ?? false
-        
-        // TODO timestamps
-        do {
-            createdAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("created_at"))
-        } catch {
-            createdAt = Date()
-        }
-        
-        do {
-            updatedAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("updated_at"))
-        } catch {
-            updatedAt = Date()
-        }
+        createdAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("created_at"), Date())
+        updatedAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("updated_at"), Date())
     }
     
     public init(credentials: UsernamePassword) throws {
@@ -78,6 +61,7 @@ public final class BackendUser: Auth.User, Model {
         name = form.name
         email = form.email
         role = form.role
+        updatedAt = Date()
         
         if(!form.randomPassword) {
             setPassword(form.password)
@@ -126,11 +110,10 @@ public final class BackendUser: Auth.User, Model {
             table.string("role")
             table.string("image", optional: true)
             table.bool("should_reset_password", default: Node(false))
-            table.custom("created_at", type: "DATETIME", optional: true)
-            table.custom("updated_at", type: "DATETIME", optional: true)
+            table.timestamps()
         }
         
-        //try database.driver.raw("ADD FOREIGN TODO")
+        //role should be foreign key
     }
     
     public static func revert(_ database: Database) throws {

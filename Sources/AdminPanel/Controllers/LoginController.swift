@@ -61,7 +61,7 @@ public final class LoginController {
             }
             
             // Make a token
-            var token = try BackendUserResetPasswordTokens(email: email)
+            var token = BackendUserResetPasswordTokens(email: email)
             try token.save()
             
             // Send mail
@@ -118,7 +118,7 @@ public final class LoginController {
             throw Abort.custom(status: .badRequest, message: "Token does not exist")
         }
         
-        if token.email.value != email {
+        if token.email != email {
             throw Abort.custom(status: .badRequest, message: "Token does not match email")
         }
         
