@@ -31,11 +31,11 @@
 }
 
 <!--Info-->
-#if(request.storage._flash.alert) {
+#if(request.storage._flash.info) {
 <div class="alert alert-info alert-dismissible fade in to-be-animated-in" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
-    #(request.storage._flash.alert)
+    #(request.storage._flash.info)
 </div>
 }
