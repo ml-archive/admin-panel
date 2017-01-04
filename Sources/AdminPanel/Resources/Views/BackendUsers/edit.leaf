@@ -36,37 +36,22 @@
             <hr/>
             <div class="margin-vertical-sm">
                 #form:textgroup("name", backendUser.name, fieldset)
-                #form:textgroup("email", backendUser.email, fieldset)
+                #form:emailgroup("email", backendUser.email, fieldset)
                 
-                <div class="form-group">
-                    <label for="backendUserFormRole">Role</label>
-                    <select name="role" class="form-control id=backendUserFormRole">
-                        #loop(roles, "role") {
-                            <!--TODO AUTO SELECT selected or default-->
-                            #if(backendUser) {
-                                #if(role.slug == backendUser.role) { <!--DOES NOT WORK AT THE MOMENT -->
-                                    <option value="#(role.slug)" selected>#(role.title)</option>
-                                } ##else() {
-                                    <option value="#(role.slug)">#(role.title)</option>
-                                }
-                            } ##else() {
-                                <option value="#(role.slug)">#(role.title)</option>
-                            }
-                        }
-                    </select>
-
-                </div>
+                foo:
+                #form:selectgroup("role", array, fieldset, nil, "This is a placeholder", "class:form-control btn btn-primary lol", "disabled")
 
                 <!-- FIX IF & Make checkbox -->
                 #if(backendUser) {
                 } ##else() {
-                <div class="form-group">
+                #form:checkboxgroup("send_mail", backendUser.send_mail, fieldset)
+                <!--<div class="form-group">
                     <label for="backendUserFormSendMail">Send mail with information</label>
                     <select name="send_mail" class="form-control" id="backendUserFormSendMail">
                         <option value="true" selected>Yes</option>
                         <option value="false">No</option>
                     </select>
-                </div>
+                </div>-->
                 }
 
             </div>
@@ -87,13 +72,14 @@
                 </div>
 
                <!-- FIX Preselected & Make checkbox -->
-                <div class="form-group">
+               #form:checkboxgroup("should_reset_password", backendUser.should_reset_password, fieldset)
+                <!--<div class="form-group">
                     <label for="backendUserFormResetPwOnLogin">Reset password on next login</label>
                     <select name="should_reset_password" class="form-control" id="backendUserFormResetPwOnLogin">
                         <option value="true" selected>Yes</option>
                         <option value="false">No</option>
                     </select>
-                </div>
+                </div>-->
             </div>
         </div>
         

@@ -139,7 +139,7 @@ public final class LoginController {
         try token.save()
         
         // Set new password & save
-        try backendUser.setPassword(password)
+        backendUser.setPassword(password)
         try backendUser.save()
         
         return Response(redirect: "/admin/login").flash(.success, "Password is reset")
@@ -185,5 +185,39 @@ public final class LoginController {
         } catch {
             return Response(redirect: "/admin/login").flash(.error, "Failed to login")
         }
+    }
+    
+    /// SSO login
+    ///
+    /// - Parameter request: request
+    /// - Returns: return response
+    /// - Throws: throws Abort.custom internalServerError for missing config or sso
+    public func sso(request: Request) throws -> ResponseRepresentable {
+        guard let config: Configuration = drop.storage["adminPanelConfig"] as? Configuration else {
+            throw Abort.custom(status: .internalServerError, message: "AdminPanel missing configuration")
+        }
+        
+        guard let ssoProvider: SSOProtocol = config.ssoProvider else {
+            throw Abort.custom(status: .internalServerError, message: "AdminPanel no SSO setup")
+        }
+        
+        return try ssoProvider.auth(request)
+    }
+    
+    /// SSO callback
+    ///
+    /// - Parameter request: request
+    /// - Returns: return response
+    /// - Throws: throws Abort.custom internalServerError for missing config or sso
+    public func ssoCallback(request: Request) throws -> ResponseRepresentable {
+        guard let config: Configuration = drop.storage["adminPanelConfig"] as? Configuration else {
+            throw Abort.custom(status: .internalServerError, message: "AdminPanel missing configuration")
+        }
+        
+        guard let ssoProvider: SSOProtocol = config.ssoProvider else {
+            throw Abort.custom(status: .internalServerError, message: "AdminPanel no SSO setup")
+        }
+        
+        return try ssoProvider.callback(request)
     }
 }

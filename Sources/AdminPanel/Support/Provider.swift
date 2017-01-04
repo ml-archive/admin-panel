@@ -2,7 +2,8 @@ import Vapor
 import Auth
 public final class Provider: Vapor.Provider {
     
-    let config: Configuration
+    var config: Configuration
+    var ssoProvider: SSOProtocol?
     
     public func boot(_ drop: Droplet) {
         
@@ -14,6 +15,8 @@ public final class Provider: Vapor.Provider {
             leaf.stem.register(FormEmailGroup());
             leaf.stem.register(FormPasswordGroup());
             leaf.stem.register(FormNumberGroup());
+            leaf.stem.register(FormCheckboxGroup());
+            leaf.stem.register(FormSelectGroup());
         }
         
         drop.storage["adminPanelConfig"] = config
@@ -26,10 +29,10 @@ public final class Provider: Vapor.Provider {
         drop.commands.append(Seeder(drop: drop))
         
         if(config.loadRoutes) {
-            drop.group(AuthMiddleware<BackendUser>(), FlashMiddleware(), ConfigPublishMiddleware(config: config)) { auth in
-                auth.grouped("/").collection(LoginRoutes(droplet: drop))
+            drop.group(AuthMiddleware<BackendUser>(), FlashMiddleware(), ConfigPublishMiddleware(config: config), FieldsetMiddleware()) { auth in
+                auth.grouped("/").collection(LoginRoutes(droplet: drop, config: config))
                 
-                auth.group(AdminProtectMiddleware()) { secured in
+                auth.group(AdminProtectMiddleware(config)) { secured in
                     secured.grouped("/admin/dashboard").collection(DashboardRoutes(droplet: drop))
                     secured.grouped("/admin/backend_users").collection(BackendUsersRoutes(droplet: drop))
                     secured.grouped("/admin/backend_users/roles").collection(BackendUserRolesRoutes(droplet: drop))
@@ -38,13 +41,18 @@ public final class Provider: Vapor.Provider {
         }
     }
     
-    
     public init(drop: Droplet) throws {
         config = try Configuration(drop: drop)
     }
     
     public init(config: Config) throws {
         self.config = try Configuration(config: config)
+    }
+    
+    public convenience init(drop: Droplet, ssoProvider: SSOProtocol? = nil) throws {
+        try self.init(drop: drop)
+        
+        config.ssoProvider = ssoProvider
     }
     
     

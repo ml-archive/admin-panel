@@ -30,7 +30,7 @@ public final class BackendUsersController {
      */
     public func index(request: Request) throws -> ResponseRepresentable {
         try BackendUser.query().limit = Fluent.Limit(count: 20)
-        let users = try BackendUser.all() // todo pagination && search
+        let users = try BackendUser.query().limit(50).all() // todo pagination && search
         
         return try drop.view.make("BackendUsers/index", [
             "users": try users.makeNode()
@@ -44,9 +44,14 @@ public final class BackendUsersController {
      * - return: View
      */
     public func create(request: Request) throws -> ResponseRepresentable {
-        return try drop.view.make("BackendUsers/edit", [
+        return try drop.view.make("Nodes/AdminPanel::BackendUsers/edit", [
             "roles": BackendUserRole.all().makeNode(),
-            "fieldset": BackendUserForm.getFieldset(request)
+            "array": try [
+                "admin": "Administrator",
+                "super-admin": "Extreme Super Uber Administrator"
+            ].makeNode(),
+            "fieldset": BackendUserForm.getFieldset(request),
+            "defaultRole": BackendUserRole.query().filter("is_default", true).first()?.makeNode() ?? nil
         ], for: request)
     }
     
@@ -62,7 +67,7 @@ public final class BackendUsersController {
             let backendUserForm = try BackendUserForm(validating: request.data)
             
             // Store
-            var backendUser = try BackendUser(form: backendUserForm)
+            var backendUser = BackendUser(form: backendUserForm)
             try backendUser.save()
             
             // Send welcome mail
@@ -73,8 +78,7 @@ public final class BackendUsersController {
             
             return Response(redirect: "/admin/backend_users").flash(.success, "User created")
         }catch FormError.validationFailed(let fieldSet) {
-            try request.session().data["_fieldset"] = try fieldSet.makeNode()
-            return Response(redirect: "/admin/backend_users/create").flash(.error, "Validation error")
+            return Response(redirect: "/admin/backend_users/create").flash(.error, "Validation error").withFieldset(fieldSet)
         }catch {
             return Response(redirect: "/admin/backend_users/create").flash(.error, "Failed to create user")
         }
@@ -92,7 +96,12 @@ public final class BackendUsersController {
         return try drop.view.make("BackendUsers/edit", [
             "fieldset": BackendUserForm.getFieldset(request),
             "backendUser": try user.makeNode(),
-            "roles": BackendUserRole.all().makeNode()
+            "array": try [
+                "admin": "Administrator",
+                "super-admin": "Extreme Super Uber Administrator"
+            ].makeNode(),
+            "roles": BackendUserRole.all().makeNode(),
+            "defaultRole": BackendUserRole.query().filter("is_default", true).first()?.makeNode() ?? nil
         ], for: request)
     }
     
@@ -112,15 +121,13 @@ public final class BackendUsersController {
             // Validate
             let backendUserForm = try BackendUserForm(validating: request.data)
             
-            // Assign
-            backendUser.name = backendUserForm.name
-            
+            // Store
+            backendUser.fill(form: backendUserForm)
             try backendUser.save()
             
             return Response(redirect: "/admin/backend_users").flash(.success, "User created")
         }catch FormError.validationFailed(let fieldSet) {
-            try request.session().data["_fieldset"] = try fieldSet.makeNode()
-            return Response(redirect: "/admin/backend_users/create").flash(.error, "Validation error")
+            return Response(redirect: "/admin/backend_users/create").flash(.error, "Validation error").withFieldset(fieldSet)
         }catch {
             return Response(redirect: "/admin/backend_users/edit/" + String(id)).flash(.error, "Failed to create user")
         }
