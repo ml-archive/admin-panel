@@ -9,22 +9,16 @@ public final class BackendUserRole: Model {
     public var exists: Bool = false
     
     public var id: Node?
-    public var title: Valid<NotEmpty>
-    public var slug: Valid<NotEmpty>
+    public var title: String
+    public var slug: String
     public var isDefault: Bool
     public var createdAt: Date
     public var updatedAt: Date
     
     public init(node: Node, in context: Context) throws {
         id = try? node.extract("id")
-        
-        let titleTemp: String = try node.extract("title")
-        title = try titleTemp.validated()
-        
-        let slugTemp: String = try node.extract("slug")
-        slug = try slugTemp.validated()
-        
-        
+        title = try node.extract("title")
+        slug = try node.extract("slug")
         isDefault = try node.extract("is_default") ?? false
         
         do {
@@ -41,8 +35,8 @@ public final class BackendUserRole: Model {
     }
     
     public init(request: Request) throws {
-        title = try (request.data["title"]?.string ?? "").validated()
-        slug = try title.value.slugify().validated()
+        title = request.data["title"]?.string ?? ""
+        slug = title.slugify()
         isDefault = try BackendUserRole.query().first() != nil ? false : true
         updatedAt = Date()
         createdAt = Date()
@@ -51,8 +45,8 @@ public final class BackendUserRole: Model {
     public func makeNode(context: Context) throws -> Node {
         return try Node(node: [
             "id": id,
-            "title": title.value,
-            "slug": slug.value,
+            "title": title,
+            "slug": slug,
             "is_default": isDefault,
             "created_at": try createdAt.toDateTimeString(),
             "updated_at": try updatedAt.toDateTimeString()
@@ -72,5 +66,15 @@ public final class BackendUserRole: Model {
     
     public static func revert(_ database: Database) throws {
         try database.delete("backend_user_roles")
+    }
+    
+    public static func options() throws -> [String: String] {
+        var options: [String: String] = [:]
+        
+        for role in try self.all() {
+            options[role.slug] = role.title
+        }
+        
+        return options
     }
 }

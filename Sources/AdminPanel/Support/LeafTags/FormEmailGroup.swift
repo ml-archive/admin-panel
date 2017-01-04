@@ -58,9 +58,11 @@ public class FormEmailGroup: BasicTag {
                 throw Abort.serverError
         }
         
-        let inputValue = arguments[1].value?.string ?? ""
-        
+        // Retrieve field set for name
         let fieldset = fieldsetNode[inputName]
+        
+        // Retrieve input value, value from fieldset else passed default value
+        let inputValue = fieldset?["value"]?.string ?? arguments[1].value?.string ?? ""
         
         let label = fieldset?["label"]?.string ?? inputName
         

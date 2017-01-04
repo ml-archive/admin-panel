@@ -12,14 +12,20 @@ public struct BackendUserForm: Form {
     
     public static let fieldset = Fieldset([
         "name": StringField(
-            label: "Name"
+            label: "Name",
+            String.MinimumLengthValidator(characters: 1),
+            String.MaximumLengthValidator(characters: 191)
         ),
         "email": StringField(
             label: "Email",
-            String.EmailValidator()
+            String.EmailValidator(),
+            String.MinimumLengthValidator(characters: 1),
+            String.MaximumLengthValidator(characters: 191)
         ),
         "role": StringField(
-            label: "Role"
+            label: "Role",
+            String.MaximumLengthValidator(characters: 191)
+            //
         ),
         "should_reset_password": BoolField(
             label: "Should reset password"
@@ -27,7 +33,18 @@ public struct BackendUserForm: Form {
         "send_mail": BoolField(
             label: "Send mail with info"
         ),
-        ], requiring: ["name", "email", "role", "should_reset_password"])
+        "password": StringField(
+            label: "Password",
+            String.MinimumLengthValidator(characters: 8),
+            String.MaximumLengthValidator(characters: 191)
+            //TODO check repeat
+        ),
+        "passwordRepeat": StringField(
+            label: "Repeat password",
+            String.MinimumLengthValidator(characters: 8),
+            String.MaximumLengthValidator(characters: 191)
+        ),
+        ], requiring: ["name", "email", "role"])
     
     public init(validatedData: [String: Node]) throws {
         
@@ -42,7 +59,7 @@ public struct BackendUserForm: Form {
         self.email = email
         self.role = role
         
-        self.sendMail = validatedData["send_mail"]?.string == "true"
+        self.sendMail = validatedData["send_mail"] != nil
     
         if let password = validatedData["password"]?.string {
             self.password = password
@@ -53,7 +70,7 @@ public struct BackendUserForm: Form {
         
         if randomPassword {
             shouldResetPassword = true
-        } else if validatedData["should_reset_password"] == "true" {
+        } else if validatedData["should_reset_password"] != nil {
             shouldResetPassword = true
         } else {
             shouldResetPassword = false

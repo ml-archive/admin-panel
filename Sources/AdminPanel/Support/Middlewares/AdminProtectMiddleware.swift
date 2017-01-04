@@ -6,9 +6,11 @@ import Auth
 public class AdminProtectMiddleware: Middleware {
     
     let configuration: Configuration
+    let droplet: Droplet
     
-    public init(_ configuration: Configuration) {
+    public init(droplet: Droplet, configuration: Configuration) {
         self.configuration = configuration
+        self.droplet = droplet
     }
     
     public func respond(to request: Request, chainingTo next: Responder) throws -> Response {
@@ -18,7 +20,7 @@ public class AdminProtectMiddleware: Middleware {
             }
             
         } catch {
-            if configuration.autoLoginFirstUser, let backendUser: BackendUser = try BackendUser.query().first() {
+            if (droplet.environment.description == "local" || request.uri.host == "0.0.0.0") && configuration.autoLoginFirstUser, let backendUser: BackendUser = try BackendUser.query().first() {
                 
                 try request.auth.login(Identifier(id: backendUser.id ?? 0))
                 

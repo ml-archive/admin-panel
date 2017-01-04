@@ -60,7 +60,8 @@ public class FormNumberGroup: BasicTag {
         }
         
         var inputValue:Any
-        print(arguments[1].value?.float, arguments[1].value?.int, arguments[1].value?.double, arguments[1].value?.uint)
+        
+        //TODO Does this use fieldset?["value"]?.string ???
         if(arguments[1].value?.int != nil) {
             inputValue = Int((arguments[1].value?.int!)!)
         } else if(arguments[1].value?.float != nil) {
@@ -68,7 +69,6 @@ public class FormNumberGroup: BasicTag {
         } else {
             inputValue = ""
         }
-        
         
         let fieldset = fieldsetNode[inputName]
         

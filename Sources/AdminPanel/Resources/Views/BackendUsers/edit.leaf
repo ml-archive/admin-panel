@@ -37,55 +37,29 @@
             <div class="margin-vertical-sm">
                 #form:textgroup("name", backendUser.name, fieldset)
                 #form:emailgroup("email", backendUser.email, fieldset)
-                
-                foo:
-                #form:selectgroup("role", array, fieldset, nil, "This is a placeholder", "class:form-control btn btn-primary lol", "disabled")
+                #form:selectgroup("role", roles, fieldset, defaultRole)
 
-                <!-- FIX IF & Make checkbox -->
-                #if(backendUser) {
+                #if(#(backendUser)) {
                 } ##else() {
-                #form:checkboxgroup("send_mail", backendUser.send_mail, fieldset)
-                <!--<div class="form-group">
-                    <label for="backendUserFormSendMail">Send mail with information</label>
-                    <select name="send_mail" class="form-control" id="backendUserFormSendMail">
-                        <option value="true" selected>Yes</option>
-                        <option value="false">No</option>
-                    </select>
-                </div>-->
+                    #form:checkboxgroup("send_mail", "true", fieldset)
                 }
-
-            </div>
-            <br/>
             <h4 class="margin-top">
-                Choose password <small class="text-gray-dark">(leave empty for random) (min. 8 characters)</small>
+                Choose password
+                <br>
+                <small class="text-gray-dark">(leave empty for random with forced reset) (min. 8 characters)</small>
             </h4>
             <hr/>
             <div class="margin-top">
-                <div class="form-group">
-                    <label for="backendUserFormPassword">Password</label>
-                    <input type="password" id="backendUserFormPassword" class="form-control" name="password" minlength="8"/>
-                </div>
-
-                <div class="form-group">
-                    <label for="backendUserFormRepeatPassword">Repeat password</label>
-                    <input type="password" id="backendUserFormRepeatPassword" class="form-control" name="passwordRepeat" minlength="8"/>
-                </div>
-
-               <!-- FIX Preselected & Make checkbox -->
-               #form:checkboxgroup("should_reset_password", backendUser.should_reset_password, fieldset)
-                <!--<div class="form-group">
-                    <label for="backendUserFormResetPwOnLogin">Reset password on next login</label>
-                    <select name="should_reset_password" class="form-control" id="backendUserFormResetPwOnLogin">
-                        <option value="true" selected>Yes</option>
-                        <option value="false">No</option>
-                    </select>
-                </div>-->
+                #form:passwordgroup("password", nil, fieldset)
+                #form:passwordgroup("passwordRepeat", nil, fieldset)
+                #form:checkboxgroup("should_reset_password", backendUser.should_reset_password, fieldset)
+            </div>
             </div>
         </div>
         
     </div>
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-6">
             <hr/>
             <input type="submit" class="btn btn-primary form-control" value="#if(backendUser) { Edit backend user } ##else() { Create backend user }">
         </div>

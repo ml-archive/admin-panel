@@ -5,9 +5,9 @@ public final class Provider: Vapor.Provider {
     var config: Configuration
     var ssoProvider: SSOProtocol?
     
-    public func boot(_ drop: Droplet) {
+    public func boot(_ dropet: Droplet) {
         
-        if let leaf = drop.view as? LeafRenderer {
+        if let leaf = dropet.view as? LeafRenderer {
             leaf.stem.register(Active());
             leaf.stem.register(FormOpen());
             leaf.stem.register(FormClose());
@@ -19,23 +19,23 @@ public final class Provider: Vapor.Provider {
             leaf.stem.register(FormSelectGroup());
         }
         
-        drop.storage["adminPanelConfig"] = config
+        dropet.storage["adminPanelConfig"] = config
         Configuration.shared = config
         
-        drop.preparations.append(BackendUserResetPasswordTokens.self)
-        drop.preparations.append(BackendUserRole.self)
-        drop.preparations.append(BackendUser.self)
+        dropet.preparations.append(BackendUserResetPasswordTokens.self)
+        dropet.preparations.append(BackendUserRole.self)
+        dropet.preparations.append(BackendUser.self)
         
-        drop.commands.append(Seeder(drop: drop))
+        dropet.commands.append(Seeder(dropet: dropet))
         
         if(config.loadRoutes) {
-            drop.group(AuthMiddleware<BackendUser>(), FlashMiddleware(), ConfigPublishMiddleware(config: config), FieldsetMiddleware()) { auth in
-                auth.grouped("/").collection(LoginRoutes(droplet: drop, config: config))
+            dropet.group(AuthMiddleware<BackendUser>(), FlashMiddleware(), ConfigPublishMiddleware(config: config), FieldsetMiddleware()) { auth in
+                auth.grouped("/").collection(LoginRoutes(droplet: dropet, config: config))
                 
-                auth.group(AdminProtectMiddleware(config)) { secured in
-                    secured.grouped("/admin/dashboard").collection(DashboardRoutes(droplet: drop))
-                    secured.grouped("/admin/backend_users").collection(BackendUsersRoutes(droplet: drop))
-                    secured.grouped("/admin/backend_users/roles").collection(BackendUserRolesRoutes(droplet: drop))
+                auth.group(AdminProtectMiddleware(droplet: dropet, configuration: config)) { secured in
+                    secured.grouped("/admin/dashboard").collection(DashboardRoutes(droplet: dropet))
+                    secured.grouped("/admin/backend_users").collection(BackendUsersRoutes(droplet: dropet))
+                    secured.grouped("/admin/backend_users/roles").collection(BackendUserRolesRoutes(droplet: dropet))
                 }
             }
         }

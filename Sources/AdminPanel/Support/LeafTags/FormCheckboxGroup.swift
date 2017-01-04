@@ -77,12 +77,11 @@ public class FormCheckboxGroup: BasicTag {
                 throw Abort.custom(status: .internalServerError, message: "FormTextGroup parse error, expecting: #form:textgroup(\"name\", \"default\", fieldset)")
         }
         
+        // Retrieve field set for name
         let fieldset = fieldsetNode[inputName]
         
-        var inputValue = arguments[1].value?.bool ?? false
-        if let existingValue: Bool = fieldset?["value"]?.bool {
-            inputValue = existingValue
-        }
+        // Retrieve input value, value from fieldset else passed default value
+        let inputValue = fieldset?["value"]?.bool ?? arguments[1].value?.bool ?? false
         
         let label = fieldset?["label"]?.string ?? inputName
         

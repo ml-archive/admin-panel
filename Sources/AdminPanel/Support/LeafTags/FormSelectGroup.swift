@@ -97,7 +97,7 @@ public class FormSelectGroup: BasicTag {
          </div>
          </div>
          */
-    //print(arguments[5].value)
+    
         guard arguments.count >= 3,
             let inputName: String = arguments[0].value?.string,
             let inputValues = arguments[1].value?.nodeObject,
@@ -123,7 +123,6 @@ public class FormSelectGroup: BasicTag {
             var htmlAttrs = ""
         }
         
-        
         // Start constructing the template
         var template = [String]()
         
@@ -146,7 +145,6 @@ public class FormSelectGroup: BasicTag {
                 template.append("<option value='\(key)'>\(value.string ?? key)</option>")
             }
         }
-    
         
         template.append("</select>")
         
