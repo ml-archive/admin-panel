@@ -30,7 +30,7 @@ public final class BackendUsersController {
      */
     public func index(request: Request) throws -> ResponseRepresentable {
         try BackendUser.query().limit = Fluent.Limit(count: 20)
-        let users = try BackendUser.query().limit(50).all() // todo pagination && search
+        let users = try BackendUser.query().all() // todo pagination, new limit && search
         
         return try drop.view.make("BackendUsers/index", [
             "users": try users.makeNode()
