@@ -126,7 +126,7 @@ public final class LoginController {
             return Response(redirect: "admin/login/reset" + tokenStr).flash(.error, "Passwords did not match")
         }
         
-        if !password.passes(PasswordStrong()) {
+        if !password.passes(Count.min(8)) {
             return Response(redirect: "admin/login/reset" + tokenStr).flash(.error, "Passwords did not match requirement")
         }
         

@@ -57,14 +57,11 @@ public class FormTextGroup: BasicTag {
             throw Abort.custom(status: .internalServerError, message: "FormTextGroup parse error, expecting: #form:textgroup(\"name\", \"default\", fieldset)")
         }
         
-        print(fieldsetNode["requiring"])
-        
+        // Retrieve field set for name
         let fieldset = fieldsetNode[inputName]
         
-        var inputValue = arguments[1].value?.string ?? ""
-        if let existingValue: String = fieldset?["value"]?.string {
-            inputValue = existingValue
-        }
+        // Retrieve input value, value from fieldset else passed default value
+        let inputValue = fieldset?["value"]?.string ?? arguments[1].value?.string ?? ""
         
         let label = fieldset?["label"]?.string ?? inputName
         

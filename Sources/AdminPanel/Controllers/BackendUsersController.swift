@@ -30,7 +30,7 @@ public final class BackendUsersController {
      */
     public func index(request: Request) throws -> ResponseRepresentable {
         try BackendUser.query().limit = Fluent.Limit(count: 20)
-        let users = try BackendUser.query().limit(50).all() // todo pagination && search
+        let users = try BackendUser.query().all() // todo pagination && search
         
         return try drop.view.make("BackendUsers/index", [
             "users": try users.makeNode()
@@ -44,14 +44,10 @@ public final class BackendUsersController {
      * - return: View
      */
     public func create(request: Request) throws -> ResponseRepresentable {
-        return try drop.view.make("Nodes/AdminPanel::BackendUsers/edit", [
-            "roles": BackendUserRole.all().makeNode(),
-            "array": try [
-                "admin": "Administrator",
-                "super-admin": "Extreme Super Uber Administrator"
-            ].makeNode(),
+        return try drop.view.make("BackendUsers/edit", [
+            "roles": BackendUserRole.options().makeNode(),
             "fieldset": BackendUserForm.getFieldset(request),
-            "defaultRole": BackendUserRole.query().filter("is_default", true).first()?.makeNode() ?? nil
+            "defaultRole": BackendUserRole.query().filter("is_default", true).first()?.slug.makeNode() ?? nil
         ], for: request)
     }
     
