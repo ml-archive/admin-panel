@@ -92,14 +92,15 @@ Put your JavaScript files in `/Resources/Assets/Js` - if you need specific js fo
  
 When compiling, all files *not* in `Pages` will be concatinated and minified. Page specific js is only minified.
 
-#### Using views from packages (for development)
-```
-drop.view = LeafRenderer(
-    viewsDir: Droplet().workDir + "/Packages/AdminPanel-0.2.0/Sources/AdminPanel/Resources/Views"
-)
-
 #### Read more
 
 Github: https://github.com/nodes-frontend/nodes-ui
 
 Doc: https://nodes-frontend.github.io/nodes-ui/
+
+#### Using views from packages (for development)
+```
+drop.view = LeafRenderer(
+    viewsDir: Droplet().workDir + "/Packages/AdminPanel-0.2.0/Sources/AdminPanel/Resources/Views"
+)
+```
