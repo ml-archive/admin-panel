@@ -5,6 +5,7 @@ import HTTP
 import Turnstile
 import TurnstileCrypto
 import TurnstileWeb
+import Flash
 
 public final class LoginController {
     

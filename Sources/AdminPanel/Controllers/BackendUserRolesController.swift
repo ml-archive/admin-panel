@@ -1,5 +1,6 @@
 import Vapor
 import HTTP
+import Flash
 
 public final class BackendUserRolesController {
     
