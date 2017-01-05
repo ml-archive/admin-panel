@@ -135,8 +135,7 @@ public final class LoginController {
     }
     
     /// Login form
-    ///
-    /// - Parameter request: Request
+    ///l    /// - Parameter request: Request
     /// - Returns: View
     /// - Throws: Error
     public func form(request: Request) throws -> View {
@@ -159,9 +158,10 @@ public final class LoginController {
         }
         
         do {
-            let remember: Bool = request.data["remember"]?.bool ?? false
+            // TODO REMEMBER
+            //let remember: Bool = request.data["remember"]?.bool ?? false
             
-            try request.auth.login(UsernamePassword(username: username, password: password), persist: remember)
+            try request.auth.login(UsernamePassword(username: username, password: password))
             
             // Generate redirect path
             var redirect = "/admin/dashboard"
