@@ -78,18 +78,9 @@ vapor run admin-panel:seed
 - Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/Public/favicon.ico` and the `favicon` folder to the `Public` folder in your project
 - Run `npm install` > `bower install` > `gulp build`
 
-#### Theming
-
-- Update variables in the `_variables.scss` file located in `/Resources/Assets/Scss` (ie. `$primary-color`)
-- Compile the styles by running `gulp build`
-
-#### JavaScript
-
-Put your JavaScript files in `/Resources/Assets/Js` - if you need specific js for a specific page- place this file in the `Pages` subfolder.
- 
-When compiling, all files *not* in `Pages` will be concatinated and minified. Page specific js is only minified.
-
 #### Read more
+
+Wiki: https://github.com/nodes-vapor/admin-panel/wiki
 
 Github: https://github.com/nodes-frontend/nodes-ui
 
@@ -98,6 +89,6 @@ Doc: https://nodes-frontend.github.io/nodes-ui/
 #### Using views from packages (for development)
 ```
 drop.view = LeafRenderer(
-    viewsDir: Droplet().workDir + "/Packages/AdminPanel-0.2.0/Sources/AdminPanel/Resources/Views"
+    viewsDir: Droplet().workDir + "/Packages/AdminPanel-0.5.4/Sources/AdminPanel/Resources/Views"
 )
 ```
