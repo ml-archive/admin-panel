@@ -15,13 +15,12 @@ public final class LoginController {
         drop = droplet
     }
     
-    /**
-     * Landing page
-     *
-     * - param: Request
-     * - return: Response
-     */
-    public func landing(request: Request) throws -> ResponseRepresentable {
+    
+    /// Landing
+    ///
+    /// - Parameter request: Request
+    /// - Returns: Response
+    public func landing(request: Request) -> Response {
         do {
             guard let user: BackendUser = try request.auth.user() as? BackendUser else {
                 throw Abort.custom(status: .forbidden, message: "Forbidden")
@@ -33,33 +32,30 @@ public final class LoginController {
         }
     }
     
-    /**
-     * Reset password form
-     *
-     * - param: Request
-     * - return: View
-     */
-    public func resetPasswordForm(request: Request) throws -> ResponseRepresentable {
+    
+    /// Reset password form
+    ///
+    /// - Parameter request: Request
+    /// - Returns: View
+    /// - Throws: Error
+    public func resetPasswordForm(request: Request) throws -> View {
         return try drop.view.make("Login/reset", for: request)
     }
     
-    /**
-     * Reset password submit
-     *
-     * - param: Request
-     * - return: Response
-     */
-    public func resetPasswordSubmit(request: Request) throws -> ResponseRepresentable {
-        guard let email = request.data["email"]?.string, let backendUser: BackendUser = try BackendUser.query().filter("email", email).first() else {
-            return Response(redirect: "/admin/login/reset").flash(.error, "Email was not found")
-            //return Response(redirect: "/admin/login").flash(.success, "E-mail with instructions sent")
-        }
-        
+    
+    /// Reset password submit
+    ///
+    /// It's on purpose that we show a success message if user is not found. Else this action could be used to find emails in db
+    ///
+    /// - Parameter request: Request
+    /// - Returns: Response
+    public func resetPasswordSubmit(request: Request) -> Response {
         do {
-            // TODO, when a direct delete func is added to fluent, change this for performance increase
-            for token in try BackendUserResetPasswordTokens.query().filter("email", email).all() {
-                try token.delete()
+            guard let email = request.data["email"]?.string, let backendUser: BackendUser = try BackendUser.query().filter("email", email).first() else {
+                return Response(redirect: "/admin/login").flash(.success, "E-mail with instructions sent if user exists")
             }
+        
+            try BackendUserResetPasswordTokens.query().filter("email", email).delete()
             
             // Make a token
             var token = BackendUserResetPasswordTokens(email: email)
@@ -68,54 +64,46 @@ public final class LoginController {
             // Send mail
             try Mailer.sendResetPasswordMail(drop: drop, backendUser: backendUser, token: token)
             
-            return Response(redirect: "/admin/login").flash(.success, "E-mail with instructions sent")
+            return Response(redirect: "/admin/login").flash(.success, "E-mail with instructions sent if user exists")
         } catch {
             return Response(redirect: "/admin/login/reset").flash(.error, "Error occurred")
         }
     }
     
-    /**
-     * Reset password token form
-     *
-     * - param: Request
-     * - return: ResponseRepresentable
-     */
-    public func resetPasswordTokenForm(request: Request) throws -> ResponseRepresentable {
+    
+    /// Reset password token form
+    ///
+    /// - Parameter request: Request
+    /// - Returns: View
+    /// - Throws: Various Abort.customs
+    public func resetPasswordTokenForm(request: Request) throws -> View {
         guard let tokenStr = request.parameters["token"]?.string else {
             throw Abort.custom(status: .badRequest, message: "Missing token")
         }
         
-        guard let token = try BackendUserResetPasswordTokens.query().filter("token", tokenStr).first() else {
+        // If token does not exist or cannot be used is the same error
+        guard let token = try BackendUserResetPasswordTokens.query().filter("token", tokenStr).first(), !token.canBeUsed() else {
             throw Abort.custom(status: .badRequest, message: "Token does not exist")
         }
-        
-        if(!token.canBeUsed()) {
-            throw Abort.custom(status: .badRequest, message: "Token does not exist")
-        }
-        
         
         return try drop.view.make("ResetPassword/form", [
             "token": token
         ], for: request)
     }
     
-    /**
-     * Reset password token submit
-     *
-     * - param: Request
-     * - return: ResponseRepresentable
-     */
-    public func resetPasswordTokenSubmit(request: Request) throws -> ResponseRepresentable {
+    
+    /// Reset password token submit, check token and make sure new password is matching requirement
+    ///
+    /// - Parameter request: Request
+    /// - Returns: Response
+    /// - Throws: Varius Abort.customs
+    public func resetPasswordTokenSubmit(request: Request) throws -> Response {
         guard let tokenStr = request.data["token"]?.string, let email = request.data["email"]?.string,
             let password = request.data["password"]?.string, let passwordRepeat = request.data["password_repeat"]?.string else {
                 throw Abort.badRequest
         }
         
-        guard var token = try BackendUserResetPasswordTokens.query().filter("token", tokenStr).first() else {
-            throw Abort.custom(status: .badRequest, message: "Token does not exist")
-        }
-        
-        if !token.canBeUsed() {
+        guard var token = try BackendUserResetPasswordTokens.query().filter("token", tokenStr).first(), !token.canBeUsed() else {
             throw Abort.custom(status: .badRequest, message: "Token does not exist")
         }
         
@@ -146,25 +134,24 @@ public final class LoginController {
         return Response(redirect: "/admin/login").flash(.success, "Password is reset")
     }
     
-    /**
-     * Login form
-     *
-     * - param: Request
-     * - return: View
-     */
-    public func form(request: Request) throws -> ResponseRepresentable {
+    /// Login form
+    ///
+    /// - Parameter request: Request
+    /// - Returns: View
+    /// - Throws: Error
+    public func form(request: Request) throws -> View {
         return try drop.view.make("Login/login", [
             "next": request.query?["next"]?.node ?? nil
         ], for: request)
     }
     
-    /**
-     * Submit login
-     *
-     * - param: Request
-     * - return: Response
-     */
-    public func submit(request: Request) throws -> ResponseRepresentable {
+    
+    /// Submit login
+    ///
+    /// - Parameter request: Request
+    /// - Returns: Response
+    /// - Throws: Error
+    public func submit(request: Request) throws -> Response {
         
         // Guard credentials
         guard let username = request.data["email"]?.string, let password = request.data["password"]?.string else {
@@ -172,15 +159,15 @@ public final class LoginController {
         }
         
         do {
-            try request.auth.login(UsernamePassword(username: username, password: password))
+            let remember: Bool = request.data["remember"]?.bool ?? false
+            
+            try request.auth.login(UsernamePassword(username: username, password: password), persist: remember)
             
             // Generate redirect path
             var redirect = "/admin/dashboard"
             if let next: String = request.query?["next"]?.string, !next.isEmpty {
                 redirect = next
             }
-            
-            // TODO, "remember me"
         
             return Response(redirect: redirect).flash(.success, "Logged in as \(username)")
         } catch {
