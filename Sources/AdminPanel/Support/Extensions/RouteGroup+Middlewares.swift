@@ -1,6 +1,7 @@
 import Routing
 import HTTP
 
+// Just a copy from vapor since its private
 extension Collection where Iterator.Element == Middleware {
     func chain(to responder: Responder) -> Responder {
         return reversed().reduce(responder) { nextResponder, nextMiddleware in
@@ -11,6 +12,7 @@ extension Collection where Iterator.Element == Middleware {
     }
 }
 
+// TODO, this should be moved to vapor
 extension RouteBuilder where Value == Responder {
     public func group(_ middlewares: [Middleware], closure: (RouteGroup<Value, Self>) ->()) {
         group(prefix: [nil, nil], path: [], map: { handler in
