@@ -63,9 +63,6 @@ try drop.addProvider(AdminPanel.Provider.self)
 vapor run admin-panel:seed
 ```
 
-### Dependencies
-https://github.com/nodes-vapor/storage
-
 ### UI package
 
 #### Prerequisites
