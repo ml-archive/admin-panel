@@ -1,6 +1,8 @@
 import Foundation
 import Vapor
 import HTTP
+import Flash
+import Auth
 
 public struct Configuration {
     

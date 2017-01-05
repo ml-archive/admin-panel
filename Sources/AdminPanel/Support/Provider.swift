@@ -1,5 +1,8 @@
 import Vapor
 import Paginator
+import Flash
+import Auth
+import HTTP
 
 public final class Provider: Vapor.Provider {
     
@@ -33,12 +36,27 @@ public final class Provider: Vapor.Provider {
         
         droplet.commands.append(Seeder(dropet: droplet))
         
+        // Init middlewares
+        let middlewares: [Middleware] = [
+            AuthMiddleware<BackendUser>(),
+            FlashMiddleware(),
+            ConfigPublishMiddleware(config: config),
+            FieldsetMiddleware()
+        ]
+        
+        var protectedMiddlewares: [Middleware] = middlewares
+        protectedMiddlewares.append(ProtectMiddleware(droplet: droplet))
+        
+        // Apply
+        Middlewares.unsecured = middlewares
+        Middlewares.secured = protectedMiddlewares
+        
         if(config.loadRoutes) {
-            droplet.group(AdminPanelMiddleware(droplet: droplet)) { unsecured in
+            droplet.group(Middlewares.unsecured) { unsecured in
                 unsecured.grouped("/").collection(LoginRoutes(droplet: droplet, config: config))
             }
             
-            droplet.group(AdminPanelProtectedMiddleware(droplet: droplet)) { secured in
+            droplet.group(Middlewares.secured) { secured in
                 secured.grouped("/admin/dashboard").collection(DashboardRoutes(droplet: droplet))
                 secured.grouped("/admin/backend_users").collection(BackendUsersRoutes(droplet: droplet))
                 secured.grouped("/admin/backend_users/roles").collection(BackendUserRolesRoutes(droplet: droplet))

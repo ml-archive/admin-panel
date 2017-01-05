@@ -11,7 +11,8 @@ public final class DashboardController {
     }
     
     public func index(request: Request) throws -> ResponseRepresentable {
+        print(request.storage["authedBackendUser"])
+        
         return try drop.view.make("Dashboard/view", for: request)
     }
-    
 }
