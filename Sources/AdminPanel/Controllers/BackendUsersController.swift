@@ -3,6 +3,7 @@ import VaporForms
 import HTTP
 import Fluent
 import Flash
+import Paginator
 
 public final class BackendUsersController {
     
@@ -30,9 +31,19 @@ public final class BackendUsersController {
      * - return: View
      */
     public func index(request: Request) throws -> ResponseRepresentable {
-        try BackendUser.query().limit = Fluent.Limit(count: 20) // Remove when limit is ready
-        let users = try BackendUser.query().all() // todo pagination, new limit && search
         
+        /*
+         TODO when paginator has query extension
+        var query = try BackendUser.query()
+        if let search: String = request.query?["search"]?.string {
+            try query.filter("name", "%" + search + "%")
+        }
+        let users = try query.paginator(25, request: request)
+        */
+        
+        let users = try BackendUser.paginator(25, request: request)
+        
+        // Search
         return try drop.view.make("BackendUsers/index", [
             "users": try users.makeNode()
         ], for: request)

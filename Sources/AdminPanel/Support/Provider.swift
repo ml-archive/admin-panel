@@ -1,6 +1,8 @@
 import Vapor
 import Auth
 import Flash
+import Paginator
+
 public final class Provider: Vapor.Provider {
     
     var config: Configuration
@@ -9,6 +11,7 @@ public final class Provider: Vapor.Provider {
     public func boot(_ dropet: Droplet) {
         
         if let leaf = dropet.view as? LeafRenderer {
+            // AdminPanel
             leaf.stem.register(Active());
             leaf.stem.register(FormOpen());
             leaf.stem.register(FormClose());
@@ -18,6 +21,9 @@ public final class Provider: Vapor.Provider {
             leaf.stem.register(FormNumberGroup());
             leaf.stem.register(FormCheckboxGroup());
             leaf.stem.register(FormSelectGroup());
+            
+            //Paginator
+            leaf.stem.register(PaginatorTag())
         }
         
         dropet.storage["adminPanelConfig"] = config
