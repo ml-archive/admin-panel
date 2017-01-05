@@ -59,6 +59,8 @@ public final class BackendUserRole: Model {
             table.bool("is_default");
             table.timestamps()
         }
+        
+        try database.driver.raw(database.index(table: "backend_user_roles", column: "slug"))
     }
     
     public static func revert(_ database: Database) throws {

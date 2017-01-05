@@ -113,7 +113,9 @@ public final class BackendUser: Auth.User, Model {
             table.timestamps()
         }
         
-        //role should be foreign key
+        try database.driver.raw(database.foreign(parentTable: "backend_user_roles", parentPrimaryKey: "slug", childTable: "backend_users", childForeignKey: "role"))
+        
+        try database.driver.raw(database.index(table: "backend_users", column: "email"))
     }
     
     public static func revert(_ database: Database) throws {

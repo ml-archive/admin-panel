@@ -70,6 +70,9 @@ public final class BackendUserResetPasswordTokens: Model {
             table.datetime("expire_at", optional: true)
             table.timestamps()
         }
+        
+        try database.driver.raw(database.index(table: "backend_reset_password_tokens", column: "email"))
+        try database.driver.raw(database.index(table: "backend_reset_password_tokens", column: "token"))
     }
     
     public static func revert(_ database: Database) throws {
