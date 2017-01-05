@@ -60,7 +60,7 @@ public final class BackendUserRole: Model {
             table.timestamps()
         }
         
-        try database.driver.raw(database.index(table: "backend_user_roles", column: "slug"))
+        try database.index(table: "backend_user_roles", column: "slug")
     }
     
     public static func revert(_ database: Database) throws {

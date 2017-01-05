@@ -71,8 +71,8 @@ public final class BackendUserResetPasswordTokens: Model {
             table.timestamps()
         }
         
-        try database.driver.raw(database.index(table: "backend_reset_password_tokens", column: "email"))
-        try database.driver.raw(database.index(table: "backend_reset_password_tokens", column: "token"))
+        try database.index(table: "backend_reset_password_tokens", column: "email")
+        try database.index(table: "backend_reset_password_tokens", column: "token")
     }
     
     public static func revert(_ database: Database) throws {
