@@ -79,4 +79,17 @@ public final class BackendUserRole: Model {
         
         return options
     }
+    
+    
+    /// Retrieve default role
+    ///
+    /// - Returns: Role
+    /// - Throws: Error
+    public static func defaultRole() throws -> BackendUserRole {
+        guard let role: BackendUserRole =  try self.query().filter("is_default", true).first() else {
+            throw Abort.custom(status: .internalServerError, message: "AdminPanel not default role")
+        }
+        
+        return role
+    }
 }

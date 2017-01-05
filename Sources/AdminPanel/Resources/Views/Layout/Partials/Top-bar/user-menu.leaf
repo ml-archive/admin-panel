@@ -1,9 +1,9 @@
 
     <div class="dropdown dropdown-user">
         <button class="btn btn-transparent dropdown-toggle user__info-button" data-toggle="dropdown">
-            <img class="user__info-avatar img-responsive img-circle" src="#(request.storage.user.imageUrl)"/>
+            <img class="user__info-avatar img-responsive img-circle" src="#(request.storage.authedBackendUser.imageUrl)"/>
             <span class="user__info-name">
-                #(request.storage.user.email)
+                #(request.storage.authedBackendUser.email)
                 <span class="caret"></span>
             </span>
         </button>
@@ -13,14 +13,14 @@
 
                 <div class="user">
                     <div class="user__profile">
-                        <img class="user__info-avatar img-responsive img-circle" src="#(request.storage.user.imageUrl)">
+                        <img class="user__info-avatar img-responsive img-circle" src="#(request.storage.authedBackendUser.imageUrl)">
                     </div>
                     <div class="user__info">
                         <span class="user__info-name">
-                            #(request.storage.user.name)
+                            #(request.storage.authedBackendUser.name)
                         </span>
                         <span class="user__info-email">
-                            #(request.storage.user.email)
+                            #(request.storage.authedBackendUser.email)
                         </span>
                     </div>
                 </div>

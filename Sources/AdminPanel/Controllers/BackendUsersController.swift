@@ -59,7 +59,7 @@ public final class BackendUsersController {
         return try drop.view.make("BackendUsers/edit", [
             "roles": BackendUserRole.options().makeNode(),
             "fieldset": BackendUserForm.getFieldset(request),
-            "defaultRole": BackendUserRole.query().filter("is_default", true).first()?.slug.makeNode() ?? nil
+            "defaultRole": BackendUserRole.defaultRole()
         ], for: request)
     }
     
@@ -104,12 +104,8 @@ public final class BackendUsersController {
         return try drop.view.make("BackendUsers/edit", [
             "fieldset": BackendUserForm.getFieldset(request),
             "backendUser": try user.makeNode(),
-            "array": try [
-                "admin": "Administrator",
-                "super-admin": "Extreme Super Uber Administrator"
-            ].makeNode(),
-            "roles": BackendUserRole.all().makeNode(),
-            "defaultRole": BackendUserRole.query().filter("is_default", true).first()?.makeNode() ?? nil
+            "roles": BackendUserRole.options().makeNode(),
+            "defaultRole": BackendUserRole.defaultRole()
         ], for: request)
     }
     

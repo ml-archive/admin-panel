@@ -1,6 +1,7 @@
 #extend("Layout/layout-page-sidebar")
 
 #export("breadcrumbs") {
+#(request.storage.subject.name)
 <li>
     <a href="/admin/backend_users">Backend users</a>
 </li>
