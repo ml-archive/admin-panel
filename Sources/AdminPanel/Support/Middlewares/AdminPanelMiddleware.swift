@@ -4,7 +4,7 @@ import Auth
 import Flash
 import Paginator
 
-public class AdminPanelProtectedMiddleware: Middleware {
+public class AdminPanelMiddleware: Middleware {
     
     let droplet: Droplet
     let configuration: Configuration

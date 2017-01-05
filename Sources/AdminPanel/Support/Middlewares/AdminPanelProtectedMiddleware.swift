@@ -4,7 +4,7 @@ import Auth
 import Flash
 import Paginator
 
-public class AdminPanelMiddleware: Middleware {
+public class AdminPanelProtectedMiddleware: Middleware {
     
     let droplet: Droplet
     let configuration: Configuration
@@ -26,7 +26,6 @@ public class AdminPanelMiddleware: Middleware {
     }
     
     public func respond(to request: Request, chainingTo next: Responder) throws -> Response {
-        
         let _ = try authMiddleware.respond(to: request, chainingTo: next)
         let _ = try flashMiddleware.respond(to: request, chainingTo: next)
         let _ = try configPulbishMiddleware.respond(to: request, chainingTo: next)
