@@ -60,7 +60,7 @@ try drop.addProvider(AdminPanel.Provider.self)
 ```
 ### Seed data
 ```
-vapor run admin-panel:seed
+vapor run admin-panel:seeder
 ```
 
 ### UI package
