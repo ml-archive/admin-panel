@@ -3,20 +3,18 @@ import Vapor
 import Turnstile
 import Auth
 
-public class AdminProtectMiddleware: Middleware {
+class ProtectMiddleware: Middleware {
     
     let configuration: Configuration
     let droplet: Droplet
-    
     
     /// Init
     ///
     /// - Parameters:
     ///   - droplet: Droplet
-    ///   - configuration: Configuration
-    public init(droplet: Droplet, configuration: Configuration) {
-        self.configuration = configuration
+    init(droplet: Droplet) {
         self.droplet = droplet
+        self.configuration = Configuration.shared!
     }
     
     /// Response

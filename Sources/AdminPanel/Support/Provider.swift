@@ -1,6 +1,4 @@
 import Vapor
-import Auth
-import Flash
 import Paginator
 
 public final class Provider: Vapor.Provider {
@@ -36,10 +34,10 @@ public final class Provider: Vapor.Provider {
         dropet.commands.append(Seeder(dropet: dropet))
         
         if(config.loadRoutes) {
-            dropet.group(AuthMiddleware<BackendUser>(), FlashMiddleware(), ConfigPublishMiddleware(config: config), FieldsetMiddleware()) { auth in
+            dropet.group(AdminPanelMiddleware(droplet: dropet)) { auth in
                 auth.grouped("/").collection(LoginRoutes(droplet: dropet, config: config))
                 
-                auth.group(AdminProtectMiddleware(droplet: dropet, configuration: config)) { secured in
+                auth.group(ProtectMiddleware(droplet: dropet)) { secured in
                     secured.grouped("/admin/dashboard").collection(DashboardRoutes(droplet: dropet))
                     secured.grouped("/admin/backend_users").collection(BackendUsersRoutes(droplet: dropet))
                     secured.grouped("/admin/backend_users/roles").collection(BackendUserRolesRoutes(droplet: dropet))
