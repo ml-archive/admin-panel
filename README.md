@@ -54,9 +54,12 @@ Create config mail.json
 import AdminPanel
 ```
 
-And add provider
+And add provider (before defining routes)
 ```
 try drop.addProvider(AdminPanel.Provider.self)
+
+/// ... routes goes here
+
 ```
 ### Seed data
 ```
