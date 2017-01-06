@@ -52,11 +52,11 @@ public final class Provider: Vapor.Provider {
         Middlewares.secured = protectedMiddlewares
         
         if(config.loadRoutes) {
-            droplet.group(Middlewares.unsecured) { unsecured in
+            droplet.group(collection: Middlewares.unsecured) { unsecured in
                 unsecured.grouped("/").collection(LoginRoutes(droplet: droplet, config: config))
             }
             
-            droplet.group(Middlewares.secured) { secured in
+            droplet.group(collection: Middlewares.secured) { secured in
                 secured.grouped("/admin/dashboard").collection(DashboardRoutes(droplet: droplet))
                 secured.grouped("/admin/backend_users").collection(BackendUsersRoutes(droplet: droplet))
                 secured.grouped("/admin/backend_users/roles").collection(BackendUserRolesRoutes(droplet: droplet))
