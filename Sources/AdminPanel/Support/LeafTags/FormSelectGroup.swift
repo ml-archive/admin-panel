@@ -8,6 +8,7 @@ public class FormSelectGroup: BasicTag {
     public init(){}
     public let name = "form:selectgroup"
     
+    /*
     public static func argumentToHtmlAttributes(arguments: [Argument], from: Int) throws -> String{
         var dict: [String:String] = [:]
         var list: [String] = []
@@ -39,7 +40,7 @@ public class FormSelectGroup: BasicTag {
         
         return ""
     }
-    
+    */
     public func run(arguments: [Argument]) throws -> Node? {
         
         /*
@@ -116,12 +117,13 @@ public class FormSelectGroup: BasicTag {
         let errors = fieldset?["errors"]?.pathIndexableArray
         
         
-        // Lolz no idea if this is the way to do it...
+       /*
         do {
             var htmlAttrs = try FormSelectGroup.argumentToHtmlAttributes(arguments: arguments, from: 5)
         } catch {
             var htmlAttrs = ""
         }
+        */
         
         // Start constructing the template
         var template = [String]()
