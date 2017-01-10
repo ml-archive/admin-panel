@@ -38,7 +38,7 @@ public final class Provider: Vapor.Provider {
         
         // Init middlewares
         let middlewares: [Middleware] = [
-            AuthMiddleware<BackendUser>(),
+            AuthMiddleware<BackendUser>(cache: droplet.cache),
             FlashMiddleware(),
             ConfigPublishMiddleware(config: config),
             FieldsetMiddleware()
