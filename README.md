@@ -54,7 +54,7 @@ Create config mail.json
 import AdminPanel
 ```
 
-And add provider (before defining routes)
+And add provider (before defining routes, but after defining cache driver)
 ```
 try drop.addProvider(AdminPanel.Provider.self)
 
