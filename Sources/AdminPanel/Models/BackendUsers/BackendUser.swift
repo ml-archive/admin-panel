@@ -105,10 +105,10 @@ public final class BackendUser: Auth.User, Model {
         try database.create("backend_users") { table in
             table.id()
             table.string("name")
-            table.string("email", unique: true)
-            table.string("password")
-            table.string("role")
-            table.string("image", optional: true)
+            table.varchar("email", length: 191, unique: true)
+            table.varchar("password", length: 191)
+            table.varchar("role", length: 191)
+            table.varchar("image", length: 191, optional: true)
             table.bool("should_reset_password", default: Node(false))
             table.timestamps()
         }

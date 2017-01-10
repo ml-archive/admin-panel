@@ -54,8 +54,8 @@ public final class BackendUserRole: Model {
     public static func prepare(_ database: Database) throws {
         try database.create("backend_user_roles") { table in
             table.id()
-            table.string("title");
-            table.string("slug", unique: true);
+            table.varchar("title", length: 191);
+            table.varchar("slug", length: 191, unique: true);
             table.bool("is_default");
             table.timestamps()
         }
