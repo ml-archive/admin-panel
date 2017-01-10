@@ -104,7 +104,7 @@ public final class BackendUser: Auth.User, Model {
     public static func prepare(_ database: Database) throws {
         try database.create("backend_users") { table in
             table.id()
-            table.string("name")
+            table.varchar("name", length: 191)
             table.varchar("email", length: 191, unique: true)
             table.varchar("password", length: 191)
             table.varchar("role", length: 191)
