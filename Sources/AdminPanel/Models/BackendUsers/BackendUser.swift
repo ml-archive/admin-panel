@@ -5,6 +5,7 @@ import HTTP
 import Turnstile
 import TurnstileCrypto
 import Auth
+import FluentMySQL
 import Sugar
 
 public final class BackendUser: Auth.User, Model {
