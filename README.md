@@ -15,7 +15,7 @@
 #Installation
 Update your `Package.swift` file.
 ```swift
-.Package(url: "https://github.com/nodes-vapor/admin-panel", majorVersion: 0)
+.Package(url: "https://github.com/nodes-vapor/admin-panel.git", majorVersion: 0)
 ```
 
 
@@ -24,13 +24,16 @@ Create config adminpanel.json
 
 ```
 {
-    "name": "Sandbox2",
+    "name": "Nodes Admin Panel",
     "unauthorizedPath": "/admin/login",
     "loginSuccessPath": "admin/dashboard",
     "loadRoutes": true,
     "profileImageFallbackUrl": "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg",
     "welcomeMailViewPath": "Emails/welcome",
-    "resetPasswordViewPath": "Emails/reset-password"
+    "resetPasswordViewPath": "Emails/reset-password",
+    
+    "ssoRedirectUrl": "https://mysso.com",
+    "ssoCallbackPath": "/admin/ssocallback"
 }
 
 ```
@@ -51,24 +54,17 @@ Create config mail.json
 import AdminPanel
 ```
 
-And add provider
+And add provider (before defining routes, but after defining cache driver)
 ```
 try drop.addProvider(AdminPanel.Provider.self)
-```
 
-Either copy the views in or change the folder to read the views from, fx
-```
-drop.view = LeafRenderer(
-    viewsDir: Droplet().workDir + "/Packages/AdminPanel-0.2.0/Sources/AdminPanel/Resources/Views"
-)
+/// ... routes goes here
+
 ```
 ### Seed data
 ```
-vapor run admin-panel:seed
+vapor run admin-panel:seeder
 ```
-
-### Dependencies
-https://github.com/nodes-vapor/storage
 
 ### UI package
 
@@ -81,23 +77,21 @@ https://github.com/nodes-vapor/storage
 #### Setup
 
 - Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/gulp` to the root of your project
-- Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/Resources/Assets` to the `Resources` folder in your project
+- Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/Resources` to the `Resources` folder in your project
 - Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/Public/favicon.ico` and the `favicon` folder to the `Public` folder in your project
 - Run `npm install` > `bower install` > `gulp build`
 
-#### Theming
-
-- Update variables in the `_variables.scss` file located in `/Resources/Assets/Scss` (ie. `$primary-color`)
-- Compile the styles by running `gulp build`
-
-#### JavaScript
-
-Put your JavaScript files in `/Resources/Assets/Js` - if you need specific js for a specific page- place this file in the `Pages` subfolder.
- 
-When compiling, all files *not* in `Pages` will be concatinated and minified. Page specific js is only minified.
-
 #### Read more
+
+Wiki: https://github.com/nodes-vapor/admin-panel/wiki
 
 Github: https://github.com/nodes-frontend/nodes-ui
 
 Doc: https://nodes-frontend.github.io/nodes-ui/
+
+#### Using views from packages (for development)
+```
+drop.view = LeafRenderer(
+    viewsDir: Droplet().workDir + "/Packages/AdminPanel-0.5.4/Sources/AdminPanel/Resources/Views"
+)
+```

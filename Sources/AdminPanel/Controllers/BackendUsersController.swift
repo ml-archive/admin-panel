@@ -2,6 +2,8 @@ import Vapor
 import VaporForms
 import HTTP
 import Fluent
+import Flash
+import Paginator
 
 public final class BackendUsersController {
     
@@ -29,9 +31,19 @@ public final class BackendUsersController {
      * - return: View
      */
     public func index(request: Request) throws -> ResponseRepresentable {
-        try BackendUser.query().limit = Fluent.Limit(count: 20)
-        let users = try BackendUser.query().all() // todo pagination && search
         
+        /*
+         TODO when paginator has query extension
+        var query = try BackendUser.query()
+        if let search: String = request.query?["search"]?.string {
+            try query.filter("name", "%" + search + "%")
+        }
+        let users = try query.paginator(25, request: request)
+        */
+        
+        let users = try BackendUser.paginator(25, request: request)
+        
+        // Search
         return try drop.view.make("BackendUsers/index", [
             "users": try users.makeNode()
         ], for: request)
@@ -47,7 +59,7 @@ public final class BackendUsersController {
         return try drop.view.make("BackendUsers/edit", [
             "roles": BackendUserRole.options().makeNode(),
             "fieldset": BackendUserForm.getFieldset(request),
-            "defaultRole": BackendUserRole.query().filter("is_default", true).first()?.slug.makeNode() ?? nil
+            "defaultRole": BackendUserRole.defaultRole()
         ], for: request)
     }
     
@@ -68,7 +80,7 @@ public final class BackendUsersController {
             
             // Send welcome mail
             if backendUserForm.sendMail {
-                let mailPw = backendUserForm.randomPassword ? backendUserForm.password : nil
+                let mailPw: String? = backendUserForm.randomPassword ? backendUserForm.password : nil
                 try Mailer.sendWelcomeMail(drop: drop, backendUser: backendUser, password: mailPw)
             }
             
@@ -92,12 +104,8 @@ public final class BackendUsersController {
         return try drop.view.make("BackendUsers/edit", [
             "fieldset": BackendUserForm.getFieldset(request),
             "backendUser": try user.makeNode(),
-            "array": try [
-                "admin": "Administrator",
-                "super-admin": "Extreme Super Uber Administrator"
-            ].makeNode(),
-            "roles": BackendUserRole.all().makeNode(),
-            "defaultRole": BackendUserRole.query().filter("is_default", true).first()?.makeNode() ?? nil
+            "roles": BackendUserRole.options().makeNode(),
+            "defaultRole": BackendUserRole.defaultRole()
         ], for: request)
     }
     

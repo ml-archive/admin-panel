@@ -1,6 +1,9 @@
 import Console
 import TurnstileCrypto
 import Vapor
+import Foundation
+import Sugar
+
 
 public final class Seeder: Command {
 
@@ -31,16 +34,22 @@ public final class Seeder: Command {
                     "title": "Super admin",
                     "slug": "super-admin",
                     "is_default": false,
+                    "updated_at": Date().toDateTimeString(),
+                    "created_at": Date().toDateTimeString()
                 ]),
             try BackendUserRole(node: [
                 "title": "Admin",
                 "slug": "admin",
                 "is_default": false,
+                "updated_at": Date().toDateTimeString(),
+                "created_at": Date().toDateTimeString()
                 ]),
             try BackendUserRole(node: [
                 "title": "User",
                 "slug": "user",
                 "is_default": true,
+                "updated_at": Date().toDateTimeString(),
+                "created_at": Date().toDateTimeString()
                 ]),
             ]
         
@@ -63,6 +72,8 @@ public final class Seeder: Command {
                 "email": "admin@admin.com",
                 "password": BCrypt.hash(password: "admin"),
                 "role": "super-admin",
+                "updated_at": Date().toDateTimeString(),
+                "created_at": Date().toDateTimeString()
                 ]),
             ]
         

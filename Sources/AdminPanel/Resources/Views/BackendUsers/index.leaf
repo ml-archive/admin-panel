@@ -43,7 +43,7 @@
                 </tr>
             </thead>
             <tbody>
-                #loop(users, "user") {
+                #loop(users.data, "user") {
                 <tr>
                     <td class="text-center">#(user.id)</td>
                     <td>#(user.name)</td>
@@ -65,6 +65,7 @@
                 }
             </tbody>
         </table>
+        #paginator(users)
     </div>
 </div>
 }

@@ -1,13 +1,18 @@
 import Vapor
+import Paginator
+import Flash
 import Auth
+import HTTP
+
 public final class Provider: Vapor.Provider {
     
     var config: Configuration
     var ssoProvider: SSOProtocol?
     
-    public func boot(_ dropet: Droplet) {
+    public func boot(_ droplet: Droplet) {
         
-        if let leaf = dropet.view as? LeafRenderer {
+        if let leaf = droplet.view as? LeafRenderer {
+            // AdminPanel
             leaf.stem.register(Active());
             leaf.stem.register(FormOpen());
             leaf.stem.register(FormClose());
@@ -17,26 +22,44 @@ public final class Provider: Vapor.Provider {
             leaf.stem.register(FormNumberGroup());
             leaf.stem.register(FormCheckboxGroup());
             leaf.stem.register(FormSelectGroup());
+            
+            //Paginator
+            leaf.stem.register(PaginatorTag())
         }
         
-        dropet.storage["adminPanelConfig"] = config
+        droplet.storage["adminPanelConfig"] = config
         Configuration.shared = config
         
-        dropet.preparations.append(BackendUserResetPasswordTokens.self)
-        dropet.preparations.append(BackendUserRole.self)
-        dropet.preparations.append(BackendUser.self)
+        droplet.preparations.append(BackendUserResetPasswordTokens.self)
+        droplet.preparations.append(BackendUserRole.self)
+        droplet.preparations.append(BackendUser.self)
         
-        dropet.commands.append(Seeder(dropet: dropet))
+        droplet.commands.append(Seeder(dropet: droplet))
+        
+        // Init middlewares
+        let middlewares: [Middleware] = [
+            AuthMiddleware<BackendUser>(cache: droplet.cache),
+            FlashMiddleware(),
+            ConfigPublishMiddleware(config: config),
+            FieldsetMiddleware()
+        ]
+        
+        var protectedMiddlewares: [Middleware] = middlewares
+        protectedMiddlewares.append(ProtectMiddleware(droplet: droplet))
+        
+        // Apply
+        Middlewares.unsecured = middlewares
+        Middlewares.secured = protectedMiddlewares
         
         if(config.loadRoutes) {
-            dropet.group(AuthMiddleware<BackendUser>(), FlashMiddleware(), ConfigPublishMiddleware(config: config), FieldsetMiddleware()) { auth in
-                auth.grouped("/").collection(LoginRoutes(droplet: dropet, config: config))
-                
-                auth.group(AdminProtectMiddleware(droplet: dropet, configuration: config)) { secured in
-                    secured.grouped("/admin/dashboard").collection(DashboardRoutes(droplet: dropet))
-                    secured.grouped("/admin/backend_users").collection(BackendUsersRoutes(droplet: dropet))
-                    secured.grouped("/admin/backend_users/roles").collection(BackendUserRolesRoutes(droplet: dropet))
-                }
+            droplet.group(collection: Middlewares.unsecured) { unsecured in
+                unsecured.grouped("/").collection(LoginRoutes(droplet: droplet, config: config))
+            }
+            
+            droplet.group(collection: Middlewares.secured) { secured in
+                secured.grouped("/admin/dashboard").collection(DashboardRoutes(droplet: droplet))
+                secured.grouped("/admin/backend_users").collection(BackendUsersRoutes(droplet: droplet))
+                secured.grouped("/admin/backend_users/roles").collection(BackendUserRolesRoutes(droplet: droplet))
             }
         }
     }

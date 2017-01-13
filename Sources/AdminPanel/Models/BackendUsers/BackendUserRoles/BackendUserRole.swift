@@ -3,6 +3,8 @@ import Fluent
 import Foundation
 import HTTP
 import Slugify
+import FluentMySQL
+import Sugar
 
 public final class BackendUserRole: Model {
     public static var entity = "backend_user_roles"
@@ -15,23 +17,20 @@ public final class BackendUserRole: Model {
     public var createdAt: Date
     public var updatedAt: Date
     
+    
+    /// Init
+    ///
+    /// - Parameters:
+    ///   - node: Node
+    ///   - context: Context
+    /// - Throws: 
     public init(node: Node, in context: Context) throws {
         id = try? node.extract("id")
         title = try node.extract("title")
         slug = try node.extract("slug")
         isDefault = try node.extract("is_default") ?? false
-        
-        do {
-            createdAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("created_at"))
-        } catch {
-            createdAt = Date()
-        }
-        
-        do {
-            updatedAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("updated_at"))
-        } catch {
-            updatedAt = Date()
-        }
+        createdAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("created_at"), Date())
+        updatedAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("updated_at"), Date())
     }
     
     public init(request: Request) throws {
@@ -56,18 +55,24 @@ public final class BackendUserRole: Model {
     public static func prepare(_ database: Database) throws {
         try database.create("backend_user_roles") { table in
             table.id()
-            table.string("title");
-            table.string("slug", unique: true);
+            table.varchar("title", length: 191);
+            table.varchar("slug", length: 191, unique: true);
             table.bool("is_default");
-            table.custom("created_at", type: "DATETIME", optional: true)
-            table.custom("updated_at", type: "DATETIME", optional: true)
+            table.timestamps()
         }
+        
+        try database.index(table: "backend_user_roles", column: "slug")
     }
     
     public static func revert(_ database: Database) throws {
         try database.delete("backend_user_roles")
     }
     
+    
+    /// Options, retrieve all entries as key/value for html select
+    ///
+    /// - Returns: key/value
+    /// - Throws: Database error
     public static func options() throws -> [String: String] {
         var options: [String: String] = [:]
         
@@ -76,5 +81,18 @@ public final class BackendUserRole: Model {
         }
         
         return options
+    }
+    
+    
+    /// Retrieve default role
+    ///
+    /// - Returns: Role
+    /// - Throws: Error
+    public static func defaultRole() throws -> BackendUserRole {
+        guard let role: BackendUserRole =  try self.query().filter("is_default", true).first() else {
+            throw Abort.custom(status: .internalServerError, message: "AdminPanel not default role")
+        }
+        
+        return role
     }
 }
