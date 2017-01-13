@@ -2,6 +2,7 @@ import Vapor
 import Fluent
 import Foundation
 import HTTP
+import FluentMySQL
 
 public final class BackendUserResetPasswordTokens: Model {
  

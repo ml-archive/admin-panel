@@ -3,6 +3,7 @@ import Fluent
 import Foundation
 import HTTP
 import Slugify
+import FluentMySQL
 import Sugar
 
 public final class BackendUserRole: Model {
