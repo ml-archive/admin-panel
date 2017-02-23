@@ -31,7 +31,7 @@ Create config adminpanel.json
     "profileImageFallbackUrl": "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg",
     "welcomeMailViewPath": "Emails/welcome",
     "resetPasswordViewPath": "Emails/reset-password",
-    
+    "autoLoginFirstUser": true,
     "ssoRedirectUrl": "https://mysso.com",
     "ssoCallbackPath": "/admin/ssocallback"
 }
@@ -74,9 +74,17 @@ vapor run admin-panel:seeder
 - npm > v3.0
 - bower > 2.0
 
+With brew
+```
+brew install node
+brew install npm
+brew install bower
+npm install -g gulp
+```
+
 #### Setup
 
-- Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/gulp` to the root of your project
+- Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/gulp` to the ROOT of your project
 - Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/Resources` to the `Resources` folder in your project
 - Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/Public/favicon.ico` and the `favicon` folder to the `Public` folder in your project
 - Run `npm install` > `bower install` > `gulp build`

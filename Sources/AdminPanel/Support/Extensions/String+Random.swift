@@ -17,8 +17,8 @@ extension String {
         return randomString
     }
     
-    public static func random(_ length: Int = 64) -> String {
-        return CryptoRandom.bytes(length).base64String
+    public static func random(_ length: Int = 64) throws -> String {
+        return try CryptoRandom.bytes(length).base64Encoded.string()
     }
 }
 
