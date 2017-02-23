@@ -76,6 +76,7 @@ vapor run admin-panel:seeder
 
 With brew
 ```
+brew install node
 brew install npm
 brew install bower
 npm install -g gulp
