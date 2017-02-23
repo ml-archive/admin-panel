@@ -83,7 +83,7 @@ npm install -g gulp
 
 #### Setup
 
-- Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/gulp` to the root of your project
+- Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/gulp` to the ROOT of your project
 - Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/Resources` to the `Resources` folder in your project
 - Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/Public/favicon.ico` and the `favicon` folder to the `Public` folder in your project
 - Run `npm install` > `bower install` > `gulp build`
