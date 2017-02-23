@@ -74,6 +74,13 @@ vapor run admin-panel:seeder
 - npm > v3.0
 - bower > 2.0
 
+With brew
+```
+brew install npm
+brew install bower
+npm install -g gulp
+```
+
 #### Setup
 
 - Copy the files from `Packages/AdminPanel-X.Y.Z/Sources/AdminPanel/gulp` to the root of your project
