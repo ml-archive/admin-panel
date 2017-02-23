@@ -34,7 +34,7 @@ public final class BackendUsersController {
         
         let query = try BackendUser.query()
         if let search: String = request.query?["search"]?.string {
-            try query.filter("name", "%" + search + "%")
+            try query.filter("name", search) // TODO LIKE SEARCH
         }
         let users = try query.paginator(25, request: request)
         
