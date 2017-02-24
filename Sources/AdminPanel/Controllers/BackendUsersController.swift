@@ -126,9 +126,9 @@ public final class BackendUsersController {
             
             return Response(redirect: "/admin/backend_users").flash(.success, "User updated")
         }catch FormError.validationFailed(let fieldSet) {
-            return Response(redirect: "/admin/backend_users/create").flash(.error, "Validation error").withFieldset(fieldSet)
+            return Response(redirect: "/admin/backend_users/edit/" + String(id)).flash(.error, "Validation error").withFieldset(fieldSet)
         }catch {
-            return Response(redirect: "/admin/backend_users/edit/" + String(id)).flash(.error, "Failed to create user")
+            return Response(redirect: "/admin/backend_users/edit/" + String(id)).flash(.error, "Failed to update user")
         }
     }
     
