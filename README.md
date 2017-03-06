@@ -49,6 +49,17 @@ Create config mail.json
 }
 ```
 
+Make sure to have config app.json setup
+```
+{
+    "name": "MY-PROJECT",
+    "url": "0.0.0.0:8080"
+}
+
+```
+The url here will be used as redirect link in invite emails fx.
+
+
 ### main.swift
 ```
 import AdminPanel
