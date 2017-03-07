@@ -3,6 +3,7 @@ import Paginator
 import Flash
 import Auth
 import HTTP
+import Sugar
 
 public final class Provider: Vapor.Provider {
     

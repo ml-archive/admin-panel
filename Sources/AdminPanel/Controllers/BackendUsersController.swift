@@ -32,16 +32,11 @@ public final class BackendUsersController {
      */
     public func index(request: Request) throws -> ResponseRepresentable {
         
-        /*
-         TODO when paginator has query extension
-        var query = try BackendUser.query()
+        let query = try BackendUser.query()
         if let search: String = request.query?["search"]?.string {
-            try query.filter("name", "%" + search + "%")
+            try query.filter("name", contains: search)
         }
         let users = try query.paginator(25, request: request)
-        */
-        
-        let users = try BackendUser.paginator(25, request: request)
         
         // Search
         return try drop.view.make("BackendUsers/index", [
@@ -117,7 +112,7 @@ public final class BackendUsersController {
      * - return: View
      */
     public func update(request: Request) throws -> ResponseRepresentable {
-        guard let id = request.data["id"]?.int, var backendUser: BackendUser = try BackendUser.query().filter("id", id).first() else {
+        guard let id = request.data["id"]?.int, var backendUser = try BackendUser.query().filter("id", id).first() else {
             throw Abort.notFound
         }
         
@@ -129,11 +124,11 @@ public final class BackendUsersController {
             backendUser.fill(form: backendUserForm)
             try backendUser.save()
             
-            return Response(redirect: "/admin/backend_users").flash(.success, "User created")
+            return Response(redirect: "/admin/backend_users").flash(.success, "User updated")
         }catch FormError.validationFailed(let fieldSet) {
-            return Response(redirect: "/admin/backend_users/create").flash(.error, "Validation error").withFieldset(fieldSet)
+            return Response(redirect: "/admin/backend_users/edit/" + String(id)).flash(.error, "Validation error").withFieldset(fieldSet)
         }catch {
-            return Response(redirect: "/admin/backend_users/edit/" + String(id)).flash(.error, "Failed to create user")
+            return Response(redirect: "/admin/backend_users/edit/" + String(id)).flash(.error, "Failed to update user")
         }
     }
     
