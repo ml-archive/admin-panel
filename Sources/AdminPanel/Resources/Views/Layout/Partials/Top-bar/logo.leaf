@@ -3,6 +3,6 @@
         #embed("Layout/Partials/Elements/logo")
     </a>
     <h1 class="application-title">
-        Sandbox
+        #(request.storage.adminPanel.name)
     </h1>
 </div>
