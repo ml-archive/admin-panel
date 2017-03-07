@@ -83,7 +83,7 @@ public final class LoginController {
         
         // If token does not exist or cannot be used is the same error
         guard let token = try BackendUserResetPasswordTokens.query().filter("token", tokenStr).first(), !token.canBeUsed() else {
-            throw Abort.custom(status: .badRequest, message: "Token does not exist")
+            throw Abort.custom(status: .badRequest, message: "Token is invalid")
         }
         
         return try drop.view.make("ResetPassword/form", [

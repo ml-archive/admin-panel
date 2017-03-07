@@ -54,8 +54,8 @@ public final class BackendUserResetPasswordTokens: Model {
         if usedAt != nil {
             return false
         }
-        
-        if expireAt.isPast() {
+
+        if expireAt.isFuture() {
             return false
         }
         
