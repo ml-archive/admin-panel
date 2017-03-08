@@ -33,7 +33,24 @@ Create config adminpanel.json
     "resetPasswordViewPath": "Emails/reset-password",
     "autoLoginFirstUser": true,
     "ssoRedirectUrl": "https://mysso.com",
-    "ssoCallbackPath": "/admin/ssocallback"
+    "ssoCallbackPath": "/admin/ssocallback",
+    "roles": [
+        {
+            "title": "Super admin",
+            "slug": "super-admin",
+            "is_default": false
+        },
+        {
+            "title": "Admin",
+            "slug": "admin",
+            "is_default": false
+        },
+        {
+            "title": "User",
+            "slug": "user",
+            "is_default": true
+        }
+    ],
 }
 
 ```
