@@ -1,5 +1,16 @@
+import Vapor
+
 class Gate {
-    public func allow(_ backendUser: BackendUser, _ role: String) -> Bool {
+    
+    public let error = Abort.custom(status: .forbidden, message: "User does not have access to this page")
+    
+    /// Check if a backend_users.role is allowed to access
+    ///
+    /// - Parameters:
+    ///   - backendUserRole: role from config
+    ///   - role: role from config
+    /// - Returns: bool
+    public func allow(_ backendUserRole: String, _ role: String) -> Bool {
         guard let roles = Configuration.shared?.roles else {
             print("AdminPanel.Gate missing configuration")
             return false
@@ -21,7 +32,6 @@ class Gate {
             return false
         }
         
-        
         // Not make a list of all roles allowed, which is all roles from found role and above in array
         var allowedRoles: [Role] = []
         for roleObj in roles {
@@ -34,12 +44,36 @@ class Gate {
         
         // Loop allowed routes and check if backendUser has one of them
         for roleObj in allowedRoles {
-            if roleObj.slug == backendUser.role {
+            if roleObj.slug == backendUserRole {
                 return true
             }
         }
         
         
         return false
+    }
+    
+    public func disallow(_ backendUserRole: String, _ role: String) -> Bool {
+        return !allow(backendUserRole, role)
+    }
+    
+    public func allowOrFail(_ backendUserRole: String, _ role: String) throws {
+        if disallow(backendUserRole, role) {
+            throw error
+        }
+    }
+    
+    public func allow(_ backendUser: BackendUser, _ role: String) -> Bool {
+        return allow(backendUser.role, role)
+    }
+    
+    public func disallow(_ backendUser: BackendUser, _ role: String) -> Bool {
+        return !allow(backendUser.role, role)
+    }
+    
+    public func allowOrFail(_ backendUser: BackendUser, _ role: String) throws {
+        if disallow(backendUser, role) {
+            throw error
+        }
     }
 }
