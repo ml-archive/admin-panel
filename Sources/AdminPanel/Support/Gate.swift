@@ -2,7 +2,7 @@ import Vapor
 
 class Gate {
     
-    public let error = Abort.custom(status: .forbidden, message: "User does not have access to this page")
+    public static let error = Abort.custom(status: .forbidden, message: "User does not have access to this page")
     
     /// Check if a backend_users.role is allowed to access
     ///
@@ -10,7 +10,7 @@ class Gate {
     ///   - backendUserRole: role from config
     ///   - role: role from config
     /// - Returns: bool
-    public func allow(_ backendUserRole: String, _ role: String) -> Bool {
+    public static func allow(_ backendUserRole: String, _ role: String) -> Bool {
         guard let roles = Configuration.shared?.roles else {
             print("AdminPanel.Gate missing configuration")
             return false
@@ -53,27 +53,27 @@ class Gate {
         return false
     }
     
-    public func disallow(_ backendUserRole: String, _ role: String) -> Bool {
-        return !allow(backendUserRole, role)
+    public static func disallow(_ backendUserRole: String, _ role: String) -> Bool {
+        return !self.allow(backendUserRole, role)
     }
     
-    public func allowOrFail(_ backendUserRole: String, _ role: String) throws {
-        if disallow(backendUserRole, role) {
-            throw error
+    public static func allowOrFail(_ backendUserRole: String, _ role: String) throws {
+        if self.disallow(backendUserRole, role) {
+            throw self.error
         }
     }
     
-    public func allow(_ backendUser: BackendUser, _ role: String) -> Bool {
-        return allow(backendUser.role, role)
+    public static func allow(_ backendUser: BackendUser?, _ role: String) -> Bool {
+        return self.allow(backendUser?.role ?? "", role)
     }
     
-    public func disallow(_ backendUser: BackendUser, _ role: String) -> Bool {
-        return !allow(backendUser.role, role)
+    public static func disallow(_ backendUser: BackendUser?, _ role: String) -> Bool {
+        return !self.allow(backendUser?.role ?? "", role)
     }
     
-    public func allowOrFail(_ backendUser: BackendUser, _ role: String) throws {
-        if disallow(backendUser, role) {
-            throw error
+    public static func allowOrFail(_ backendUser: BackendUser?, _ role: String) throws {
+        if self.disallow(backendUser, role) {
+            throw self.error
         }
     }
 }
