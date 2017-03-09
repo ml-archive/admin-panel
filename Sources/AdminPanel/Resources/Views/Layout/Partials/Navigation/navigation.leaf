@@ -8,6 +8,14 @@
             Dashboard
         </a>
     </li>
+    
+    #allow(request, "super-admin") {
+    <li class="list-group-heading">
+        Super admin
+    </li>
+    }
+    
+    #allow(request, "admin") {
     <li class="list-group-heading">
         Admin
     </li>
@@ -23,4 +31,5 @@
             Roles
         </a>
     </li>
+    }
 </ul>
