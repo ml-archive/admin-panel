@@ -114,7 +114,6 @@ public final class BackendUser: Auth.User, Model {
             table.timestamps()
         }
         
-        try database.driver.raw(Database.foreign(parentTable: "backend_user_roles", parentPrimaryKey: "slug", childTable: "backend_users", childForeignKey: "role"))
         try database.index(table: "backend_users", column: "email")
     }
     

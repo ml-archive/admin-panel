@@ -52,9 +52,9 @@ public final class BackendUsersController {
      */
     public func create(request: Request) throws -> ResponseRepresentable {
         return try drop.view.make("BackendUsers/edit", [
-            "roles": BackendUserRole.options().makeNode(),
+            "roles": Configuration.shared?.roleNodes.makeNode() ?? Node([]),
             "fieldset": BackendUserForm.getFieldset(request),
-            "defaultRole": BackendUserRole.defaultRole()
+            "defaultRole": Configuration.shared?.defaultRole ?? "admin"
         ], for: request)
     }
     
@@ -99,8 +99,8 @@ public final class BackendUsersController {
         return try drop.view.make("BackendUsers/edit", [
             "fieldset": BackendUserForm.getFieldset(request),
             "backendUser": try user.makeNode(),
-            "roles": BackendUserRole.options().makeNode(),
-            "defaultRole": BackendUserRole.defaultRole()
+            "roles": Configuration.shared?.roleNodes.makeNode() ?? Node([]),
+            "defaultRole": Configuration.shared?.defaultRole ?? "admin"
         ], for: request)
     }
     

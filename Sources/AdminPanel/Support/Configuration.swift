@@ -41,6 +41,17 @@ public struct Configuration {
     public var ssoProvider: SSOProtocol?
     public let ssoCallbackPath: String?
     public let roles: [Role]
+    public var roleNodes: [Node] {
+        
+            return roles.map({
+                $0.makeNode()
+            })
+       
+    }
+    
+    public var defaultRole: String {
+        return "admin"
+    }
     
     public init(drop: Droplet) throws {
         try self.init(config: drop.config)
