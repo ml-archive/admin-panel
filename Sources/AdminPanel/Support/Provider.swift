@@ -14,15 +14,16 @@ public final class Provider: Vapor.Provider {
         
         if let leaf = droplet.view as? LeafRenderer {
             // AdminPanel
-            leaf.stem.register(Active());
-            leaf.stem.register(FormOpen());
-            leaf.stem.register(FormClose());
-            leaf.stem.register(FormTextGroup());
-            leaf.stem.register(FormEmailGroup());
-            leaf.stem.register(FormPasswordGroup());
-            leaf.stem.register(FormNumberGroup());
-            leaf.stem.register(FormCheckboxGroup());
-            leaf.stem.register(FormSelectGroup());
+            leaf.stem.register(Active())
+            leaf.stem.register(FormOpen())
+            leaf.stem.register(FormClose())
+            leaf.stem.register(FormTextGroup())
+            leaf.stem.register(FormEmailGroup())
+            leaf.stem.register(FormPasswordGroup())
+            leaf.stem.register(FormNumberGroup())
+            leaf.stem.register(FormCheckboxGroup())
+            leaf.stem.register(FormSelectGroup())
+            leaf.stem.register(Allow())
             
             //Paginator
             leaf.stem.register(PaginatorTag())
