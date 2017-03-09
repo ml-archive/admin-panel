@@ -41,12 +41,15 @@ public struct Configuration {
     public var ssoProvider: SSOProtocol?
     public let ssoCallbackPath: String?
     public let roles: [Role]
-    public var roleNodes: [Node] {
+    public var roleOptions: [String: String] {
         
-            return roles.map({
-                $0.makeNode()
-            })
-       
+        var options: [String: String] = [:]
+        
+        for role in roles {
+            options[role.slug] = role.title
+        }
+        
+        return options
     }
     
     public var defaultRole: String {
