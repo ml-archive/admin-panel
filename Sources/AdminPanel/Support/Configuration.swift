@@ -18,6 +18,7 @@ public struct Configuration {
         case resetPasswordViewPath      = "adminpanel.resetPasswordViewPath"
         case autoLoginFirstUser         = "adminpanel.autoLoginFirstUser"
         case ssoCallbackPath            = "adminpanel.ssoCallbackPath"
+        case roles                      = "adminpanel.roles"
         
         var path: [String] {
             return rawValue.components(separatedBy: ".")
@@ -39,6 +40,7 @@ public struct Configuration {
     public let autoLoginFirstUser: Bool
     public var ssoProvider: SSOProtocol?
     public let ssoCallbackPath: String?
+    public let roles: [Role]
     
     public init(drop: Droplet) throws {
         try self.init(config: drop.config)
@@ -54,6 +56,7 @@ public struct Configuration {
         resetPasswordViewPath      = try Configuration.extract(field: .resetPasswordViewPath, config: config)
         autoLoginFirstUser         = try Configuration.extract(field: .autoLoginFirstUser, config: config)
         ssoCallbackPath            = config[Field.ssoCallbackPath.path]?.string
+        roles                      = try Configuration.extract(field: .roles, config: config)
     }
     
     public func makeNode() -> Node {
@@ -84,5 +87,28 @@ public struct Configuration {
         }
         
         return bool
+    }
+    
+    private static func extract(field: Field, config: Config) throws -> [Role] {
+        guard let array = config[field.path]?.array else {
+            throw field.error
+        }
+        
+        var roleArray: [Role] = []
+        
+        for role in array {
+            guard let config = role as? Config else {
+                print("adminpanel.roles failed to parse a role")
+                continue
+            }
+            do {
+                try roleArray.append(Role(config: config))
+            } catch {
+                print(error)
+                print("adminpanel.roles failed to parse a role")
+            }
+        }
+        
+        return roleArray
     }
 }
