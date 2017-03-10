@@ -13,17 +13,18 @@
     <li class="list-group-heading">
         Super admin
     </li>
-    }
-    
-    #allow(request, "admin") {
-    <li class="list-group-heading">
-        Admin
-    </li>
     <li class="list-group-item #active(request, "/admin/backend_users", "/admin/backend_users/create", "/admin/backend_users/edit*")">
         <a href="/admin/backend_users">
             <i class="fa fa-street-view"></i>
             Backend users
         </a>
     </li>
+    }
+    
+    #allow(request, "admin") {
+    <li class="list-group-heading">
+        Admin
+    </li>
+  
     }
 </ul>

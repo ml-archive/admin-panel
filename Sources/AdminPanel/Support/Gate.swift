@@ -1,4 +1,5 @@
 import Vapor
+import HTTP
 
 class Gate {
     
@@ -63,16 +64,39 @@ class Gate {
         }
     }
     
+    // MARK : BackendUser
     public static func allow(_ backendUser: BackendUser?, _ role: String) -> Bool {
         return self.allow(backendUser?.role ?? "", role)
     }
     
     public static func disallow(_ backendUser: BackendUser?, _ role: String) -> Bool {
-        return !self.allow(backendUser?.role ?? "", role)
+        return !self.allow(backendUser, role)
     }
     
     public static func allowOrFail(_ backendUser: BackendUser?, _ role: String) throws {
         if self.disallow(backendUser, role) {
+            throw self.error
+        }
+    }
+    
+    // MARK: User
+    public static func allow(_ request: Request, _ role: String) -> Bool {
+        do {
+            guard let backendUser = try request.auth.user() as? BackendUser else {
+                return false
+            }
+            return self.allow(backendUser.role, role)
+        } catch {
+            return false
+        }
+    }
+    
+    public static func disallow(_ request: Request, _ role: String) -> Bool {
+        return !self.allow(request, role)
+    }
+    
+    public static func allowOrFail(_ request: Request, _ role: String) throws {
+        if self.disallow(request, role) {
             throw self.error
         }
     }
