@@ -27,44 +27,6 @@ public final class Seeder: Command {
         
         // BUG FIX WHILE WAITING FOR VAPOR UPDATE
         BackendUser.database = dropet.database
-        BackendUserRole.database = dropet.database
-        
-        let backendUserRoles = [
-            try BackendUserRole(node: [
-                    "title": "Super admin",
-                    "slug": "super-admin",
-                    "is_default": false,
-                    "updated_at": Date().toDateTimeString(),
-                    "created_at": Date().toDateTimeString()
-                ]),
-            try BackendUserRole(node: [
-                "title": "Admin",
-                "slug": "admin",
-                "is_default": false,
-                "updated_at": Date().toDateTimeString(),
-                "created_at": Date().toDateTimeString()
-                ]),
-            try BackendUserRole(node: [
-                "title": "User",
-                "slug": "user",
-                "is_default": true,
-                "updated_at": Date().toDateTimeString(),
-                "created_at": Date().toDateTimeString()
-                ]),
-            ]
-        
-        print(backendUserRoles)
-        backendUserRoles.forEach({
-            var backendUserRole = $0
-            console.info("Looping \(backendUserRole.title)")
-            do {
-                try backendUserRole.save()
-            } catch {
-                console.error("Failed to store \(backendUserRole.title)")
-                print(error)
-            }
-        })
-        
         
         let backendUsers = [
             try BackendUser(node: [

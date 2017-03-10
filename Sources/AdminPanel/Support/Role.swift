@@ -19,4 +19,12 @@ public class Role{
     public convenience init(config: Config) throws {
         try self.init(node: config.node)
     }
+    
+    public func makeNode() -> Node {
+        return Node([
+            "title": Node(title),
+            "slug": Node(slug),
+            "isDefault": Node(isDefault)
+        ])
+    }
 }

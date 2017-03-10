@@ -104,7 +104,7 @@ public class FormSelectGroup: BasicTag {
             let inputValues = arguments[1].value?.nodeObject,
             let fieldsetNode = arguments[2].value?.nodeObject
             else {
-                throw Abort.custom(status: .internalServerError, message: "FormSelectGroup parse error, expecting: #form:selectgroup(\"name\", \"default\", fieldset)")
+                throw Abort.custom(status: .internalServerError, message: "FormSelectGroup parse error, expecting: #form:selectgroup(\"name\", \"values\", fieldset), \"default\"")
         }
 
         let fieldset = fieldsetNode[inputName]
