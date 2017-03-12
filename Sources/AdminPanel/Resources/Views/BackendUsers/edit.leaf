@@ -63,6 +63,7 @@
         </div>
         
     </div>
+    #form:close()
     <div class="row">
         <div class="col-xs-6">
             <hr/>

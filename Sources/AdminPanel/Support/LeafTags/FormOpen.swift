@@ -21,7 +21,6 @@ public class FormOpen: BasicTag {
             <input name="_token" type="hidden" value="..." />
          
          */
-        print(arguments[0])
         
         guard arguments.count == 3,
             let url: String = arguments[0].value?.string,
