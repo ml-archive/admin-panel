@@ -70,7 +70,6 @@ public final class BackendUser: Auth.User, Model {
             role = form.role
         }
         
-        print(form.shouldResetPassword)
         if let shouldResetPassword = form.shouldResetPassword {
             self.shouldResetPassword = shouldResetPassword
         }
