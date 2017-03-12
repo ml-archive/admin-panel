@@ -55,9 +55,9 @@ public final class BackendUsersController {
         try Gate.allowOrFail(request, "super-admin")
         
         return try drop.view.make("BackendUsers/edit", [
-            "roles": Configuration.shared?.roleOptions.makeNode() ?? [],
             "fieldset": BackendUserForm.getFieldset(request),
-            "defaultRole": Configuration.shared?.defaultRole ?? "admin"
+            "roles": Configuration.shared?.getRoleOptions(request.authedBackendUser().role).makeNode() ?? [:],
+            "defaultRole": (Configuration.shared?.defaultRole ?? "user").makeNode()
         ], for: request)
     }
     
@@ -101,28 +101,14 @@ public final class BackendUsersController {
      */
     public func edit(request: Request, user: BackendUser) throws -> ResponseRepresentable {
         if try  user.id != request.auth.user().id {
-            try Gate.allowOrFail(request, "super-admin")
-        }
-        
-        let roles: [String : String]
-        let defaultRole: String
-        
-        if Gate.allow(request, "super-admin") {
-            roles = Configuration.shared?.roleOptions ?? [:]
-            defaultRole = Configuration.shared?.defaultRole ?? "admin"
-        } else {
-            guard let usersRole = try Configuration.shared?.getRoleOrFail(user.role) else {
-                throw Abort.custom(status: .internalServerError, message: "Role was not found")
-            }
-            roles = [usersRole.slug : usersRole.title]
-            defaultRole = usersRole.slug
+            try Gate.allowOrFail(request, "admin")
         }
         
         return try drop.view.make("BackendUsers/edit", [
             "fieldset": BackendUserForm.getFieldset(request),
             "backendUser": try user.makeNode(),
-            "roles": roles.makeNode(),
-            "defaultRole": defaultRole.makeNode()
+            "roles": Configuration.shared?.getRoleOptions(request.authedBackendUser().role).makeNode() ?? [:],
+            "defaultRole": (Configuration.shared?.defaultRole ?? "user").makeNode()
         ], for: request)
     }
     
@@ -140,7 +126,7 @@ public final class BackendUsersController {
         
 
         if try  backendUser.id != request.auth.user().id {
-            try Gate.allowOrFail(request, "super-admin")
+            try Gate.allowOrFail(request, "admin")
         }
         
         do {
@@ -148,10 +134,10 @@ public final class BackendUsersController {
             let backendUserForm = try BackendUserForm(validating: request.data)
             
             // Store
-            backendUser.fill(form: backendUserForm, request: request)
+            try backendUser.fill(form: backendUserForm, request: request)
             try backendUser.save()
             
-            if Gate.allow(request, "super-admin") {
+            if Gate.allow(request, "admin") {
                return Response(redirect: "/admin/backend_users").flash(.success, "User updated")
             } else {
                return Response(redirect: "/admin/backend_users/edit/" + String(id)).flash(.success, "User updated")

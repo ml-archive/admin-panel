@@ -53,7 +53,12 @@ public struct Configuration {
     }
     
     public var defaultRole: String {
-        return "admin"
+        for role in roles {
+            if role.isDefault {
+                return role.slug
+            }
+        }
+        return "user"
     }
     
     public init(drop: Droplet) throws {
@@ -134,5 +139,29 @@ public struct Configuration {
         }
         
         throw Abort.custom(status: .internalServerError, message: "The role \(slug) was not found")
+    }
+    
+    public func getRoles(_ slug: String) -> [Role] {
+        var roles: [Role] = []
+        
+        for role in self.roles {
+            // Add roles which is on level or below the slug input param
+            if role.slug == slug || roles.count > 0 {
+                roles.append(role)
+            }
+        }
+        
+        
+        return roles
+    }
+    
+    public func getRoleOptions(_ slug: String) -> [String : String] {
+        var roles: [String : String] = [:]
+        
+        for role in getRoles(slug) {
+            roles[role.slug] = role.title
+        }
+        
+        return roles
     }
 }
