@@ -47,21 +47,41 @@ public final class BackendUser: Auth.User, Model {
         self.createdAt = Date()
     }
     
-    public init(form: BackendUserForm){
+    public init(form: BackendUserForm, request: Request) throws {
         name = form.name
         email = form.email
-        role = form.role
+        
+        // Only super admins can update roles
+        let rolesForUser = try Configuration.shared?.getRoleOptions(request.authedBackendUser().role) ?? [:]
+        if rolesForUser[form.role] != nil {
+            role = form.role
+        } else {
+            role = Configuration.shared?.defaultRole ?? "user"
+        }
+        
         password = BCrypt.hash(password: form.password)
-        shouldResetPassword = form.shouldResetPassword
+        if let shouldResetPassword = form.shouldResetPassword {
+            self.shouldResetPassword = shouldResetPassword
+        }
         
         self.updatedAt = Date()
         self.createdAt = Date()
     }
     
-    public func fill(form: BackendUserForm) {
+    public func fill(form: BackendUserForm, request: Request) throws {
         name = form.name
         email = form.email
-        role = form.role
+        
+        // Only super admins can update roles
+        let rolesForUser = try Configuration.shared?.getRoleOptions(request.authedBackendUser().role) ?? [:]
+        if rolesForUser[form.role] != nil {
+            role = form.role
+        }
+        
+        if let shouldResetPassword = form.shouldResetPassword {
+            self.shouldResetPassword = shouldResetPassword
+        }
+        
         updatedAt = Date()
         
         if(!form.randomPassword) {

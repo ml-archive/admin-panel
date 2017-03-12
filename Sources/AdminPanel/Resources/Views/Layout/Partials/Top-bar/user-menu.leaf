@@ -1,38 +1,38 @@
 
-    <div class="dropdown dropdown-user">
-        <button class="btn btn-transparent dropdown-toggle user__info-button" data-toggle="dropdown">
-            <img class="user__info-avatar img-responsive img-circle" src="#(request.storage.authedBackendUser.imageUrl)"/>
-            <span class="user__info-name">
-                #(request.storage.authedBackendUser.email)
-                <span class="caret"></span>
-            </span>
-        </button>
-        <div class="dropdown-menu dropdown-inverse animate-expand align-right">
-            <div class="dropdown-content">
-                <p class="dropdown-content__title">User</p>
-
-                <div class="user">
-                    <div class="user__profile">
-                        <img class="user__info-avatar img-responsive img-circle" src="#(request.storage.authedBackendUser.imageUrl)">
-                    </div>
-                    <div class="user__info">
-                        <span class="user__info-name">
-                            #(request.storage.authedBackendUser.name)
-                        </span>
-                        <span class="user__info-email">
-                            #(request.storage.authedBackendUser.email)
-                        </span>
-                    </div>
+<div class="dropdown dropdown-user">
+    <button class="btn btn-transparent dropdown-toggle user__info-button" data-toggle="dropdown">
+        <img class="user__info-avatar img-responsive img-circle" src="#(request.storage.authedBackendUser.imageUrl)"/>
+        <span class="user__info-name">
+            #(request.storage.authedBackendUser.email)
+            <span class="caret"></span>
+        </span>
+    </button>
+    <div class="dropdown-menu dropdown-inverse animate-expand align-right">
+        <div class="dropdown-content">
+            <p class="dropdown-content__title">User</p>
+            
+            <div class="user">
+                <div class="user__profile">
+                    <img class="user__info-avatar img-responsive img-circle" src="#(request.storage.authedBackendUser.imageUrl)">
+                        </div>
+                <div class="user__info">
+                    <span class="user__info-name">
+                        #(request.storage.authedBackendUser.name)
+                    </span>
+                    <span class="user__info-email">
+                        #(request.storage.authedBackendUser.email)
+                    </span>
                 </div>
-                <div class="user-actions">
-                    <a href="/admin/backend_users/logout" class="btn btn-sm btn-transparent user__sign-out">
-                        <i class="fa fa-sign-out"></i>
-                        Sign out
-                    </a>
-                    <a href="/admin/users/edit/1" class="btn btn-sm btn-transparent user__settings" data-toggle="tooltip" data-placement="left" title="" data-original-title="Edit user">
-                        <i class="fa fa-pencil"></i>
-                    </a>
-                </div>
+            </div>
+            <div class="user-actions">
+                <a href="/admin/backend_users/logout" class="btn btn-sm btn-transparent user__sign-out">
+                    <i class="fa fa-sign-out"></i>
+                    Sign out
+                </a>
+                <a href="/admin/backend_users/edit/#(request.storage.authedBackendUser.id)" class="btn btn-sm btn-transparent user__settings" data-toggle="tooltip" data-placement="left" title="" data-original-title="Edit user">
+                    <i class="fa fa-pencil"></i>
+                </a>
             </div>
         </div>
     </div>
+</div>

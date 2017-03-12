@@ -8,7 +8,7 @@ public struct BackendUserForm: Form {
     let password: String
     let sendMail: Bool
     var randomPassword = false
-    let shouldResetPassword: Bool
+    var shouldResetPassword: Bool? = nil
     
     public static let fieldset = Fieldset([
         "name": StringField(
@@ -72,7 +72,7 @@ public struct BackendUserForm: Form {
             shouldResetPassword = true
         } else if validatedData["should_reset_password"] != nil {
             shouldResetPassword = true
-        } else {
+        } else if validatedData["password"]?.string != nil {
             shouldResetPassword = false
         }
     }

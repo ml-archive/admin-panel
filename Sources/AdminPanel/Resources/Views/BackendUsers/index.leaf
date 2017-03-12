@@ -52,6 +52,8 @@
                     </td>
                     <td class="text-center">#(user.role)</td>
                     <td class="text-center">
+                        
+                    #allow(request, user.role) {
                         <a href="/admin/backend_users/edit/#(user.id)" class="btn btn-sm btn-default" data-tooltip="true" title="Edit details">
                             <span class="fa fa-pencil"></span>
                             <span class="sr-only">Edit details</span>
@@ -60,6 +62,8 @@
                             <span class="fa fa-times"></span>
                             <span class="sr-only">Delete user</span>
                         </a>
+                    }
+
                     <td>
                 </tr>
                 }
