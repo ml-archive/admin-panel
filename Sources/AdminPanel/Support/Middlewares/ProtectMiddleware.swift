@@ -28,9 +28,18 @@ class ProtectMiddleware: Middleware {
         do {
             // Retrieve authed user and add it to request storage
             if let backendUser: BackendUser = try request.auth.user() as? BackendUser {
+                if backendUser.shouldResetPassword {
+                    
+                    let redirectPath = "/admin/backend_users/edit/" + (backendUser.id?.string ?? "0")
+                    
+                    // Only redirect if not already there!
+                    if redirectPath != request.uri.path {
+                        return Response(redirect: redirectPath).flash(.error, "Please change your password")
+                    }
+                }
+                
                 try request.storage["authedBackendUser"] = backendUser.toBackendView()
             }
-            
         } catch {
             // If local & config is true & first backend user
             if (droplet.environment.description == "local" || request.uri.host == "0.0.0.0") && configuration.autoLoginFirstUser, let backendUser: BackendUser = try BackendUser.query().first() {

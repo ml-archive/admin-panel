@@ -100,7 +100,9 @@ public final class BackendUsersController {
      * - return: View
      */
     public func edit(request: Request, user: BackendUser) throws -> ResponseRepresentable {
-        try Gate.allowOrFail(request, "super-admin")
+        if try  user.id != request.auth.user().id {
+            try Gate.allowOrFail(request, "super-admin")
+        }
         
         return try drop.view.make("BackendUsers/edit", [
             "fieldset": BackendUserForm.getFieldset(request),
@@ -118,10 +120,12 @@ public final class BackendUsersController {
      * - return: View
      */
     public func update(request: Request) throws -> ResponseRepresentable {
-        try Gate.allowOrFail(request, "super-admin")
-        
         guard let id = request.data["id"]?.int, var backendUser = try BackendUser.query().filter("id", id).first() else {
             throw Abort.notFound
+        }
+        
+        if try  backendUser.id != request.auth.user().id {
+            try Gate.allowOrFail(request, "super-admin")
         }
         
         do {

@@ -29,7 +29,7 @@
                         <i class="fa fa-sign-out"></i>
                         Sign out
                     </a>
-                    <a href="/admin/users/edit/1" class="btn btn-sm btn-transparent user__settings" data-toggle="tooltip" data-placement="left" title="" data-original-title="Edit user">
+                    <a href="/admin/backend_users/edit/1" class="btn btn-sm btn-transparent user__settings" data-toggle="tooltip" data-placement="left" title="" data-original-title="Edit user">
                         <i class="fa fa-pencil"></i>
                     </a>
                 </div>
