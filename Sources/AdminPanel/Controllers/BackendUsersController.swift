@@ -75,7 +75,7 @@ public final class BackendUsersController {
             let backendUserForm = try BackendUserForm(validating: request.data)
             
             // Store
-            var backendUser = BackendUser(form: backendUserForm)
+            var backendUser = try BackendUser(form: backendUserForm, request: request)
             try backendUser.save()
             
             // Send welcome mail
