@@ -38,9 +38,13 @@
             <div class="margin-vertical-sm">
                 #form:textgroup("name", backendUser.name, fieldset)
                 #form:emailgroup("email", backendUser.email, fieldset)
-                #form:selectgroup("role", roles, fieldset, defaultRole)
+                #if(backendUser) {
+                    #form:selectgroup("role", roles, fieldset, backendUser.role)
+                } ##else() {
+                    #form:selectgroup("role", roles, fieldset, defaultRole)
+                }
 
-                #if(#(backendUser)) {
+                #if(backendUser) {
                 } ##else() {
                     #form:checkboxgroup("send_mail", "true", fieldset)
                 }
