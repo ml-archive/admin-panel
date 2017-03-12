@@ -58,10 +58,15 @@ public final class BackendUser: Auth.User, Model {
         self.createdAt = Date()
     }
     
-    public func fill(form: BackendUserForm) {
+    public func fill(form: BackendUserForm, request: Request) {
         name = form.name
         email = form.email
-        role = form.role
+        
+        // Only super admins can update roles
+        if Gate.allow(request, "super-admin") {
+            role = form.role
+        }
+        
         updatedAt = Date()
         
         if(!form.randomPassword) {

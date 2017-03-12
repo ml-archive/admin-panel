@@ -124,6 +124,7 @@ public final class BackendUsersController {
             throw Abort.notFound
         }
         
+
         if try  backendUser.id != request.auth.user().id {
             try Gate.allowOrFail(request, "super-admin")
         }
@@ -133,10 +134,15 @@ public final class BackendUsersController {
             let backendUserForm = try BackendUserForm(validating: request.data)
             
             // Store
-            backendUser.fill(form: backendUserForm)
+            backendUser.fill(form: backendUserForm, request: request)
             try backendUser.save()
             
-            return Response(redirect: "/admin/backend_users").flash(.success, "User updated")
+            if Gate.allow(request, "super-admin") {
+               return Response(redirect: "/admin/backend_users").flash(.success, "User updated")
+            } else {
+               return Response(redirect: "/admin/backend_users/edit/" + String(id)).flash(.success, "User updated")
+            }
+            
         }catch FormError.validationFailed(let fieldSet) {
             return Response(redirect: "/admin/backend_users/edit/" + String(id)).flash(.error, "Validation error").withFieldset(fieldSet)
         }catch {
