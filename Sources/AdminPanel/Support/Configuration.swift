@@ -125,4 +125,14 @@ public struct Configuration {
         
         return roleArray
     }
+    
+    public func getRoleOrFail(_ slug: String) throws -> Role {
+        for role in roles {
+            if role.slug == slug {
+                return role
+            }
+        }
+        
+        throw Abort.custom(status: .internalServerError, message: "The role \(slug) was not found")
+    }
 }

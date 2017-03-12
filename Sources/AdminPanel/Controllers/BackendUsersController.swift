@@ -104,11 +104,25 @@ public final class BackendUsersController {
             try Gate.allowOrFail(request, "super-admin")
         }
         
+        let roles: [String : String]
+        let defaultRole: String
+        
+        if Gate.allow(request, "super-admin") {
+            roles = Configuration.shared?.roleOptions ?? [:]
+            defaultRole = Configuration.shared?.defaultRole ?? "admin"
+        } else {
+            guard let usersRole = try Configuration.shared?.getRoleOrFail(user.role) else {
+                throw Abort.custom(status: .internalServerError, message: "Role was not found")
+            }
+            roles = [usersRole.slug : usersRole.title]
+            defaultRole = usersRole.slug
+        }
+        
         return try drop.view.make("BackendUsers/edit", [
             "fieldset": BackendUserForm.getFieldset(request),
             "backendUser": try user.makeNode(),
-            "roles": Configuration.shared?.roleOptions.makeNode() ?? [],
-            "defaultRole": Configuration.shared?.defaultRole ?? "admin"
+            "roles": roles.makeNode(),
+            "defaultRole": defaultRole.makeNode()
         ], for: request)
     }
     
