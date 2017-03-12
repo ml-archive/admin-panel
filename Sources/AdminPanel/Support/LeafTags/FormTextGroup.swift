@@ -11,7 +11,7 @@ public class FormTextGroup: BasicTag {
     public func run(arguments: [Argument]) throws -> Node? {
         
         /*
-         #form:textgroup(key, value, fieldset)
+         #form:textgroup(key, value, fieldset, attr1, attr2 etc)
          
          Arguments:
          [0] = The name of the input (the key that gets posted) *
@@ -50,7 +50,7 @@ public class FormTextGroup: BasicTag {
         */
         
 
-        guard arguments.count == 3,
+        guard arguments.count >= 3,
             let inputName: String = arguments[0].value?.string,
             let fieldsetNode = arguments[2].value?.nodeObject
         else {
@@ -75,8 +75,20 @@ public class FormTextGroup: BasicTag {
         
         template.append("<label class='control-label' for='\(inputName)'>\(label)</label>")
         
-        template.append("<input class='form-control' type='text' id='\(inputName)' name='\(inputName)' value='\(inputValue)' />")
+        template.append("<input class='form-control' type='text' id='\(inputName)' name='\(inputName)' value='\(inputValue)' ")
       
+        // Add custom attributes
+        if arguments.count > 3 {
+            let max = arguments.count - 1
+            for index in 3 ... max {
+                if let argument = arguments[index].value?.string {
+                    template.append(" " + argument)
+                }
+            }
+        }
+        
+        template.append("/>")
+        
         // If Fieldset has errors then loop through them and add help-blocks
         if(errors != nil) {
             for e in errors! {
