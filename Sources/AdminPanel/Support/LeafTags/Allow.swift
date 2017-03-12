@@ -6,7 +6,11 @@ public final class Allow: Tag {
     public enum Error: Swift.Error {
         case expetedTwoArguments(have: [Argument])
     }
-    
+    /*
+    #allow(request, "admin")
+    [0] = request
+    [1] = role slug string
+     */
     public func run(
         stem: Stem,
         context: Context,
