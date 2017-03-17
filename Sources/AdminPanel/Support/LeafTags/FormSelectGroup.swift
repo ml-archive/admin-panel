@@ -96,8 +96,6 @@ public class FormSelectGroup: BasicTag {
         
         template.append("</select>")
         
-        template.append("</div>")
-        
         // If Fieldset has errors then loop through them and add help-blocks
         if(errors != nil) {
             for e in errors! {
