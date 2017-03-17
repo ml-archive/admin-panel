@@ -101,9 +101,9 @@ public class FormCheckboxGroup: BasicTag {
         template.append("<label>")
         
         if(inputValue == true) {
-            template.append("<input type='checkbox' id='\(inputName)' name='\(inputName)' value='\(inputName)' checked/>")
+            template.append("<input type='checkbox' id='\(inputName)' name='\(inputName)' value='\(inputName)' checked")
         } else {
-            template.append("<input type='checkbox' id='\(inputName)' name='\(inputName)' value='\(inputName)")
+            template.append("<input type='checkbox' id='\(inputName)' name='\(inputName)' value='\(inputName)'")
         }
         
         // Add custom attributes
