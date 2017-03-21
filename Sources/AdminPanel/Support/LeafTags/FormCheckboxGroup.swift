@@ -15,7 +15,7 @@ public class FormCheckboxGroup: BasicTag {
     public func run(arguments: [Argument]) throws -> Node? {
         
         /*
-         #form:checkboxgroup(key, value, fieldset)
+         #form:checkboxgroup(key, value, fieldset, attr1, attr2 etc)
          
          Arguments:
          [0] = The name of the input (the key that gets posted) *
@@ -36,8 +36,6 @@ public class FormCheckboxGroup: BasicTag {
                 label: "Send E-mail"
             )
          ], requiring: ["send_mail"])
-         
-         #form:checkboxgroup("send_mail", send_mail, fieldset)
          
          expected output if fieldset is valid and value resolves to true:
          <div class="form-group">
@@ -70,7 +68,7 @@ public class FormCheckboxGroup: BasicTag {
          </div>
          */
         
-        guard arguments.count == 3,
+        guard arguments.count >= 3,
             let inputName: String = arguments[0].value?.string,
             let fieldsetNode = arguments[2].value?.nodeObject
             else {
@@ -103,10 +101,22 @@ public class FormCheckboxGroup: BasicTag {
         template.append("<label>")
         
         if(inputValue == true) {
-            template.append("<input type='checkbox' id='\(inputName)' name='\(inputName)' value='\(inputName)' checked/>")
+            template.append("<input type='checkbox' id='\(inputName)' name='\(inputName)' value='\(inputName)' checked")
         } else {
-            template.append("<input type='checkbox' id='\(inputName)' name='\(inputName)' value='\(inputName)'/>")
+            template.append("<input type='checkbox' id='\(inputName)' name='\(inputName)' value='\(inputName)'")
         }
+        
+        // Add custom attributes
+        if arguments.count > 3 {
+            let max = arguments.count - 1
+            for index in 3 ... max {
+                if let argument = arguments[index].value?.string {
+                    template.append(" " + argument)
+                }
+            }
+        }
+        
+        template.append("/>")
         
         template.append("\(label)")
         
