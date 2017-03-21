@@ -31,7 +31,7 @@ Create config adminpanel.json
     "profileImageFallbackUrl": "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg",
     "welcomeMailViewPath": "Emails/welcome",
     "resetPasswordViewPath": "Emails/reset-password",
-    "autoLoginFirstUser": true,
+    "autoLoginFirstUser": false,
     "ssoRedirectUrl": "https://mysso.com",
     "ssoCallbackPath": "/admin/ssocallback",
     "roles": [
