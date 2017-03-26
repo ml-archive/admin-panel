@@ -17,7 +17,7 @@
                 <button type="submit" class="btn btn-transparent action-wrap-action action-wrap-right action-wrap-sm">
                     <i class="fa fa-search"></i>
                 </button>
-                <input type="text" id="search" class="form-control input-sm action-wrap-item action-wrap-right" name="search" placeholder="Search" value=""/>
+                <input type="text" id="search" class="form-control input-sm action-wrap-item action-wrap-right" name="search" placeholder="Search" value="#(request.storage.query.search)"/>
             </div>
         </form>
         
