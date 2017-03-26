@@ -18,6 +18,7 @@ public final class Provider: Vapor.Provider {
             leaf.stem.register(FormOpen())
             leaf.stem.register(FormClose())
             leaf.stem.register(FormTextGroup())
+            leaf.stem.register(FormTextAreaGroup())
             leaf.stem.register(FormEmailGroup())
             leaf.stem.register(FormPasswordGroup())
             leaf.stem.register(FormNumberGroup())
