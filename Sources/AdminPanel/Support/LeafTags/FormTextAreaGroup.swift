@@ -75,7 +75,7 @@ public class FormTextAreaGroup: BasicTag {
         
         template.append("<label class='control-label' for='\(inputName)'>\(label)</label>")
         
-        template.append("<textarea class='form-control' id='\(inputName)' name='\(inputName)' value='\(inputValue)'")
+        template.append("<textarea class='form-control' id='\(inputName)' name='\(inputName)'")
         
         // Add custom attributes
         if arguments.count > 3 {
@@ -88,6 +88,7 @@ public class FormTextAreaGroup: BasicTag {
         }
         
         template.append("</>")
+        template.append(inputValue)
         template.append("</textarea>")
         
         // If Fieldset has errors then loop through them and add help-blocks
