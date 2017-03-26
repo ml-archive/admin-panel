@@ -44,7 +44,9 @@ public class FormTextAreaGroup: BasicTag {
          expected output if fieldset is invalid:
          <div class="form-group has-error">
          <label class="control-label" for="name">Name</label>
-         <input class="form-control" type="text" id="name" name="name" value="John Doe" />
+         <textarea class="form-control" id="name" name="name" value="John Doe"/>
+            "input"
+         </textarea>
          <span class="help-block">...validation message</span>
          </div>
          */
