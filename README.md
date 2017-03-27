@@ -50,7 +50,7 @@ Create config adminpanel.json
             "slug": "user",
             "is_default": true
         }
-    ],
+    ]
 }
 
 ```
