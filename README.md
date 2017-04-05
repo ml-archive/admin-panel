@@ -28,6 +28,7 @@ Create config adminpanel.json
     "unauthorizedPath": "/admin/login",
     "loginSuccessPath": "admin/dashboard",
     "loadRoutes": true,
+    "loadDashboardRoute": true,
     "profileImageFallbackUrl": "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg",
     "welcomeMailViewPath": "Emails/welcome",
     "resetPasswordViewPath": "Emails/reset-password",
