@@ -59,7 +59,10 @@ public final class Provider: Vapor.Provider {
             }
             
             droplet.group(collection: Middlewares.secured) { secured in
-                secured.grouped("/admin/dashboard").collection(DashboardRoutes(droplet: droplet))
+                if config.loadDashboardRoute {
+                    secured.grouped("/admin/dashboard").collection(DashboardRoutes(droplet: droplet))
+                }
+                
                 secured.grouped("/admin/backend_users").collection(BackendUsersRoutes(droplet: droplet))
             }
         }
