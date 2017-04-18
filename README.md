@@ -1,9 +1,15 @@
-# Admin panel, build easy customizable admin features for your app!
+# Admin panel
 [![Language](https://img.shields.io/badge/Swift-3-brightgreen.svg)](http://swift.org)
 [![Build Status](https://travis-ci.org/nodes-vapor/admin-panel.svg?branch=master)](https://travis-ci.org/nodes-vapor/admin-panel)
+[![codebeat badge](https://codebeat.co/badges/52c2f960-625c-4a63-ae63-52a24d747da1)](https://codebeat.co/projects/github-com-nodes-vapor-admin-panel)
 [![codecov](https://codecov.io/gh/nodes-vapor/admin-panel/branch/master/graph/badge.svg)](https://codecov.io/gh/nodes-vapor/admin-panel)
+[![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=https://github.com/nodes-vapor/admin-panel)](http://clayallsopp.github.io/readme-score?url=https://github.com/nodes-vapor/admin-panel)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/nodes-vapor/admin-panel/master/LICENSE)
-# Features
+
+
+Build easy customizable admin features for your app!
+
+## Features
  - Admin user system with roles
  - Welcome mails
  - Reset password
@@ -12,15 +18,19 @@
  
 ![image](https://cloud.githubusercontent.com/assets/1279756/21502899/83ff79dc-cc53-11e6-8222-40bfa773d361.png)
 
-#Installation
+
+## 📦 Installation
+
 Update your `Package.swift` file.
 ```swift
 .Package(url: "https://github.com/nodes-vapor/admin-panel.git", majorVersion: 0)
 ```
 
 
-#### Config
-Create config adminpanel.json
+## Getting started 🚀
+
+### Configs
+Create config `adminpanel.json`
 
 ```
 {
@@ -56,7 +66,7 @@ Create config adminpanel.json
 
 ```
 
-Create config mail.json
+Create config `mail.json`
 ```
 {
     "smtpHost": "smtp.mailgun.org",
@@ -67,7 +77,7 @@ Create config mail.json
 }
 ```
 
-Make sure to have config app.json setup
+Make sure to have config `app.json` setup
 ```
 {
     "name": "MY-PROJECT",
@@ -79,19 +89,19 @@ The url here will be used as redirect link in invite emails fx.
 
 
 ### main.swift
-```
+```swift
 import AdminPanel
 ```
 
 And add provider (before defining routes, but after defining cache driver)
-```
+```swift
 try drop.addProvider(AdminPanel.Provider.self)
 
 /// ... routes goes here
 
 ```
 ### Seed data
-```
+```swift
 vapor run admin-panel:seeder
 ```
 
@@ -127,8 +137,18 @@ Github: https://github.com/nodes-frontend/nodes-ui
 Doc: https://nodes-frontend.github.io/nodes-ui/
 
 #### Using views from packages (for development)
-```
+```swift
 drop.view = LeafRenderer(
     viewsDir: Droplet().workDir + "/Packages/AdminPanel-0.5.4/Sources/AdminPanel/Resources/Views"
 )
 ```
+
+
+## 🏆 Credits
+
+This package is developed and maintained by the Vapor team at [Nodes](https://www.nodesagency.com).
+
+
+## 📄 License
+
+This package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
