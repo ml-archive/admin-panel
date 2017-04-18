@@ -32,7 +32,7 @@ Update your `Package.swift` file.
 ### Configs
 Create config `adminpanel.json`
 
-```
+```json
 {
     "name": "Nodes Admin Panel",
     "unauthorizedPath": "/admin/login",
@@ -67,7 +67,7 @@ Create config `adminpanel.json`
 ```
 
 Create config `mail.json`
-```
+```json
 {
     "smtpHost": "smtp.mailgun.org",
     "smtpPort": "465",
@@ -78,7 +78,7 @@ Create config `mail.json`
 ```
 
 Make sure to have config `app.json` setup
-```
+```json
 {
     "name": "MY-PROJECT",
     "url": "0.0.0.0:8080"
