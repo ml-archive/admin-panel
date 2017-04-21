@@ -101,7 +101,7 @@ try drop.addProvider(AdminPanel.Provider.self)
 
 ```
 ### Seed data
-Add the seeder command
+Add the seeder command to your `main.swift`
 ```swift
 drop.commands.append(AdminPanel.Seeder(drop: drop))
 ```
