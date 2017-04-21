@@ -101,6 +101,12 @@ try drop.addProvider(AdminPanel.Provider.self)
 
 ```
 ### Seed data
+Add the seeder command
+```swift
+drop.commands.append(AdminPanel.Seeder(drop: drop))
+```
+
+And then run the command in your terminal (remember to build the project first)
 ```swift
 vapor run admin-panel:seeder
 ```
