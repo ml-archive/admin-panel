@@ -12,6 +12,7 @@ public struct Configuration {
         case name                       = "adminpanel.name"
         case unauthorizedPath           = "adminpanel.unauthorizedPath"
         case loadRoutes                 = "adminpanel.loadRoutes"
+        case loadDashboardRoute         = "adminpanel.loadDashboardRoute"
         case profileImageFallbackUrl    = "adminpanel.profileImageFallbackUrl"
         case loginSuccessPath           = "adminpanel.loginSuccessPath"
         case welcomeMailViewPath        = "adminpanel.welcomeMailViewPath"
@@ -33,6 +34,7 @@ public struct Configuration {
     public let name: String
     public let unauthorizedPath: String
     public let loadRoutes: Bool
+    public let loadDashboardRoute: Bool
     public let profileImageFallbackUrl: String
     public let loginSuccessPath: String
     public let welcomeMailViewPath: String
@@ -69,6 +71,7 @@ public struct Configuration {
         name                       = try Configuration.extract(field: .name, config: config)
         unauthorizedPath           = try Configuration.extract(field: .unauthorizedPath, config: config)
         loadRoutes                 = try Configuration.extract(field: .loadRoutes, config: config)
+        loadDashboardRoute         = config[Field.loadDashboardRoute.path]?.bool ?? true
         profileImageFallbackUrl    = try Configuration.extract(field: .profileImageFallbackUrl, config: config)
         loginSuccessPath           = try Configuration.extract(field: .loginSuccessPath, config: config)
         welcomeMailViewPath        = try Configuration.extract(field: .welcomeMailViewPath, config: config)
@@ -83,6 +86,7 @@ public struct Configuration {
             "name"                      : Node(name),
             "unauthorizedPath"          : Node(unauthorizedPath),
             "loadRoutes"                : Node(loadRoutes),
+            "loadDashboardRoute"        : Node(loadDashboardRoute),
             "profileImageFallbackUrl"   : Node(profileImageFallbackUrl),
             "loginSuccessPath"          : Node(loginSuccessPath),
             "welcomeMailViewPath"       : Node(welcomeMailViewPath),
