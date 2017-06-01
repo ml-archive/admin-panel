@@ -21,12 +21,12 @@
             
             <div class="form-group">
                 <label for="password">New password</label>
-                <input type="password" id="password" class="form-control" name="password" required placeholder="Inser password"/>
+                <input type="password" id="password" class="form-control" name="password" required placeholder="Insert password"/>
             </div>
             
             <div class="form-group">
                 <label for="password">New password confirmation</label>
-                <input type="password" id="password" class="form-control" name="password_repeat" required placeholder="Inser password"/>
+                <input type="password" id="password" class="form-control" name="password_repeat" required placeholder="Insert password"/>
             </div>
             
             <div class="form-group margin-vertical-sm text-right">
