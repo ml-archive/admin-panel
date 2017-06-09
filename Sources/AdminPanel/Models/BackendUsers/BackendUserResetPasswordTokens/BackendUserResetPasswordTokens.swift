@@ -1,22 +1,25 @@
 import Vapor
-import Fluent
+import FluentProvider
 import Foundation
 import HTTP
-import FluentMySQL
+import MySQLProvider
 
-public final class BackendUserResetPasswordTokens: Model {
- 
-    public var exists: Bool = false
+public final class BackendUserResetPasswordTokens: Model, Timestampable, Preparation {
+    public let storage = Storage()
+
     public static var entity = "backend_reset_password_tokens"
-    
-    public var id: Node?
     public var token: String
     public var email: String
     public var expireAt: Date
     public var usedAt: Date?
-    public var createdAt: Date
-    public var updatedAt: Date
-    
+
+    public init(row: Row) throws{
+        self.token = try row.get("token")
+        self.email = try row.get("email")
+        self.expireAt = try row.get("expireAt")
+        self.usedAt = try row.get("usedAt")
+    }
+
     public init(email: String) {
         self.email = email
         token = String.randomAlphaNumericString(64)
@@ -24,32 +27,18 @@ public final class BackendUserResetPasswordTokens: Model {
         createdAt = Date()
         updatedAt = Date()
     }
-    
-    public init(node: Node, in context: Context) throws {
-        id = try node.extract("id")
-        token = try node.extract("token")
-        email = try node.extract("email")
-        createdAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("created_at"), Date())
-        updatedAt = try Date.parse("yyyy-MM-dd HH:mm:ss", node.extract("updated_at"), Date())
-        expireAt = try Date.parseOrFail(.dateTime, node.extract("expire_at"))
-        
-        if let usedAt: String = try node.extract("used_at") {
-            self.usedAt = Date.parse(.dateTime, usedAt)
-        }
+
+    public func makeRow() throws -> Row {
+        var row = Row()
+
+        try row.set("token", self.token)
+        try row.set("email", self.email)
+        try row.set("expireAt", self.expireAt)
+        try row.set("usedAt", self.usedAt)
+
+        return row
     }
-  
-    public func makeNode(context: Context) throws -> Node {
-        return try Node(node: [
-            "id": id,
-            "email": email,
-            "token": token,
-            "used_at": try usedAt?.toDateTimeString() ?? nil,
-            "expire_at": try expireAt.toDateTimeString(),
-            "created_at": try createdAt.toDateTimeString(),
-            "updated_at": try updatedAt.toDateTimeString()
-        ])
-    }
-    
+
     public func canBeUsed() -> Bool {
         if usedAt != nil {
             return false
@@ -63,13 +52,12 @@ public final class BackendUserResetPasswordTokens: Model {
     }
     
     public static func prepare(_ database: Database) throws {
-        try database.create("backend_reset_password_tokens") { table in
+        try database.create(self) { table in
             table.id()
             table.varchar("email", length: 191, unique: true)
             table.varchar("token", length: 191)
             table.datetime("used_at", optional: true)
             table.datetime("expire_at", optional: true)
-            table.timestamps()
         }
         
         try database.index(table: "backend_reset_password_tokens", column: "email")
@@ -77,6 +65,6 @@ public final class BackendUserResetPasswordTokens: Model {
     }
     
     public static func revert(_ database: Database) throws {
-        try database.delete("backend_reset_password_tokens")
+        try database.delete(self)
     }
 }

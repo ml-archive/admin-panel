@@ -11,13 +11,13 @@ public class Role{
     }
     
     public init(node: Node) throws {
-        title = try node.extract("title")
-        slug = try node.extract("slug")
-        isDefault = try node.extract("is_default")
+        title = try node.get("title")
+        slug = try node.get("slug")
+        isDefault = try node.get("is_default")
     }
     
     public convenience init(config: Config) throws {
-        try self.init(node: config.node)
+        try self.init(node: config.makeNode(in: nil))
     }
     
     public func makeNode() -> Node {

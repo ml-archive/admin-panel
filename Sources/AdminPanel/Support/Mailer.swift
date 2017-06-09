@@ -1,6 +1,7 @@
 import Vapor
 import SMTP
 import Transport
+import Sockets
 
 public class Mailer {
     public static func sendWelcomeMail(drop: Droplet, backendUser: BackendUser, password: String?) throws {
@@ -30,7 +31,7 @@ public class Mailer {
             "password": Node(password ?? ""),
             "randomPassword": password != nil ? true : false,
             "url": url
-        ]).data.string()
+        ]).data.makeString()
         
         
         let email: SMTP.Email = Email(from: from,
@@ -38,8 +39,13 @@ public class Mailer {
                                       subject: "Welcome to Admin Panel",
                                       body: EmailBody(type: .html, content: html))
         
-        
-        let client = try SMTPClient<TCPClientStream>(host: smtpHost, port: smtpPort, securityLayer: SecurityLayer.tls(nil))
+        let stream = try TCPInternetSocket(
+            scheme: "smtps",
+            hostname: smtpHost,
+            port: Port(smtpPort)
+        )
+
+        let client = try SMTPClient(stream)
         
         try client.send(email, using: credentials)
     }
@@ -71,7 +77,7 @@ public class Mailer {
             "token": token.token,
             "expire": 60,
             "url": url
-            ]).data.string()
+            ]).data.makeString()
         
         
         let email: SMTP.Email = Email(from: from,
@@ -79,8 +85,12 @@ public class Mailer {
                                       subject: "Reset password",
                                       body: EmailBody(type: .html, content: html))
         
-        
-        let client = try SMTPClient<TCPClientStream>(host: smtpHost, port: smtpPort, securityLayer: SecurityLayer.tls(nil))
+        let stream = try TCPInternetSocket(
+            scheme: "smtps",
+            hostname: smtpHost,
+            port: Port(smtpPort)
+        )
+        let client = try SMTPClient(stream)
         
         try client.send(email, using: credentials)
     }

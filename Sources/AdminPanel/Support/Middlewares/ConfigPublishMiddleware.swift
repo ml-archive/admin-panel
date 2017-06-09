@@ -1,6 +1,5 @@
 import HTTP
 import Vapor
-import Turnstile
 
 public class ConfigPublishMiddleware: Middleware {
     let config: Configuration

@@ -1,5 +1,4 @@
 import Vapor
-import VaporForms
 import HTTP
 import Fluent
 import Flash
@@ -20,7 +19,7 @@ public final class BackendUsersController {
      * - return: Response
      */
     public func logout(request: Request) throws -> ResponseRepresentable {
-        try request.auth.logout()
+        try request.auth.unauthenticate()
         return Response(redirect: "/admin").flash(.error, "User is logged out")
     }
     
@@ -33,16 +32,19 @@ public final class BackendUsersController {
     public func index(request: Request) throws -> ResponseRepresentable {
         try Gate.allowOrFail(request, "admin")
         
-        let query = try BackendUser.query()
+        let query = try BackendUser.makeQuery()
         if let search: String = request.query?["search"]?.string {
-            try query.filter("name", contains: search)
+            try query.filter("name", search)
         }
+
         let users = try query.paginator(25, request: request)
-        
+
         // Search
-        return try drop.view.make("BackendUsers/index", [
-            "users": try users.makeNode()
-        ], for: request)
+        return try drop.view.make(
+            "BackendUsers/index",
+            ["users": users.makeNode(in: nil)],
+            for: request
+        )
     }
 
     /**
@@ -54,10 +56,11 @@ public final class BackendUsersController {
     public func create(request: Request) throws -> ResponseRepresentable {
         try Gate.allowOrFail(request, "admin")
         
-        return try drop.view.make("BackendUsers/edit", [
+        return try drop.view.make(
+            "BackendUsers/edit", [
             "fieldset": BackendUserForm.getFieldset(request),
-            "roles": Configuration.shared?.getRoleOptions(request.authedBackendUser().role).makeNode() ?? [:],
-            "defaultRole": (Configuration.shared?.defaultRole ?? "user").makeNode()
+            "roles": Configuration.shared?.getRoleOptions(request.authedBackendUser().role).makeNode(in: nil) ?? [:],
+            "defaultRole": (Configuration.shared?.defaultRole ?? "user").makeNode(in: nil)
         ], for: request)
     }
     
@@ -99,15 +102,16 @@ public final class BackendUsersController {
      * - param: BackendUser
      * - return: View
      */
-    public func edit(request: Request, backendUser: BackendUser) throws -> ResponseRepresentable {
-        if try  backendUser.id != request.auth.user().id {
+    public func edit(request: Request) throws -> ResponseRepresentable {
+        let user = try request.parameters.next(BackendUser.self)
+        if user.id != request.auth.authenticated(BackendUser.self)?.id {
             try Gate.allowOrFail(request, "admin")
-            try Gate.allowOrFail(request, backendUser.role)
+            try Gate.allowOrFail(request, user.role)
         }
         
         return try drop.view.make("BackendUsers/edit", [
             "fieldset": BackendUserForm.getFieldset(request),
-            "backendUser": try backendUser.makeNode(),
+            "backendUser": try user.makeNode(),
             "roles": Configuration.shared?.getRoleOptions(request.authedBackendUser().role).makeNode() ?? [:],
             "defaultRole": (Configuration.shared?.defaultRole ?? "user").makeNode()
         ], for: request)
@@ -121,19 +125,19 @@ public final class BackendUsersController {
      * - return: View
      */
     public func update(request: Request) throws -> ResponseRepresentable {
-        guard let id = request.data["id"]?.int, var backendUser = try BackendUser.query().filter("id", id).first() else {
+        guard let id = request.data["id"]?.int, var backendUser = try BackendUser.makeQuery().filter("id", id).first() else {
             throw Abort.notFound
         }
         
 
-        if try  backendUser.id != request.auth.user().id {
+        if backendUser.id != request.auth.authenticated(BackendUser.self)?.id {
             try Gate.allowOrFail(request, "admin")
             try Gate.allowOrFail(request, backendUser.role)
         }
         
         do {
             // Validate
-            let backendUserForm = try BackendUserForm(validating: request.data)
+            let backendUserForm = try BackendUserForm(validatedData: request.data)
             
             // Store
             try backendUser.fill(form: backendUserForm, request: request)
@@ -159,11 +163,13 @@ public final class BackendUsersController {
      * - param: BackendUser
      * - return: View
      */
-    public func destroy(request: Request, backendUser: BackendUser) throws -> ResponseRepresentable {
+    public func destroy(request: Request) throws -> ResponseRepresentable {
+        let user = try request.parameters.next(BackendUser.self)
+
         try Gate.allowOrFail(request, "admin")
-        try Gate.allowOrFail(request, backendUser.role)
+        try Gate.allowOrFail(request, user.role)
         do {
-            try backendUser.delete()
+            try user.delete()
             return Response(redirect: "/admin/backend_users").flash(.success, "Deleted user")
         } catch {
             return Response(redirect: "/admin/backend_users").flash(.error, "Failed to delete user")
