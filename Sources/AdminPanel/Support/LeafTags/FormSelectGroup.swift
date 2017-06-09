@@ -2,7 +2,6 @@ import Foundation
 import Leaf
 import Node
 import Vapor
-import VaporForms
 
 public class FormSelectGroup: BasicTag {
     public init(){}
@@ -41,21 +40,24 @@ public class FormSelectGroup: BasicTag {
         return ""
     }
     */
-    public func run(arguments: [Argument]) throws -> Node? {
+    public func run(arguments: ArgumentList) throws -> Node? {
         
         
     
         guard arguments.count >= 3,
-            let inputName: String = arguments[0].value?.string,
-            let inputValues = arguments[1].value?.nodeObject,
-            let fieldsetNode = arguments[2].value?.nodeObject
+            let inputName: String = arguments.list[0].value(with: arguments.stem, in: arguments.context)?.string,
+            let inputValues = arguments.list[1].value(with: arguments.stem, in: arguments.context),
+            let fieldsetNode = arguments.list[2].value(with: arguments.stem, in: arguments.context)
             else {
-                throw Abort.custom(status: .internalServerError, message: "FormSelectGroup parse error, expecting: #form:selectgroup(\"name\", \"values\", fieldset), \"default\"")
+                throw Abort(
+                    .internalServerError,
+                    reason: "FormSelectGroup parse error, expecting: #form:selectgroup(\"name\", \"values\", fieldset), \"default\""
+                )
         }
 
         let fieldset = fieldsetNode[inputName]
         
-        let selectedValue = arguments.count > 3 ? arguments[3].value?.string : nil
+        let selectedValue = arguments.count > 3 ? arguments.list[3].value(with: arguments.stem, in: arguments.context)?.string : nil
         
         let label = fieldset?["label"]?.string ?? inputName
         
@@ -81,8 +83,8 @@ public class FormSelectGroup: BasicTag {
         template.append("<select class='form-control' id='\(inputName)' name='\(inputName)'>")
         
         // Placeholder
-        if(arguments.count > 4 && arguments[3].value == nil) {
-            template.append("<option value='' disabled selected>\(arguments[4].value?.string ?? "")</option>")
+        if(arguments.count > 4 && arguments.list[3].value(with: arguments.stem, in: arguments.context) == nil) {
+            template.append("<option value='' disabled selected>\(arguments.list[4].value(with: arguments.stem, in: arguments.context)?.string ?? "")</option>")
         }
         
         // Options

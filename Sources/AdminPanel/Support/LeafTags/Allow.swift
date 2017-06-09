@@ -4,7 +4,7 @@ public final class Allow: Tag {
     public let name = "allow"
     
     public enum Error: Swift.Error {
-        case expetedTwoArguments(have: [Argument])
+        case expetedTwoArguments(have: ArgumentList)
     }
     /*
     #allow(request, "admin")
@@ -12,23 +12,19 @@ public final class Allow: Tag {
     [1] = role slug string
      */
     public func run(
-        stem: Stem,
-        context: Context,
         tagTemplate: TagTemplate,
-        arguments: [Argument]) throws -> Node? {
+        arguments: ArgumentList) throws -> Node? {
         guard arguments.count == 2 else { throw Error.expetedTwoArguments(have: arguments) }
         return nil
     }
     
     public func shouldRender(
-        stem: Stem,
-        context: Context,
         tagTemplate: TagTemplate,
-        arguments: [Argument],
+        arguments: ArgumentList,
         value: Node?) -> Bool {
-        guard let request = arguments.first?.value else { return false }
+        guard let request = arguments.first else { return false }
         guard let backendUserRole = request["storage", "authedBackendUser", "role"]?.string else { return false }
-        guard let role = arguments[1].value?.string else { return false }
+        guard let role = arguments.list[1].value(with: arguments.stem, in: arguments.context)?.string else { return false }
         
         return Gate.allow(backendUserRole, role)
     }

@@ -3,7 +3,11 @@ import HTTP
 
 class Gate {
     
-    public static let error = Abort.custom(status: .forbidden, message: "User does not have access to this page")
+    public static let error = Abort(
+        .forbidden,
+        metadata: nil,
+        reason: "User does not have access to this page"
+    )
     
     /// Check if a backend_users.role is allowed to access
     ///
@@ -81,14 +85,10 @@ class Gate {
     
     // MARK: User
     public static func allow(_ request: Request, _ role: String) -> Bool {
-        do {
-            guard let backendUser = try request.auth.user() as? BackendUser else {
-                return false
-            }
-            return self.allow(backendUser.role, role)
-        } catch {
+        guard let backendUser = request.auth.authenticated(BackendUser.self) else {
             return false
         }
+        return self.allow(backendUser.role, role)
     }
     
     public static func disallow(_ request: Request, _ role: String) -> Bool {

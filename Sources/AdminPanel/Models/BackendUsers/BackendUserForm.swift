@@ -1,7 +1,6 @@
-import VaporForms
 import Vapor
 
-public struct BackendUserForm: Form {
+public struct BackendUserForm {
     let name: String
     let email: String
     let role: String
@@ -9,7 +8,18 @@ public struct BackendUserForm: Form {
     let sendMail: Bool
     var randomPassword = false
     var shouldResetPassword: Bool? = nil
-    
+
+    public let fielset: [String:Any] = [
+        "name": "",
+        "email": "",
+        "role": "",
+        "should_reset_password": true,
+        "send_mail": true,
+        "password": "",
+        "passwordRepeat": ""
+    ]
+
+    /*
     public static let fieldset = Fieldset([
         "name": StringField(
             label: "Name",
@@ -45,7 +55,7 @@ public struct BackendUserForm: Form {
             String.MaximumLengthValidator(characters: 191)
         ),
         ], requiring: ["name", "email", "role"])
-    
+    */
     public init(validatedData: [String: Node]) throws {
         
         guard let name = validatedData["name"]?.string,

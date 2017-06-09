@@ -1,7 +1,6 @@
 import HTTP
 import Vapor
-import Turnstile
-import Auth
+import AuthProvider
 
 class ProtectMiddleware: Middleware {
     
@@ -27,7 +26,7 @@ class ProtectMiddleware: Middleware {
     public func respond(to request: Request, chainingTo next: Responder) throws -> Response {
         do {
             // Retrieve authed user and add it to request storage
-            if let backendUser: BackendUser = try request.auth.user() as? BackendUser {
+            if let backendUser: BackendUser = request.auth.authenticated(BackendUser.self) {
                 if backendUser.shouldResetPassword {
                     
                     let redirectPath = "/admin/backend_users/edit/" + (backendUser.id?.string ?? "0")
@@ -42,10 +41,11 @@ class ProtectMiddleware: Middleware {
             }
         } catch {
             // If local & config is true & first backend user
-            if (droplet.environment.description == "local" || request.uri.host == "0.0.0.0") && configuration.autoLoginFirstUser, let backendUser: BackendUser = try BackendUser.query().first() {
+
+            if (droplet.config.environment.description == "local" || request.uri.hostname == "0.0.0.0") && configuration.autoLoginFirstUser, let backendUser: BackendUser = try BackendUser.makeQuery().first() {
                 
                 // Login user & add storage
-                try request.auth.login(Identifier(id: backendUser.id ?? 0))
+                request.auth.authenticate(backendUser)
                 try request.storage["authedBackendUser"] = backendUser.toBackendView()
                 
             } else {

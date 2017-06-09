@@ -12,7 +12,7 @@ public struct DashboardRoutes: RouteCollection {
         drop = droplet
     }
     
-    public func build<Builder: RouteBuilder>(_ builder: Builder) where Builder.Value == Wrapped {
+    public func build(_ builder: RouteBuilder) {
         
         let controller = DashboardController(droplet: drop)
         

@@ -2,13 +2,12 @@ import Foundation
 import Leaf
 import Node
 import Vapor
-import VaporForms
 
 public class FormPasswordGroup: BasicTag {
     public init(){}
     public let name = "form:passwordgroup"
     
-    public func run(arguments: [Argument]) throws -> Node? {
+    public func run(arguments: ArgumentList) throws -> Node? {
         
         /*
          #form:passwordgroup(key, value, fieldset)
@@ -52,13 +51,13 @@ public class FormPasswordGroup: BasicTag {
         
         
         guard arguments.count >= 3,
-            let inputName: String = arguments[0].value?.string,
-            let fieldsetNode = arguments[2].value?.nodeObject
+            let inputName: String = arguments.list[0].value(with: arguments.stem, in: arguments.context)?.string,
+            let fieldsetNode = arguments.list[2].value(with: arguments.stem, in: arguments.context)
             else {
                 throw Abort.serverError
         }
         
-        let inputValue = arguments[1].value?.string ?? ""
+        let inputValue = arguments.list[1].value(with: arguments.stem, in: arguments.context)?.string ?? ""
         
         let fieldset = fieldsetNode[inputName]
         
@@ -80,7 +79,7 @@ public class FormPasswordGroup: BasicTag {
         if arguments.count > 3 {
             let max = arguments.count - 1
             for index in 3 ... max {
-                if let argument = arguments[index].value?.string {
+                if let argument = arguments.list[index].value(with: arguments.stem, in: arguments.context)?.string {
                     template.append(" " + argument)
                 }
             }

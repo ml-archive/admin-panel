@@ -1,16 +1,19 @@
 import Vapor
 import Paginator
 import Flash
-import Auth
+import AuthProvider
 import HTTP
 import Sugar
+import LeafProvider
 
 public final class Provider: Vapor.Provider {
-    
+    public static var repositoryName: String = "AdminPanel"
+
+
     var config: Configuration
     var ssoProvider: SSOProtocol?
     
-    public func boot(_ droplet: Droplet) {
+    public func boot(_ droplet: Droplet) throws {
         
         if let leaf = droplet.view as? LeafRenderer {
             // AdminPanel
@@ -32,15 +35,15 @@ public final class Provider: Vapor.Provider {
         
         droplet.storage["adminPanelConfig"] = config
         Configuration.shared = config
-        
-        droplet.preparations.append(BackendUserResetPasswordTokens.self)
-        droplet.preparations.append(BackendUser.self)
-        
-        droplet.commands.append(Seeder(dropet: droplet))
-        
+
+        droplet.config.preparations.append(BackendUserResetPasswordTokens.self)
+        droplet.config.preparations.append(BackendUser.self)
+
+        droplet.config.addConfigurable(command: Seeder.init, name: "admin-panel:seeder")
+
         // Init middlewares
         let middlewares: [Middleware] = [
-            AuthMiddleware<BackendUser>(cache: droplet.cache),
+            PasswordAuthenticationMiddleware(BackendUser.self),
             FlashMiddleware(),
             ConfigPublishMiddleware(config: config),
             FieldsetMiddleware()
@@ -54,17 +57,15 @@ public final class Provider: Vapor.Provider {
         Middlewares.secured = protectedMiddlewares
         
         if(config.loadRoutes) {
-            droplet.group(collection: Middlewares.unsecured) { unsecured in
-                unsecured.grouped("/").collection(LoginRoutes(droplet: droplet, config: config))
+
+            let unsecured = droplet.grouped(Middlewares.unsecured)
+            try unsecured.grouped("/").collection(LoginRoutes(droplet: droplet, config: config))
+
+            let secured = droplet.grouped(Middlewares.secured)
+            if config.loadDashboardRoute {
+                try secured.grouped("/admin/dashboard").collection(DashboardRoutes(droplet: droplet))
             }
-            
-            droplet.group(collection: Middlewares.secured) { secured in
-                if config.loadDashboardRoute {
-                    secured.grouped("/admin/dashboard").collection(DashboardRoutes(droplet: droplet))
-                }
-                
-                secured.grouped("/admin/backend_users").collection(BackendUsersRoutes(droplet: droplet))
-            }
+            try secured.grouped("/admin/backend_users").collection(BackendUsersRoutes(droplet: droplet))
         }
     }
     
@@ -81,7 +82,8 @@ public final class Provider: Vapor.Provider {
         
         config.ssoProvider = ssoProvider
     }
-    
+
+    public func boot(_ config: Config) throws {}
     
     // is automatically called directly after boot()
     public func afterInit(_ drop: Droplet) {

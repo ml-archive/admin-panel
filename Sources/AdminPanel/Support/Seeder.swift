@@ -1,11 +1,10 @@
 import Console
-import TurnstileCrypto
 import Vapor
 import Foundation
 import Sugar
 
 
-public final class Seeder: Command {
+public final class Seeder: Command, ConfigInitializable {
 
     public let id = "admin-panel:seeder"
     
@@ -14,11 +13,15 @@ public final class Seeder: Command {
     ]
     
     public let console: ConsoleProtocol
-    public let dropet: Droplet
-    
-    public init(dropet: Droplet) {
-        self.dropet = dropet
-        self.console = dropet.console
+    public let droplet: Droplet
+
+    public init(config: Config) throws {
+        self.console = try config.resolveConsole()
+    }
+
+    public init(droplet: Droplet) {
+        self.droplet = droplet
+        self.console = droplet.console
     }
     
     public func run(arguments: [String]) throws {
@@ -26,13 +29,13 @@ public final class Seeder: Command {
         console.info("Started the seeder");
         
         // BUG FIX WHILE WAITING FOR VAPOR UPDATE
-        BackendUser.database = dropet.database
+        BackendUser.database = droplet.database
         
         let backendUsers = [
             try BackendUser(node: [
                 "name": "Admin",
                 "email": "admin@admin.com",
-                "password": BCrypt.hash(password: "admin"),
+                "password": BCryptHasher().make("admin"),
                 "role": "super-admin",
                 "updated_at": Date().toDateTimeString(),
                 "created_at": Date().toDateTimeString()
@@ -40,7 +43,7 @@ public final class Seeder: Command {
             ]
         
         backendUsers.forEach({
-            var backendUser = $0
+            let backendUser = $0
             console.info("Looping \(backendUser.name)")
             do {
                 try backendUser.save()
