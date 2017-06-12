@@ -112,11 +112,11 @@ public final class LoginController {
         }
         
         if(password != passwordRepeat) {
-            return Response(redirect: "admin/login/reset" + tokenStr).flash(.error, "Passwords did not match")
+            return Response(redirect: "/admin/login/reset/" + tokenStr).flash(.error, "Passwords did not match")
         }
         
         if !password.passes(Count.min(8)) {
-            return Response(redirect: "admin/login/reset" + tokenStr).flash(.error, "Passwords did not match requirement")
+            return Response(redirect: "/admin/login/reset/" + tokenStr).flash(.error, "Passwords did not match requirement")
         }
         
         guard var backendUser = try BackendUser.query().filter("email", email).first() else {
