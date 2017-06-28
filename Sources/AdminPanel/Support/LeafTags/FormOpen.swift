@@ -42,7 +42,7 @@ public class FormOpen: BasicTag {
         }
         
         // TODO: Enable this if we can... No idea how to find the CRSF token, but we should grab it automatically and not let it be up to the user
-        template.append("<input name='_token' type='hidden' value='FOOBAR' />")
+        //template.append("<input name='_token' type='hidden' value='FOOBAR' />")
         
         // Return template
         return .bytes(template.joined().bytes)
