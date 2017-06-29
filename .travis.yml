@@ -1,32 +1,20 @@
 os:
-  - linux
   - osx
-language: generic
+
+language: swift
 sudo: required
-dist: trusty
-osx_image: xcode8
-install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      brew install mysql;
-      brew link mysql;
-      mysql.server start;
-    fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      sudo apt-get update;
-      sudo apt-get install -y mysql-server libmysqlclient-dev;
-      sudo mysql_install_db;
-    fi
-  - mysql -u root --password="" -e 'create database test;'
-  - eval "$(curl -sL https://swift.vapor.sh/swift-install)"
+osx_image: xcode8.3
+
+before_install:
+  brew tap vapor/tap;
+  brew update;
+  brew install vapor;
+
 script:
-  # Build MySQL
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      swift build -Xswiftc -I/usr/local/include/mysql -Xlinker -L/usr/local/lib;
-      swift build --configuration release -Xswiftc -I/usr/local/include/mysql -Xlinker -L/usr/local/lib;
-      swift test -Xswiftc -I/usr/local/include/mysql -Xlinker -L/usr/local/lib;
-    fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      swift build -Xswiftc -DNOJSON;
-      swift build --configuration release -Xswiftc -DNOJSON;
-      swift test -Xswiftc -DNOJSON;
-    fi
+  - swift build
+  - swift build -c release
+  - swift package generate-xcodeproj --enable-code-coverage
+  - xcodebuild -scheme AdminPanel -enableCodeCoverage YES test
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
