@@ -125,16 +125,17 @@ public final class BackendUser: Auth.User, Model {
     public static func prepare(_ database: Database) throws {
         try database.create("backend_users") { table in
             table.id()
-            table.varchar("name", length: 191)
-            table.varchar("email", length: 191, unique: true)
-            table.varchar("password", length: 191)
-            table.varchar("role", length: 191)
-            table.varchar("image", length: 191, optional: true)
+            table.string("name", length: 191)
+            table.string("email", length: 191, unique: true)
+            table.string("password", length: 191)
+            table.string("role", length: 191)
+            table.string("image", length: 191, optional: true)
             table.bool("should_reset_password", default: Node(false))
-            table.timestamps()
+            table.string("created_at", optional: false)
+            table.string("updated_at", optional: false)
         }
         
-        try database.index(table: "backend_users", column: "email")
+        try? database.index(table: "backend_users", column: "email")
     }
     
     public static func revert(_ database: Database) throws {
