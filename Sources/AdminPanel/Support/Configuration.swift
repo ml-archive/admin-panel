@@ -122,11 +122,7 @@ public struct Configuration {
         
         var roleArray: [Role] = []
         
-        for role in array {
-            guard let config = role as? Config else {
-                print("adminpanel.roles failed to parse a role")
-                continue
-            }
+        for config in array {
             do {
                 try roleArray.append(Role(config: config))
             } catch {

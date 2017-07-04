@@ -7,83 +7,77 @@ public struct BackendUserForm {
     let password: String
     let sendMail: Bool
     var randomPassword = false
+    var repeatPassword = false
     var shouldResetPassword: Bool? = nil
 
-    public let fielset: [String:Any] = [
-        "name": "",
-        "email": "",
-        "role": "",
-        "should_reset_password": true,
-        "send_mail": true,
-        "password": "",
-        "passwordRepeat": ""
-    ]
-
-    /*
-    public static let fieldset = Fieldset([
-        "name": StringField(
-            label: "Name",
-            String.MinimumLengthValidator(characters: 1),
-            String.MaximumLengthValidator(characters: 191)
-        ),
-        "email": StringField(
-            label: "Email",
-            String.EmailValidator(),
-            String.MinimumLengthValidator(characters: 1),
-            String.MaximumLengthValidator(characters: 191)
-        ),
-        "role": StringField(
-            label: "Role",
-            String.MaximumLengthValidator(characters: 191)
-            //
-        ),
-        "should_reset_password": BoolField(
-            label: "Should reset password"
-        ),
-        "send_mail": BoolField(
-            label: "Send mail with info"
-        ),
-        "password": StringField(
-            label: "Password",
-            String.MinimumLengthValidator(characters: 8),
-            String.MaximumLengthValidator(characters: 191)
-            //TODO check repeat
-        ),
-        "passwordRepeat": StringField(
-            label: "Repeat password",
-            String.MinimumLengthValidator(characters: 8),
-            String.MaximumLengthValidator(characters: 191)
-        ),
-        ], requiring: ["name", "email", "role"])
-    */
-    public init(validatedData: [String: Node]) throws {
-        
-        guard let name = validatedData["name"]?.string,
-        let email = validatedData["email"]?.string,
-        let role = validatedData["role"]?.string
-        else {
-            throw FormError.validationFailed(fieldset: BackendUserForm.fieldset)
-        }
-        
+    init(
+        name: String,
+        email: String,
+        role: String,
+        password: String,
+        sendMail: Bool,
+        randomPassword: Bool = false,
+        repeatPassword: Bool = false,
+        shouldResetPassword: Bool? = nil
+    ) {
         self.name = name
         self.email = email
         self.role = role
-        
-        self.sendMail = validatedData["send_mail"] != nil
+        self.password = password
+        self.sendMail = sendMail
+        self.randomPassword = randomPassword
+        self.repeatPassword = repeatPassword
+        self.shouldResetPassword = shouldResetPassword
+    }
     
-        if let password = validatedData["password"]?.string {
-            self.password = password
-        } else {
-            password = String.randomAlphaNumericString(8)
-            randomPassword = true
+    static func validating(_ json: JSON) -> (BackendUserForm?, errors: [String]?) {
+        return (nil, nil)
+    }
+    
+    static func validating(_ content: Content) -> (BackendUserForm?, errors: [String]?) {
+        
+        
+        return (nil, nil)
+    }
+    
+    static func validate(
+        name: String?,
+        email: String?,
+        role: String?,
+        shouldResetPassword: Bool?,
+        sendEmail: Bool?,
+        password: String?,
+        randomPassword: Bool?,
+        repeatPassword: Bool?
+    ) -> (BackendUserForm?, errors: [String]?) {
+        var errors: [String] = []
+        
+        if name == nil { errors.append("Missing field: `name`") }
+        if email == nil { errors.append("Missing field: `email`") }
+        if role == nil { errors.append("Missing field: `role`") }
+        if shouldResetPassword == nil { errors.append("Missing field: `shouldResetPassword`") }
+        if sendEmail == nil { errors.append("Missing field: `sendEmail`") }
+        if password == nil { errors.append("Missing field: `password`") }
+        if randomPassword == nil { errors.append("Missing field: `randomPassword`") }
+        if repeatPassword == nil { errors.append("Missing field: `repeatPassword`") }
+        
+        guard errors.count == 0 else {
+            return (nil, errors)
         }
         
-        if randomPassword {
-            shouldResetPassword = true
-        } else if validatedData["should_reset_password"] != nil {
-            shouldResetPassword = true
-        } else if validatedData["password"]?.string != nil {
-            shouldResetPassword = false
-        }
+        // TODO: validation
+        
+        let user = BackendUserForm(
+            name: name!,
+            email: email!,
+            role: role!,
+            password: password!,
+            sendMail: sendEmail!,
+            randomPassword: randomPassword!,
+            repeatPassword: repeatPassword!,
+            shouldResetPassword: shouldResetPassword!
+    )
+        
+        return (user, nil)
     }
 }

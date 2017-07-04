@@ -41,18 +41,16 @@ public class FormSelectGroup: BasicTag {
     }
     */
     public func run(arguments: ArgumentList) throws -> Node? {
-        
-        
-    
-        guard arguments.count >= 3,
+        guard
+            arguments.count >= 3,
             let inputName: String = arguments.list[0].value(with: arguments.stem, in: arguments.context)?.string,
             let inputValues = arguments.list[1].value(with: arguments.stem, in: arguments.context),
             let fieldsetNode = arguments.list[2].value(with: arguments.stem, in: arguments.context)
-            else {
-                throw Abort(
-                    .internalServerError,
-                    reason: "FormSelectGroup parse error, expecting: #form:selectgroup(\"name\", \"values\", fieldset), \"default\""
-                )
+        else {
+            throw Abort(
+                .internalServerError,
+                reason: "FormSelectGroup parse error, expecting: #form:selectgroup(\"name\", \"values\", fieldset, \"default\")"
+            )
         }
 
         let fieldset = fieldsetNode[inputName]
@@ -64,15 +62,6 @@ public class FormSelectGroup: BasicTag {
         // This is not a required property
         let errors = fieldset?["errors"]?.pathIndexableArray
         
-        
-       /*
-        do {
-            var htmlAttrs = try FormSelectGroup.argumentToHtmlAttributes(arguments: arguments, from: 5)
-        } catch {
-            var htmlAttrs = ""
-        }
-        */
-        
         // Start constructing the template
         var template = [String]()
         
@@ -83,13 +72,13 @@ public class FormSelectGroup: BasicTag {
         template.append("<select class='form-control' id='\(inputName)' name='\(inputName)'>")
         
         // Placeholder
-        if(arguments.count > 4 && arguments.list[3].value(with: arguments.stem, in: arguments.context) == nil) {
+        if arguments.count > 4 && arguments.list[3].value(with: arguments.stem, in: arguments.context) == nil {
             template.append("<option value='' disabled selected>\(arguments.list[4].value(with: arguments.stem, in: arguments.context)?.string ?? "")</option>")
         }
         
         // Options
-        for (key, value) in inputValues.array {
-            if(key == selectedValue) {
+        for (key, value) in inputValues.object ?? [:] {
+            if key == selectedValue {
                 template.append("<option value='\(key)' selected>\(value.string ?? key)</option>")
             } else {
                 template.append("<option value='\(key)'>\(value.string ?? key)</option>")
