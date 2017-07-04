@@ -13,34 +13,25 @@ public final class Seeder: Command, ConfigInitializable {
     ]
     
     public let console: ConsoleProtocol
-    public let droplet: Droplet
 
     public init(config: Config) throws {
         self.console = try config.resolveConsole()
     }
-
-    public init(droplet: Droplet) {
-        self.droplet = droplet
-        self.console = droplet.console
-    }
     
     public func run(arguments: [String]) throws {
+        console.info("Started the seeder")
         
-        console.info("Started the seeder");
-        
-        // BUG FIX WHILE WAITING FOR VAPOR UPDATE
-        BackendUser.database = droplet.database
+        var node = Node.object([:])
+        try node.set("name", "Admin")
+        try node.set("email", "admin@admin.com")
+        try node.set("password", BCryptHasher().make("admin"))
+        try node.set("role", "super-admin")
+        try node.set("updated_at", Date().toDateTimeString())
+        try node.set("created_at", Date().toDateTimeString())
         
         let backendUsers = [
-            try BackendUser(node: [
-                "name": "Admin",
-                "email": "admin@admin.com",
-                "password": BCryptHasher().make("admin"),
-                "role": "super-admin",
-                "updated_at": Date().toDateTimeString(),
-                "created_at": Date().toDateTimeString()
-                ]),
-            ]
+            try BackendUser(node: node),
+        ]
         
         backendUsers.forEach({
             let backendUser = $0

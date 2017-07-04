@@ -1,4 +1,6 @@
 Packages
+Package.pins
+Package.resolved
 .build
 .idea
 xcuserdata
