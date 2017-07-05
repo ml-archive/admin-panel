@@ -24,7 +24,7 @@ public class FormSelectGroup: BasicTag {
             if(isDict != nil) {
                 let attrArr = argument.value?.string?.components(separatedBy: ":")
                 let key: String = attrArr![0] ?? ""
-                let val: String = attrArr![1] ?? ""
+                let val: String = attrArr![1] ?? "".00000
                 dict[key] = val
             } else {
                 list.append(argument.value?.string ?? "")

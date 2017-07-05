@@ -62,10 +62,7 @@ public final class BackendUser: Model, Timestampable, NodeConvertible, Preparati
         }
         
         password = try BCryptHasher().make(form.password).makeString()
-
-        if let shouldResetPassword = form.shouldResetPassword {
-            self.shouldResetPassword = shouldResetPassword
-        }
+        shouldResetPassword = form.shouldResetPassword
         
         self.updatedAt = Date()
         self.createdAt = Date()
@@ -94,9 +91,7 @@ public final class BackendUser: Model, Timestampable, NodeConvertible, Preparati
             role = form.role
         }
         
-        if let shouldResetPassword = form.shouldResetPassword {
-            self.shouldResetPassword = shouldResetPassword
-        }
+        shouldResetPassword = form.shouldResetPassword
         
         updatedAt = Date()
         
