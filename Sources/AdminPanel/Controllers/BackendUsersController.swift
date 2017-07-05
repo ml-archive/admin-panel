@@ -80,12 +80,14 @@ public final class BackendUsersController {
             // Validate
             let (backendUserForm, hasErrors) = BackendUserForm.validating(request.data)
             if hasErrors {
-                // TODO: append errors to response
-                return Response(redirect: "/admin/backend_users/create").flash(.error, "Validation error")
+                let response = Response(redirect: "/admin/backend_users/create").flash(.error, "Validation error")
+                let fieldset = try backendUserForm.makeNode(in: nil)
+                response.storage["_fieldset"] = fieldset
+                return response
             }
             
             // Store
-            var backendUser = try BackendUser(form: backendUserForm, request: request)
+            let backendUser = try BackendUser(form: backendUserForm, request: request)
             try backendUser.save()
             
             // Send welcome mail
@@ -114,11 +116,13 @@ public final class BackendUsersController {
             try Gate.allowOrFail(request, user.role)
         }
         
+        let fieldset = try request.storage["_fieldset"] as? Node ?? BackendUserForm.emptyUser.makeNode(in: nil)
+        
         return try drop.view.make("BackendUsers/edit", [
-//            "fieldset": BackendUserForm.getFieldset(request),
-//            "backendUser": try user.makeNode(),
-//            "roles": Configuration.shared?.getRoleOptions(request.authedBackendUser().role).makeNode() ?? [:],
-            "defaultRole": ""//(Configuration.shared?.defaultRole ?? "user").makeNode()
+            "fieldset": fieldset,
+            "backendUser": try user.makeNode(in: nil),
+            "roles": Configuration.shared?.getRoleOptions(request.authedBackendUser().role).makeNode(in: nil) ?? [:],
+            "defaultRole": (Configuration.shared?.defaultRole ?? "user").makeNode(in: nil)
         ], for: request)
     }
     
@@ -143,8 +147,10 @@ public final class BackendUsersController {
             // Validate
             let (backendUserForm, hasErrors) = BackendUserForm.validating(request.data)
             if hasErrors {
-                // TODO: append errors to response
-                return Response(redirect: "/admin/backend_users/edit/" + String(id)).flash(.error, "Validation error")
+                let response = Response(redirect: "/admin/backend_users/edit/" + String(id)).flash(.error, "Validation error")
+                let fieldset = try backendUserForm.makeNode(in: nil)
+                response.storage["_fieldset"] = fieldset
+                return response
             }
             
             // Store
