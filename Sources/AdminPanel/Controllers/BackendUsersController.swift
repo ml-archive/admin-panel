@@ -78,23 +78,19 @@ public final class BackendUsersController {
         
         do {
             // Validate
-            let (backendUserForm, errors) = BackendUserForm.validating(request.data)
-            if let errors = errors {
+            let (backendUserForm, hasErrors) = BackendUserForm.validating(request.data)
+            if hasErrors {
                 // TODO: append errors to response
                 return Response(redirect: "/admin/backend_users/create").flash(.error, "Validation error")
             }
             
-            guard let userForm = backendUserForm else {
-                throw Abort.serverError
-            }
-            
             // Store
-            var backendUser = try BackendUser(form: userForm, request: request)
+            var backendUser = try BackendUser(form: backendUserForm, request: request)
             try backendUser.save()
             
             // Send welcome mail
-            if userForm.sendMail {
-                let mailPw: String? = userForm.randomPassword ? userForm.password : nil
+            if backendUserForm.sendMail {
+                let mailPw: String? = backendUserForm.randomPassword ? backendUserForm.password : nil
                 try Mailer.sendWelcomeMail(drop: drop, backendUser: backendUser, password: mailPw)
             }
             
@@ -134,7 +130,7 @@ public final class BackendUsersController {
      * - return: View
      */
     public func update(request: Request) throws -> ResponseRepresentable {
-        guard let id = request.data["id"]?.int, var backendUser = try BackendUser.makeQuery().filter("id", id).first() else {
+        guard let id = request.data["id"]?.int, let backendUser = try BackendUser.makeQuery().filter("id", id).first() else {
             throw Abort.notFound
         }
         
@@ -145,16 +141,14 @@ public final class BackendUsersController {
         
         do {
             // Validate
-            let (backendUserForm, errors) = BackendUserForm.validating(request.data)
-            if let errors = errors {
+            let (backendUserForm, hasErrors) = BackendUserForm.validating(request.data)
+            if hasErrors {
                 // TODO: append errors to response
                 return Response(redirect: "/admin/backend_users/edit/" + String(id)).flash(.error, "Validation error")
             }
             
-            guard let userForm = backendUserForm else { throw Abort.serverError }
-            
             // Store
-            try backendUser.fill(form: userForm, request: request)
+            try backendUser.fill(form: backendUserForm, request: request)
             try backendUser.save()
             
             if Gate.allow(request, "admin") {
