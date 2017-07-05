@@ -55,11 +55,13 @@ public final class BackendUsersController {
      */
     public func create(request: Request) throws -> ResponseRepresentable {
         try Gate.allowOrFail(request, "admin")
-                
+        
+        let fieldset = try request.storage["_fieldset"] as? Node ?? BackendUserForm.emptyUser.makeNode(in: nil)
+        
         return try drop.view.make(
             "BackendUsers/edit",
             [
-//                "fieldset": BackendUserForm.getFieldset(request),
+                "fieldset": fieldset,
                 "roles": Configuration.shared?.getRoleOptions(request.authedBackendUser().role).makeNode(in: nil) ?? [:],
                 "defaultRole": (Configuration.shared?.defaultRole ?? "user").makeNode(in: nil)
             ],
