@@ -260,8 +260,8 @@ extension BackendUserForm: NodeRepresentable {
         try node.set("password", passwordObj)
         try node.set("role", roleObj)
         try node.set("passwordRepeat", passwordRepeatObj)
-        try node.set("should_reset_password", shouldResetObj)
-        try node.set("send_email", sendMailObj)
+        try node.set("shouldResetPassword", shouldResetObj)
+        try node.set("sendEmail", sendMailObj)
         
         return node
     }
