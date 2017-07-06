@@ -35,7 +35,7 @@ public final class BackendUser: Model, Timestampable, NodeConvertible, Preparati
         email = try node.get("email")
         password = try node.get("password")
         role = try node.get("role")
-        shouldResetPassword = try node.get("should_reset_password") ?? false
+        shouldResetPassword = try node.get("shouldResetPassword") ?? false
         createdAt = Date()
         updatedAt = Date()
     }
@@ -110,7 +110,7 @@ public final class BackendUser: Model, Timestampable, NodeConvertible, Preparati
             "email": email,
             "password": password,
             "role": role,
-            "should_reset_password": shouldResetPassword,
+            "shouldResetPassword": shouldResetPassword,
             "image": image ?? "",
             "imageUrl": imageUrl,
             ])
@@ -122,7 +122,7 @@ public final class BackendUser: Model, Timestampable, NodeConvertible, Preparati
             "email": email,
             "password": password,
             "role": role,
-            "should_reset_password": shouldResetPassword,
+            "shouldResetPassword": shouldResetPassword,
             "image": image ?? "",
         ])
     }
@@ -135,7 +135,7 @@ public final class BackendUser: Model, Timestampable, NodeConvertible, Preparati
             table.varchar("password", length: 191)
             table.varchar("role", length: 191)
             table.varchar("image", length: 191, optional: true)
-            table.bool("should_reset_password", default: Node(false))
+            table.bool("shouldResetPassword", default: Node(false))
         }
         
         try database.index(table: "backend_users", column: "email")
