@@ -24,7 +24,7 @@ public final class Seeder: Command, ConfigInitializable {
         var node = Node.object([:])
         try node.set("name", "Admin")
         try node.set("email", "admin@admin.com")
-        try node.set("password", BCryptHasher().make("admin"))
+        try node.set("password", BCryptHasher().make("admin").makeString())
         try node.set("role", "super-admin")
         try node.set("updated_at", Date().toDateTimeString())
         try node.set("created_at", Date().toDateTimeString())
