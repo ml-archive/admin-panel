@@ -120,12 +120,16 @@ public final class BackendUsersController {
         
         let fieldset = try request.storage["_fieldset"] as? Node ?? BackendUserForm.emptyUser.makeNode(in: nil)
         
-        return try drop.view.make("BackendUsers/edit", [
-            "fieldset": fieldset,
-            "backendUser": try user.makeNode(in: nil),
-            "roles": Configuration.shared?.getRoleOptions(request.authedBackendUser().role).makeNode(in: nil) ?? [:],
-            "defaultRole": (Configuration.shared?.defaultRole ?? "user").makeNode(in: nil)
-        ], for: request)
+        return try drop.view.make(
+            "BackendUsers/edit",
+            [
+                "fieldset": fieldset,
+                "backendUser": try user.makeNode(in: nil),
+                "roles": Configuration.shared?.getRoleOptions(request.authedBackendUser().role).makeNode(in: nil) ?? [:],
+                "defaultRole": (Configuration.shared?.defaultRole ?? "user").makeNode(in: nil)
+            ],
+            for: request
+        )
     }
     
     /**
@@ -136,7 +140,8 @@ public final class BackendUsersController {
      * - return: View
      */
     public func update(request: Request) throws -> ResponseRepresentable {
-        guard let id = request.data["id"]?.int, let backendUser = try BackendUser.makeQuery().filter("id", id).first() else {
+        let backendUser = try request.parameters.next(BackendUser.self)
+        guard let id = try backendUser.assertExists().string else {
             throw Abort.notFound
         }
         
@@ -149,7 +154,7 @@ public final class BackendUsersController {
             // Validate
             let (backendUserForm, hasErrors) = BackendUserForm.validating(request.data)
             if hasErrors {
-                let response = Response(redirect: "/admin/backend_users/edit/" + String(id)).flash(.error, "Validation error")
+                let response = Response(redirect: "/admin/backend_users/edit/" + id).flash(.error, "Validation error")
                 let fieldset = try backendUserForm.makeNode(in: nil)
                 response.storage["_fieldset"] = fieldset
                 return response
@@ -162,11 +167,11 @@ public final class BackendUsersController {
             if Gate.allow(request, "admin") {
                return Response(redirect: "/admin/backend_users").flash(.success, "User updated")
             } else {
-               return Response(redirect: "/admin/backend_users/edit/" + String(id)).flash(.success, "User updated")
+               return Response(redirect: "/admin/backend_users/edit/" + id).flash(.success, "User updated")
             }
             
         } catch {
-            return Response(redirect: "/admin/backend_users/edit/" + String(id)).flash(.error, "Failed to update user")
+            return Response(redirect: "/admin/backend_users/edit/" + id).flash(.error, "Failed to update user")
         }
     }
     
