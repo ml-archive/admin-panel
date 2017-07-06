@@ -38,6 +38,8 @@ class ProtectMiddleware: Middleware {
                 }
                 
                 try request.storage["authedBackendUser"] = backendUser.toBackendView()
+            } else {
+                return Response(redirect: "/admin/login?next=" + request.uri.path).flash(.error, "Session expired login again")
             }
         } catch {
             // If local & config is true & first backend user

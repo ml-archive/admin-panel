@@ -189,7 +189,8 @@ public final class LoginController {
         do {
             // TODO REMEMBER
             //let remember: Bool = request.data["remember"]?.bool ?? false
-            try request.auth.authenticate(BackendUser(credentials: Password(username: username, password: password)))
+            let user = try BackendUser.authenticate(Password(username: username, password: password))
+            request.auth.authenticate(user)
             
             // Generate redirect path
             var redirect = "/admin/dashboard"

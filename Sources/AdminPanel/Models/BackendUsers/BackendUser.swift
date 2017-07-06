@@ -118,6 +118,7 @@ public final class BackendUser: Model, Timestampable, NodeConvertible, Preparati
     
     public func makeNode(in context: Context?) throws -> Node {
         return try Node(node: [
+            "id": id,
             "name": name,
             "email": email,
             "password": password,
@@ -202,3 +203,5 @@ extension BackendUser: PasswordAuthenticatable {
         
     }
 }
+
+extension BackendUser: SessionPersistable {}
