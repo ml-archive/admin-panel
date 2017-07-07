@@ -24,6 +24,10 @@ public class Active: BasicTag {
             if check.hasSuffix("*"), url.contains(check.replacingOccurrences(of: "*", with: "")) {
                 return .string(key)
             }
+            
+            if check == url {
+                return .string(key)   
+            }
         }
         
         return nil
