@@ -46,7 +46,7 @@
 
                 #if(backendUser) {
                 } ##else() {
-                    #form:checkboxgroup("send_mail", "true", fieldset)
+                    #form:checkboxgroup("sendEmail", "true", fieldset)
                 }
             <h4 class="margin-top">
                 Choose password
@@ -57,7 +57,7 @@
             <div class="margin-top">
                 #form:passwordgroup("password", nil, fieldset)
                 #form:passwordgroup("passwordRepeat", nil, fieldset)
-                #form:checkboxgroup("should_reset_password", backendUser.should_reset_password, fieldset)
+                #form:checkboxgroup("shouldResetPassword", backendUser.should_reset_password, fieldset)
             </div>
             </div>
         </div>
