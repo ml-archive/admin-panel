@@ -24,11 +24,11 @@ public struct BackendUserForm {
     var shouldResetPassword: Bool
 
     init(
-        name: String,
-        email: String,
-        role: String,
-        password: String,
-        repeatPassword: String?,
+        name: String? = nil,
+        email: String? = nil,
+        role: String? = nil,
+        password: String? = nil,
+        repeatPassword: String? = nil,
         sendMail: Bool? = nil,
         randomPassword: Bool? = nil,
         shouldResetPassword: Bool? = nil,
@@ -38,10 +38,10 @@ public struct BackendUserForm {
         passwordErrors: [String] = [],
         repeatPasswordErrors: [String] = []
     ) {
-        self.name = name
-        self.email = email
-        self.role = role
-        self.password = password
+        self.name = name ?? ""
+        self.email = email ?? ""
+        self.role = role ?? ""
+        self.password = password ?? ""
         self.repeatPassword = repeatPassword
         self.sendMail = sendMail ?? false
         self.randomPassword = randomPassword ?? false
@@ -51,22 +51,6 @@ public struct BackendUserForm {
         self.roleErrors = roleErrors
         self.passwordErrors = passwordErrors
         self.repeatPasswordErrors = repeatPasswordErrors
-    }
-    
-    init() {
-        name = ""
-        email = ""
-        role = ""
-        password = ""
-        repeatPassword = ""
-        sendMail = false
-        randomPassword = false
-        shouldResetPassword = false
-        nameErrors = []
-        emailErrors = []
-        roleErrors = []
-        passwordErrors = []
-        repeatPasswordErrors = []
     }
     
     static func validating(_ json: JSON) -> (BackendUserForm, hasErrors: Bool) {
@@ -192,9 +176,9 @@ public struct BackendUserForm {
         }
         
         let user = BackendUserForm(
-            name: name!,
-            email: email!,
-            role: role!,
+            name: name,
+            email: email,
+            role: role,
             password: password,
             repeatPassword: repeatPassword,
             sendMail: sendEmail,
@@ -205,7 +189,7 @@ public struct BackendUserForm {
             roleErrors: roleErrors,
             passwordErrors: passwordErrors,
             repeatPasswordErrors: repeatPasswordErrors
-    )
+        )
 
         return (user, hasErrors)
     }
@@ -215,41 +199,55 @@ extension BackendUserForm: NodeRepresentable {
     public func makeNode(in context: Context?) throws -> Node {
         var node = Node([:])
         
-        let nameObj = try Node(node: [
-            "label": "Name",
-            "value": .string(name),
-            "errors": Node(nameErrors.map { Node.string($0) })
+        var nameObj = try Node(node: [
+            "label": "Name"
         ])
+        if !name.isEmpty {
+            try nameObj.set("value", name)
+        }
+        if !nameErrors.isEmpty {
+            try nameObj.set("errors", nameErrors)
+        }
         
-        let emailObj = try Node(node: [
+        var emailObj = try Node(node: [
             "label": "Email",
-            "value": .string(email),
-            "errors": Node(emailErrors.map { Node.string($0) })
         ])
+        if !email.isEmpty {
+            try emailObj.set("value", email)
+        }
+        if !emailErrors.isEmpty {
+            try emailObj.set("errors", emailErrors)
+        }
         
-        let passwordObj = try Node(node: [
+        var passwordObj = try Node(node: [
             "label": "Password",
-            "value": "",
-            "errors": Node(passwordErrors.map { Node.string($0) })
         ])
+        if !passwordErrors.isEmpty {
+            try passwordObj.set("errors", passwordErrors)
+        }
 
-        let passwordRepeatObj = try Node(node: [
+        var passwordRepeatObj = try Node(node: [
             "label": "Repeat password",
-            "value": "",
-            "errors": Node(repeatPasswordErrors.map { Node.string($0) })
         ])
+        if !repeatPasswordErrors.isEmpty {
+            try passwordRepeatObj.set("errors", repeatPasswordErrors)
+        }
         
-        let roleObj = try Node(node: [
-            "label": "Name",
-            "value": .string(name),
-            "errors": Node(roleErrors.map { Node.string($0) })
+        var roleObj = try Node(node: [
+            "label": "Role",
         ])
-        
+        if !role.isEmpty {
+            try roleObj.set("value", role)
+        }
+        if !roleErrors.isEmpty {
+            try roleObj.set("errors", roleErrors)
+        }
+
         let shouldResetObj = Node(node: [
             "label": "Should reset password",
             "value": .bool(shouldResetPassword)
         ])
-        
+
         let sendMailObj = Node(node: [
             "label": "Send mail with info",
             "value": .bool(sendMail)
