@@ -15,7 +15,7 @@ public struct BackendUserForm {
     let password: String
     var passwordErrors: [String]
     
-    let repeatPassword: String?
+    let repeatPassword: String
     var repeatPasswordErrors: [String]
     
     let sendMail: Bool
@@ -42,7 +42,7 @@ public struct BackendUserForm {
         self.email = email ?? ""
         self.role = role ?? ""
         self.password = password ?? ""
-        self.repeatPassword = repeatPassword
+        self.repeatPassword = repeatPassword ?? ""
         self.sendMail = sendMail ?? false
         self.randomPassword = randomPassword ?? false
         self.shouldResetPassword = shouldResetPassword ?? false
@@ -61,7 +61,6 @@ public struct BackendUserForm {
         let sendEmail = json["sendEmail"]?.bool
         let password = json["password"]?.string
         let repeatPassword = json["repeatPassword"]?.string
-        let randomPassword = json["randomPassword"]?.bool
         
         return validate(
             name: name,
@@ -70,8 +69,7 @@ public struct BackendUserForm {
             shouldResetPassword: shouldResetPassword,
             sendEmail: sendEmail,
             password: password,
-            repeatPassword: repeatPassword,
-            randomPassword: randomPassword
+            repeatPassword: repeatPassword
         )
     }
     
@@ -83,7 +81,6 @@ public struct BackendUserForm {
         let sendEmail = content["sendEmail"]?.bool
         let password = content["password"]?.string
         let repeatPassword = content["repeatPassword"]?.string
-        let randomPassword = content["randomPassword"]?.bool
         
         return validate(
             name: name,
@@ -92,8 +89,7 @@ public struct BackendUserForm {
             shouldResetPassword: shouldResetPassword,
             sendEmail: sendEmail,
             password: password,
-            repeatPassword: repeatPassword,
-            randomPassword: randomPassword
+            repeatPassword: repeatPassword
         )
     }
     
@@ -104,9 +100,10 @@ public struct BackendUserForm {
         shouldResetPassword: Bool?,
         sendEmail: Bool?,
         password: String?,
-        repeatPassword: String?,
-        randomPassword: Bool?
+        repeatPassword: String?
     ) -> (BackendUserForm, hasErrors: Bool) {
+        var shouldResetPassword = shouldResetPassword
+        var password = password
         var hasErrors = false
         
         var nameErrors: [String] = []
@@ -131,48 +128,54 @@ public struct BackendUserForm {
             hasErrors = true
         }
         
-        let nameCharactercount = name!.utf8.count
+        let nameCharactercount = name?.utf8.count ?? 0
         if nameCharactercount < 1 || nameCharactercount > 191 {
             nameErrors.append("Must be between 1 and 191 characters long")
             hasErrors = true
         }
         
-        let emailCharactercount = email!.utf8.count
+        let emailCharactercount = email?.utf8.count ?? 0
         if emailCharactercount < 1 || emailCharactercount > 191 {
             emailErrors.append("Must be between 1 and 191 characters long")
             hasErrors = true
         }
         
-        if role!.utf8.count > 191 {
+        if (role?.utf8.count ?? 0) > 191 {
             nameErrors.append("Must be less than 191 characters long")
             hasErrors = true
         }
         
-        let randomPassword = randomPassword ?? (password == nil)
-        let password = password ?? String.randomAlphaNumericString(10)
-        
-        let passwordCharactercount = password.utf8.count
-        if passwordCharactercount < 1 || passwordCharactercount > 191 {
-            passwordErrors.append("Must be between 1 and 191 characters long")
-            hasErrors = true
-        }
-        
+        let randomPassword = (password == nil && repeatPassword == nil)
         if !randomPassword {
             if password != repeatPassword {
                 repeatPasswordErrors.append("Passwords do not match")
                 hasErrors = true
             }
-            
-            if repeatPassword == nil {
-                repeatPasswordErrors.append(requiredFieldError)
-                hasErrors = true
+
+            if let password = password {
+                let passwordCharactercount = password.utf8.count
+                if passwordCharactercount < 1 || passwordCharactercount > 191 {
+                    passwordErrors.append("Must be between 1 and 191 characters long")
+                    hasErrors = true
+                }
             } else {
-                let passwordRepeatCharacterCount = repeatPassword!.utf8.count
+                passwordErrors.append(requiredFieldError)
+                hasErrors = true
+            }
+            
+            if let repeatPassword = repeatPassword {
+                let passwordRepeatCharacterCount = repeatPassword.utf8.count
                 if passwordRepeatCharacterCount < 1 || passwordRepeatCharacterCount > 191 {
                     repeatPasswordErrors.append("Must be between 1 and 191 characters long")
                     hasErrors = true
                 }
+            } else {
+                repeatPasswordErrors.append(requiredFieldError)
+                hasErrors = true
             }
+        } else {
+            password = String.randomAlphaNumericString(10)
+            shouldResetPassword = true
         }
         
         let user = BackendUserForm(
