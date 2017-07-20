@@ -55,8 +55,8 @@ public final class BackendUserResetPasswordTokens: Model, Timestampable, Prepara
             table.id()
             table.varchar("email", length: 191, unique: true)
             table.varchar("token", length: 191)
-            table.datetime("used_at", optional: true)
-            table.datetime("expire_at", optional: true)
+            table.datetime("usedAt", optional: true)
+            table.datetime("expireAt", optional: true)
         }
 
         try database.index("email", for: self)
