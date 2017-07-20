@@ -7,7 +7,6 @@ import MySQLProvider
 public final class BackendUserResetPasswordTokens: Model, Timestampable, Preparation {
     public let storage = Storage()
 
-    public static var entity = "backend_reset_password_tokens"
     public var token: String
     public var email: String
     public var expireAt: Date

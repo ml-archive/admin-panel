@@ -8,7 +8,6 @@ import Sugar
 
 public final class BackendUser: Model, Timestampable, NodeConvertible, Preparation {
     public let storage = Storage()
-    public static var entity = "backend_users"
 
     public var name: String
     public var email: String
