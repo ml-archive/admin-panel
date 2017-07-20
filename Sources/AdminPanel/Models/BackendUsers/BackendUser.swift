@@ -139,7 +139,7 @@ public final class BackendUser: Model, Timestampable, NodeConvertible, Preparati
             table.bool("shouldResetPassword", default: Node(false))
         }
         
-        try database.index(table: "backend_users", column: "email")
+        try database.index("email", for: self)
     }
     
     public static func revert(_ database: Database) throws {

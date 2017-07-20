@@ -59,9 +59,9 @@ public final class BackendUserResetPasswordTokens: Model, Timestampable, Prepara
             table.datetime("used_at", optional: true)
             table.datetime("expire_at", optional: true)
         }
-        
-        try database.index(table: "backend_reset_password_tokens", column: "email")
-        try database.index(table: "backend_reset_password_tokens", column: "token")
+
+        try database.index("email", for: self)
+        try database.index("token", for: self)
     }
     
     public static func revert(_ database: Database) throws {
