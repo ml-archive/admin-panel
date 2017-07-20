@@ -46,10 +46,10 @@ public final class BackendUserResetPasswordTokens: Model, Timestampable, Prepara
         if expireAt.isFuture() {
             return false
         }
-        
+
         return true
     }
-    
+
     public static func prepare(_ database: Database) throws {
         try database.create(self) { table in
             table.id()
@@ -62,7 +62,7 @@ public final class BackendUserResetPasswordTokens: Model, Timestampable, Prepara
         try database.index("email", for: self)
         try database.index("token", for: self)
     }
-    
+
     public static func revert(_ database: Database) throws {
         try database.delete(self)
     }
