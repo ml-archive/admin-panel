@@ -3,19 +3,20 @@ import Vapor
 import AuthProvider
 
 class ProtectMiddleware: Middleware {
-    
-    let configuration: Configuration
-    let droplet: Droplet
-    
+
+    let adminPanelConfiguration: Configuration
+    let config: Config
+
     /// Init
     ///
     /// - Parameters:
-    ///   - droplet: Droplet
-    init(droplet: Droplet) {
-        self.droplet = droplet
-        self.configuration = Configuration.shared!
+    ///   - config: Config
+    ///   - adminPanelConfiguration: Configuration
+    init(config: Config, adminPanelConfiguration: Configuration) {
+        self.config = config
+        self.adminPanelConfiguration = adminPanelConfiguration
     }
-    
+
     /// Response
     ///
     /// - Parameters:
@@ -28,15 +29,15 @@ class ProtectMiddleware: Middleware {
             // Retrieve authed user and add it to request storage
             if let backendUser: BackendUser = request.auth.authenticated(BackendUser.self) {
                 if backendUser.shouldResetPassword {
-                    
+
                     let redirectPath = "/admin/backend_users/edit/" + (backendUser.id?.string ?? "0")
-                    
+
                     // Only redirect if not already there!
                     if redirectPath != request.uri.path && request.uri.path != "/admin/backend_users/update" {
                         return Response(redirect: redirectPath).flash(.error, "Please change your password")
                     }
                 }
-                
+
                 try request.storage["authedBackendUser"] = backendUser.toBackendView()
             } else {
                 return Response(redirect: "/admin/login?next=" + request.uri.path).flash(.error, "Session expired login again")
@@ -44,17 +45,17 @@ class ProtectMiddleware: Middleware {
         } catch {
             // If local & config is true & first backend user
 
-            if (droplet.config.environment.description == "local" || request.uri.hostname == "0.0.0.0") && configuration.autoLoginFirstUser, let backendUser: BackendUser = try BackendUser.makeQuery().first() {
-                
+            if (config.environment.description == "local" || request.uri.hostname == "0.0.0.0") && adminPanelConfiguration.autoLoginFirstUser, let backendUser: BackendUser = try BackendUser.makeQuery().first() {
+
                 // Login user & add storage
                 request.auth.authenticate(backendUser)
                 try request.storage["authedBackendUser"] = backendUser.toBackendView()
-                
+
             } else {
                 return Response(redirect: "/admin/login?next=" + request.uri.path).flash(.error, "Session expired login again")
             }
         }
-        
+
         return try next.respond(to: request)
     }
 }
