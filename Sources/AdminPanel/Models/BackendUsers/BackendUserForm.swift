@@ -80,7 +80,7 @@ public struct BackendUserForm {
         let shouldResetPassword = content["shouldResetPassword"]?.bool
         let sendEmail = content["sendEmail"]?.bool
         let password = content["password"]?.string
-        let repeatPassword = content["repeatPassword"]?.string
+        let repeatPassword = content["passwordRepeat"]?.string
         
         return validate(
             name: name,
