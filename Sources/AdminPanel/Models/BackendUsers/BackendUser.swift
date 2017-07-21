@@ -105,6 +105,7 @@ public final class BackendUser: Model, Timestampable, NodeConvertible, Preparati
 
     public func toBackendView() throws -> Node {
         return try Node(node: [
+            "id": id?.makeNode(in: nil) ?? Node.null,
             "name": name,
             "email": email,
             "password": password,
