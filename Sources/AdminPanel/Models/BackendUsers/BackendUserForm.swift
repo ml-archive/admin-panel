@@ -124,40 +124,34 @@ public struct BackendUserForm {
             nameErrors.append("Must be less than 191 characters long")
             hasErrors = true
         }
-        
-        let randomPassword = (password == nil && repeatPassword == nil)
-        if !randomPassword {
-            if password != repeatPassword {
-                repeatPasswordErrors.append("Passwords do not match")
-                hasErrors = true
-            }
 
-            if let password = password {
-                let passwordCharactercount = password.utf8.count
-                if passwordCharactercount < 1 || passwordCharactercount > 191 {
-                    passwordErrors.append("Must be between 1 and 191 characters long")
-                    hasErrors = true
-                }
-            } else {
-                passwordErrors.append(requiredFieldError)
-                hasErrors = true
-            }
-            
-            if let repeatPassword = repeatPassword {
-                let passwordRepeatCharacterCount = repeatPassword.utf8.count
-                if passwordRepeatCharacterCount < 1 || passwordRepeatCharacterCount > 191 {
-                    repeatPasswordErrors.append("Must be between 1 and 191 characters long")
-                    hasErrors = true
-                }
-            } else {
-                repeatPasswordErrors.append(requiredFieldError)
+        if password != repeatPassword {
+            repeatPasswordErrors.append("Passwords do not match")
+            hasErrors = true
+        }
+
+        if let password = password {
+            let passwordCharactercount = password.utf8.count
+            if passwordCharactercount < 8 || passwordCharactercount > 191 {
+                passwordErrors.append("Must be between 8 and 191 characters long")
                 hasErrors = true
             }
         } else {
-            password = String.randomAlphaNumericString(10)
-            shouldResetPassword = true
+            passwordErrors.append(requiredFieldError)
+            hasErrors = true
         }
-        
+
+        if let repeatPassword = repeatPassword {
+            let passwordRepeatCharacterCount = repeatPassword.utf8.count
+            if passwordRepeatCharacterCount < 8 || passwordRepeatCharacterCount > 191 {
+                repeatPasswordErrors.append("Must be between 8 and 191 characters long")
+                hasErrors = true
+            }
+        } else {
+            repeatPasswordErrors.append(requiredFieldError)
+            hasErrors = true
+        }
+
         let user = BackendUserForm(
             name: name,
             email: email,
@@ -165,7 +159,7 @@ public struct BackendUserForm {
             password: password,
             repeatPassword: repeatPassword,
             sendMail: sendEmail,
-            randomPassword: randomPassword,
+            randomPassword: nil,
             shouldResetPassword: shouldResetPassword,
             nameErrors: nameErrors,
             emailErrors: emailErrors,
