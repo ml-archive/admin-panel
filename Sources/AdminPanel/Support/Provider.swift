@@ -16,7 +16,7 @@ public final class Provider: Vapor.Provider {
     public func boot(_ config: Config) throws {
         config.addConfigurable(command: Seeder.init, name: "admin-panel:seeder")
 
-        config.preparations.append(BackendUserResetPasswordTokens.self)
+        config.preparations.append(BackendUserResetPasswordToken.self)
         config.preparations.append(BackendUser.self)
 
         // Init middlewares

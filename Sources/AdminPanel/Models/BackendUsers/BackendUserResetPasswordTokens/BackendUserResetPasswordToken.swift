@@ -4,7 +4,7 @@ import Foundation
 import HTTP
 import MySQLProvider
 
-public final class BackendUserResetPasswordTokens: Model, Timestampable, Preparation {
+public final class BackendUserResetPasswordToken: Model, Timestampable, Preparation {
     public let storage = Storage()
 
     public var token: String
