@@ -26,8 +26,7 @@
 
 #export("content") {
 #if(backendUser) {
-    #form:open("/admin/backend_users/update", "POST", false)
-    <input type="hidden" name="id" value=#(backendUser.id)>
+    #form:open("/admin/backend_users/update/#(backendUser.id)", "POST", false)
 } ##else() {
     #form:open("/admin/backend_users/store", "POST", false)
 }
@@ -61,7 +60,7 @@
             </div>
             </div>
         </div>
-        
+
     </div>
     <div class="row">
         <div class="col-xs-6">
