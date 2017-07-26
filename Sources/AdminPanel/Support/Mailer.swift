@@ -50,7 +50,7 @@ public class Mailer {
         try client.send(email, using: credentials)
     }
     
-    public static func sendResetPasswordMail(drop: Droplet, backendUser: BackendUser, token: BackendUserResetPasswordTokens) throws {
+    public static func sendResetPasswordMail(drop: Droplet, backendUser: BackendUser, token: BackendUserResetPasswordToken) throws {
         guard let smtpUser = drop.config["mail", "user"]?.string,
             let smtpPassword = drop.config["mail", "password"]?.string,
             let fromEmail = drop.config["mail", "fromEmail"]?.string,
