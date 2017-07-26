@@ -22,7 +22,7 @@ public struct BackendUsersRoutes: RouteCollection {
         builder.get("/logout", handler: controller.logout);
         
         builder.get("/edit", BackendUser.parameter, handler: controller.edit)
-        builder.post("/update", handler: controller.update)
+        builder.post("/update", BackendUser.parameter, handler: controller.update)
         builder.post("/delete", BackendUser.parameter, handler: controller.destroy)
     }
 }

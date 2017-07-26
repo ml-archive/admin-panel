@@ -57,10 +57,10 @@ public final class LoginController {
                 return Response(redirect: "/admin/login").flash(.success, "E-mail with instructions sent if user exists")
             }
         
-            try BackendUserResetPasswordTokens.makeQuery().filter("email", email).delete()
+            try BackendUserResetPasswordToken.makeQuery().filter("email", email).delete()
             
             // Make a token
-            let token = BackendUserResetPasswordTokens(email: email)
+            let token = BackendUserResetPasswordToken(email: email)
             try token.save()
             
             // Send mail
@@ -88,7 +88,7 @@ public final class LoginController {
         }
         
         // If token does not exist or cannot be used is the same error
-        guard let token = try BackendUserResetPasswordTokens.makeQuery().filter("token", tokenStr).first(), !token.canBeUsed() else {
+        guard let token = try BackendUserResetPasswordToken.makeQuery().filter("token", tokenStr).first(), !token.canBeUsed() else {
             throw Abort(
                 .badRequest,
                 metadata: nil,
@@ -113,7 +113,7 @@ public final class LoginController {
                 throw Abort.badRequest
         }
         
-        guard let token = try BackendUserResetPasswordTokens.makeQuery().filter("token", tokenStr).first(), !token.canBeUsed() else {
+        guard let token = try BackendUserResetPasswordToken.makeQuery().filter("token", tokenStr).first(), !token.canBeUsed() else {
             throw Abort(
                 .badRequest,
                 metadata: nil,
