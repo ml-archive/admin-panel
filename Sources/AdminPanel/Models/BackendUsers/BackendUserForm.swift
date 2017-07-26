@@ -52,33 +52,13 @@ public struct BackendUserForm {
         self.passwordErrors = passwordErrors
         self.repeatPasswordErrors = repeatPasswordErrors
     }
-    
-    static func validating(_ json: JSON) -> (BackendUserForm, hasErrors: Bool) {
-        let name = json["name"]?.string
-        let email = json["email"]?.string
-        let role = json["role"]?.string
-        let shouldResetPassword = json["shouldResetPassword"]?.bool
-        let sendEmail = json["sendEmail"]?.bool
-        let password = json["password"]?.string
-        let repeatPassword = json["repeatPassword"]?.string
-        
-        return validate(
-            name: name,
-            email: email,
-            role: role,
-            shouldResetPassword: shouldResetPassword,
-            sendEmail: sendEmail,
-            password: password,
-            repeatPassword: repeatPassword
-        )
-    }
-    
+
     static func validating(_ content: Content) -> (BackendUserForm, hasErrors: Bool) {
         let name = content["name"]?.string
         let email = content["email"]?.string
         let role = content["role"]?.string
-        let shouldResetPassword = content["shouldResetPassword"]?.bool
-        let sendEmail = content["sendEmail"]?.bool
+        let shouldResetPassword = content["shouldResetPassword"]?.string != nil
+        let sendEmail = content["sendEmail"]?.string != nil
         let password = content["password"]?.string
         let repeatPassword = content["passwordRepeat"]?.string
         
