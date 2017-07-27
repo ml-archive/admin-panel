@@ -4,24 +4,20 @@ import Transport
 import Sockets
 
 public class Mailer {
-    public static func sendWelcomeMail(drop: Droplet, backendUser: BackendUser, password: String?) throws {
-        guard let smtpUser = drop.config["mail", "user"]?.string,
-            let smtpPassword = drop.config["mail", "password"]?.string,
+    public static func initMailer(_ drop: Droplet) throws -> (Mailgun, fromEmail: String, name: String)? {
+        guard
+            let apiKey = drop.config["mail", "apiKey"]?.string,
             let fromEmail = drop.config["mail", "fromEmail"]?.string,
-            let smtpHost = drop.config["mail", "smtpHost"]?.string,
-            let smtpPort = drop.config["mail", "smtpPort"]?.int,
             let name = Configuration.shared?.name.string
         else {
-            return
+            return nil
         }
-        
-        let credentials = SMTPCredentials(
-            user: smtpUser,
-            pass: smtpPassword
-        )
-        
-        let from = EmailAddress(name: name, address: fromEmail)
-        
+
+        let domain = drop.config["mail", "domain"]?.string ?? "mg.like.st"
+        return try (Mailgun(domain: domain, apiKey: apiKey, EngineClient.factory), fromEmail, name)
+    }
+
+    public static func sendWelcomeMail(drop: Droplet, backendUser: BackendUser, password: String?) throws {
         let url = drop.config["app", "url"]?.string ?? "missing url"
         
         // Generate HTML
@@ -33,41 +29,22 @@ public class Mailer {
             "url": url
         ]).data.makeString()
         
-        
-        let email: SMTP.Email = Email(from: from,
-                                      to: backendUser.email,
-                                      subject: "Welcome to Admin Panel",
-                                      body: EmailBody(type: .html, content: html))
-        
-        let stream = try TCPInternetSocket(
-            scheme: "smtps",
-            hostname: smtpHost,
-            port: Port(smtpPort)
-        )
+        if let (mailer, fromEmail, name) = try initMailer(drop) {
+            let from = EmailAddress(name: name, address: fromEmail)
 
-        let client = try SMTPClient(stream)
-        
-        try client.send(email, using: credentials)
+            let email: SMTP.Email = Email(
+                from: from,
+                to: backendUser.email,
+                subject: "Welcome to Admin Panel",
+                body: EmailBody(type: .html, content: html)
+            )
+
+            try mailer.send(email)
+
+        }
     }
     
     public static func sendResetPasswordMail(drop: Droplet, backendUser: BackendUser, token: BackendUserResetPasswordToken) throws {
-        guard let smtpUser = drop.config["mail", "user"]?.string,
-            let smtpPassword = drop.config["mail", "password"]?.string,
-            let fromEmail = drop.config["mail", "fromEmail"]?.string,
-            let smtpHost = drop.config["mail", "smtpHost"]?.string,
-            let smtpPort = drop.config["mail", "smtpPort"]?.int,
-            let name = Configuration.shared?.name.string
-            else {
-                return
-        }
-        
-        let credentials = SMTPCredentials(
-            user: smtpUser,
-            pass: smtpPassword
-        )
-        
-        let from = EmailAddress(name: name, address: fromEmail)
-        
         let url = drop.config["app", "url"]?.string ?? "missing url"
         
         // Generate HTML
@@ -77,22 +54,21 @@ public class Mailer {
             "token": token.token,
             "expire": 60,
             "url": url
-            ]).data.makeString()
+        ]).data.makeString()
         
-        
-        let email: SMTP.Email = Email(from: from,
-                                      to: backendUser.email,
-                                      subject: "Reset password",
-                                      body: EmailBody(type: .html, content: html))
-        
-        let stream = try TCPInternetSocket(
-            scheme: "smtps",
-            hostname: smtpHost,
-            port: Port(smtpPort)
-        )
-        let client = try SMTPClient(stream)
-        
-        try client.send(email, using: credentials)
+        if let (mailer, fromEmail, name) = try initMailer(drop) {
+            let from = EmailAddress(name: name, address: fromEmail)
+
+            let email: SMTP.Email = Email(
+                from: from,
+                to: backendUser.email,
+                subject: "Reset password",
+                body: EmailBody(type: .html, content: html)
+            )
+
+            try mailer.send(email)
+
+        }
     }
 }
 
