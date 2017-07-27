@@ -130,26 +130,32 @@ public struct BackendUserForm {
             hasErrors = true
         }
 
-        if let password = password {
-            let passwordCharactercount = password.utf8.count
-            if passwordCharactercount < 8 || passwordCharactercount > 191 {
-                passwordErrors.append("Must be between 8 and 191 characters long")
+        let randomPassword = (password?.isEmpty ?? true) && (repeatPassword?.isEmpty ?? true)
+        if randomPassword {
+            password = String.randomAlphaNumericString(10)
+            shouldResetPassword = true
+        } else {
+            if let password = password {
+                let passwordCharactercount = password.utf8.count
+                if passwordCharactercount < 8 || passwordCharactercount > 191 {
+                    passwordErrors.append("Must be between 8 and 191 characters long")
+                    hasErrors = true
+                }
+            } else {
+                passwordErrors.append(requiredFieldError)
                 hasErrors = true
             }
-        } else {
-            passwordErrors.append(requiredFieldError)
-            hasErrors = true
-        }
 
-        if let repeatPassword = repeatPassword {
-            let passwordRepeatCharacterCount = repeatPassword.utf8.count
-            if passwordRepeatCharacterCount < 8 || passwordRepeatCharacterCount > 191 {
-                repeatPasswordErrors.append("Must be between 8 and 191 characters long")
+            if let repeatPassword = repeatPassword {
+                let passwordRepeatCharacterCount = repeatPassword.utf8.count
+                if passwordRepeatCharacterCount < 8 || passwordRepeatCharacterCount > 191 {
+                    repeatPasswordErrors.append("Must be between 8 and 191 characters long")
+                    hasErrors = true
+                }
+            } else {
+                repeatPasswordErrors.append(requiredFieldError)
                 hasErrors = true
             }
-        } else {
-            repeatPasswordErrors.append(requiredFieldError)
-            hasErrors = true
         }
 
         let user = BackendUserForm(
@@ -159,7 +165,7 @@ public struct BackendUserForm {
             password: password,
             repeatPassword: repeatPassword,
             sendMail: sendEmail,
-            randomPassword: nil,
+            randomPassword: randomPassword,
             shouldResetPassword: shouldResetPassword,
             nameErrors: nameErrors,
             emailErrors: emailErrors,
