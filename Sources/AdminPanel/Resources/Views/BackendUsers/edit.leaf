@@ -46,7 +46,7 @@
             <h4 class="margin-top">
                 Choose password
                 <br>
-                <small class="text-gray-dark">(min. 8 characters)</small>
+                <small class="text-gray-dark">(leave empty for random with forced reset) (min. 8 characters)</small>
             </h4>
             <hr/>
             <div class="margin-top">
