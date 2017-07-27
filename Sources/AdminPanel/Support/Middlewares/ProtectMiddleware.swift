@@ -33,7 +33,7 @@ class ProtectMiddleware: Middleware {
                     let redirectPath = "/admin/backend_users/edit/" + (backendUser.id?.string ?? "0")
 
                     // Only redirect if not already there!
-                    if redirectPath != request.uri.path && request.uri.path != "/admin/backend_users/update" {
+                    if redirectPath != request.uri.path && request.uri.deletingLastPathComponent().path != "/admin/backend_users/update" {
                         return Response(redirect: redirectPath).flash(.error, "Please change your password")
                     }
                 }
@@ -59,3 +59,4 @@ class ProtectMiddleware: Middleware {
         return try next.respond(to: request)
     }
 }
+
