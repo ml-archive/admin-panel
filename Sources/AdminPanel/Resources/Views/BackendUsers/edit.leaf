@@ -43,6 +43,11 @@
                     #form:selectgroup("role", roles, fieldset, defaultRole)
                 }
 
+          #if(backendUser) {		
+          } ##else() {		
+              #form:checkboxgroup("sendEmail", "true", fieldset)		
+          } 
+
             <h4 class="margin-top">
                 Choose password
                 <br>
