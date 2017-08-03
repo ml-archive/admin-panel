@@ -89,7 +89,7 @@ public class FormTextAreaGroup: BasicTag {
             }
         }
         
-        template.append("</>")
+        template.append("/>")
         template.append(inputValue)
         template.append("</textarea>")
         
