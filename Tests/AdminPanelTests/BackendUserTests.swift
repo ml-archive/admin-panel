@@ -1,10 +1,13 @@
+import Vapor
 import XCTest
 
 @testable import AdminPanel
 
 class BackendUserTests: XCTestCase {
     func testSendEmail() {
-        let (form, _) = BackendUserForm.validating(["sendEmail": "true"])
+        let content = Content()
+        content.append(Node(["sendEmail": "true"]))
+        let (form, _) = BackendUserForm.validating(content)
         XCTAssertTrue(form.sendMail)
     }
 
@@ -15,8 +18,8 @@ class BackendUserTests: XCTestCase {
             role: nil,
             shouldResetPassword: nil,
             sendEmail: false,
-            password: "test",
-            repeatPassword: "test"
+            password: "testtest",
+            repeatPassword: "testtest"
         )
         XCTAssert(hasErrors)
         XCTAssertEqual(form.passwordErrors.count, 0)
@@ -30,14 +33,14 @@ class BackendUserTests: XCTestCase {
             shouldResetPassword: nil,
             sendEmail: nil,
             password: nil,
-            repeatPassword: "test"
+            repeatPassword: "testtest"
         )
 
         XCTAssertFalse(form.randomPassword)
         XCTAssertEqual(form.passwordErrors.count, 1)
         XCTAssertEqual(form.repeatPasswordErrors.count, 1)
         XCTAssert(form.password.isEmpty)
-        XCTAssertEqual(form.repeatPassword, "test")
+        XCTAssertEqual(form.repeatPassword, "testtest")
     }
 
     func testErrorOnMissingPasswordRepeat() {
@@ -47,7 +50,7 @@ class BackendUserTests: XCTestCase {
             role: nil,
             shouldResetPassword: nil,
             sendEmail: nil,
-            password: "test",
+            password: "testtest",
             repeatPassword: nil
         )
 
@@ -55,7 +58,7 @@ class BackendUserTests: XCTestCase {
         XCTAssertEqual(form.passwordErrors.count, 0)
         XCTAssertEqual(form.repeatPasswordErrors.count, 2)
         XCTAssert(form.repeatPassword.isEmpty)
-        XCTAssertEqual(form.password, "test")
+        XCTAssertEqual(form.password, "testtest")
     }
 
     func testPasswordsDoNotMatch() {
