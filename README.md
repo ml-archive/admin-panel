@@ -25,7 +25,7 @@ Build easy customizable admin features for your app!
 
 Update your `Package.swift` file.
 ```swift
-.Package(url: "https://github.com/nodes-vapor/admin-panel.git", majorVersion: 0)
+.Package(url: "https://github.com/nodes-vapor/admin-panel.git", majorVersion: 1)
 ```
 
 
