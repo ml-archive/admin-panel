@@ -48,7 +48,7 @@
                     <td class="text-center">#(user.id)</td>
                     <td>#(user.name)</td>
                     <td>
-                        <a href="#(user.email)">#(user.email)</a>
+                        <a href="mailto:#(user.email)">#(user.email)</a>
                     </td>
                     <td class="text-center">#(user.role)</td>
                     <td class="text-center">
