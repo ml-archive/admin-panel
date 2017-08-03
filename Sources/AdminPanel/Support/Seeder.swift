@@ -1,11 +1,10 @@
 import Console
-import TurnstileCrypto
 import Vapor
 import Foundation
 import Sugar
 
 
-public final class Seeder: Command {
+public final class Seeder: Command, ConfigInitializable {
 
     public let id = "admin-panel:seeder"
     
@@ -14,33 +13,28 @@ public final class Seeder: Command {
     ]
     
     public let console: ConsoleProtocol
-    public let dropet: Droplet
-    
-    public init(dropet: Droplet) {
-        self.dropet = dropet
-        self.console = dropet.console
+
+    public init(config: Config) throws {
+        self.console = try config.resolveConsole()
     }
     
     public func run(arguments: [String]) throws {
+        console.info("Started the seeder")
         
-        console.info("Started the seeder");
-        
-        // BUG FIX WHILE WAITING FOR VAPOR UPDATE
-        BackendUser.database = dropet.database
+        var node = Node.object([:])
+        try node.set("name", "Admin")
+        try node.set("email", "admin@admin.com")
+        try node.set("password", BCryptHasher().make("admin").makeString())
+        try node.set("role", "super-admin")
+        try node.set("updatedAt", Date().toDateTimeString())
+        try node.set("createdAt", Date().toDateTimeString())
         
         let backendUsers = [
-            try BackendUser(node: [
-                "name": "Admin",
-                "email": "admin@admin.com",
-                "password": BCrypt.hash(password: "admin"),
-                "role": "super-admin",
-                "updated_at": Date().toDateTimeString(),
-                "created_at": Date().toDateTimeString()
-                ]),
-            ]
+            try BackendUser(node: node),
+        ]
         
         backendUsers.forEach({
-            var backendUser = $0
+            let backendUser = $0
             console.info("Looping \(backendUser.name)")
             do {
                 try backendUser.save()

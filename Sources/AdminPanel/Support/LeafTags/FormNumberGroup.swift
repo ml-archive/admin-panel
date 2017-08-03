@@ -2,13 +2,12 @@ import Foundation
 import Leaf
 import Node
 import Vapor
-import VaporForms
 
 public class FormNumberGroup: BasicTag {
     public init(){}
     public let name = "form:numbergroup"
     
-    public func run(arguments: [Argument]) throws -> Node? {
+    public func run(arguments: ArgumentList) throws -> Node? {
         
         /*
          #form:numbergroup(key, value, fieldset)
@@ -53,8 +52,8 @@ public class FormNumberGroup: BasicTag {
         
         
         guard arguments.count >= 3,
-            let inputName: String = arguments[0].value?.string,
-            let fieldsetNode = arguments[2].value?.nodeObject
+            let inputName: String = arguments.list[0].value(with: arguments.stem, in: arguments.context)?.string,
+            let fieldsetNode = arguments.list[2].value(with: arguments.stem, in: arguments.context)
             else {
                 throw Abort.serverError
         }
@@ -62,10 +61,10 @@ public class FormNumberGroup: BasicTag {
         var inputValue:Any
         
         //TODO Does this use fieldset?["value"]?.string ???
-        if(arguments[1].value?.int != nil) {
-            inputValue = Int((arguments[1].value?.int!)!)
-        } else if(arguments[1].value?.float != nil) {
-            inputValue = Float((arguments[1].value?.float!)!)
+        if(arguments.list[1].value(with: arguments.stem, in: arguments.context)?.int != nil) {
+            inputValue = arguments.list[1].value(with: arguments.stem, in: arguments.context)?.int as Any
+        } else if(arguments.list[1].value(with: arguments.stem, in: arguments.context)?.float != nil) {
+            inputValue = Float((arguments.list[1].value(with: arguments.stem, in: arguments.context)?.float!)!)
         } else {
             inputValue = ""
         }
@@ -90,7 +89,7 @@ public class FormNumberGroup: BasicTag {
         if arguments.count > 3 {
             let max = arguments.count - 1
             for index in 3 ... max {
-                if let argument = arguments[index].value?.string {
+                if let argument = arguments.list[index].value(with: arguments.stem, in: arguments.context)?.string {
                     template.append(" " + argument)
                 }
             }

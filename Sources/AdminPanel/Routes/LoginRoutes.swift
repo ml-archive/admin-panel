@@ -14,7 +14,7 @@ public struct LoginRoutes: RouteCollection {
         self.config = config
     }
     
-    public func build<Builder: RouteBuilder>(_ builder: Builder) where Builder.Value == Wrapped {
+    public func build(_ builder: RouteBuilder) {
         
         let controller = LoginController(droplet: drop)
 

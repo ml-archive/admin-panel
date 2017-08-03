@@ -1,17 +1,41 @@
 import Vapor
 import Paginator
 import Flash
-import Auth
+import AuthProvider
 import HTTP
 import Sugar
+import LeafProvider
+import Sessions
 
 public final class Provider: Vapor.Provider {
-    
-    var config: Configuration
+    public static var repositoryName: String = "AdminPanel"
+
+    var adminPanelConfig: Configuration
     var ssoProvider: SSOProtocol?
-    
-    public func boot(_ droplet: Droplet) {
-        
+
+    public func boot(_ config: Config) throws {
+        config.addConfigurable(command: Seeder.init, name: "admin-panel:seeder")
+
+        config.preparations.append(BackendUserResetPasswordToken.self)
+        config.preparations.append(BackendUser.self)
+
+        // Init middlewares
+        let middlewares: [Middleware] = [
+            FlashMiddleware(),
+            PersistMiddleware(BackendUser.self),
+            ConfigPublishMiddleware(config: adminPanelConfig),
+            FieldsetMiddleware()
+        ]
+
+        var protectedMiddlewares = middlewares
+        protectedMiddlewares.append(ProtectMiddleware(config: config, adminPanelConfiguration: adminPanelConfig))
+
+        // Apply
+        Middlewares.unsecured = middlewares
+        Middlewares.secured = protectedMiddlewares
+    }
+
+    public func boot(_ droplet: Droplet) throws {
         if let leaf = droplet.view as? LeafRenderer {
             // AdminPanel
             leaf.stem.register(Active())
@@ -30,67 +54,30 @@ public final class Provider: Vapor.Provider {
             leaf.stem.register(PaginatorTag())
         }
         
-        droplet.storage["adminPanelConfig"] = config
-        Configuration.shared = config
-        
-        droplet.preparations.append(BackendUserResetPasswordTokens.self)
-        droplet.preparations.append(BackendUser.self)
-        
-        droplet.commands.append(Seeder(dropet: droplet))
-        
-        // Init middlewares
-        let middlewares: [Middleware] = [
-            AuthMiddleware<BackendUser>(cache: droplet.cache),
-            FlashMiddleware(),
-            ConfigPublishMiddleware(config: config),
-            FieldsetMiddleware()
-        ]
-        
-        var protectedMiddlewares: [Middleware] = middlewares
-        protectedMiddlewares.append(ProtectMiddleware(droplet: droplet))
-        
-        // Apply
-        Middlewares.unsecured = middlewares
-        Middlewares.secured = protectedMiddlewares
-        
-        if(config.loadRoutes) {
-            droplet.group(collection: Middlewares.unsecured) { unsecured in
-                unsecured.grouped("/").collection(LoginRoutes(droplet: droplet, config: config))
-            }
-            
-            droplet.group(collection: Middlewares.secured) { secured in
-                if config.loadDashboardRoute {
-                    secured.grouped("/admin/dashboard").collection(DashboardRoutes(droplet: droplet))
-                }
-                
-                secured.grouped("/admin/backend_users").collection(BackendUsersRoutes(droplet: droplet))
-            }
-        }
+        droplet.storage["adminPanelConfig"] = adminPanelConfig
+        Configuration.shared = adminPanelConfig
     }
-    
-    public init(drop: Droplet) throws {
-        config = try Configuration(drop: drop)
-    }
-    
+
     public init(config: Config) throws {
-        self.config = try Configuration(config: config)
+        adminPanelConfig = try Configuration(config: config)
     }
     
     public convenience init(drop: Droplet, ssoProvider: SSOProtocol? = nil) throws {
         try self.init(drop: drop)
         
-        config.ssoProvider = ssoProvider
+        adminPanelConfig.ssoProvider = ssoProvider
     }
-    
-    
-    // is automatically called directly after boot()
-    public func afterInit(_ drop: Droplet) {
-    }
-    
-    // is automatically called directly after afterInit()
-    public func beforeRun(_: Droplet) {
-    }
-    
-    public func beforeServe(_: Droplet) {
+
+    public func beforeRun(_ droplet: Droplet) throws {
+        if (adminPanelConfig.loadRoutes) {
+            let unsecured = droplet.grouped(Middlewares.unsecured)
+            try unsecured.collection(LoginRoutes(droplet: droplet, config: adminPanelConfig))
+
+            let secured = droplet.grouped(Middlewares.secured)
+            if adminPanelConfig.loadDashboardRoute {
+                try secured.grouped("/admin/dashboard").collection(DashboardRoutes(droplet: droplet))
+            }
+            try secured.grouped("/admin/backend_users/").collection(BackendUsersRoutes(droplet: droplet))
+        }
     }
 }

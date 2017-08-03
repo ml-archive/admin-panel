@@ -1,11 +1,9 @@
 import Foundation
 import Vapor
-import Auth
+import AuthProvider
 import HTTP
-import Turnstile
-import TurnstileCrypto
-import TurnstileWeb
 import Flash
+import Validation
 
 public final class LoginController {
     
@@ -22,8 +20,12 @@ public final class LoginController {
     /// - Returns: Response
     public func landing(request: Request) -> Response {
         do {
-            guard let user: BackendUser = try request.auth.user() as? BackendUser else {
-                throw Abort.custom(status: .forbidden, message: "Forbidden")
+            guard let user: BackendUser = request.auth.authenticated() else {
+                throw Abort(
+                    .forbidden,
+                    metadata: nil,
+                    reason: "Forbidden"
+                )
             }
             
             return Response(redirect: "/admin/dashboard").flash(.success, "Logged in as \(user.email)")
@@ -51,14 +53,14 @@ public final class LoginController {
     /// - Returns: Response
     public func resetPasswordSubmit(request: Request) -> Response {
         do {
-            guard let email = request.data["email"]?.string, let backendUser: BackendUser = try BackendUser.query().filter("email", email).first() else {
+            guard let email = request.data["email"]?.string, let backendUser: BackendUser = try BackendUser.makeQuery().filter("email", email).first() else {
                 return Response(redirect: "/admin/login").flash(.success, "E-mail with instructions sent if user exists")
             }
         
-            try BackendUserResetPasswordTokens.query().filter("email", email).delete()
+            try BackendUserResetPasswordToken.makeQuery().filter("email", email).delete()
             
             // Make a token
-            var token = BackendUserResetPasswordTokens(email: email)
+            let token = BackendUserResetPasswordToken(email: email)
             try token.save()
             
             // Send mail
@@ -78,12 +80,20 @@ public final class LoginController {
     /// - Throws: Various Abort.customs
     public func resetPasswordTokenForm(request: Request) throws -> View {
         guard let tokenStr = request.parameters["token"]?.string else {
-            throw Abort.custom(status: .badRequest, message: "Missing token")
+            throw Abort(
+                .badRequest,
+                metadata: nil,
+                reason: "Missing token"
+            )
         }
         
         // If token does not exist or cannot be used is the same error
-        guard let token = try BackendUserResetPasswordTokens.query().filter("token", tokenStr).first(), !token.canBeUsed() else {
-            throw Abort.custom(status: .badRequest, message: "Token is invalid")
+        guard let token = try BackendUserResetPasswordToken.makeQuery().filter("token", tokenStr).first(), !token.canBeUsed() else {
+            throw Abort(
+                .badRequest,
+                metadata: nil,
+                reason: "Token is invalid"
+            )
         }
         
         return try drop.view.make("ResetPassword/form", [
@@ -103,12 +113,20 @@ public final class LoginController {
                 throw Abort.badRequest
         }
         
-        guard var token = try BackendUserResetPasswordTokens.query().filter("token", tokenStr).first(), !token.canBeUsed() else {
-            throw Abort.custom(status: .badRequest, message: "Token does not exist")
+        guard let token = try BackendUserResetPasswordToken.makeQuery().filter("token", tokenStr).first(), !token.canBeUsed() else {
+            throw Abort(
+                .badRequest,
+                metadata: nil,
+                reason: "Token does not exist"
+            )
         }
         
         if token.email != email {
-            throw Abort.custom(status: .badRequest, message: "Token does not match email")
+            throw Abort(
+                .badRequest,
+                metadata: nil,
+                reason: "Token does not match email"
+            )
         }
         
         if(password != passwordRepeat) {
@@ -119,8 +137,12 @@ public final class LoginController {
             return Response(redirect: "/admin/login/reset/" + tokenStr).flash(.error, "Passwords did not match requirement")
         }
         
-        guard var backendUser = try BackendUser.query().filter("email", email).first() else {
-            throw Abort.custom(status: .badRequest, message: "User was not found")
+        guard let backendUser = try BackendUser.makeQuery().filter("email", email).first() else {
+            throw Abort(
+                .badRequest,
+                metadata: nil,
+                reason: "User was not found"
+            )
         }
         
         // Set usedAt & save
@@ -128,7 +150,7 @@ public final class LoginController {
         try token.save()
         
         // Set new password & save
-        backendUser.setPassword(password)
+        try backendUser.setPassword(password)
         try backendUser.save()
         
         return Response(redirect: "/admin/login").flash(.success, "Password is reset")
@@ -139,9 +161,12 @@ public final class LoginController {
     /// - Returns: View
     /// - Throws: Error
     public func form(request: Request) throws -> View {
-        return try drop.view.make("Login/login", [
-            "next": request.query?["next"]?.node ?? nil
-        ], for: request)
+
+        return try drop.view.make(
+            "Login/login",
+            ["next": request.query?["next"] ?? nil],
+            for: request
+        )
     }
     
     
@@ -154,14 +179,18 @@ public final class LoginController {
         
         // Guard credentials
         guard let username = request.data["email"]?.string, let password = request.data["password"]?.string else {
-            throw Abort.custom(status: Status.badRequest, message: "Missing username or password")
+            throw Abort(
+                .badRequest,
+                metadata: nil,
+                reason: "Missing username or password"
+            )
         }
         
         do {
             // TODO REMEMBER
             //let remember: Bool = request.data["remember"]?.bool ?? false
-            
-            try request.auth.login(UsernamePassword(username: username, password: password))
+            let user = try BackendUser.authenticate(Password(username: username, password: password))
+            request.auth.authenticate(user)
             
             // Generate redirect path
             var redirect = "/admin/dashboard"
@@ -182,11 +211,19 @@ public final class LoginController {
     /// - Throws: throws Abort.custom internalServerError for missing config or sso
     public func sso(request: Request) throws -> ResponseRepresentable {
         guard let config: Configuration = drop.storage["adminPanelConfig"] as? Configuration else {
-            throw Abort.custom(status: .internalServerError, message: "AdminPanel missing configuration")
+            throw Abort(
+                .internalServerError,
+                metadata: nil,
+                reason: "AdminPanel missing configuration"
+            )
         }
         
         guard let ssoProvider: SSOProtocol = config.ssoProvider else {
-            throw Abort.custom(status: .internalServerError, message: "AdminPanel no SSO setup")
+            throw Abort(
+                .internalServerError,
+                metadata: nil,
+                reason: "AdminPanel no SSO setup"
+            )
         }
         
         return try ssoProvider.auth(request)
@@ -199,11 +236,19 @@ public final class LoginController {
     /// - Throws: throws Abort.custom internalServerError for missing config or sso
     public func ssoCallback(request: Request) throws -> ResponseRepresentable {
         guard let config: Configuration = drop.storage["adminPanelConfig"] as? Configuration else {
-            throw Abort.custom(status: .internalServerError, message: "AdminPanel missing configuration")
+            throw Abort(
+                .internalServerError,
+                metadata: nil,
+                reason: "AdminPanel missing configuration"
+            )
         }
         
         guard let ssoProvider: SSOProtocol = config.ssoProvider else {
-            throw Abort.custom(status: .internalServerError, message: "AdminPanel no SSO setup")
+            throw Abort(
+                .internalServerError,
+                metadata: nil,
+                reason: "AdminPanel no SSO setup"
+            )
         }
         
         return try ssoProvider.callback(request)

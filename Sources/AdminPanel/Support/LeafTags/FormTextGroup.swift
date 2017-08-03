@@ -2,13 +2,12 @@ import Foundation
 import Leaf
 import Node
 import Vapor
-import VaporForms
 
 public class FormTextGroup: BasicTag {
     public init(){}
     public let name = "form:textgroup"
     
-    public func run(arguments: [Argument]) throws -> Node? {
+    public func run(arguments: ArgumentList) throws -> Node? {
         
         /*
          #form:textgroup(key, value, fieldset, attr1, attr2 etc)
@@ -51,17 +50,21 @@ public class FormTextGroup: BasicTag {
         
 
         guard arguments.count >= 3,
-            let inputName: String = arguments[0].value?.string,
-            let fieldsetNode = arguments[2].value?.nodeObject
+            let inputName: String = arguments.list[0].value(with: arguments.stem, in: arguments.context)?.string ,
+            let fieldsetNode = arguments.list[2].value(with: arguments.stem, in: arguments.context)
         else {
-            throw Abort.custom(status: .internalServerError, message: "FormTextGroup parse error, expecting: #form:textgroup(\"name\", \"default\", fieldset)")
+            throw Abort(
+                .internalServerError,
+                metadata: nil,
+                reason: "FormTextGroup parse error, expecting: #form:textgroup(\"name\", \"default\", fieldset)"
+            )
         }
         
         // Retrieve field set for name
         let fieldset = fieldsetNode[inputName]
         
         // Retrieve input value, value from fieldset else passed default value
-        let inputValue = fieldset?["value"]?.string ?? arguments[1].value?.string ?? ""
+        let inputValue = fieldset?["value"]?.string ?? arguments.list[1].value(with: arguments.stem, in: arguments.context)?.string ?? ""
         
         let label = fieldset?["label"]?.string ?? inputName
         
@@ -81,7 +84,7 @@ public class FormTextGroup: BasicTag {
         if arguments.count > 3 {
             let max = arguments.count - 1
             for index in 3 ... max {
-                if let argument = arguments[index].value?.string {
+                if let argument = arguments.list[index].value(with: arguments.stem, in: arguments.context)?.string {
                     template.append(" " + argument)
                 }
             }

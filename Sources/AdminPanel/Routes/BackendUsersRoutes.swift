@@ -12,7 +12,7 @@ public struct BackendUsersRoutes: RouteCollection {
         drop = droplet
     }
     
-    public func build<Builder: RouteBuilder>(_ builder: Builder) where Builder.Value == Wrapped {
+    public func build(_ builder: RouteBuilder) {
         
         let controller = BackendUsersController(droplet: drop)
         
@@ -21,8 +21,8 @@ public struct BackendUsersRoutes: RouteCollection {
         builder.post("/store", handler: controller.store)
         builder.get("/logout", handler: controller.logout);
         
-        builder.get("/edit", BackendUser.self, handler: controller.edit)
-        builder.post("/update", handler: controller.update)
-        builder.post("/delete", BackendUser.self, handler: controller.destroy)
+        builder.get("/edit", BackendUser.parameter, handler: controller.edit)
+        builder.post("/update", BackendUser.parameter, handler: controller.update)
+        builder.post("/delete", BackendUser.parameter, handler: controller.destroy)
     }
 }

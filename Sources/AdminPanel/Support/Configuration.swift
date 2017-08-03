@@ -2,7 +2,7 @@ import Foundation
 import Vapor
 import HTTP
 import Flash
-import Auth
+import AuthProvider
 
 public struct Configuration {
     
@@ -26,8 +26,11 @@ public struct Configuration {
         }
         
         var error: Abort {
-            return .custom(status: .internalServerError,
-                           message: "Admin panel error - \(rawValue) config is missing.")
+            return Abort(
+                .internalServerError,
+                metadata: nil,
+                reason: "Admin panel error - \(rawValue) config is missing."
+            )
         }
     }
     
@@ -119,11 +122,7 @@ public struct Configuration {
         
         var roleArray: [Role] = []
         
-        for role in array {
-            guard let config = role as? Config else {
-                print("adminpanel.roles failed to parse a role")
-                continue
-            }
+        for config in array {
             do {
                 try roleArray.append(Role(config: config))
             } catch {
@@ -142,7 +141,11 @@ public struct Configuration {
             }
         }
         
-        throw Abort.custom(status: .internalServerError, message: "The role \(slug) was not found")
+        throw Abort(
+            .internalServerError,
+            metadata: nil,
+            reason: "The role \(slug) was not found"
+        )
     }
     
     public func getRoles(_ slug: String) -> [Role] {

@@ -2,13 +2,12 @@ import Foundation
 import Leaf
 import Node
 import Vapor
-import VaporForms
 
 public class FormOpen: BasicTag {
     public init(){}
     public let name = "form:open"
     
-    public func run(arguments: [Argument]) throws -> Node? {
+    public func run(arguments: ArgumentList) throws -> Node? {
         
         /*
          #form:open(url, method, fileupload)
@@ -23,13 +22,13 @@ public class FormOpen: BasicTag {
          */
         
         guard arguments.count == 3,
-            let url: String = arguments[0].value?.string,
-            let method: String = arguments[1].value?.string
+            let url: String = arguments.list[0].value(with: arguments.stem, in: arguments.context)?.string,
+            let method: String = arguments.list[1].value(with: arguments.stem, in: arguments.context)?.string
             else {
                 throw Abort.serverError
         }
         
-        let isFileupload = arguments[2].value?.bool ?? false
+        let isFileupload = arguments.list[2].value(with: arguments.stem, in: arguments.context)?.bool ?? false
         
  
         // Start constructing the template

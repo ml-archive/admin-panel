@@ -26,8 +26,7 @@
 
 #export("content") {
 #if(backendUser) {
-    #form:open("/admin/backend_users/update", "POST", false)
-    <input type="hidden" name="id" value=#(backendUser.id)>
+    #form:open("/admin/backend_users/update/#(backendUser.id)", "POST", false)
 } ##else() {
     #form:open("/admin/backend_users/store", "POST", false)
 }
@@ -44,10 +43,11 @@
                     #form:selectgroup("role", roles, fieldset, defaultRole)
                 }
 
-                #if(backendUser) {
-                } ##else() {
-                    #form:checkboxgroup("send_mail", "true", fieldset)
-                }
+          #if(backendUser) {		
+          } ##else() {		
+              #form:checkboxgroup("sendEmail", "true", fieldset)		
+          } 
+
             <h4 class="margin-top">
                 Choose password
                 <br>
@@ -57,11 +57,11 @@
             <div class="margin-top">
                 #form:passwordgroup("password", nil, fieldset)
                 #form:passwordgroup("passwordRepeat", nil, fieldset)
-                #form:checkboxgroup("should_reset_password", backendUser.should_reset_password, fieldset)
+                #form:checkboxgroup("shouldResetPassword", backendUser.should_reset_password, fieldset)
             </div>
             </div>
         </div>
-        
+
     </div>
     <div class="row">
         <div class="col-xs-6">
