@@ -34,12 +34,11 @@ public final class BackendUsersController {
         
         let query = try BackendUser.makeQuery()
         if let search: String = request.query?["search"]?.string {
-            try query.filter("name", search)
+            try query.filter("name", .contains, search)
         }
 
         let users = try query.paginator(25, request: request)
 
-        // Search
         return try drop.view.make(
             "BackendUsers/index",
             ["users": users.makeNode(in: nil)],
