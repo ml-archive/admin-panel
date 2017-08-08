@@ -90,27 +90,36 @@ Make sure to have config `app.json` setup
 The url here will be used as redirect link in invite emails fx.
 
 
-### main.swift
+### Add provider
+In your `Config+Setup.swift` (or wherever you setup your providers), make sure to add the `AdminPanel` provider.
+
 ```swift
 import AdminPanel
+
+// ...
+
+private func setupProviders() throws {
+    // ...
+    try addProvider(AdminPanel.Provider.self)
+}
 ```
 
-And add provider (before defining routes, but after defining cache driver)
-```swift
-try drop.addProvider(AdminPanel.Provider.self)
-
-/// ... routes goes here
-
-```
 ### Seed data
-Add the seeder command to your `main.swift`
+Add the seeder command to your `Config+Setup.swift` (or wherever you setup your commands):
 ```swift
-drop.commands.append(AdminPanel.Seeder(drop: drop))
+addConfigurable(command: AdminPanel.Seeder.init, name: "seeder")
 ```
 
-And then run the command in your terminal (remember to build the project first)
+Next, add it to your `Config/droplet.json` file, like this:
+```json
+"commands": [
+    "prepare",
+     "seeder"
+]
+
+Finally, run the command in your terminal (remember to build the project first):
 ```swift
-vapor run admin-panel:seeder
+vapor run seeder
 ```
 
 ### UI package
