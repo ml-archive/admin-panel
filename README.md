@@ -116,6 +116,7 @@ Next, add it to your `Config/droplet.json` file, like this:
     "prepare",
      "seeder"
 ]
+```
 
 Finally, run the command in your terminal (remember to build the project first):
 ```swift
