@@ -68,6 +68,11 @@ public final class Provider: Vapor.Provider {
         adminPanelConfig.ssoProvider = ssoProvider
     }
 
+    public convenience init(config: Config, ssoProvider: SSOProtocol? = nil) throws {
+        try self.init(config: config)
+        adminPanelConfig.ssoProvider = ssoProvider
+    }
+
     public func beforeRun(_ droplet: Droplet) throws {
         if (adminPanelConfig.loadRoutes) {
             let unsecured = droplet.grouped(Middlewares.unsecured)
