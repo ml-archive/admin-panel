@@ -97,7 +97,7 @@ public final class LoginController {
         }
         
         return try drop.view.make("ResetPassword/form", [
-            "token": token
+            "token": token.token
         ], for: request)
     }
     
