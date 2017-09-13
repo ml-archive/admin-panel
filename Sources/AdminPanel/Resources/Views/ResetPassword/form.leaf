@@ -13,7 +13,7 @@
         #embed("Layout/Partials/Elements/alerts")
         
         <form method="POST" action="/admin/login/reset/change">
-             <input type="hidden" name="token" value="#(token.token)">
+             <input type="hidden" name="token" value="#(token)">
             <div class="form-group action-wrapper">
                 <label for="email">E-mail</label>
                 <input type="email" id="email" class="form-control" name="email" required placeholder="Insert email"/>
