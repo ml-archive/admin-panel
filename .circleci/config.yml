@@ -1,0 +1,19 @@
+jobs:
+  build:
+    docker:
+      - image: buildpack-deps:trusty
+    steps:
+      - checkout
+      - run:
+          name: Install Swift
+          command: 'eval "$(curl -sL https://apt.vapor.sh)"'
+      - run:
+          name: Install Vapor toolbox
+          command: |
+            sudo apt-get install --yes vapor
+            sudo apt-get install --yes cmysql
+            sudo chmod -R a+rx /usr/
+      - run:
+          name: Run Tests
+          command: |
+            swift test -Xswiftc -DNOJSON

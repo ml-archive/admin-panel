@@ -8,14 +8,16 @@ osx_image: xcode8.3
 before_install:
   brew tap vapor/tap;
   brew update;
-  brew install cmysql;
   brew install vapor;
+  brew install cmysql;
+  gem install xcpretty;
 
 script:
+  - set -o pipefail
   - swift build
   - swift build -c release
   - swift package generate-xcodeproj --enable-code-coverage
-  - xcodebuild -scheme AdminPanel -enableCodeCoverage YES test
+  - xcodebuild -scheme AdminPanel -enableCodeCoverage YES test | xcpretty
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
