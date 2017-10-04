@@ -13,10 +13,11 @@ before_install:
   gem install xcpretty;
 
 script:
+  - set -o pipefail
   - swift build
   - swift build -c release
   - swift package generate-xcodeproj --enable-code-coverage
-  - xcodebuild -scheme AdminPanel -enableCodeCoverage YES test | xcpretty && exit ${PIPESTATUS[0]}
+  - xcodebuild -scheme AdminPanel -enableCodeCoverage YES test | xcpretty
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
