@@ -1,3 +1,6 @@
+# ! Please note !
+**This package is being replaced by the [AdminPanel provider](https://github.com/nodes-vapor/admin-panel-provider). This package will most likely not be maintained anymore.**
+
 # Admin Panel ✍️
 [![Swift Version](https://img.shields.io/badge/Swift-3.1-brightgreen.svg)](http://swift.org)
 [![Vapor Version](https://img.shields.io/badge/Vapor-2-F6CBCA.svg)](http://vapor.codes)
@@ -10,8 +13,6 @@
 
 
 Build easy customizable admin features for your app!
-
-**Please note that this package is being replaced by the [AdminPanel provider](https://github.com/nodes-vapor/admin-panel-provider). This package will most likely not be maintained anymore.**
 
 ## Features
  - Admin user system with roles
