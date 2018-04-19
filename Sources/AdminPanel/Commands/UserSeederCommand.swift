@@ -33,6 +33,6 @@ extension User: Seedable {
         let password = command.options[Keys.Options.password] ?? User.defaultPassword
         let name = command.options[Keys.Options.name] ?? User.defaultName
 
-        self.init(email: email, password: password, name: name)
+        try self.init(email: email, password: password, name: name)
     }
 }
