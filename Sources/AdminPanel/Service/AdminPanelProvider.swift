@@ -1,9 +1,15 @@
 import Vapor
+import Fluent
 import Leaf
+import Sugar
 
 extension AdminPanelProvider {
-    public static var tags:  [String: TagRenderer] {
+    public static var tags: [String: TagRenderer] {
         return ["adminpanel:config": AdminPanelConfigTag()]
+    }
+
+    public static func commands(databaseIdentifier: DatabaseIdentifier<User.Database>) -> [String: Command] {
+        return ["adminpanel:user-seeder": SeederCommand<User>(databaseIdentifier: databaseIdentifier)]
     }
 }
 

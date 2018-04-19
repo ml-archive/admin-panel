@@ -16,14 +16,15 @@ let package = Package(
         // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/vapor/vapor.git", from: "3.0.0-rc.2"),
         .package(url: "https://github.com/vapor/fluent.git", from: "3.0.0-rc.2"),
-        .package(url: "https://github.com/vapor/leaf.git", from: "3.0.0-rc.2")
+        .package(url: "https://github.com/vapor/leaf.git", from: "3.0.0-rc.2"),
+        .package(url: "https://github.com/nodes-vapor/sugar.git", .branch("vapor-3"))
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "AdminPanel",
-            dependencies: ["Vapor", "Fluent", "Leaf"]),
+            dependencies: ["Vapor", "Fluent", "Leaf", "Sugar"]),
         .testTarget(
             name: "AdminPanelTests",
             dependencies: ["AdminPanel"]),
