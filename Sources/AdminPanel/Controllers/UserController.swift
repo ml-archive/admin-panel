@@ -28,8 +28,6 @@ internal final class UserController<U: AdminPanelUser> {
                 req
                     .redirect(to: self.endpoints.dashboard)
                     .flash(.success, "Logged in as \(user[keyPath: U.usernameKey])")
-                    .flash(.success, "Is it your lucky day>?")
-                    .flash(.info, "Just LOL")
             }
             .mapIfError { error in
                 req
