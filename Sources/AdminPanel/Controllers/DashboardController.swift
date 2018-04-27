@@ -5,7 +5,7 @@ internal final class DashboardController {
     // MARK: Dashboard
 
     func renderDashboard(_ req: Request) throws -> Future<View> {
-        return try req
+        return try req.privateContainer
             .make(LeafRenderer.self)
             .render(AdminPanelViews.Dashboard.index)
     }

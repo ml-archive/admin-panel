@@ -3,20 +3,26 @@ import Fluent
 import Leaf
 import Sugar
 import Authentication
+import Flash
 
 extension AdminPanelProvider {
     public static var tags: [String: TagRenderer] {
-        return ["adminpanel:config": AdminPanelConfigTag()]
-    }
-
-    public static func commands(databaseIdentifier: DatabaseIdentifier<User.Database>) -> [String: Command] {
-        return ["adminpanel:user-seeder": SeederCommand<User>(databaseIdentifier: databaseIdentifier)]
+        return ["adminpanel:config": AdminPanelConfigTag(), "flash": FlashTag()]
     }
 }
 
-public final class AdminPanelProvider: Provider {
+// MARK: - Commands
+extension AdminPanelProvider where U.ID: StringConvertible, U: Seedable {
+    public static func commands(
+        databaseIdentifier: DatabaseIdentifier<U.Database>
+    ) -> [String: Command] {
+        return ["adminpanel:user-seeder": SeederCommand<U>(databaseIdentifier: databaseIdentifier)]
+    }
+}
+
+public final class AdminPanelProvider<U: AdminPanelUser>: Provider {
     /// See Service.Provider.repositoryName
-    public static let repositoryName = "admin-panel"
+    public static var repositoryName: String { return "admin-panel" }
     public let config: AdminPanelConfig
 
     public init(config: AdminPanelConfig) {
@@ -27,8 +33,9 @@ public final class AdminPanelProvider: Provider {
     public func register(_ services: inout Services) throws {
         try services.register(LeafProvider())
         try services.register(AuthenticationProvider())
-//        services.register(KeyedCacheSessions.self)
+        services.register(KeyedCacheSessions.self)
         services.register(AdminPanelConfigTagData(name: config.name, baseUrl: config.baseUrl))
+        try services.register(FlashProvider())
     }
 
     /// See Service.Provider.boot

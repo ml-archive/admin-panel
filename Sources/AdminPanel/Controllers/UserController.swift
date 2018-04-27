@@ -4,46 +4,48 @@ import Leaf
 import Authentication
 import Flash
 
-internal final class UserController {
+internal final class UserController<U: AdminPanelUser> {
+    internal let endpoints: AdminPanelEndpoints
+
+    init(endpoints: AdminPanelEndpoints) {
+        self.endpoints = endpoints
+    }
+
     // MARK: Login
 
     func login(_ req: Request) throws -> Future<Response> {
         return try req
             .content
-            .decode(Login.self)
-            .flatMap(to: User?.self) { login in
-                User.authenticate(
-                    username: login.email,
-                    password: login.password,
-                    using: PlaintextVerifier(),
-                    on: req
-                )
+            .decode(U.Login.self)
+            .flatMap(to: U.self) { login in
+                U.logIn(with: login, on: req)
             }
-            .map(to: User.self, userOrNotFound)
-            .map(to: User.self) { (user: User) -> User in
+            .map(to: U.self) { (user: U) -> U in
                 try req.authenticate(user)
                 return user
             }
             .map(to: Response.self) { user in
                 req
-                    .redirect(to: AdminPanelRoutes.dashboard)
-                    .flash(.success, "Logged in as \(user.name)")
+                    .redirect(to: self.endpoints.dashboard)
+                    .flash(.success, "Logged in as \(user[keyPath: U.usernameKey])")
+                    .flash(.success, "Is it your lucky day>?")
+                    .flash(.info, "Just LOL")
             }
             .mapIfError { error in
                 req
-                    .redirect(to: AdminPanelRoutes.login)
+                    .redirect(to: self.endpoints.login)
                     .flash(.error, "Invalid username and/or password")
             }
     }
 
     func renderLogin(_ req: Request) throws -> Future<Response> {
-        guard try !req.isAuthenticated(User.self) else {
+        guard try !req.isAuthenticated(U.self) else {
             return Future.map(on: req) {
-                req.redirect(to: AdminPanelRoutes.dashboard)
+                req.redirect(to: self.endpoints.dashboard)
             }
         }
 
-        return try req
+        return try req.privateContainer
             .make(LeafRenderer.self)
             .render(AdminPanelViews.User.login)
             .encode(for: req)
@@ -52,8 +54,8 @@ internal final class UserController {
     // MARK: Log out
 
     func logout(_ req: Request) throws -> Response {
-        try req.unauthenticateSession(User.self)
-        return req.redirect(to: AdminPanelRoutes.login).flash(.success, "Logged out")
+        try req.unauthenticateSession(U.self)
+        return req.redirect(to: endpoints.login).flash(.success, "Logged out")
     }
 }
 
@@ -62,12 +64,4 @@ extension UserController {
         let email: String
         let password: String
     }
-}
-
-private func userOrNotFound<U>(_ user: U?) throws -> U {
-    guard let user = user else {
-        throw AdminPanelError.userNotFound
-    }
-
-    return user
 }
