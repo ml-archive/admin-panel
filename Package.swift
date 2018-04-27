@@ -14,10 +14,10 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-        .package(url: "https://github.com/vapor/vapor.git", from: "3.0.0-rc.2"),
-        .package(url: "https://github.com/vapor/fluent.git", from: "3.0.0-rc.2"),
-        .package(url: "https://github.com/vapor/leaf.git", from: "3.0.0-rc.2"),
-        .package(url: "https://github.com/vapor/auth.git", from: "2.0.0-rc.3.1"),
+        .package(url: "https://github.com/vapor/vapor.git", from: "3.0.0-rc"),
+        .package(url: "https://github.com/vapor/fluent.git", from: "3.0.0-rc"),
+        .package(url: "https://github.com/vapor/leaf.git", from: "3.0.0-rc"),
+        .package(url: "https://github.com/vapor/auth.git", from: "2.0.0-rc"),
         .package(url: "https://github.com/nodes-vapor/sugar.git", .branch("vapor-3")),
         .package(url: "https://github.com/nodes-vapor/flash.git", .branch("vapor-3")),
         .package(url: "https://github.com/nodes-vapor/bootstrap.git", .branch("master"))
