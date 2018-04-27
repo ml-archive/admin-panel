@@ -53,3 +53,5 @@ extension User: PasswordAuthenticatable {
         return \.password
     }
 }
+
+extension User: SessionAuthenticatable {}

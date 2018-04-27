@@ -12,7 +12,7 @@ internal final class UserController {
             .content
             .decode(Login.self)
             .flatMap(to: User?.self) { login in
-                return User.authenticate(
+                User.authenticate(
                     username: login.email,
                     password: login.password,
                     using: PlaintextVerifier(),
@@ -20,26 +20,40 @@ internal final class UserController {
                 )
             }
             .map(to: User.self, userOrNotFound)
+            .map(to: User.self) { (user: User) -> User in
+                try req.authenticate(user)
+                return user
+            }
             .map(to: Response.self) { user in
-                return req
+                req
                     .redirect(to: AdminPanelRoutes.dashboard)
                     .flash(.success, "Logged in as \(user.name)")
             }
             .mapIfError { error in
-                return req
+                req
                     .redirect(to: AdminPanelRoutes.login)
                     .flash(.error, "Invalid username and/or password")
             }
     }
 
-    func renderLogin(_ req: Request) throws -> Future<View> {
-        return Future
-            .map(on: req) { () in
-                return try req.make(LeafRenderer.self)
+    func renderLogin(_ req: Request) throws -> Future<Response> {
+        guard try !req.isAuthenticated(User.self) else {
+            return Future.map(on: req) {
+                req.redirect(to: AdminPanelRoutes.dashboard)
             }
-            .flatMap(to: View.self) { leaf in
-                return leaf.render(AdminPanelViews.User.login)
-            }
+        }
+
+        return try req
+            .make(LeafRenderer.self)
+            .render(AdminPanelViews.User.login)
+            .encode(for: req)
+    }
+
+    // MARK: Log out
+
+    func logout(_ req: Request) throws -> Response {
+        try req.unauthenticateSession(User.self)
+        return req.redirect(to: AdminPanelRoutes.login).flash(.success, "Logged out")
     }
 }
 
