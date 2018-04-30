@@ -1,0 +1,7 @@
+#flash() {
+    #for(flash in all) {
+        #bs:alert(flash.bootstrapType) {
+            #(flash.message)
+        }
+    }
+}

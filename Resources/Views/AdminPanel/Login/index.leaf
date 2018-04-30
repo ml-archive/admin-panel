@@ -1,17 +1,29 @@
+#set("styles") {
+    <link href="/AdminPanel/css/login.css" rel="stylesheet">
+}
+
+#set("pageTitle") { Login }
+
 #set("body") {
-    <form class="form-signin">
-        <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <div class="checkbox mb-3">
-            <label>
-            <input type="checkbox" value="remember-me"> Remember me
-        </label>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+    <form class="form-signin" method="POST" action="/admin/login">
+        <h1>#adminpanel:config("name")</h1>
+        <h4>Please sign in</h4>
+
+        #embed("AdminPanel/Layout/Partials/alerts")
+
+        <label for="email" class="sr-only">Email address</label>
+        <input type="email" id="email" name="email" class="form-control" placeholder="Email address" required autofocus>
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+        
+        <p><a href="#">Forgot your password?</a></p>
+
+        #bs:button("primary", "btn-lg btn-block", "type='submit'") {
+            Sign in
+        }
+
+        <p class="mt-5 mb-3 text-muted version">Admin Panel ✍️  by <a href="https://github.com/nodes-vapor/" target="_blank">Vapor at Nodes</a></p>
     </form>
 }
+
+#embed("AdminPanel/Layout/base")

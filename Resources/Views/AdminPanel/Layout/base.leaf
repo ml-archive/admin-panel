@@ -7,11 +7,16 @@
         <meta name="author" content="">
         <link rel="icon" href="/favicon.ico">
 
-        <title>Signin Template for Bootstrap</title>
+        <title>#get(pageTitle) | #adminpanel:config("name") </title>
 
         <!-- Bootstrap core CSS -->
-        <link href="/AdminPanel/bootstrap-4.1.0-dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/Bootstrap/bootstrap-4.1.0-dist/css/bootstrap.min.css" rel="stylesheet">
+
+        #get(styles)
     </head>
 
-    <body>#get(body)</body>
+    <body>
+        #get(body)
+        #get(javascript)
+    </body>
 </html>
