@@ -4,10 +4,12 @@ import Leaf
 import Sugar
 import Authentication
 import Flash
+import Bootstrap
 
 extension AdminPanelProvider {
     public static var tags: [String: TagRenderer] {
         return ["adminpanel:config": AdminPanelConfigTag(), "flash": FlashTag()]
+            .merging(BootstrapProvider.tags) { (adminpanel, bootstrap) in adminpanel }
     }
 }
 

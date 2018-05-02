@@ -1,3 +1,4 @@
+<div class="alerts">
 #flash() {
     #for(flash in all) {
         #bs:alert(flash.bootstrapType) {
@@ -5,3 +6,4 @@
         }
     }
 }
+</div>
