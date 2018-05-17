@@ -1,7 +1,7 @@
 import Authentication
 import Sugar
 
-public protocol AdminPanelUser:
+public protocol AdminPanelUserType:
     HasPassword,
     UserType,
     PasswordAuthenticatable,

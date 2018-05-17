@@ -14,7 +14,7 @@ extension AdminPanelProvider {
 }
 
 // MARK: - Commands
-extension AdminPanelProvider where U.ID: StringConvertible, U: Seedable {
+extension AdminPanelProvider where U.ID: ExpressibleByStringLiteral, U: Seedable {
     public static func commands(
         databaseIdentifier: DatabaseIdentifier<U.Database>
     ) -> [String: Command] {
@@ -22,7 +22,7 @@ extension AdminPanelProvider where U.ID: StringConvertible, U: Seedable {
     }
 }
 
-public final class AdminPanelProvider<U: AdminPanelUser>: Provider {
+public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
     /// See Service.Provider.repositoryName
     public static var repositoryName: String { return "admin-panel" }
     public let config: AdminPanelConfig

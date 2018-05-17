@@ -4,7 +4,7 @@ import Leaf
 import Authentication
 import Flash
 
-internal final class UserController<U: AdminPanelUser> {
+internal final class UserController<U: AdminPanelUserType> {
     internal let endpoints: AdminPanelEndpoints
 
     init(endpoints: AdminPanelEndpoints) {
@@ -45,7 +45,9 @@ internal final class UserController<U: AdminPanelUser> {
 
         return try req.privateContainer
             .make(LeafRenderer.self)
-            .render(AdminPanelViews.User.login)
+            // TODO: Remove empty context when this gets fixed
+            // https://github.com/vapor/template-kit/issues/17
+            .render(AdminPanelViews.User.login, [String: String]())
             .encode(for: req)
     }
 

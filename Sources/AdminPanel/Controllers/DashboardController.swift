@@ -7,6 +7,8 @@ internal final class DashboardController {
     func renderDashboard(_ req: Request) throws -> Future<View> {
         return try req.privateContainer
             .make(LeafRenderer.self)
-            .render(AdminPanelViews.Dashboard.index)
+            // TODO: Remove empty context when this gets fixed
+            // https://github.com/vapor/template-kit/issues/17
+            .render(AdminPanelViews.Dashboard.index, [String: String]())
     }
 }
