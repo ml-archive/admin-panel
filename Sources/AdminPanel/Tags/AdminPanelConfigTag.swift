@@ -16,14 +16,33 @@ public final class AdminPanelConfigTagData: Service {
     enum Keys: String {
         case name = "name"
         case baseUrl = "baseUrl"
+        case userMenuPath = "userMenuPath"
+        case adminMenuPath = "adminMenuPath"
+        case superAdminMenuPath = "superAdminMenuPath"
+        case dashboardPath = "dashboardPath"
     }
 
-    public var name: String = ""
-    public var baseUrl: String = ""
+    public var name = ""
+    public var baseUrl = ""
+    public var userMenuPath: String?
+    public var adminMenuPath: String?
+    public var superAdminMenuPath: String?
+    public var dashboardPath: String?
 
-    init(name: String, baseUrl: String) {
+    init(
+        name: String,
+        baseUrl: String,
+        userMenuPath: String? = nil,
+        adminMenuPath: String? = nil,
+        superAdminMenuPath: String? = nil,
+        dashboardPath: String? = nil
+    ) {
         self.name = name
         self.baseUrl = baseUrl
+        self.userMenuPath = userMenuPath
+        self.adminMenuPath = adminMenuPath
+        self.superAdminMenuPath = superAdminMenuPath
+        self.dashboardPath = dashboardPath
     }
 
     func viewData(for data: TemplateData, tag: TagContext) throws -> TemplateData {
@@ -40,6 +59,14 @@ public final class AdminPanelConfigTagData: Service {
             return .string(name)
         case .baseUrl:
             return .string(baseUrl)
+        case .userMenuPath:
+            return userMenuPath == nil ? .null: .string(userMenuPath!)
+        case .adminMenuPath:
+            return adminMenuPath == nil ? .null: .string(adminMenuPath!)
+        case .superAdminMenuPath:
+            return superAdminMenuPath == nil ? .null: .string(superAdminMenuPath!)
+        case .dashboardPath:
+            return dashboardPath == nil ? .null: .string(dashboardPath!)
         }
     }
 }

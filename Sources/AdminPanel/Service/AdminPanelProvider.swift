@@ -36,7 +36,14 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
         try services.register(LeafProvider())
         try services.register(AuthenticationProvider())
         services.register(KeyedCacheSessions.self)
-        services.register(AdminPanelConfigTagData(name: config.name, baseUrl: config.baseUrl))
+        services.register(config)
+        services.register(AdminPanelConfigTagData(
+            name: config.name,
+            baseUrl: config.baseUrl,
+            userMenuPath: config.userMenuPath,
+            adminMenuPath: config.adminMenuPath,
+            superAdminMenuPath: config.superAdminMenuPath
+        ))
         try services.register(FlashProvider())
     }
 
