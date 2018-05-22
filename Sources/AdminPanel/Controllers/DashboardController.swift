@@ -2,8 +2,6 @@ import Vapor
 import Leaf
 
 internal final class DashboardController {
-    // MARK: Dashboard
-
     func renderDashboard(_ req: Request) throws -> Future<View> {
         let config = try req.make(AdminPanelConfig.self)
         let path = config.dashboardPath ?? AdminPanelViews.Dashboard.index

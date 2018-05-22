@@ -8,8 +8,13 @@ import Bootstrap
 
 extension AdminPanelProvider {
     public static var tags: [String: TagRenderer] {
-        return ["adminpanel:config": AdminPanelConfigTag(), "flash": FlashTag()]
-            .merging(BootstrapProvider.tags) { (adminpanel, bootstrap) in adminpanel }
+        return [
+            "adminpanel:config": AdminPanelConfigTag(),
+            "adminpanel:sidebar:menuitem": SidebarMenuItemTag(),
+            "adminpanel:sidebar:heading": SidebarheadingTag(),
+            "adminpanel:avatarurl": AvatarUrlTag(),
+            "flash": FlashTag()
+        ].merging(BootstrapProvider.tags) { (adminpanel, bootstrap) in adminpanel }
     }
 }
 

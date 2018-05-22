@@ -4,7 +4,7 @@ import Leaf
 import Authentication
 import Flash
 
-internal final class UserController<U: AdminPanelUserType> {
+internal final class LoginController<U: AdminPanelUserType> {
     internal let endpoints: AdminPanelEndpoints
 
     init(endpoints: AdminPanelEndpoints) {
@@ -47,7 +47,7 @@ internal final class UserController<U: AdminPanelUserType> {
             .make(LeafRenderer.self)
             // TODO: Remove empty context when this gets fixed
             // https://github.com/vapor/template-kit/issues/17
-            .render(AdminPanelViews.User.login, [String: String]())
+            .render(AdminPanelViews.Login.index, [String: String]())
             .encode(for: req)
     }
 
@@ -59,7 +59,7 @@ internal final class UserController<U: AdminPanelUserType> {
     }
 }
 
-extension UserController {
+extension LoginController {
     struct Login: Decodable {
         let email: String
         let password: String

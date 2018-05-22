@@ -46,6 +46,12 @@ extension AdminPanelUser: Seedable {
         let email = command.options[Keys.Options.email] ?? AdminPanelUser.defaultEmail
         let name = command.options[Keys.Options.name] ?? AdminPanelUser.defaultName
 
-        try self.init(Registration(email: email, name: name, password: password))
+        try self.init(Registration(
+            email: email,
+            name: name,
+            title: "Tester",
+            avatarUrl: nil,
+            password: password
+        ))
     }
 }

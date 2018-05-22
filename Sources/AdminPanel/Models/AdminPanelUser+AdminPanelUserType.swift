@@ -27,11 +27,15 @@ extension AdminPanelUser: AdminPanelUserType {
     public struct UserPublic: Content {
         public let email: String
         public let name: String
+        public let title: String?
+        public let avatarUrl: String?
     }
 
     public struct UserRegistration: HasReadablePassword, HasReadableUser {
         public let email: String
         public let name: String
+        public let title: String?
+        public let avatarUrl: String?
         public let password: String
 
         public var username: String {
@@ -42,6 +46,8 @@ extension AdminPanelUser: AdminPanelUserType {
     public struct UserUpdate: Decodable, HasUpdatableUsername, HasUpdatablePassword {
         public let email: String?
         public let name: String?
+        public let title: String?
+        public let avatarUrl: String?
         public let password: String?
         public let oldPassword: String?
 
@@ -51,13 +57,20 @@ extension AdminPanelUser: AdminPanelUserType {
     }
 
     public func convertToPublic() -> UserPublic {
-        return UserPublic(email: email, name: name)
+        return UserPublic(
+            email: email,
+            name: name,
+            title: title,
+            avatarUrl: avatarUrl
+        )
     }
 
     public convenience init(_ registration: UserRegistration) throws {
         try self.init(
             email: registration.email,
             name: registration.name,
+            title: registration.title,
+            avatarUrl: registration.avatarUrl,
             password: AdminPanelUser.hashPassword(registration.password)
         )
     }
@@ -75,6 +88,14 @@ extension AdminPanelUser: AdminPanelUserType {
 
         if let name = updated.name {
             self.name = name
+        }
+
+        if let title = updated.title {
+            self.title = title
+        }
+
+        if let avatarUrl = updated.avatarUrl {
+            self.avatarUrl = avatarUrl
         }
     }
 }
