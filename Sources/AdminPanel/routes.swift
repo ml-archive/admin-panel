@@ -2,6 +2,7 @@ import Routing
 import Vapor
 import Authentication
 import Flash
+import Sugar
 
 public struct AdminPanelEndpoints {
     public let login: String
@@ -41,7 +42,7 @@ internal extension AdminPanelProvider {
     internal func routes(_ router: Router) throws {
         let loginController = LoginController<U>(endpoints: AdminPanelEndpoints.default)
 
-        let middlewares: [Middleware] = [AuthenticationSessionsMiddleware<U>(), FlashMiddleware()]
+        let middlewares: [Middleware] = [AuthenticationSessionsMiddleware<U>(), FlashMiddleware(), CurrentUrlMiddleware()]
         let redirect = RedirectMiddleware<U>(path: loginController.endpoints.login)
 
         let unprotected = router.grouped(middlewares)

@@ -1,14 +1,15 @@
 import Leaf
+import Sugar
 import TemplateKit
 
 public final class SidebarMenuItemTag: TagRenderer {
     public func render(tag: TagContext) throws -> EventLoopFuture<TemplateData> {
-        
         let body = try tag.requireBody()
 
         var url = "#"
         var icon = ""
-        //var paths: [String] = []
+        var activeLink = ""
+        var activeTitle = ""
 
         for index in 0...1 {
             if
@@ -23,7 +24,15 @@ public final class SidebarMenuItemTag: TagRenderer {
             }
         }
 
-        //Home <span class="sr-only">(current)</span>
+        if tag.parameters.count > 2 {
+            let currentPath = try tag.container.make(CurrentUrlContainer.self).path
+            let activeUrlPatterns = tag.parameters.dropFirst(2)
+
+            if isActive(currentPath: currentPath, pathPatterns: activeUrlPatterns) {
+                activeLink = " active"
+                activeTitle = " <span class='sr-only'>(current)</span>"
+            }
+        }
 
         return tag.serializer.serialize(ast: body).map(to: TemplateData.self) { body in
             let parsedBody = String(data: body.data, encoding: .utf8) ?? ""
@@ -31,9 +40,9 @@ public final class SidebarMenuItemTag: TagRenderer {
             let item =
             """
             <li class="nav-item">
-                <a class="nav-link" href="\(url)">
+                <a class="nav-link\(activeLink)" href="\(url)">
                     \(icon)
-                    \(parsedBody)
+                    \(parsedBody)\(activeTitle)
                 </a>
             </li>
             """
@@ -43,30 +52,24 @@ public final class SidebarMenuItemTag: TagRenderer {
     }
 }
 
-//private extension ArgumentList {
-//    func extractPath() -> String? {
-//        return context.get(path: ["request", "uri", "path"])?.string
-//    }
-//}
-//
-//private extension Request {
-//    static func isActive(_ path: String?, _ defaultPath: String?, _ args: ArraySlice<Argument>, _ stem: Stem, _ context: LeafContext) -> Bool {
-//        guard args.count > 0 else {
-//            return path == defaultPath
-//        }
-//
-//        for arg in args {
-//            guard let searchPath = arg.value(with: stem, in: context)?.string else { continue }
-//
-//            if searchPath.hasSuffix("*"), path?.contains(searchPath.replacingOccurrences(of: "*", with: "")) ?? false {
-//                return true
-//            }
-//
-//            if searchPath == path {
-//                return true
-//            }
-//        }
-//
-//        return false
-//    }
-//}
+
+private extension SidebarMenuItemTag {
+    func isActive(currentPath: String, pathPatterns: ArraySlice<TemplateData>) -> Bool {
+        for arg in pathPatterns {
+            let searchPath = arg.string ?? ""
+
+            if
+                searchPath.hasSuffix("*"),
+                currentPath.contains(searchPath.replacingOccurrences(of: "*", with: ""))
+            {
+                return true
+            }
+
+            if searchPath == currentPath {
+                return true
+            }
+        }
+
+        return false
+    }
+}

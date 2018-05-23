@@ -50,6 +50,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
             superAdminMenuPath: config.superAdminMenuPath
         ))
         try services.register(FlashProvider())
+        try services.register(CurrentURLProvider())
     }
 
     /// See Service.Provider.boot
