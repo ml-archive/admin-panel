@@ -2,7 +2,7 @@
 
 #set("content") {
     <div class="btn-group mr-2 mb-3 float-right">
-        <a href="/admin/users/create" class="btn btn-sm btn-primary">
+        <a href="/admin/users/create" class="btn btn-primary">
             <span data-feather="plus"></span>
             Add user
         </a>

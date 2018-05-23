@@ -22,4 +22,13 @@ internal final class AdminPanelUserController {
             // https://github.com/vapor/template-kit/issues/17
             .render(AdminPanelViews.AdminPanelUser.create, [String: String]())
     }
+
+    func create(_ req: Request) throws -> Future<Response> {
+        return try AdminPanelUser.register(on: req)
+            .map(to: Response.self) { registration in
+                req
+                    .redirect(to: "/admin/users")
+                    .flash(.success, "The user with email '\(registration.email)' got created successfully.")
+            }
+    }
 }

@@ -63,5 +63,6 @@ internal extension AdminPanelProvider {
         let adminPanelUserController = AdminPanelUserController()
         protected.get(loginController.endpoints.adminPanelUserList, use: adminPanelUserController.renderList)
         protected.get(loginController.endpoints.createAdminPanelUser, use: adminPanelUserController.renderCreate)
+        protected.post(loginController.endpoints.createAdminPanelUser, use: adminPanelUserController.create)
     }
 }

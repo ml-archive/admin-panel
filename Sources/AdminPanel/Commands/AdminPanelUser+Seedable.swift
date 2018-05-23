@@ -51,7 +51,9 @@ extension AdminPanelUser: Seedable {
             name: name,
             title: "Tester",
             avatarUrl: nil,
-            password: password
+            password: password,
+            passwordRepeat: password,
+            shouldResetPassword: false
         ))
     }
 }
