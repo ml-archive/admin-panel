@@ -1,0 +1,3 @@
+<div class="btn-toolbar mb-2 mb-md-0">
+    #get(breadcrumb)
+</div>

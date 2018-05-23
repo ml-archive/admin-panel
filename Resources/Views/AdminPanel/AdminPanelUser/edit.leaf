@@ -1,0 +1,16 @@
+#set("pageTitle") { Create Admin Panel User }
+
+#set("breadcrumb") { 
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/users">Admin Panel Users</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Create</li>
+      </ol>
+    </nav>
+}
+
+#set("content") {
+    TODO
+}
+
+#embed("AdminPanel/Layout/base")

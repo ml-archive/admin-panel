@@ -1,0 +1,43 @@
+#set("pageTitle") { Admin Panel Users }
+
+#set("content") {
+    <div class="btn-group mr-2 mb-3 float-right">
+        <a href="/admin/users/create" class="btn btn-sm btn-primary">
+            <span data-feather="plus"></span>
+            Add user
+        </a>
+    </div>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col" width="10%"></th>
+                <th scope="col" width="30%">Name</th>
+                <th scope="col" width="30%">Title</th>
+                <th scope="col" width="20%">Email</th>
+                <th scope="col" width="10%"></th>
+            </tr>
+        </thead>
+        <tbody>    
+            #for(user in users) {
+                <tr>
+                    <th><img src="#adminpanel:avatarurl(user.email, user.avatarUrl)" alt="Profile picture" class="img-thumbnail" width="40"></th>
+                    <td>#(user.name)</td>
+                    <td>#(user.title)</td>
+                    <td>#(user.email)</td>
+                    <td class="float-right">
+                        <div class="btn-group float-right">
+                            <button class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="Edit user">
+                                <span data-feather="edit"></span>
+                            </button>
+                            <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete user">
+                                <span data-feather="delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            }        
+        </tbody>
+    </table>
+}
+
+#embed("AdminPanel/Layout/base")
