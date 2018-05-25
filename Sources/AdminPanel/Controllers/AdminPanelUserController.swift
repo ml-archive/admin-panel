@@ -56,9 +56,17 @@ internal final class AdminPanelUserController {
     // MARK: Delete user
 
     func delete(_ req: Request) throws -> Future<Response> {
+        let auth = try req.requireAuthenticated(AdminPanelUser.self)
         let user = try req.parameters.next(AdminPanelUser.self)
         return user.delete(on: req)
             .map(to: Response.self) { user in
+                guard auth.id != user.id else {
+                    return req
+                        .redirect(to: "/admin/login")
+                        .flash(.success, "Your user has now been deleted.")
+
+                }
+
                 return req
                     .redirect(to: "/admin/users")
                     .flash(.success, "The user with email '\(user.email)' got deleted successfully.")
