@@ -1,9 +1,10 @@
 import Authentication
+import Reset
 import Sugar
 
 public protocol AdminPanelUserType:
-    HasPassword,
     UserType,
     PasswordAuthenticatable,
+    PasswordResettable,
     SessionAuthenticatable
 {}

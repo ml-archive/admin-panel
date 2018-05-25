@@ -5,6 +5,7 @@ import Sugar
 import Authentication
 import Flash
 import Bootstrap
+import Reset
 
 extension AdminPanelProvider {
     public static var tags: [String: TagRenderer] {
@@ -36,6 +37,8 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
         self.config = config
     }
 
+    private var resetProvider: ResetProvider<U>!
+
     /// See Service.Provider.Register
     public func register(_ services: inout Services) throws {
         try services.register(LeafProvider())
@@ -51,6 +54,53 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
         ))
         try services.register(FlashProvider())
         try services.register(CurrentURLProvider())
+
+        resetProvider = ResetProvider<U>(
+            config: .init(
+                endpoints: ResetEndpoints(
+                    resetPasswordRequest: "/admin/users/reset-password/request",
+                    resetPassword: "/admin/users/reset-password"
+                ),
+                shouldRegisterRoutes: false,
+                signer: ExpireableJWTSigner(
+                    expirationPeriod: 3600, // 1 hour
+                    signer: .hs256(key: "secret-reset".convertToData())
+                ),
+                responses: ResetResponses(
+                    resetPasswordRequestForm: { req in
+                        return try req.privateContainer
+                            .make(LeafRenderer.self)
+                            // TODO: Remove empty context when this gets fixed
+                            // https://github.com/vapor/template-kit/issues/17
+                            .render(AdminPanelViews.Login.requestResetPassword, [String: String]())
+                            .encode(for: req)
+                    },
+                    resetPasswordEmailSent: { req in
+                        return Future.map(on: req) {
+                            req
+                                .redirect(to: "/admin/login")
+                                .flash(.success, "Email with reset link sent.")
+                        }
+                    },
+                    resetPasswordForm: { req, user in
+                        return try req.privateContainer
+                            .make(LeafRenderer.self)
+                            // TODO: Remove empty context when this gets fixed
+                            // https://github.com/vapor/template-kit/issues/17
+                            .render(AdminPanelViews.Login.resetPassword, [String: String]())
+                            .encode(for: req)
+                    },
+                    resetPasswordSuccess: { req, user in
+                        return Future.map(on: req) {
+                            req
+                                .redirect(to: "/admin/login")
+                                .flash(.success, "Your password has been updated.")
+                        }
+                    }
+                )
+            )
+        )
+        try services.register(resetProvider)
     }
 
     /// See Service.Provider.boot
@@ -65,7 +115,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
 //        router.grouped(middlewares).get(AdminPanelRoutes.login, use: UserController().renderLogin)
 
 
-        try routes(router)
+        try routes(router, resetProvider: resetProvider)
 
         return .done(on: container)
     }

@@ -3,6 +3,8 @@ internal enum AdminPanelViews {
 
     enum Login {
         static let index = prefix + "/Login/index"
+        static let requestResetPassword = prefix + "/Login/request-reset-password"
+        static let resetPassword = prefix + "/Login/reset-password"
     }
 
     enum Dashboard {

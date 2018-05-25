@@ -1,4 +1,5 @@
 #set("styles") {
+    <link href="/AdminPanel/css/login-base.css" rel="stylesheet">
     <link href="/AdminPanel/css/login.css" rel="stylesheet">
 }
 
@@ -16,7 +17,7 @@
         <label for="password" class="sr-only">Password</label>
         <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
         
-        <p><a href="#">Forgot your password?</a></p>
+        <p><a href="/admin/users/reset-password/request">Forgot your password?</a></p>
 
         #bs:button("primary", "btn-lg btn-block", "type='submit'") {
             Sign in

@@ -2,6 +2,7 @@ import Routing
 import Vapor
 import Authentication
 import Flash
+import Reset
 import Sugar
 
 public struct AdminPanelEndpoints {
@@ -39,7 +40,7 @@ public struct AdminPanelEndpoints {
 
 
 internal extension AdminPanelProvider {
-    internal func routes(_ router: Router) throws {
+    internal func routes(_ router: Router, resetProvider: ResetProvider<U>) throws {
         let loginController = LoginController<U>(endpoints: AdminPanelEndpoints.default)
 
         let middlewares: [Middleware] = [AuthenticationSessionsMiddleware<U>(), FlashMiddleware(), CurrentUrlMiddleware()]
@@ -64,5 +65,14 @@ internal extension AdminPanelProvider {
         protected.get(loginController.endpoints.adminPanelUserList, use: adminPanelUserController.renderList)
         protected.get(loginController.endpoints.createAdminPanelUser, use: adminPanelUserController.renderCreate)
         protected.post(loginController.endpoints.createAdminPanelUser, use: adminPanelUserController.create)
+        protected.get("/admin/users", AdminPanelUser.parameter, "edit", use: adminPanelUserController.renderEdit)
+        protected.post("/admin/users", AdminPanelUser.parameter, "edit", use: adminPanelUserController.edit)
+
+        // Reset routes
+        let resetEndpoints = resetProvider.config.endpoints
+        unprotected.get (resetEndpoints.resetPasswordRequest, use: resetProvider.renderResetPasswordRequestForm)
+        unprotected.post(resetEndpoints.resetPasswordRequest, use: resetProvider.resetPasswordRequest)
+        unprotected.get (resetEndpoints.resetPassword, String.parameter, use: resetProvider.renderResetPasswordForm)
+        unprotected.post(resetEndpoints.resetPassword, String.parameter, use: resetProvider.resetPassword)
     }
 }
