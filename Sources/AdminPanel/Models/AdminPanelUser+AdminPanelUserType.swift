@@ -52,6 +52,8 @@ extension AdminPanelUser: AdminPanelUserType {
         public let avatarUrl: String?
         public let password: String?
         public let oldPassword: String?
+        public let passwordRepeat: String?
+        public let shouldResetPassword: Bool?
 
         public var username: String? {
             return email

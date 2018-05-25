@@ -1,30 +1,38 @@
-#set("pageTitle") { Create Admin Panel User }
+#set("pageTitle") { 
+    #if(user) { Edit '#(user.name)' } else { Create Admin Panel User }
+}
 
 #set("breadcrumb") { 
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/admin/users">Admin Panel Users</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Create</li>
+        <li class="breadcrumb-item active" aria-current="page">
+            #if(user) { Edit } else { Create }
+        </li>
       </ol>
     </nav>
 }
 
 #set("content") {
-    <form method="post" action="/admin/users/create">
+    #if(user) {
+        <form method="post" action="/admin/users/#(user.id)/edit">
+    } else {
+        <form method="post" action="/admin/users/create">
+    }
         <h4>User details</h4>
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" value="#(user.name)">
         </div>
 
         <div class="form-group">
             <label for="title">Title</label>
-            <input type="text" class="form-control" id="title" name="title" placeholder="Enter title">
+            <input type="text" class="form-control" id="title" name="title" placeholder="Enter title" value="#(user.title)">
         </div>
 
         <div class="form-group">
             <label for="email">Email address</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" value="#(user.email)">
         </div>
 
         <hr>

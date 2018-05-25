@@ -67,6 +67,7 @@ internal extension AdminPanelProvider {
         protected.post(loginController.endpoints.createAdminPanelUser, use: adminPanelUserController.create)
         protected.get("/admin/users", AdminPanelUser.parameter, "edit", use: adminPanelUserController.renderEdit)
         protected.post("/admin/users", AdminPanelUser.parameter, "edit", use: adminPanelUserController.edit)
+        protected.post("/admin/users", AdminPanelUser.parameter, "delete", use: adminPanelUserController.delete)
 
         // Reset routes
         let resetEndpoints = resetProvider.config.endpoints

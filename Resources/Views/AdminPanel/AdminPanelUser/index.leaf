@@ -26,12 +26,12 @@
                     <td>#(user.email)</td>
                     <td class="float-right">
                         <div class="btn-group float-right">
-                            <button class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="Edit user">
+                            <a href="/admin/users/#(user.id)/edit" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="Edit user">
                                 <span data-feather="edit"></span>
-                            </button>
-                            <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete user">
+                            </a>
+                            <a href="/admin/users/#(user.id)/delete" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete user" data-confirm="true" data-header="Delete user?" data-text="Are you sure you want to delete '#(user.name)'?" data-button="danger">
                                 <span data-feather="delete"></span>
-                            </button>
+                            </a>
                         </div>
                     </td>
                 </tr>

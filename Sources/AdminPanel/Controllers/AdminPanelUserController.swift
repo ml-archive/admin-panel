@@ -1,3 +1,4 @@
+import Fluent
 import Vapor
 import Leaf
 
@@ -29,6 +30,38 @@ internal final class AdminPanelUserController {
                 req
                     .redirect(to: "/admin/users")
                     .flash(.success, "The user with email '\(registration.email)' got created successfully.")
+            }
+    }
+
+    // MARK: Edit user
+
+    func renderEdit(_ req: Request) throws -> Future<View> {
+        let user = try req.parameters.next(AdminPanelUser.self)
+        return try req.privateContainer
+            .make(LeafRenderer.self)
+            // TODO: Remove empty context when this gets fixed
+            // https://github.com/vapor/template-kit/issues/17
+            .render(AdminPanelViews.AdminPanelUser.create, ["user": user])
+    }
+
+    func edit(_ req: Request) throws -> Future<Response> {
+        return try AdminPanelUser.update(on: req)
+            .map(to: Response.self) { update in
+                req
+                    .redirect(to: "/admin/users")
+                    .flash(.success, "The user with email '\(update.email)' got updated successfully.")
+            }
+    }
+
+    // MARK: Delete user
+
+    func delete(_ req: Request) throws -> Future<Response> {
+        let user = try req.parameters.next(AdminPanelUser.self)
+        return user.delete(on: req)
+            .map(to: Response.self) { user in
+                return req
+                    .redirect(to: "/admin/users")
+                    .flash(.success, "The user with email '\(user.email)' got deleted successfully.")
             }
     }
 }
