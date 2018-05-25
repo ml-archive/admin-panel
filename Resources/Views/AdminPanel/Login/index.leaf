@@ -1,5 +1,4 @@
 #set("styles") {
-    <link href="/AdminPanel/css/login-base.css" rel="stylesheet">
     <link href="/AdminPanel/css/login.css" rel="stylesheet">
 }
 
