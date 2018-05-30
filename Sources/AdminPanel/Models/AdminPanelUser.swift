@@ -10,6 +10,10 @@ public final class AdminPanelUser: Codable {
     public var password: String
     public var passwordChangeCount: Int
 
+    public var createdAt: Date?
+    public var updatedAt: Date?
+    public var deletedAt: Date?
+
     public init(
         id: Int? = nil,
         email: String,
@@ -33,3 +37,17 @@ extension AdminPanelUser: MySQLModel {}
 extension AdminPanelUser: Content {}
 extension AdminPanelUser: Migration {}
 extension AdminPanelUser: Parameter {}
+extension AdminPanelUser: Timestampable {
+    public static var createdAtKey: WritableKeyPath<AdminPanelUser, Date?> {
+        return \.createdAt
+    }
+
+    public static var updatedAtKey: WritableKeyPath<AdminPanelUser, Date?> {
+        return \.updatedAt
+    }
+}
+extension AdminPanelUser: SoftDeletable {
+    public static var deletedAtKey: WritableKeyPath<AdminPanelUser, Date?> {
+        return \.deletedAt
+    }
+}
