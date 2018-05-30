@@ -71,9 +71,34 @@ internal extension AdminPanelProvider {
 
         // Reset routes
         let resetEndpoints = resetProvider.config.endpoints
-        unprotected.get (resetEndpoints.resetPasswordRequest, use: resetProvider.renderResetPasswordRequestForm)
-        unprotected.post(resetEndpoints.resetPasswordRequest, use: resetProvider.resetPasswordRequest)
-        unprotected.get (resetEndpoints.resetPassword, String.parameter, use: resetProvider.renderResetPasswordForm)
-        unprotected.post(resetEndpoints.resetPassword, String.parameter, use: resetProvider.resetPassword)
+        if let renderResetPasswordRequestPath = resetEndpoints.renderResetPasswordRequest {
+            unprotected.get(
+                renderResetPasswordRequestPath,
+                use: resetProvider.renderResetPasswordRequestForm
+            )
+        }
+
+        if let resetPasswordRequestPath = resetEndpoints.resetPasswordRequest {
+            unprotected.post(
+                resetPasswordRequestPath,
+                use: resetProvider.resetPasswordRequest
+            )
+        }
+
+        if let renderResetPasswordPath = resetEndpoints.renderResetPassword {
+            unprotected.get(
+                renderResetPasswordPath,
+                String.parameter,
+                use: resetProvider.renderResetPasswordForm
+            )
+        }
+
+        if let resetPasswordPath = resetEndpoints.resetPassword {
+            unprotected.post(
+                resetPasswordPath,
+                String.parameter,
+                use: resetProvider.resetPassword
+            )
+        }
     }
 }

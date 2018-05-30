@@ -57,6 +57,8 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
 
         resetProvider = ResetProvider<U>(
             config: .init(
+                name: config.name,
+                baseUrl: config.baseUrl,
                 endpoints: ResetEndpoints(
                     resetPasswordRequest: "/admin/users/reset-password/request",
                     resetPassword: "/admin/users/reset-password"

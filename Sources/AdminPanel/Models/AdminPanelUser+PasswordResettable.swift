@@ -21,7 +21,11 @@ extension AdminPanelUser: PasswordResettable {
         public let password: String
     }
 
-    public func sendPasswordResetLink(_ link: String, on container: Container) -> Future<Void> {
+    public func sendPasswordResetLink(
+        _ link: String,
+        expirationPeriod: TimeInterval,
+        on container: Container
+    ) throws -> Future<Void> {
         print(link)
         return .done(on: container)
     }
