@@ -21,12 +21,13 @@ extension AdminPanelUser: PasswordResettable {
         public let password: String
     }
 
-    public func sendPasswordResetLink(
-        _ link: String,
+    public func sendPasswordReset(
+        url: String,
+        token: String,
         expirationPeriod: TimeInterval,
-        on container: Container
+        on req: Request
     ) throws -> Future<Void> {
         print(link)
-        return .done(on: container)
+        return .done(on: req)
     }
 }
