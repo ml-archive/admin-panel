@@ -6,6 +6,7 @@ import Authentication
 import Flash
 import Bootstrap
 import Reset
+import Submissions
 
 extension AdminPanelProvider {
     public static var tags: [String: TagRenderer] {
@@ -14,8 +15,10 @@ extension AdminPanelProvider {
             "adminpanel:sidebar:menuitem": SidebarMenuItemTag(),
             "adminpanel:sidebar:heading": SidebarheadingTag(),
             "adminpanel:avatarurl": AvatarUrlTag(),
-            "flash": FlashTag()
-        ].merging(BootstrapProvider.tags) { (adminpanel, bootstrap) in adminpanel }
+        ]
+        .merging(FlashProvider.tags) { (adminpanel, flash) in adminpanel }
+        .merging(BootstrapProvider.tags) { (adminpanel, bootstrap) in adminpanel }
+        .merging(SubmissionsProvider.tags) { (adminpanel, submissions) in adminpanel }
     }
 }
 
@@ -54,13 +57,16 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
         ))
         try services.register(FlashProvider())
         try services.register(CurrentURLProvider())
+        try services.register(SubmissionsProvider())
 
         resetProvider = ResetProvider<U>(
             config: .init(
                 name: config.name,
                 baseUrl: config.baseUrl,
                 endpoints: ResetEndpoints(
+                    renderResetPasswordRequest: "/admin/users/reset-password/request",
                     resetPasswordRequest: "/admin/users/reset-password/request",
+                    renderResetPassword: "/admin/users/reset-password",
                     resetPassword: "/admin/users/reset-password"
                 ),
                 shouldRegisterRoutes: false,

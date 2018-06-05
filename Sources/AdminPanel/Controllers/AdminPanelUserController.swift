@@ -10,47 +10,71 @@ internal final class AdminPanelUserController {
             .flatMap(to: View.self) { users in
                 return try req.privateContainer
                     .make(LeafRenderer.self)
-                    .render(AdminPanelViews.AdminPanelUser.index, ["users": users])
+                    .render(AdminPanelViews.AdminPanelUser.index, MultipleUsers(users: users))
         }
     }
 
     // MARK: Create user
 
-    func renderCreate(_ req: Request) throws -> Future<View> {
+    func renderCreate(_ req: Request) throws -> Future<Response> {
+        try req.populateFields(AdminPanelUser.self)
         return try req.privateContainer
             .make(LeafRenderer.self)
             // TODO: Remove empty context when this gets fixed
             // https://github.com/vapor/template-kit/issues/17
             .render(AdminPanelViews.AdminPanelUser.create, [String: String]())
+            .encode(for: req)
     }
 
     func create(_ req: Request) throws -> Future<Response> {
-        return try AdminPanelUser.register(on: req)
-            .map(to: Response.self) { registration in
+        return try req.content.decode(AdminPanelUser.Submission.self)
+            .createValid(on: req)
+            .save(on: req)
+            .map(to: Response.self) { user in
                 req
                     .redirect(to: "/admin/users")
-                    .flash(.success, "The user with email '\(registration.email)' got created successfully.")
+                    .flash(
+                        .success,
+                        "The user with email '\(user.email)' got created successfully."
+                    )
             }
+            .catchFlatMap(handleValidationError(
+                path: AdminPanelViews.AdminPanelUser.create,
+                on: req)
+            )
     }
 
     // MARK: Edit user
 
     func renderEdit(_ req: Request) throws -> Future<View> {
-        let user = try req.parameters.next(AdminPanelUser.self)
-        return try req.privateContainer
-            .make(LeafRenderer.self)
-            // TODO: Remove empty context when this gets fixed
-            // https://github.com/vapor/template-kit/issues/17
-            .render(AdminPanelViews.AdminPanelUser.create, ["user": user])
+        return try req.parameters.next(AdminPanelUser.self)
+            .populateFields(on: req)
+            .flatMap { user in
+                try req.privateContainer
+                    .make(LeafRenderer.self)
+                    .render(AdminPanelViews.AdminPanelUser.create, SingleUser(user: user))
+            }
+
     }
 
     func edit(_ req: Request) throws -> Future<Response> {
-        return try AdminPanelUser.update(on: req)
-            .map(to: Response.self) { update in
+        let user = try req.parameters.next(AdminPanelUser.self)
+        return user
+            .updateValid(on: req)
+            .save(on: req)
+            .map(to: Response.self) { user in
                 req
                     .redirect(to: "/admin/users")
-                    .flash(.success, "The user with email '\(update.email)' got updated successfully.")
+                    .flash(
+                        .success,
+                        "The user with email '\(user.email)' got updated successfully."
+                    )
             }
+            .catchFlatMap(handleValidationError(
+                path: AdminPanelViews.AdminPanelUser.create,
+                context: user.map(to: SingleUser.self) { .init(user: $0) },
+                on: req)
+            )
     }
 
     // MARK: Delete user
@@ -69,7 +93,20 @@ internal final class AdminPanelUserController {
 
                 return req
                     .redirect(to: "/admin/users")
-                    .flash(.success, "The user with email '\(user.email)' got deleted successfully.")
+                    .flash(
+                        .success,
+                        "The user with email '\(user.email)' got deleted successfully."
+                    )
             }
+    }
+}
+
+private extension AdminPanelUserController {
+    private struct SingleUser: Encodable {
+        let user: AdminPanelUser?
+    }
+
+    private struct MultipleUsers: Encodable {
+        let users: [AdminPanelUser]
     }
 }

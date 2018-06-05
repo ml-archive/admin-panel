@@ -20,20 +20,10 @@
         <form method="post" action="/admin/users/create">
     }
         <h4>User details</h4>
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" value="#(user.name)">
-        </div>
 
-        <div class="form-group">
-            <label for="title">Title</label>
-            <input type="text" class="form-control" id="title" name="title" placeholder="Enter title" value="#(user.title)">
-        </div>
-
-        <div class="form-group">
-            <label for="email">Email address</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" value="#(user.email)">
-        </div>
+        #submissions:input("name", "text", "Enter name")
+        #submissions:input("title", "text", "Enter title")
+        #submissions:input("email", "email", "Enter email")
 
         <hr>
 
@@ -41,16 +31,8 @@
 
         <p>Leaving the password fields blank will auto-generate a password for the user.</p>
 
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" placeholder="Enter password">
-            <small id="passwordHelp" class="form-text text-muted">Minimum 8 characters.</small>
-        </div>
-
-        <div class="form-group">
-            <label for="passwordRepeat">Password repeat</label>
-            <input type="password" class="form-control" id="passwordRepeat" name="passwordRepeat" placeholder="Enter password again">
-        </div>
+        #submissions:input("password", "password", "Enter password", "Minimum 8 characters.")
+        #submissions:input("passwordAgain", "password", "Enter password again")
   
         <div class="form-group form-check">
             <input type="checkbox" class="form-check-input" id="shouldResetPassword" name="shouldResetPassword" aria-describedby="shouldResetPasswordHelp" value="1">
@@ -61,6 +43,24 @@
         <button type="submit" class="btn btn-primary">Submit</button>
         <a href="/admin/users" class="btn btn-secondary">Cancel</a
     </form>
+}
+
+#set("javascript") {
+    <script>
+        let password = $("#password").get(0);
+        let passwordAgain = $("#passwordAgain").get(0);
+
+        function validatePassword(){
+          if(password.value != passwordAgain.value) {
+            passwordAgain.setCustomValidity("Passwords do not match.");
+          \} else {
+            passwordAgain.setCustomValidity('');
+          \}
+        \}
+
+        password.onchange = validatePassword;
+        passwordAgain.onkeyup = validatePassword;
+    </script>
 }
 
 #embed("AdminPanel/Layout/base")

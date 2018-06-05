@@ -69,6 +69,7 @@ extension AdminPanelUser: AdminPanelUserType {
         )
     }
 
+    // Registration is handled by Submittable (see AdminPanelUser+Submittable).
     public convenience init(_ registration: UserRegistration) throws {
         try self.init(
             email: registration.email,
@@ -79,27 +80,6 @@ extension AdminPanelUser: AdminPanelUserType {
         )
     }
 
-    public func update(with updated: UserUpdate) throws {
-        // TODO: Figure out how to validate
-        if let email = updated.email {
-            self.email = email
-        }
-
-        if let password = updated.password {
-            self.password = try AdminPanelUser.hashPassword(password)
-            self.passwordChangeCount = self.passwordChangeCount + 1
-        }
-
-        if let name = updated.name {
-            self.name = name
-        }
-
-        if let title = updated.title {
-            self.title = title
-        }
-
-        if let avatarUrl = updated.avatarUrl {
-            self.avatarUrl = avatarUrl
-        }
-    }
+    // Update is handled by Submittable (see AdminPanelUser+Submittable).
+    public func update(with updated: UserUpdate) throws {}
 }
