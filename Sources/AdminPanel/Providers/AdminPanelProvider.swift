@@ -36,8 +36,25 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
     public static var repositoryName: String { return "admin-panel" }
     public let config: AdminPanelConfig
 
+    public var middlewares: AdminPanelMiddlewares
+
     public init(config: AdminPanelConfig) {
         self.config = config
+
+        let unsecure: [Middleware] = [
+            AuthenticationSessionsMiddleware<U>(),
+            FlashMiddleware(),
+            CurrentUrlMiddleware()
+        ]
+
+        let secure = unsecure + [
+            RedirectMiddleware<U>(path: AdminPanelEndpoints.default.login)
+        ]
+
+        self.middlewares = .init(
+            unsecure: unsecure,
+            secure: secure
+        )
     }
 
     private var resetProvider: ResetProvider<U>!
@@ -114,16 +131,13 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
     /// See Service.Provider.boot
     public func didBoot(_ container: Container) throws -> Future<Void> {
         let router = try container.make(Router.self)
-
-//        let redis = try container.make(KeyedCacheSessions.self)
-
-//        let foo = SessionsMiddleware(cookieName: "vapor-sessions", sessions: redis)
-
-//        let middlewares: [Middleware] = [foo, AuthenticationSessionsMiddleware<User>()]
-//        router.grouped(middlewares).get(AdminPanelRoutes.login, use: UserController().renderLogin)
-
-
-        try routes(router, resetProvider: resetProvider)
+        let loginController = LoginController<U>(endpoints: AdminPanelEndpoints.default)
+        try routes(
+            router,
+            middlewares: middlewares,
+            loginController: loginController,
+            resetProvider: resetProvider
+        )
 
         return .done(on: container)
     }
