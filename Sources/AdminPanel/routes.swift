@@ -38,16 +38,28 @@ public struct AdminPanelEndpoints {
     }
 }
 
+public struct AdminPanelMiddlewares: Service {
+    public let unsecure: [Middleware]
+    public let secure: [Middleware]
+}
+
+/*
+ public static let middlewares: [Middleware] = [
+ AuthenticationSessionsMiddleware<U>(),
+ FlashMiddleware(),
+ CurrentUrlMiddleware()
+ ]
+ */
 
 internal extension AdminPanelProvider {
-    internal func routes(_ router: Router, resetProvider: ResetProvider<U>) throws {
-        let loginController = LoginController<U>(endpoints: AdminPanelEndpoints.default)
-
-        let middlewares: [Middleware] = [AuthenticationSessionsMiddleware<U>(), FlashMiddleware(), CurrentUrlMiddleware()]
-        let redirect = RedirectMiddleware<U>(path: loginController.endpoints.login)
-
-        let unprotected = router.grouped(middlewares)
-        let protected = unprotected.grouped(redirect)
+    internal func routes(
+        _ router: Router,
+        middlewares: AdminPanelMiddlewares,
+        loginController: LoginController<U>,
+        resetProvider: ResetProvider<U>
+    ) throws {
+        let unprotected = router.grouped(middlewares.unsecure)
+        let protected = router.grouped(middlewares.secure)
 
         // MARK: Login routes
 
@@ -61,7 +73,7 @@ internal extension AdminPanelProvider {
         protected.get(loginController.endpoints.dashboard, use: dashboardController.renderDashboard)
 
         // MARK: Admin Panel User routes
-        let adminPanelUserController = AdminPanelUserController()
+        let adminPanelUserController = AdminPanelUserController()  
         protected.get(loginController.endpoints.adminPanelUserList, use: adminPanelUserController.renderList)
         protected.get(loginController.endpoints.createAdminPanelUser, use: adminPanelUserController.renderCreate)
         protected.post(loginController.endpoints.createAdminPanelUser, use: adminPanelUserController.create)
