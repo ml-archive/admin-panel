@@ -38,16 +38,20 @@ public struct AdminPanelEndpoints {
     }
 }
 
+public struct AdminPanelMiddlewares {
+    public let unsecure: [Middleware]
+    public let secure: [Middleware]
+}
 
 internal extension AdminPanelProvider {
-    internal func routes(_ router: Router, resetProvider: ResetProvider<U>) throws {
-        let loginController = LoginController<U>(endpoints: AdminPanelEndpoints.default)
-
-        let middlewares: [Middleware] = [AuthenticationSessionsMiddleware<U>(), FlashMiddleware(), CurrentUrlMiddleware()]
-        let redirect = RedirectMiddleware<U>(path: loginController.endpoints.login)
-
-        let unprotected = router.grouped(middlewares)
-        let protected = unprotected.grouped(redirect)
+    internal func routes(
+        _ router: Router,
+        middlewares: AdminPanelMiddlewares,
+        loginController: LoginController<U>,
+        resetProvider: ResetProvider<U>
+    ) throws {
+        let unprotected = router.grouped(middlewares.unsecure)
+        let protected = router.grouped(middlewares.secure)
 
         // MARK: Login routes
 
