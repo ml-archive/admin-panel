@@ -38,18 +38,10 @@ public struct AdminPanelEndpoints {
     }
 }
 
-public struct AdminPanelMiddlewares: Service {
+public struct AdminPanelMiddlewares {
     public let unsecure: [Middleware]
     public let secure: [Middleware]
 }
-
-/*
- public static let middlewares: [Middleware] = [
- AuthenticationSessionsMiddleware<U>(),
- FlashMiddleware(),
- CurrentUrlMiddleware()
- ]
- */
 
 internal extension AdminPanelProvider {
     internal func routes(
@@ -73,7 +65,7 @@ internal extension AdminPanelProvider {
         protected.get(loginController.endpoints.dashboard, use: dashboardController.renderDashboard)
 
         // MARK: Admin Panel User routes
-        let adminPanelUserController = AdminPanelUserController()  
+        let adminPanelUserController = AdminPanelUserController()
         protected.get(loginController.endpoints.adminPanelUserList, use: adminPanelUserController.renderList)
         protected.get(loginController.endpoints.createAdminPanelUser, use: adminPanelUserController.renderCreate)
         protected.post(loginController.endpoints.createAdminPanelUser, use: adminPanelUserController.create)
