@@ -22,7 +22,7 @@ internal final class AdminPanelUserController {
             .make(LeafRenderer.self)
             // TODO: Remove empty context when this gets fixed
             // https://github.com/vapor/template-kit/issues/17
-            .render(AdminPanelViews.AdminPanelUser.create, [String: String]())
+            .render(AdminPanelViews.AdminPanelUser.editAndCreate, [String: String]())
             .encode(for: req)
     }
 
@@ -39,7 +39,7 @@ internal final class AdminPanelUserController {
                     )
             }
             .catchFlatMap(handleValidationError(
-                path: AdminPanelViews.AdminPanelUser.create,
+                path: AdminPanelViews.AdminPanelUser.editAndCreate,
                 on: req)
             )
     }
@@ -52,7 +52,7 @@ internal final class AdminPanelUserController {
             .flatMap { user in
                 try req.privateContainer
                     .make(LeafRenderer.self)
-                    .render(AdminPanelViews.AdminPanelUser.create, SingleUser(user: user))
+                    .render(AdminPanelViews.AdminPanelUser.editAndCreate, SingleUser(user: user))
             }
 
     }
@@ -71,7 +71,7 @@ internal final class AdminPanelUserController {
                     )
             }
             .catchFlatMap(handleValidationError(
-                path: AdminPanelViews.AdminPanelUser.create,
+                path: AdminPanelViews.AdminPanelUser.editAndCreate,
                 context: user.map(to: SingleUser.self) { .init(user: $0) },
                 on: req)
             )

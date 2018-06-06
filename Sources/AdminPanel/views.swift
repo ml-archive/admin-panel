@@ -13,6 +13,6 @@ internal enum AdminPanelViews {
 
     enum AdminPanelUser {
         static let index = prefix + "/AdminPanelUser/index"
-        static let create = prefix + "/AdminPanelUser/edit"
+        static let editAndCreate = prefix + "/AdminPanelUser/edit"
     }
 }
