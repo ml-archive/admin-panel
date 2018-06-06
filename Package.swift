@@ -21,7 +21,7 @@ let package = Package(
         .package(url: "https://github.com/nodes-vapor/flash.git", .branch("master")),
         .package(url: "https://github.com/nodes-vapor/bootstrap.git", .branch("master")),
         .package(url: "https://github.com/nodes-vapor/reset.git", .branch("master")),
-        .package(url: "https://github.com/nodes-vapor/submissions.git", from: "1.0.0-beta"),
+        .package(url: "https://github.com/nodes-vapor/submissions.git", .branch("master")),
     ],
     targets: [
         .target(
