@@ -9,20 +9,23 @@ public struct AdminPanelEndpoints {
     public let login: String
     public let logout: String
     public let dashboard: String
-    public let adminPanelUserList: String
+    public let renderAdminPanelUserList: String
+    public let renderCreateAdminPanelUser: String
     public let createAdminPanelUser: String
 
     public init(
         login: String,
         logout: String,
         dashboard: String,
-        adminPanelUserList: String,
+        renderAdminPanelUserList: String,
+        renderCreateAdminPanelUser: String,
         createAdminPanelUser: String
     ) {
         self.login = login
         self.logout = logout
         self.dashboard = dashboard
-        self.adminPanelUserList = adminPanelUserList
+        self.renderAdminPanelUserList = renderAdminPanelUserList
+        self.renderCreateAdminPanelUser = renderCreateAdminPanelUser
         self.createAdminPanelUser = createAdminPanelUser
     }
 
@@ -32,7 +35,8 @@ public struct AdminPanelEndpoints {
             login: admin + "/login",
             logout: admin + "/logout",
             dashboard: admin + "/dashboard",
-            adminPanelUserList: admin + "/users",
+            renderAdminPanelUserList: admin + "/users",
+            renderCreateAdminPanelUser: admin + "/users/create",
             createAdminPanelUser: admin + "/users/create"
         )
     }
@@ -47,17 +51,19 @@ internal extension AdminPanelProvider {
     internal func routes(
         _ router: Router,
         middlewares: AdminPanelMiddlewares,
-        loginController: LoginController<U>,
+        endpoints: AdminPanelEndpoints,
         resetProvider: ResetProvider<U>
     ) throws {
+
         let unprotected = router.grouped(middlewares.unsecure)
         let protected = router.grouped(middlewares.secure)
 
         // MARK: Login routes
 
-        unprotected.get(loginController.endpoints.login, use: loginController.renderLogin)
-        unprotected.post(loginController.endpoints.login, use: loginController.login)
-        unprotected.get(loginController.endpoints.logout, use: loginController.logout)
+        let loginController = LoginController<U>(endpoints: endpoints)
+        unprotected.get(endpoints.login, use: loginController.renderLogin)
+        unprotected.post(endpoints.login, use: loginController.login)
+        unprotected.get(endpoints.logout, use: loginController.logout)
 
         // MARK: Dashboard routes
 
@@ -66,9 +72,9 @@ internal extension AdminPanelProvider {
 
         // MARK: Admin Panel User routes
         let adminPanelUserController = AdminPanelUserController()
-        protected.get(loginController.endpoints.adminPanelUserList, use: adminPanelUserController.renderList)
-        protected.get(loginController.endpoints.createAdminPanelUser, use: adminPanelUserController.renderCreate)
-        protected.post(loginController.endpoints.createAdminPanelUser, use: adminPanelUserController.create)
+        protected.get(endpoints.renderAdminPanelUserList, use: adminPanelUserController.renderList)
+        protected.get(endpoints.renderCreateAdminPanelUser, use: adminPanelUserController.renderCreate)
+        protected.post(endpoints.createAdminPanelUser, use: adminPanelUserController.create)
         protected.get("/admin/users", AdminPanelUser.parameter, "edit", use: adminPanelUserController.renderEdit)
         protected.post("/admin/users", AdminPanelUser.parameter, "edit", use: adminPanelUserController.edit)
         protected.post("/admin/users", AdminPanelUser.parameter, "delete", use: adminPanelUserController.delete)

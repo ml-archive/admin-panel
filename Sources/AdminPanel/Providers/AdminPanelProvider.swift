@@ -131,11 +131,10 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
     /// See Service.Provider.boot
     public func didBoot(_ container: Container) throws -> Future<Void> {
         let router = try container.make(Router.self)
-        let loginController = LoginController<U>(endpoints: AdminPanelEndpoints.default)
         try routes(
             router,
             middlewares: middlewares,
-            loginController: loginController,
+            endpoints: AdminPanelEndpoints.default,
             resetProvider: resetProvider
         )
 
