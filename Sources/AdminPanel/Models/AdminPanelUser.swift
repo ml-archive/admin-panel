@@ -38,16 +38,9 @@ extension AdminPanelUser: Content {}
 extension AdminPanelUser: Migration {}
 extension AdminPanelUser: Parameter {}
 extension AdminPanelUser: Timestampable {
-    public static var createdAtKey: WritableKeyPath<AdminPanelUser, Date?> {
-        return \.createdAt
-    }
-
-    public static var updatedAtKey: WritableKeyPath<AdminPanelUser, Date?> {
-        return \.updatedAt
-    }
+    public static let createdAtKey: WritableKeyPath<AdminPanelUser, Date?> = \AdminPanelUser.createdAt
+    public static let updatedAtKey: WritableKeyPath<AdminPanelUser, Date?> = \AdminPanelUser.updatedAt
 }
 extension AdminPanelUser: SoftDeletable {
-    public static var deletedAtKey: WritableKeyPath<AdminPanelUser, Date?> {
-        return \.deletedAt
-    }
+    public static let deletedAtKey: WritableKeyPath<AdminPanelUser, Date?> = \AdminPanelUser.deletedAt
 }
