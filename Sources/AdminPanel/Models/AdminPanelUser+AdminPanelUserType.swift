@@ -7,21 +7,15 @@ extension AdminPanelUser: AdminPanelUserType {
     public typealias Update = UserUpdate
     public typealias Public = UserPublic
 
-    public static var usernameKey: WritableKeyPath<AdminPanelUser, String> {
-        return \.email
-    }
+    public static let usernameKey: WritableKeyPath<AdminPanelUser, String> = \.email
+    public static let passwordKey: WritableKeyPath<AdminPanelUser, String> = \.password
 
-    public static var passwordKey: WritableKeyPath<AdminPanelUser, String> {
-        return \.password
-    }
+    public struct UserLogin: HasReadablePassword, HasReadableUsername {
+        public static let readablePasswordKey = \UserLogin.password
+        public static let readableUsernameKey = \UserLogin.email
 
-    public struct UserLogin: HasReadablePassword, HasReadableUser {
         public let email: String
         public let password: String
-
-        public var username: String {
-            return email
-        }
     }
 
     public struct UserPublic: Content {
@@ -31,7 +25,10 @@ extension AdminPanelUser: AdminPanelUserType {
         public let avatarUrl: String?
     }
 
-    public struct UserRegistration: HasReadablePassword, HasReadableUser {
+    public struct UserRegistration: HasReadablePassword, HasReadableUsername {
+        public static let readablePasswordKey = \UserRegistration.password
+        public static let readableUsernameKey = \UserRegistration.email
+
         public let email: String
         public let name: String
         public let title: String?
@@ -39,13 +36,13 @@ extension AdminPanelUser: AdminPanelUserType {
         public let password: String
         public let passwordRepeat: String
         public let shouldResetPassword: Bool?
-
-        public var username: String {
-            return email
-        }
     }
 
     public struct UserUpdate: Decodable, HasUpdatableUsername, HasUpdatablePassword {
+        public static let oldPasswordKey = \UserUpdate.oldPassword
+        public static let updatablePasswordKey = \UserUpdate.password
+        public static let updatableUsernameKey = \UserUpdate.email
+
         public let email: String?
         public let name: String?
         public let title: String?
@@ -54,10 +51,6 @@ extension AdminPanelUser: AdminPanelUserType {
         public let oldPassword: String?
         public let passwordRepeat: String?
         public let shouldResetPassword: Bool?
-
-        public var username: String? {
-            return email
-        }
     }
 
     public func convertToPublic() -> UserPublic {

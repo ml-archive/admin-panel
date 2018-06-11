@@ -14,7 +14,7 @@ extension AdminPanelProvider {
             "adminpanel:config": AdminPanelConfigTag(),
             "adminpanel:sidebar:menuitem": SidebarMenuItemTag(),
             "adminpanel:sidebar:heading": SidebarHeadingTag(),
-            "adminpanel:avatarurl": AvatarUrlTag(),
+            "adminpanel:avatarurl": AvatarURLTag(),
             "adminpanel:user": UserTag()
         ]
         .merging(FlashProvider.tags) { (adminpanel, flash) in adminpanel }
@@ -60,8 +60,6 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
         )
     }
 
-    private var resetProvider: ResetProvider<U>!
-
     /// See Service.Provider.Register
     public func register(_ services: inout Services) throws {
         try services.register(LeafProvider())
@@ -80,7 +78,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
         try services.register(CurrentUserProvider<U>())
         try services.register(SubmissionsProvider())
 
-        resetProvider = ResetProvider<U>(
+        let resetProvider = ResetProvider<U>(
             config: .init(
                 name: config.name,
                 baseUrl: config.baseUrl,
@@ -134,12 +132,11 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
 
     /// See Service.Provider.boot
     public func didBoot(_ container: Container) throws -> Future<Void> {
-        let router = try container.make(Router.self)
         try routes(
-            router,
+            container.make(),
             middlewares: middlewares,
             endpoints: AdminPanelEndpoints.default,
-            resetProvider: resetProvider
+            resetProvider: container.make()
         )
 
         return .done(on: container)
