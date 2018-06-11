@@ -14,7 +14,7 @@ extension AdminPanelProvider {
             "adminpanel:config": AdminPanelConfigTag(),
             "adminpanel:sidebar:menuitem": SidebarMenuItemTag(),
             "adminpanel:sidebar:heading": SidebarheadingTag(),
-            "adminpanel:avatarurl": AvatarUrlTag(),
+            "adminpanel:avatarurl": AvatarURLTag(),
         ]
         .merging(FlashProvider.tags) { (adminpanel, flash) in adminpanel }
         .merging(BootstrapProvider.tags) { (adminpanel, bootstrap) in adminpanel }

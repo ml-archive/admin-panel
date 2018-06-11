@@ -7,17 +7,13 @@ import Vapor
 
 extension AdminPanelUser: PasswordResettable {
     public typealias JWTPayload = ModelPayload<AdminPanelUser>
-    public typealias RequestLinkType = RequestLink
-    public typealias ResetPasswordType = ResetPassword
 
-    public struct RequestLink: Decodable, HasReadableUser {
+    public struct RequestLink: Decodable, HasReadableUsername {
+        public static let readableUsernameKey = \RequestLink.email
         public let email: String
-
-        public var username: String {
-            return email
-        }
     }
     public struct ResetPassword: Decodable, HasReadablePassword {
+        public static let readablePasswordKey = \ResetPassword.password
         public let password: String
     }
 
