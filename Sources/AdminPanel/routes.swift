@@ -12,6 +12,7 @@ public struct AdminPanelEndpoints {
     public let renderAdminPanelUserList: String
     public let renderCreateAdminPanelUser: String
     public let createAdminPanelUser: String
+    public let renderEditMe: String
 
     public init(
         login: String,
@@ -19,7 +20,8 @@ public struct AdminPanelEndpoints {
         dashboard: String,
         renderAdminPanelUserList: String,
         renderCreateAdminPanelUser: String,
-        createAdminPanelUser: String
+        createAdminPanelUser: String,
+        renderEditMe: String
     ) {
         self.login = login
         self.logout = logout
@@ -27,6 +29,7 @@ public struct AdminPanelEndpoints {
         self.renderAdminPanelUserList = renderAdminPanelUserList
         self.renderCreateAdminPanelUser = renderCreateAdminPanelUser
         self.createAdminPanelUser = createAdminPanelUser
+        self.renderEditMe = renderEditMe
     }
 
     public static var `default`: AdminPanelEndpoints {
@@ -37,7 +40,8 @@ public struct AdminPanelEndpoints {
             dashboard: admin + "/dashboard",
             renderAdminPanelUserList: admin + "/users",
             renderCreateAdminPanelUser: admin + "/users/create",
-            createAdminPanelUser: admin + "/users/create"
+            createAdminPanelUser: admin + "/users/create",
+            renderEditMe: admin + "/users/me/edit"
         )
     }
 }
@@ -75,9 +79,11 @@ internal extension AdminPanelProvider {
         protected.get(endpoints.renderAdminPanelUserList, use: adminPanelUserController.renderList)
         protected.get(endpoints.renderCreateAdminPanelUser, use: adminPanelUserController.renderCreate)
         protected.post(endpoints.createAdminPanelUser, use: adminPanelUserController.create)
-        protected.get("/admin/users", AdminPanelUser.parameter, "edit", use: adminPanelUserController.renderEdit)
-        protected.post("/admin/users", AdminPanelUser.parameter, "edit", use: adminPanelUserController.edit)
+        protected.get("/admin/users", AdminPanelUser.parameter, "edit", use: adminPanelUserController.renderEditUser)
+        protected.post("/admin/users", AdminPanelUser.parameter, "edit", use: adminPanelUserController.editUser)
         protected.post("/admin/users", AdminPanelUser.parameter, "delete", use: adminPanelUserController.delete)
+        protected.get("/admin/users/me/edit", use: adminPanelUserController.renderEditMe)
+        protected.post("/admin/users/me/edit", use: adminPanelUserController.editMe)
 
         // Reset routes
         let resetEndpoints = resetProvider.config.endpoints

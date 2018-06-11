@@ -9,6 +9,7 @@ public final class AdminPanelUser: Codable {
     public var avatarUrl: String?
     public var password: String
     public var passwordChangeCount: Int
+    public var shouldResetPassword: Bool
 
     public var createdAt: Date?
     public var updatedAt: Date?
@@ -21,7 +22,8 @@ public final class AdminPanelUser: Codable {
         title: String? = nil,
         avatarUrl: String? = nil,
         password: String,
-        passwordChangeCount: Int = 0
+        passwordChangeCount: Int = 0,
+        shouldResetPassword: Bool = false
     ) throws {
         self.id = id
         self.email = email
@@ -30,6 +32,7 @@ public final class AdminPanelUser: Codable {
         self.avatarUrl = avatarUrl
         self.password = password
         self.passwordChangeCount = passwordChangeCount
+        self.shouldResetPassword = shouldResetPassword
     }
 }
 

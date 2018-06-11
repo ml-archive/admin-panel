@@ -10,6 +10,7 @@ extension AdminPanelUser: Submittable {
         let title: String?
         let password: String?
         let passwordAgain: String?
+        let shouldResetPassword: Bool?
 
         public init(_ user: AdminPanelUser?) {
             email = user?.email
@@ -17,6 +18,7 @@ extension AdminPanelUser: Submittable {
             title = user?.title
             password = nil
             passwordAgain = nil
+            shouldResetPassword = user?.shouldResetPassword
         }
 
         public func fieldEntries() throws -> [FieldEntry<AdminPanelUser>] {
@@ -57,6 +59,11 @@ extension AdminPanelUser: Submittable {
                     label: "Password again",
                     validators: [.count(8...)],
                     isRequired: false
+                ),
+                makeFieldEntry(
+                    keyPath: \Submission.shouldResetPassword,
+                    label: "Should reset password",
+                    isRequired: false
                 )
             ]
         }
@@ -67,6 +74,7 @@ extension AdminPanelUser: Submittable {
         let name: String
         let title: String?
         let password: String
+        let shouldResetPassword: Bool?
     }
 
     public convenience init(_ create: Create) throws {
@@ -81,7 +89,8 @@ extension AdminPanelUser: Submittable {
             email: create.email,
             name: create.name,
             title: create.title,
-            password: AdminPanelUser.hashPassword(password)
+            password: AdminPanelUser.hashPassword(password),
+            shouldResetPassword: create.shouldResetPassword ?? false
         )
     }
 
@@ -98,6 +107,7 @@ extension AdminPanelUser: Submittable {
 
         if let password = submission.password, !password.isEmpty {
             self.password = try AdminPanelUser.hashPassword(password)
+            self.shouldResetPassword = false
         }
     }
 }

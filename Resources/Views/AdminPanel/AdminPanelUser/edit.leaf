@@ -15,7 +15,7 @@
 
 #set("content") {
     #if(user) {
-        <form method="post" action="/admin/users/#(user.id)/edit">
+        <form method="post">
     } else {
         <form method="post" action="/admin/users/create">
     }
@@ -29,16 +29,21 @@
 
         <h4>Choose password</h4>
 
-        <p>Leaving the password fields blank will auto-generate a password for the user.</p>
+        #if(user == nil) {
+            <p>Leaving the password fields blank will auto-generate a password for the user.</p>
+        }
 
         #submissions:input("password", "password", "Enter password", "Minimum 8 characters.")
         #submissions:input("passwordAgain", "password", "Enter password again")
   
-        <div class="form-group form-check">
-            <input type="checkbox" class="form-check-input" id="shouldResetPassword" name="shouldResetPassword" aria-describedby="shouldResetPasswordHelp" value="1">
-            <label class="form-check-label" for="shouldResetPassword">Should reset password</label>
-            <small id="shouldResetPasswordHelp" class="form-text text-muted">This will require the user to set a new password after logging in the first time.</small>
-        </div>
+
+        #if(user == nil) {
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="shouldResetPassword" name="shouldResetPassword" aria-describedby="shouldResetPasswordHelp" value="1">
+                <label class="form-check-label" for="shouldResetPassword">Should reset password</label>
+                <small id="shouldResetPasswordHelp" class="form-text text-muted">This will require the user to set a new password after logging in the first time.</small>
+            </div>
+        }
   
         <button type="submit" class="btn btn-primary">Submit</button>
         <a href="/admin/users" class="btn btn-secondary">Cancel</a>

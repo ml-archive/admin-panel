@@ -5,7 +5,6 @@ public final class AvatarUrlTag: TagRenderer {
     public func render(tag: TagContext) throws -> EventLoopFuture<TemplateData> {
         var identifier = ""
         var url: String?
-        //var paths: [String] = []
 
         for index in 0...1 {
             if

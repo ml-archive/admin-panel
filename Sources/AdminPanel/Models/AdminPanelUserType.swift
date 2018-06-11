@@ -8,4 +8,6 @@ public protocol AdminPanelUserType:
     PasswordAuthenticatable,
     PasswordResettable,
     SessionAuthenticatable
-{}
+{
+    var shouldResetPassword: Bool { get }
+}

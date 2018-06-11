@@ -46,19 +46,37 @@ internal final class AdminPanelUserController {
 
     // MARK: Edit user
 
-    func renderEdit(_ req: Request) throws -> Future<View> {
-        return try req.parameters.next(AdminPanelUser.self)
+    func renderEditMe(_ req: Request) throws -> Future<View> {
+        let user = try req.requireAuthenticated(AdminPanelUser.self)
+        return try renderEdit(req, user: Future.transform(to: user, on: req))
+    }
+
+    func renderEditUser(_ req: Request) throws -> Future<View> {
+        let user = try req.parameters.next(AdminPanelUser.self)
+        return try renderEdit(req, user: user)
+    }
+
+    private func renderEdit(_ req: Request, user: Future<AdminPanelUser>) throws -> Future<View> {
+        return user
             .populateFields(on: req)
             .flatMap { user in
                 try req.privateContainer
                     .make(LeafRenderer.self)
                     .render(AdminPanelViews.AdminPanelUser.editAndCreate, SingleUser(user: user))
             }
-
     }
 
-    func edit(_ req: Request) throws -> Future<Response> {
+    func editMe(_ req: Request) throws -> Future<Response> {
+        let user = try req.requireAuthenticated(AdminPanelUser.self)
+        return try edit(req, user: Future.transform(to: user, on: req))
+    }
+
+    func editUser(_ req: Request) throws -> Future<Response> {
         let user = try req.parameters.next(AdminPanelUser.self)
+        return try edit(req, user: user)
+    }
+
+    private func edit(_ req: Request, user: Future<AdminPanelUser>) throws -> Future<Response> {
         return user
             .updateValid(on: req)
             .save(on: req)

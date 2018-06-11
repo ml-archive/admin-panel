@@ -1,7 +1,7 @@
 import Leaf
 import TemplateKit
 
-public final class SidebarheadingTag: TagRenderer {
+public final class SidebarHeadingTag: TagRenderer {
     public func render(tag: TagContext) throws -> EventLoopFuture<TemplateData> {
         let body = try tag.requireBody()
 

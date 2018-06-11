@@ -13,8 +13,9 @@ extension AdminPanelProvider {
         return [
             "adminpanel:config": AdminPanelConfigTag(),
             "adminpanel:sidebar:menuitem": SidebarMenuItemTag(),
-            "adminpanel:sidebar:heading": SidebarheadingTag(),
+            "adminpanel:sidebar:heading": SidebarHeadingTag(),
             "adminpanel:avatarurl": AvatarUrlTag(),
+            "adminpanel:user": UserTag()
         ]
         .merging(FlashProvider.tags) { (adminpanel, flash) in adminpanel }
         .merging(BootstrapProvider.tags) { (adminpanel, bootstrap) in adminpanel }
@@ -47,8 +48,10 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
             CurrentUrlMiddleware()
         ]
 
-        let secure = unsecure + [
-            RedirectMiddleware<U>(path: AdminPanelEndpoints.default.login)
+        let secure: [Middleware] = unsecure + [
+            RedirectMiddleware<U>(path: AdminPanelEndpoints.default.login),
+            ShouldResetPasswordMiddleware<U>(path: AdminPanelEndpoints.default.renderEditMe),
+            CurrentUserMiddleware<U>()
         ]
 
         self.middlewares = .init(
@@ -74,6 +77,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
         ))
         try services.register(FlashProvider())
         try services.register(CurrentURLProvider())
+        try services.register(CurrentUserProvider<U>())
         try services.register(SubmissionsProvider())
 
         resetProvider = ResetProvider<U>(
