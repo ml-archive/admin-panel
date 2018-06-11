@@ -2,7 +2,7 @@ import Leaf
 import TemplateKit
 
 public final class AvatarUrlTag: TagRenderer {
-    public func render(tag: TagContext) throws -> EventLoopFuture<TemplateData> {
+    public func render(tag: TagContext) throws -> Future<TemplateData> {
         var identifier = ""
         var url: String?
         //var paths: [String] = []

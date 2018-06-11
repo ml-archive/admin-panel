@@ -2,7 +2,7 @@ import Leaf
 import TemplateKit
 
 public final class SidebarheadingTag: TagRenderer {
-    public func render(tag: TagContext) throws -> EventLoopFuture<TemplateData> {
+    public func render(tag: TagContext) throws -> Future<TemplateData> {
         let body = try tag.requireBody()
 
         return tag.serializer.serialize(ast: body).map(to: TemplateData.self) { body in
