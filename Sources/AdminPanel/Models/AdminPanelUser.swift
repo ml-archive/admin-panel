@@ -37,10 +37,12 @@ extension AdminPanelUser: MySQLModel {}
 extension AdminPanelUser: Content {}
 extension AdminPanelUser: Migration {}
 extension AdminPanelUser: Parameter {}
+
 extension AdminPanelUser: Timestampable {
     public static let createdAtKey: WritableKeyPath<AdminPanelUser, Date?> = \AdminPanelUser.createdAt
     public static let updatedAtKey: WritableKeyPath<AdminPanelUser, Date?> = \AdminPanelUser.updatedAt
 }
+
 extension AdminPanelUser: SoftDeletable {
     public static let deletedAtKey: WritableKeyPath<AdminPanelUser, Date?> = \AdminPanelUser.deletedAt
 }
