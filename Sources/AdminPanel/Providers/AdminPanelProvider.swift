@@ -60,6 +60,8 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
         )
     }
 
+    private var resetProvider: ResetProvider<U>!
+
     /// See Service.Provider.Register
     public func register(_ services: inout Services) throws {
         try services.register(LeafProvider())
@@ -78,7 +80,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
         try services.register(CurrentUserProvider<U>())
         try services.register(SubmissionsProvider())
 
-        let resetProvider = ResetProvider<U>(
+        resetProvider = ResetProvider<U>(
             config: .init(
                 name: config.name,
                 baseUrl: config.baseUrl,
@@ -136,7 +138,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
             container.make(),
             middlewares: middlewares,
             endpoints: AdminPanelEndpoints.default,
-            resetProvider: container.make()
+            resetProvider: resetProvider
         )
 
         return .done(on: container)
