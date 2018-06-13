@@ -138,7 +138,8 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
             container.make(),
             middlewares: middlewares,
             endpoints: AdminPanelEndpoints.default,
-            resetProvider: resetProvider
+            resetProvider: resetProvider,
+            config: container.make()
         )
 
         return .done(on: container)

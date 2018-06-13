@@ -1,12 +1,30 @@
 import Fluent
+import Submissions
 import Vapor
 import Leaf
 
-internal final class AdminPanelUserController {
+public protocol AdminPanelUserControllerType {
+    func renderList(_ req: Request) throws -> Future<View>
+    func renderCreate(_ req: Request) throws -> Future<Response>
+    func create(_ req: Request) throws -> Future<Response>
+    func renderEditMe(_ req: Request) throws -> Future<View>
+    func editMe(_ req: Request) throws -> Future<Response>
+    func renderEditUser(_ req: Request) throws -> Future<View>
+    func editUser(_ req: Request) throws -> Future<Response>
+    func delete(_ req: Request) throws -> Future<Response>
+}
+
+internal final class AdminPanelUserController
+    <U: AdminPanelUserType>: AdminPanelUserControllerType
+where
+    U: Submittable,
+    U.ResolvedParameter == Future<U>,
+    U.ID: LosslessStringConvertible
+{
     // MARK: List
 
     func renderList(_ req: Request) throws -> Future<View> {
-        return AdminPanelUser.query(on: req).all()
+        return U.query(on: req).all()
             .flatMap(to: View.self) { users in
                 return try req.privateContainer
                     .make(LeafRenderer.self)
@@ -17,7 +35,7 @@ internal final class AdminPanelUserController {
     // MARK: Create user
 
     func renderCreate(_ req: Request) throws -> Future<Response> {
-        try req.populateFields(AdminPanelUser.self)
+        try req.populateFields(U.self)
         return try req.privateContainer
             .make(LeafRenderer.self)
             // TODO: Remove empty context when this gets fixed
@@ -27,7 +45,7 @@ internal final class AdminPanelUserController {
     }
 
     func create(_ req: Request) throws -> Future<Response> {
-        return try req.content.decode(AdminPanelUser.Submission.self)
+        return try req.content.decode(U.Submission.self)
             .createValid(on: req)
             .save(on: req)
             .map(to: Response.self) { user in
@@ -35,7 +53,10 @@ internal final class AdminPanelUserController {
                     .redirect(to: "/admin/users")
                     .flash(
                         .success,
-                        "The user with email '\(user.email)' got created successfully."
+                        """
+                        The user with email '\(user[keyPath: U.usernameKey])'
+                         got created successfully.
+                        """
                     )
             }
             .catchFlatMap(handleValidationError(
@@ -47,16 +68,16 @@ internal final class AdminPanelUserController {
     // MARK: Edit user
 
     func renderEditMe(_ req: Request) throws -> Future<View> {
-        let user = try req.requireAuthenticated(AdminPanelUser.self)
+        let user = try req.requireAuthenticated(U.self)
         return try renderEdit(req, user: Future.transform(to: user, on: req))
     }
 
     func renderEditUser(_ req: Request) throws -> Future<View> {
-        let user = try req.parameters.next(AdminPanelUser.self)
+        let user = try req.parameters.next(U.self)
         return try renderEdit(req, user: user)
     }
 
-    private func renderEdit(_ req: Request, user: Future<AdminPanelUser>) throws -> Future<View> {
+    private func renderEdit(_ req: Request, user: Future<U>) throws -> Future<View> {
         return user
             .populateFields(on: req)
             .flatMap { user in
@@ -67,16 +88,16 @@ internal final class AdminPanelUserController {
     }
 
     func editMe(_ req: Request) throws -> Future<Response> {
-        let user = try req.requireAuthenticated(AdminPanelUser.self)
+        let user = try req.requireAuthenticated(U.self)
         return try edit(req, user: Future.transform(to: user, on: req))
     }
 
     func editUser(_ req: Request) throws -> Future<Response> {
-        let user = try req.parameters.next(AdminPanelUser.self)
+        let user = try req.parameters.next(U.self)
         return try edit(req, user: user)
     }
 
-    private func edit(_ req: Request, user: Future<AdminPanelUser>) throws -> Future<Response> {
+    private func edit(_ req: Request, user: Future<U>) throws -> Future<Response> {
         return user
             .updateValid(on: req)
             .save(on: req)
@@ -85,7 +106,10 @@ internal final class AdminPanelUserController {
                     .redirect(to: "/admin/users")
                     .flash(
                         .success,
-                        "The user with email '\(user.email)' got updated successfully."
+                        """
+                        The user with username '\(user[keyPath: U.usernameKey])'
+                         got updated successfully.
+                        """
                     )
             }
             .catchFlatMap(handleValidationError(
@@ -98,11 +122,11 @@ internal final class AdminPanelUserController {
     // MARK: Delete user
 
     func delete(_ req: Request) throws -> Future<Response> {
-        let auth = try req.requireAuthenticated(AdminPanelUser.self)
-        let user = try req.parameters.next(AdminPanelUser.self)
+        let auth = try req.requireAuthenticated(U.self)
+        let user = try req.parameters.next(U.self)
         return user.delete(on: req)
             .map(to: Response.self) { user in
-                guard auth.id != user.id else {
+                guard auth[keyPath: U.usernameKey] != user[keyPath: U.usernameKey] else {
                     return req
                         .redirect(to: "/admin/login")
                         .flash(.success, "Your user has now been deleted.")
@@ -113,7 +137,10 @@ internal final class AdminPanelUserController {
                     .redirect(to: "/admin/users")
                     .flash(
                         .success,
-                        "The user with email '\(user.email)' got deleted successfully."
+                        """
+                        The user with username '\(user[keyPath: U.usernameKey])'
+                         got deleted successfully.
+                        """
                     )
             }
     }
@@ -121,10 +148,10 @@ internal final class AdminPanelUserController {
 
 private extension AdminPanelUserController {
     private struct SingleUser: Encodable {
-        let user: AdminPanelUser?
+        let user: U?
     }
 
     private struct MultipleUsers: Encodable {
-        let users: [AdminPanelUser]
+        let users: [U]
     }
 }

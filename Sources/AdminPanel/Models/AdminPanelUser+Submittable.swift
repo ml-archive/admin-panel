@@ -40,12 +40,12 @@ extension AdminPanelUser: Submittable {
                 makeFieldEntry(
                     keyPath: \Submission.name,
                     label: "Name",
-                    validators: [.count(5...191)]
+                    validators: [.count(2...191)]
                 ),
                 makeFieldEntry(
                     keyPath: \Submission.title,
                     label: "Title",
-                    validators: [.count(5...191)],
+                    validators: [.count(...191)],
                     isRequired: false
                 ),
                 makeFieldEntry(

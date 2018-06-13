@@ -4,16 +4,17 @@ import Leaf
 import Authentication
 import Flash
 
-internal final class LoginController<U: AdminPanelUserType> {
-    internal let endpoints: AdminPanelEndpoints
+public protocol LoginControllerType {
+    func login(_ req: Request) throws -> Future<Response>
+    func renderLogin(_ req: Request) throws -> Future<Response>
+    func logout(_ req: Request) throws -> Response
+}
 
-    init(endpoints: AdminPanelEndpoints) {
-        self.endpoints = endpoints
-    }
-
+internal final class LoginController<U: AdminPanelUserType>: LoginControllerType {
     // MARK: Login
 
     func login(_ req: Request) throws -> Future<Response> {
+        let endpoints = try req.make(AdminPanelConfig.self).endpoints
         return try req
             .content
             .decode(U.Login.self)
@@ -26,20 +27,21 @@ internal final class LoginController<U: AdminPanelUserType> {
             }
             .map(to: Response.self) { user in
                 req
-                    .redirect(to: self.endpoints.dashboard)
+                    .redirect(to: endpoints.dashboard)
                     .flash(.success, "Logged in as \(user[keyPath: U.usernameKey])")
             }
             .mapIfError { error in
                 req
-                    .redirect(to: self.endpoints.login)
+                    .redirect(to: endpoints.login)
                     .flash(.error, "Invalid username and/or password")
             }
     }
 
     func renderLogin(_ req: Request) throws -> Future<Response> {
+        let endpoints = try req.make(AdminPanelConfig.self).endpoints
         guard try !req.isAuthenticated(U.self) else {
             return Future.map(on: req) {
-                req.redirect(to: self.endpoints.dashboard)
+                req.redirect(to: endpoints.dashboard)
             }
         }
 
@@ -54,6 +56,7 @@ internal final class LoginController<U: AdminPanelUserType> {
     // MARK: Log out
 
     func logout(_ req: Request) throws -> Response {
+        let endpoints = try req.make(AdminPanelConfig.self).endpoints
         try req.unauthenticateSession(U.self)
         return req.redirect(to: endpoints.login).flash(.success, "Logged out")
     }

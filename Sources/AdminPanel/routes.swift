@@ -56,7 +56,8 @@ internal extension AdminPanelProvider {
         _ router: Router,
         middlewares: AdminPanelMiddlewares,
         endpoints: AdminPanelEndpoints,
-        resetProvider: ResetProvider<U>
+        resetProvider: ResetProvider<U>,
+        config: AdminPanelConfig
     ) throws {
 
         let unprotected = router.grouped(middlewares.unsecure)
@@ -64,26 +65,57 @@ internal extension AdminPanelProvider {
 
         // MARK: Login routes
 
-        let loginController = LoginController<U>(endpoints: endpoints)
-        unprotected.get(endpoints.login, use: loginController.renderLogin)
-        unprotected.post(endpoints.login, use: loginController.login)
-        unprotected.get(endpoints.logout, use: loginController.logout)
+        unprotected.get(endpoints.login, use: config.controllers.loginController.renderLogin)
+        unprotected.post(endpoints.login, use: config.controllers.loginController.login)
+        unprotected.get(endpoints.logout, use: config.controllers.loginController.logout)
 
         // MARK: Dashboard routes
 
-        let dashboardController = DashboardController()
-        protected.get(loginController.endpoints.dashboard, use: dashboardController.renderDashboard)
+        protected.get(
+            config.endpoints.dashboard,
+            use: config.controllers.dashboardController.renderDashboard
+        )
 
         // MARK: Admin Panel User routes
-        let adminPanelUserController = AdminPanelUserController()
-        protected.get(endpoints.renderAdminPanelUserList, use: adminPanelUserController.renderList)
-        protected.get(endpoints.renderCreateAdminPanelUser, use: adminPanelUserController.renderCreate)
-        protected.post(endpoints.createAdminPanelUser, use: adminPanelUserController.create)
-        protected.get("/admin/users", AdminPanelUser.parameter, "edit", use: adminPanelUserController.renderEditUser)
-        protected.post("/admin/users", AdminPanelUser.parameter, "edit", use: adminPanelUserController.editUser)
-        protected.post("/admin/users", AdminPanelUser.parameter, "delete", use: adminPanelUserController.delete)
-        protected.get("/admin/users/me/edit", use: adminPanelUserController.renderEditMe)
-        protected.post("/admin/users/me/edit", use: adminPanelUserController.editMe)
+
+        protected.get(
+            config.endpoints.renderAdminPanelUserList,
+            use: config.controllers.adminPanelUserController.renderList
+        )
+        protected.get(
+            config.endpoints.renderCreateAdminPanelUser,
+            use: config.controllers.adminPanelUserController.renderCreate
+        )
+        protected.post(
+            config.endpoints.createAdminPanelUser,
+            use: config.controllers.adminPanelUserController.create
+        )
+        protected.get(
+            "/admin/users",
+            U.parameter,
+            "edit",
+            use: config.controllers.adminPanelUserController.renderEditUser
+        )
+        protected.post(
+            "/admin/users",
+            U.parameter,
+            "edit",
+            use: config.controllers.adminPanelUserController.editUser
+        )
+        protected.post(
+            "/admin/users",
+            U.parameter,
+            "delete",
+            use: config.controllers.adminPanelUserController.delete
+        )
+        protected.get(
+            "/admin/users/me/edit",
+            use: config.controllers.adminPanelUserController.renderEditMe
+        )
+        protected.post(
+            "/admin/users/me/edit",
+            use: config.controllers.adminPanelUserController.editMe
+        )
 
         // Reset routes
         let resetEndpoints = resetProvider.config.endpoints
