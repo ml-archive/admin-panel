@@ -11,6 +11,8 @@ public protocol LoginControllerType {
 }
 
 public final class LoginController<U: AdminPanelUserType>: LoginControllerType {
+    public init() {}
+
     // MARK: Login
 
     public func login(_ req: Request) throws -> Future<Response> {

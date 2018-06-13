@@ -21,6 +21,8 @@ where
     U.ResolvedParameter == Future<U>,
     U.ID: LosslessStringConvertible
 {
+    public init() {}
+
     // MARK: List
 
     public func renderList(_ req: Request) throws -> Future<View> {
