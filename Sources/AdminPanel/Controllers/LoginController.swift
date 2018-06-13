@@ -10,10 +10,10 @@ public protocol LoginControllerType {
     func logout(_ req: Request) throws -> Response
 }
 
-internal final class LoginController<U: AdminPanelUserType>: LoginControllerType {
+public final class LoginController<U: AdminPanelUserType>: LoginControllerType {
     // MARK: Login
 
-    func login(_ req: Request) throws -> Future<Response> {
+    public func login(_ req: Request) throws -> Future<Response> {
         let endpoints = try req.make(AdminPanelConfig.self).endpoints
         return try req
             .content
@@ -37,7 +37,7 @@ internal final class LoginController<U: AdminPanelUserType>: LoginControllerType
             }
     }
 
-    func renderLogin(_ req: Request) throws -> Future<Response> {
+    public func renderLogin(_ req: Request) throws -> Future<Response> {
         let endpoints = try req.make(AdminPanelConfig.self).endpoints
         guard try !req.isAuthenticated(U.self) else {
             return Future.map(on: req) {
@@ -55,7 +55,7 @@ internal final class LoginController<U: AdminPanelUserType>: LoginControllerType
 
     // MARK: Log out
 
-    func logout(_ req: Request) throws -> Response {
+    public func logout(_ req: Request) throws -> Response {
         let endpoints = try req.make(AdminPanelConfig.self).endpoints
         try req.unauthenticateSession(U.self)
         return req.redirect(to: endpoints.login).flash(.success, "Logged out")

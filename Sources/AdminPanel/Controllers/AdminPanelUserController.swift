@@ -14,7 +14,7 @@ public protocol AdminPanelUserControllerType {
     func delete(_ req: Request) throws -> Future<Response>
 }
 
-internal final class AdminPanelUserController
+public final class AdminPanelUserController
     <U: AdminPanelUserType>: AdminPanelUserControllerType
 where
     U: Submittable,
@@ -23,7 +23,7 @@ where
 {
     // MARK: List
 
-    func renderList(_ req: Request) throws -> Future<View> {
+    public func renderList(_ req: Request) throws -> Future<View> {
         return U.query(on: req).all()
             .flatMap(to: View.self) { users in
                 return try req.privateContainer
@@ -34,7 +34,7 @@ where
 
     // MARK: Create user
 
-    func renderCreate(_ req: Request) throws -> Future<Response> {
+    public func renderCreate(_ req: Request) throws -> Future<Response> {
         try req.populateFields(U.self)
         return try req.privateContainer
             .make(LeafRenderer.self)
@@ -44,7 +44,7 @@ where
             .encode(for: req)
     }
 
-    func create(_ req: Request) throws -> Future<Response> {
+    public func create(_ req: Request) throws -> Future<Response> {
         return try req.content.decode(U.Submission.self)
             .createValid(on: req)
             .save(on: req)
@@ -67,12 +67,12 @@ where
 
     // MARK: Edit user
 
-    func renderEditMe(_ req: Request) throws -> Future<View> {
+    public func renderEditMe(_ req: Request) throws -> Future<View> {
         let user = try req.requireAuthenticated(U.self)
         return try renderEdit(req, user: Future.transform(to: user, on: req))
     }
 
-    func renderEditUser(_ req: Request) throws -> Future<View> {
+    public func renderEditUser(_ req: Request) throws -> Future<View> {
         let user = try req.parameters.next(U.self)
         return try renderEdit(req, user: user)
     }
@@ -87,12 +87,12 @@ where
             }
     }
 
-    func editMe(_ req: Request) throws -> Future<Response> {
+    public func editMe(_ req: Request) throws -> Future<Response> {
         let user = try req.requireAuthenticated(U.self)
         return try edit(req, user: Future.transform(to: user, on: req))
     }
 
-    func editUser(_ req: Request) throws -> Future<Response> {
+    public func editUser(_ req: Request) throws -> Future<Response> {
         let user = try req.parameters.next(U.self)
         return try edit(req, user: user)
     }
@@ -121,7 +121,7 @@ where
 
     // MARK: Delete user
 
-    func delete(_ req: Request) throws -> Future<Response> {
+    public func delete(_ req: Request) throws -> Future<Response> {
         let auth = try req.requireAuthenticated(U.self)
         let user = try req.parameters.next(U.self)
         return user.delete(on: req)
