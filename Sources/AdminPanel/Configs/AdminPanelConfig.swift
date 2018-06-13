@@ -36,6 +36,16 @@ public struct AdminPanelControllers {
     public let loginController: LoginControllerType
     public let dashboardController: DashboardControllerType
     public let adminPanelUserController: AdminPanelUserControllerType
+
+    public init(
+        loginController: LoginControllerType,
+        dashboardController: DashboardControllerType,
+        adminPanelUserController: AdminPanelUserControllerType
+    ) {
+        self.loginController = loginController
+        self.dashboardController = dashboardController
+        self.adminPanelUserController = adminPanelUserController
+    }
 }
 
 extension AdminPanelControllers {
