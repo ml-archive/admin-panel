@@ -17,7 +17,7 @@ let package = Package(
         .package(url: "https://github.com/vapor/leaf.git", from: "3.0.0-rc"),
         .package(url: "https://github.com/vapor/auth.git", from: "2.0.0-rc"),
 
-        .package(url: "https://github.com/nodes-vapor/sugar.git", .branch("vapor-3")),
+        .package(url: "https://github.com/nodes-vapor/sugar.git", from: "3.0.0-beta"),
         .package(url: "https://github.com/nodes-vapor/flash.git", from: "2.0.0"),
         .package(url: "https://github.com/nodes-vapor/bootstrap.git", .branch("master")),
         .package(url: "https://github.com/nodes-vapor/reset.git", .branch("master")),
