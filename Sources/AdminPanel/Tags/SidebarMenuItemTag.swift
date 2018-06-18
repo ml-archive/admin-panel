@@ -25,7 +25,7 @@ public final class SidebarMenuItemTag: TagRenderer {
         }
 
         if tag.parameters.count > 2 {
-            let currentPath = try tag.container.make(CurrentUrlContainer.self).path
+            let currentPath = try tag.container.make(CurrentURLContainer.self).path
             let activeUrlPatterns = tag.parameters.dropFirst(2)
 
             if isActive(currentPath: currentPath, pathPatterns: activeUrlPatterns) {

@@ -45,7 +45,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
         let unsecure: [Middleware] = [
             AuthenticationSessionsMiddleware<U>(),
             FlashMiddleware(),
-            CurrentUrlMiddleware()
+            CurrentURLMiddleware()
         ]
 
         let secure: [Middleware] = unsecure + [
