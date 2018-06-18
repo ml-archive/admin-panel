@@ -57,7 +57,7 @@ where
                         .success,
                         """
                         The user with email '\(user[keyPath: U.usernameKey])'
-                         got created successfully.
+                        was created successfully.
                         """
                     )
             }

@@ -37,7 +37,7 @@ extension AdminPanelUser: PasswordResettable {
     public struct ResetPassword: HasReadablePassword, RequestCreatable, Submittable {
         public struct Submission: SubmissionType {
             public func fieldEntries() throws -> [FieldEntry<ResetPassword>] {
-                // TODO: add password validator
+                #warning("TODO: add password validator")
                 return try [makeFieldEntry(keyPath: \.password, label: "Password")]
             }
 
