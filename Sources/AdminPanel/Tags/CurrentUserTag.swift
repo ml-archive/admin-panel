@@ -3,15 +3,15 @@ import Leaf
 import Sugar
 import TemplateKit
 
+#warning("TODO: make this compatible with generic user")
 public final class UserTag: TagRenderer {
-    public func render(tag: TagContext) throws -> EventLoopFuture<TemplateData> {
+    public func render(tag: TagContext) throws -> Future<TemplateData> {
         try tag.requireParameterCount(1)
         let container = try tag.container.make(CurrentUserContainer<AdminPanelUser>.self)
 
         return Future.map(on: tag) {
             try container.user?.viewData(for: tag.parameters[0], tag: tag) ?? .null
         }
-
     }
 }
 
@@ -35,15 +35,15 @@ private extension AdminPanelUser {
 
         switch parsedKey {
         case .id:
-            return id == nil ? .null : .int(id!)
+            return id.map(TemplateData.int) ?? .null
         case .email:
             return .string(email)
         case .name:
             return .string(name)
         case .title:
-            return title == nil ? .null: .string(title!)
+            return title.map(TemplateData.string) ?? .null
         case .avatarUrl:
-            return avatarUrl == nil ? .null: .string(avatarUrl!)
+            return avatarUrl.map(TemplateData.string) ?? .null
         }
     }
 }

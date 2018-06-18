@@ -57,7 +57,7 @@ internal extension AdminPanelProvider {
         middlewares: AdminPanelMiddlewares,
         endpoints: AdminPanelEndpoints,
         resetProvider: ResetProvider<U>,
-        config: AdminPanelConfig
+        config: AdminPanelConfig<U>
     ) throws {
 
         let unprotected = router.grouped(middlewares.unsecure)

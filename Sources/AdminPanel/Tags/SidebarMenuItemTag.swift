@@ -52,7 +52,6 @@ public final class SidebarMenuItemTag: TagRenderer {
     }
 }
 
-
 private extension SidebarMenuItemTag {
     func isActive(currentPath: String, pathPatterns: ArraySlice<TemplateData>) -> Bool {
         for arg in pathPatterns {

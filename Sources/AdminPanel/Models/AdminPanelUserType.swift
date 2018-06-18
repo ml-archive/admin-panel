@@ -4,11 +4,15 @@ import Submissions
 import Sugar
 
 public protocol AdminPanelUserType:
-    UserType,
+    Parameter,
     PasswordAuthenticatable,
     PasswordResettable,
     SessionAuthenticatable,
-    Parameter
+    Submittable,
+    UserType
+where
+    ID: LosslessStringConvertible,
+    Self.ResolvedParameter == Future<Self>
 {
     var shouldResetPassword: Bool { get }
 }

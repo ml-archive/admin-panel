@@ -40,12 +40,7 @@ public final class AdminPanelUser: Codable {
     }
 }
 
-extension AdminPanelUser: MySQLModel {
-    public static let createdAtKey: TimestampKey? = \AdminPanelUser.createdAt
-    public static let updatedAtKey: TimestampKey? = \AdminPanelUser.updatedAt
-    public static let deletedAtKey: TimestampKey? = \AdminPanelUser.deletedAt
-}
-
 extension AdminPanelUser: Content {}
 extension AdminPanelUser: Migration {}
+extension AdminPanelUser: MySQLModel {}
 extension AdminPanelUser: Parameter {}
