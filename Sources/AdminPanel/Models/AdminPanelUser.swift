@@ -36,16 +36,12 @@ public final class AdminPanelUser: Codable {
     }
 }
 
-extension AdminPanelUser: MySQLModel {}
+extension AdminPanelUser: MySQLModel {
+    public static let createdAtKey: TimestampKey? = \AdminPanelUser.createdAt
+    public static let updatedAtKey: TimestampKey? = \AdminPanelUser.updatedAt
+    public static let deletedAtKey: TimestampKey? = \AdminPanelUser.deletedAt
+}
+
 extension AdminPanelUser: Content {}
 extension AdminPanelUser: Migration {}
 extension AdminPanelUser: Parameter {}
-
-extension AdminPanelUser: Timestampable {
-    public static let createdAtKey: WritableKeyPath<AdminPanelUser, Date?> = \AdminPanelUser.createdAt
-    public static let updatedAtKey: WritableKeyPath<AdminPanelUser, Date?> = \AdminPanelUser.updatedAt
-}
-
-extension AdminPanelUser: SoftDeletable {
-    public static let deletedAtKey: WritableKeyPath<AdminPanelUser, Date?> = \AdminPanelUser.deletedAt
-}

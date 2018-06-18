@@ -9,8 +9,12 @@ public func uniqueField<U: Model>(
     accept: String? = nil,
     exceptIn contexts: [ValidationContext] = [],
     on db: DatabaseConnectable
-) throws -> Future<[ValidationError]> where U.Database: QuerySupporting{
-    return try U.query(on: db)
+) throws -> Future<[ValidationError]> {
+    guard let value = value else {
+        return Future.transform(to: [], on: db)
+    }
+
+    return U.query(on: db)
         .filter(keyPath == value)
         .first()
         .map(to: [ValidationError].self) { model in
