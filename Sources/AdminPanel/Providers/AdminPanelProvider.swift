@@ -131,7 +131,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
             config: container.make()
         )
 
-        let tags: LeafTagConfig = try container.make()
+        let tags: MutableLeafTagConfig = try container.make()
         tags.use([
             "adminpanel:avatarurl": AvatarURLTag(),
             "adminpanel:config": AdminPanelConfigTag(),
