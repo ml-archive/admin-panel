@@ -106,6 +106,8 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
         try services.register(CurrentURLProvider())
         try services.register(CurrentUserProvider<U>())
         try services.register(FlashProvider())
+        try services.register(MutableLeafTagConfigProvider())
+        try services.register(LeafProvider())
 
         try services.register(resetProvider)
         try services.register(submissionsProvider)
