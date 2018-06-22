@@ -23,9 +23,10 @@ public func validateThat<U: Model, T: Encodable & Equatable & CustomDebugStringC
         .count()
         .map { count in
             guard count == 0 else {
-                let propertyDescription = try U.reflectProperty(forKey: keyPath)?.description ?? ""
-                let reason = "A model of type '\(U.self)' with value '\(value.debugDescription)' " +
-                    "\(propertyDescription)already exists."
+                let reason = """
+                    A model of type \"\(U.self)\" with value \(value.debugDescription)
+                    already exists.
+                """
                 return [BasicValidationError(reason)]
             }
             return []
