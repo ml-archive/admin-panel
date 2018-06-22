@@ -11,6 +11,10 @@ public final class AdminPanelUser: Codable {
     public var passwordChangeCount: Int
     public var shouldResetPassword: Bool
 
+    public static let createdAtKey = \AdminPanelUser.createdAt
+    public static let updatedAtKey = \AdminPanelUser.updatedAt
+    public static let deletedAtKey = \AdminPanelUser.deletedAt
+
     public var createdAt: Date?
     public var updatedAt: Date?
     public var deletedAt: Date?
@@ -36,12 +40,7 @@ public final class AdminPanelUser: Codable {
     }
 }
 
-extension AdminPanelUser: MySQLModel {
-    public static let createdAtKey: TimestampKey? = \AdminPanelUser.createdAt
-    public static let updatedAtKey: TimestampKey? = \AdminPanelUser.updatedAt
-    public static let deletedAtKey: TimestampKey? = \AdminPanelUser.deletedAt
-}
-
 extension AdminPanelUser: Content {}
 extension AdminPanelUser: Migration {}
+extension AdminPanelUser: MySQLModel {}
 extension AdminPanelUser: Parameter {}

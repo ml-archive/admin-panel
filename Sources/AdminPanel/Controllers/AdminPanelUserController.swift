@@ -16,10 +16,6 @@ public protocol AdminPanelUserControllerType {
 
 public final class AdminPanelUserController
     <U: AdminPanelUserType>: AdminPanelUserControllerType
-where
-    U: Submittable,
-    U.ResolvedParameter == Future<U>,
-    U.ID: LosslessStringConvertible
 {
     public init() {}
 
@@ -57,7 +53,7 @@ where
                         .success,
                         """
                         The user with email '\(user[keyPath: U.usernameKey])'
-                         got created successfully.
+                        was created successfully.
                         """
                     )
             }

@@ -1,24 +1,12 @@
+import Authentication
 import Bootstrap
-import Vapor
+import Flash
 import Fluent
 import Leaf
-import Sugar
-import Authentication
-import Flash
 import Reset
 import Submissions
-
-extension AdminPanelProvider {
-    public static var tags: [String: TagRenderer] {
-        return [
-            "adminpanel:config": AdminPanelConfigTag(),
-            "adminpanel:sidebar:menuitem": SidebarMenuItemTag(),
-            "adminpanel:sidebar:heading": SidebarHeadingTag(),
-            "adminpanel:avatarurl": AvatarURLTag(),
-            "adminpanel:user": UserTag()
-        ]
-    }
-}
+import Sugar
+import Vapor
 
 // MARK: - Commands
 extension AdminPanelProvider where U.ID: ExpressibleByStringLiteral, U: Seedable {
@@ -32,11 +20,14 @@ extension AdminPanelProvider where U.ID: ExpressibleByStringLiteral, U: Seedable
 public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
     /// See Service.Provider.repositoryName
     public static var repositoryName: String { return "admin-panel" }
-    public let config: AdminPanelConfig
+    public let config: AdminPanelConfig<U>
 
     public var middlewares: AdminPanelMiddlewares
 
-    public init(config: AdminPanelConfig) {
+    private let resetProvider: ResetProvider<U>
+    private let submissionsProvider: SubmissionsProvider
+
+    public init(config: AdminPanelConfig<U>) {
         self.config = config
 
         let unsecure: [Middleware] = [
@@ -55,29 +46,6 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
             unsecure: unsecure,
             secure: secure
         )
-    }
-
-    private var resetProvider: ResetProvider<U>!
-
-    /// See Service.Provider.Register
-    public func register(_ services: inout Services) throws {
-        try services.register(MutableLeafTagConfigProvider())
-        try services.register(LeafProvider())
-        try services.register(AuthenticationProvider())
-        services.register(KeyedCacheSessions.self)
-        services.register(config)
-        services.register(AdminPanelConfigTagData(
-            name: config.name,
-            baseUrl: config.baseUrl,
-            userMenuPath: config.userMenuPath,
-            adminMenuPath: config.adminMenuPath,
-            superAdminMenuPath: config.superAdminMenuPath
-        ))
-        try services.register(FlashProvider())
-        try services.register(BootstrapProvider())
-        try services.register(CurrentURLProvider())
-        try services.register(CurrentUserProvider<U>())
-        try services.register(SubmissionsProvider())
 
         resetProvider = ResetProvider<U>(
             config: .init(
@@ -128,7 +96,31 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
                 )
             )
         )
+        submissionsProvider = SubmissionsProvider()
+    }
+
+    /// See Service.Provider.Register
+    public func register(_ services: inout Services) throws {
+        try services.register(AuthenticationProvider())
+        try services.register(BootstrapProvider())
+        try services.register(CurrentURLProvider())
+        try services.register(CurrentUserProvider<U>())
+        try services.register(FlashProvider())
+        try services.register(MutableLeafTagConfigProvider())
+        try services.register(LeafProvider())
+
         try services.register(resetProvider)
+        try services.register(submissionsProvider)
+
+        services.register(AdminPanelConfigTagData(
+            name: config.name,
+            baseUrl: config.baseUrl,
+            userMenuPath: config.userMenuPath,
+            adminMenuPath: config.adminMenuPath,
+            superAdminMenuPath: config.superAdminMenuPath
+        ))
+        services.register(config)
+        services.register(KeyedCacheSessions.self)
     }
 
     /// See Service.Provider.boot
@@ -140,6 +132,15 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
             resetProvider: resetProvider,
             config: container.make()
         )
+
+        let tags: MutableLeafTagConfig = try container.make()
+        tags.use([
+            "adminpanel:avatarurl": AvatarURLTag(),
+            "adminpanel:config": AdminPanelConfigTag(),
+            "adminpanel:sidebar:heading": SidebarHeadingTag(),
+            "adminpanel:sidebar:menuitem": SidebarMenuItemTag(),
+            "adminpanel:user": UserTag()
+        ])
 
         return .done(on: container)
     }

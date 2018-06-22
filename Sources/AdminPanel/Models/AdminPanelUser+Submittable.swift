@@ -26,42 +26,40 @@ extension AdminPanelUser: Submittable {
                 makeFieldEntry(
                     keyPath: \Submission.email,
                     label: "Email address",
-                    asyncValidators: [{ value, context, submittable, req in
-                        return try uniqueField(
-                            keyPath: AdminPanelUser.usernameKey,
-                            value: value,
-                            context: context,
-                            accept: submittable?.email,
-                            exceptIn: [.create],
+                    asyncValidators: [{ email, _, adminPanelUser, req in
+                        validateThat(
+                            only: adminPanelUser,
+                            has: email,
+                            for: \AdminPanelUser.email,
                             on: req
                         )
                     }]
                 ),
                 makeFieldEntry(
-                    keyPath: \Submission.name,
+                    keyPath: \.name,
                     label: "Name",
                     validators: [.count(2...191)]
                 ),
                 makeFieldEntry(
-                    keyPath: \Submission.title,
+                    keyPath: \.title,
                     label: "Title",
                     validators: [.count(...191)],
                     isRequired: false
                 ),
                 makeFieldEntry(
-                    keyPath: \Submission.password,
+                    keyPath: \.password,
                     label: "Password",
                     validators: [.count(8...)],
                     isRequired: false
                 ),
                 makeFieldEntry(
-                    keyPath: \Submission.passwordAgain,
+                    keyPath: \.passwordAgain,
                     label: "Password again",
                     validators: [.count(8...)],
                     isRequired: false
                 ),
                 makeFieldEntry(
-                    keyPath: \Submission.shouldResetPassword,
+                    keyPath: \.shouldResetPassword,
                     label: "Should reset password",
                     isRequired: false
                 )

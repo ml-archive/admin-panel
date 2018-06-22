@@ -21,9 +21,9 @@
     }
         <h4>User details</h4>
 
-        #submissions:input("name", "text", "Enter name")
-        #submissions:input("title", "text", "Enter title")
-        #submissions:input("email", "email", "Enter email")
+        #submissions:text("name", "Enter name")
+        #submissions:text("title", "Enter title")
+        #submissions:email("email", "Enter email")
 
         <hr>
 
@@ -33,9 +33,8 @@
             <p>Leaving the password fields blank will auto-generate a password for the user.</p>
         }
 
-        #submissions:input("password", "password", "Enter password", "Minimum 8 characters.")
-        #submissions:input("passwordAgain", "password", "Enter password again")
-  
+        #submissions:password("password", "Enter password", "Minimum 8 characters.")
+        #submissions:password("passwordAgain", "Enter password again")
 
         #if(user == nil) {
             <div class="form-group form-check">

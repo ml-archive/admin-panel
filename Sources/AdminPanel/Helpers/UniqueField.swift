@@ -2,25 +2,32 @@ import Fluent
 import Submissions
 import Vapor
 
-public func uniqueField<U: Model>(
-    keyPath: WritableKeyPath<U, String>,
-    value: String?,
-    context: ValidationContext,
-    accept: String? = nil,
-    exceptIn contexts: [ValidationContext] = [],
+public func validateThat<U: Model, T: Encodable & Equatable & CustomDebugStringConvertible>(
+    only entity: U?,
+    has value: T?,
+    for keyPath: KeyPath<U, T>,
     on db: DatabaseConnectable
-) throws -> Future<[ValidationError]> {
+) -> Future<[ValidationError]> {
     guard let value = value else {
-        return Future.transform(to: [], on: db)
+        return db.future([])
     }
 
-    return U.query(on: db)
+    var query = U.query(on: db)
         .filter(keyPath == value)
-        .first()
-        .map(to: [ValidationError].self) { model in
-            let value = model?[keyPath: keyPath]
-            guard model == nil || (value == accept && !contexts.contains(context)) else {
-                return [BasicValidationError("\(value ?? "") already exists")]
+
+    if let entity = entity {
+        query = query.filter(U.idKey != entity[keyPath: U.idKey])
+    }
+
+    return query
+        .count()
+        .map { count in
+            guard count == 0 else {
+                let reason = """
+                    A model of type \"\(U.self)\" with value \(value.debugDescription)
+                    already exists.
+                """
+                return [BasicValidationError(reason)]
             }
             return []
         }

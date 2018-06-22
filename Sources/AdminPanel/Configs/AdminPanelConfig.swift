@@ -1,11 +1,11 @@
 import Fluent
 import Vapor
 
-public struct AdminPanelConfig: Service {
+public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
     let name: String
     let baseUrl: String
     let endpoints: AdminPanelEndpoints
-    let controllers: AdminPanelControllers
+    let controllers: AdminPanelControllers<U>
     let userMenuPath: String?
     let adminMenuPath: String?
     let superAdminMenuPath: String?
@@ -14,8 +14,8 @@ public struct AdminPanelConfig: Service {
     public init(
         name: String,
         baseUrl: String,
-        endpoints: AdminPanelEndpoints = AdminPanelEndpoints.default,
-        controllers: AdminPanelControllers = .default,
+        endpoints: AdminPanelEndpoints = .default,
+        controllers: AdminPanelControllers<U> = .default,
         userMenuPath: String? = nil,
         adminMenuPath: String? = nil,
         superAdminMenuPath: String? = nil,
@@ -32,7 +32,7 @@ public struct AdminPanelConfig: Service {
     }
 }
 
-public struct AdminPanelControllers {
+public struct AdminPanelControllers<U: AdminPanelUserType> {
     public let loginController: LoginControllerType
     public let dashboardController: DashboardControllerType
     public let adminPanelUserController: AdminPanelUserControllerType
@@ -51,9 +51,9 @@ public struct AdminPanelControllers {
 extension AdminPanelControllers {
     public static var `default`: AdminPanelControllers {
         return .init(
-            loginController: LoginController<AdminPanelUser>(),
-            dashboardController: DashboardController(),
-            adminPanelUserController: AdminPanelUserController<AdminPanelUser>()
+            loginController: LoginController<U>(),
+            dashboardController: DashboardController<U>(),
+            adminPanelUserController: AdminPanelUserController<U>()
         )
     }
 }
