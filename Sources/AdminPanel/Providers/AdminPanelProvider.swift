@@ -1,10 +1,10 @@
+import Bootstrap
 import Vapor
 import Fluent
 import Leaf
 import Sugar
 import Authentication
 import Flash
-import Bootstrap
 import Reset
 import Submissions
 
@@ -17,9 +17,6 @@ extension AdminPanelProvider {
             "adminpanel:avatarurl": AvatarURLTag(),
             "adminpanel:user": UserTag()
         ]
-        .merging(FlashProvider.tags) { (adminpanel, flash) in adminpanel }
-        .merging(BootstrapProvider.tags) { (adminpanel, bootstrap) in adminpanel }
-        .merging(SubmissionsProvider.tags) { (adminpanel, submissions) in adminpanel }
     }
 }
 
@@ -64,6 +61,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
 
     /// See Service.Provider.Register
     public func register(_ services: inout Services) throws {
+        try services.register(MutableLeafTagConfigProvider())
         try services.register(LeafProvider())
         try services.register(AuthenticationProvider())
         services.register(KeyedCacheSessions.self)
@@ -76,6 +74,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
             superAdminMenuPath: config.superAdminMenuPath
         ))
         try services.register(FlashProvider())
+        try services.register(BootstrapProvider())
         try services.register(CurrentURLProvider())
         try services.register(CurrentUserProvider<U>())
         try services.register(SubmissionsProvider())
