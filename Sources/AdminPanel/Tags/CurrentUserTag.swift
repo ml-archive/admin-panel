@@ -3,7 +3,7 @@ import Leaf
 import Sugar
 import TemplateKit
 
-#warning("TODO: make this compatible with generic user")
+// TODO: make this compatible with generic user
 public final class UserTag: TagRenderer {
     public func render(tag: TagContext) throws -> Future<TemplateData> {
         try tag.requireParameterCount(1)
