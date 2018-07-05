@@ -26,8 +26,6 @@
         #bs:button("primary", "btn-lg btn-block", "type='submit'") {
             Sign in
         }
-
-        <p class="mt-5 mb-3 text-muted version">Admin Panel ✍️  by <a href="https://github.com/nodes-vapor/" target="_blank">Vapor at Nodes</a></p>
     </form>
 }
 
