@@ -64,11 +64,12 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
                 ),
                 responses: ResetResponses(
                     resetPasswordRequestForm: { req in
+                        let config: AdminPanelConfig<U> = try req.make()
                         return try req.privateContainer
                             .make(LeafRenderer.self)
                             // TODO: Remove empty context when this gets fixed
                             // https://github.com/vapor/template-kit/issues/17
-                            .render(AdminPanelViews.Login.requestResetPassword, [String: String]())
+                            .render(config.views.login.requestResetPassword, [String: String]())
                             .encode(for: req)
                     },
                     resetPasswordEmailSent: { req in
@@ -79,11 +80,12 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
                         }
                     },
                     resetPasswordForm: { req, user in
+                        let config: AdminPanelConfig<U> = try req.make()
                         return try req.privateContainer
                             .make(LeafRenderer.self)
                             // TODO: Remove empty context when this gets fixed
                             // https://github.com/vapor/template-kit/issues/17
-                            .render(AdminPanelViews.Login.resetPassword, [String: String]())
+                            .render(config.views.login.resetPassword, [String: String]())
                             .encode(for: req)
                     },
                     resetPasswordSuccess: { req, user in

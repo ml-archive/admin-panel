@@ -7,7 +7,7 @@ public func handleValidationError(
     message: String = "Something went wrong while validating the form.",
     on req: Request
 ) -> (Error) throws -> Future<Response> {
-    return { _ in
+    return { error in
         try req
             .privateContainer
             .flash(.error, message)
@@ -23,7 +23,7 @@ public func handleValidationError<E: Encodable>(
     context: E? = nil,
     on req: Request
 ) -> (Error) throws -> Future<Response> {
-    return { _ in
+    return { error in
         try req
             .privateContainer
             .flash(.error, message)
@@ -39,7 +39,7 @@ public func handleValidationError<E: Encodable>(
     context: Future<E>,
     on req: Request
 ) -> (Error) throws -> Future<Response> {
-    return { _ in
+    return { error in
         return context.flatMap(to: Response.self) { context in
             try req
                 .privateContainer

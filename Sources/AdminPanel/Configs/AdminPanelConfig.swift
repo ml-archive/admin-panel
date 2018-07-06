@@ -5,6 +5,7 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
     let name: String
     let baseUrl: String
     let endpoints: AdminPanelEndpoints
+    let views: AdminPanelViews
     let controllers: AdminPanelControllers<U>
     let userMenuPath: String?
     let adminMenuPath: String?
@@ -15,6 +16,7 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
         name: String,
         baseUrl: String,
         endpoints: AdminPanelEndpoints = .default,
+        views: AdminPanelViews = .default,
         controllers: AdminPanelControllers<U> = .default,
         userMenuPath: String? = nil,
         adminMenuPath: String? = nil,
@@ -24,6 +26,7 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
         self.name = name
         self.baseUrl = baseUrl
         self.endpoints = endpoints
+        self.views = views
         self.controllers = controllers
         self.userMenuPath = userMenuPath
         self.adminMenuPath = adminMenuPath

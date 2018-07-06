@@ -10,7 +10,7 @@ public final class DashboardController<U: AdminPanelUserType>: DashboardControll
 
     public func renderDashboard(_ req: Request) throws -> Future<Response> {
         let config = try req.make(AdminPanelConfig<U>.self)
-        let path = config.dashboardPath ?? AdminPanelViews.Dashboard.index
+        let path = config.dashboardPath ?? config.views.dashboard.index
 
         return try req.privateContainer
             .make(LeafRenderer.self)
