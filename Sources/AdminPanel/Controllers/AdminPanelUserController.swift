@@ -22,27 +22,30 @@ public final class AdminPanelUserController
     // MARK: List
 
     public func renderList(_ req: Request) throws -> Future<View> {
+        let config: AdminPanelConfig<U> = try req.make()
         return U.query(on: req).all()
             .flatMap(to: View.self) { users in
                 return try req.privateContainer
                     .make(LeafRenderer.self)
-                    .render(AdminPanelViews.AdminPanelUser.index, MultipleUsers(users: users))
+                    .render(config.views.adminPanelUser.index, MultipleUsers(users: users))
         }
     }
 
     // MARK: Create user
 
     public func renderCreate(_ req: Request) throws -> Future<Response> {
+        let config: AdminPanelConfig<U> = try req.make()
         try req.populateFields(U.self)
         return try req.privateContainer
             .make(LeafRenderer.self)
             // TODO: Remove empty context when this gets fixed
             // https://github.com/vapor/template-kit/issues/17
-            .render(AdminPanelViews.AdminPanelUser.editAndCreate, [String: String]())
+            .render(config.views.adminPanelUser.editAndCreate, [String: String]())
             .encode(for: req)
     }
 
     public func create(_ req: Request) throws -> Future<Response> {
+        let config: AdminPanelConfig<U> = try req.make()
         return try req.content.decode(U.Submission.self)
             .createValid(on: req)
             .save(on: req)
@@ -58,7 +61,7 @@ public final class AdminPanelUserController
                     )
             }
             .catchFlatMap(handleValidationError(
-                path: AdminPanelViews.AdminPanelUser.editAndCreate,
+                path: config.views.adminPanelUser.editAndCreate,
                 on: req)
             )
     }
@@ -76,12 +79,13 @@ public final class AdminPanelUserController
     }
 
     private func renderEdit(_ req: Request, user: Future<U>) throws -> Future<View> {
+        let config: AdminPanelConfig<U> = try req.make()
         return user
             .populateFields(on: req)
             .flatMap { user in
                 try req.privateContainer
                     .make(LeafRenderer.self)
-                    .render(AdminPanelViews.AdminPanelUser.editAndCreate, SingleUser(user: user))
+                    .render(config.views.adminPanelUser.editAndCreate, SingleUser(user: user))
             }
     }
 
@@ -96,6 +100,7 @@ public final class AdminPanelUserController
     }
 
     private func edit(_ req: Request, user: Future<U>) throws -> Future<Response> {
+        let config: AdminPanelConfig<U> = try req.make()
         return user
             .updateValid(on: req)
             .save(on: req)
@@ -111,7 +116,7 @@ public final class AdminPanelUserController
                     )
             }
             .catchFlatMap(handleValidationError(
-                path: AdminPanelViews.AdminPanelUser.editAndCreate,
+                path: config.views.adminPanelUser.editAndCreate,
                 context: user.map(to: SingleUser.self) { .init(user: $0) },
                 on: req)
             )

@@ -40,10 +40,10 @@ public final class LoginController<U: AdminPanelUserType>: LoginControllerType {
     }
 
     public func renderLogin(_ req: Request) throws -> Future<Response> {
-        let endpoints = try req.make(AdminPanelConfig<U>.self).endpoints
+        let config: AdminPanelConfig<U> = try req.make()
         guard try !req.isAuthenticated(U.self) else {
             return Future.map(on: req) {
-                req.redirect(to: endpoints.dashboard)
+                req.redirect(to: config.endpoints.dashboard)
             }
         }
 
@@ -51,7 +51,7 @@ public final class LoginController<U: AdminPanelUserType>: LoginControllerType {
             .make(LeafRenderer.self)
             // TODO: Remove empty context when this gets fixed
             // https://github.com/vapor/template-kit/issues/17
-            .render(AdminPanelViews.Login.index, [String: String]())
+            .render(config.views.login.index, [String: String]())
             .encode(for: req)
     }
 
