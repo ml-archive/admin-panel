@@ -87,8 +87,13 @@ public final class AdminPanelUserController
     }
 
     private func renderEdit(_ req: Request, user: Future<U>) throws -> Future<View> {
+        let adminPanelUser: U = try req.requireAuthenticated()
+
         let config: AdminPanelConfig<U> = try req.make()
         return user
+            .try { user in
+                try adminPanelUser.requireRole(user.role) // A user cannot edit another user of a higher role
+            }
             .populateFields(on: req)
             .flatMap { user in
                 try req.privateContainer
