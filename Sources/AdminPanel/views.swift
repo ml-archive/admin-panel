@@ -38,25 +38,42 @@ public struct AdminPanelViews {
         }
     }
 
+    public struct Reset {
+        public let requestResetPasswordEmail: String
+        public let newUserResetPasswordEmail: String
+
+        public init(
+            requestResetPasswordEmail: String = prefix + "/Reset/request-reset-password-email",
+            newUserResetPasswordEmail: String = prefix + "/Reset/new-user-reset-password-email"
+        ) {
+            self.requestResetPasswordEmail = requestResetPasswordEmail
+            self.newUserResetPasswordEmail = newUserResetPasswordEmail
+        }
+    }
+
     public let login: Login
     public let dashboard: Dashboard
     public let adminPanelUser: AdminPanelUser
+    public let reset: Reset
 
     public init(
         login: Login = Login(),
         dashboard: Dashboard = Dashboard(),
-        adminPanelUser: AdminPanelUser = AdminPanelUser()
+        adminPanelUser: AdminPanelUser = AdminPanelUser(),
+        reset: Reset = Reset()
     ) {
         self.login = login
         self.dashboard = dashboard
         self.adminPanelUser = adminPanelUser
+        self.reset = reset
     }
 
     public static var `default`: AdminPanelViews {
         return .init(
             login: .init(),
             dashboard: .init(),
-            adminPanelUser: .init()
+            adminPanelUser: .init(),
+            reset: .init()
         )
     }
 }

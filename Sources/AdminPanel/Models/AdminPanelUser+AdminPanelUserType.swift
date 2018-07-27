@@ -1,3 +1,4 @@
+import Reset
 import Sugar
 import Vapor
 
@@ -53,15 +54,6 @@ extension AdminPanelUser: AdminPanelUserType {
         public let shouldResetPassword: Bool?
     }
 
-    public func convertToPublic() -> UserPublic {
-        return UserPublic(
-            email: email,
-            name: name,
-            title: title,
-            avatarUrl: avatarUrl
-        )
-    }
-
     // Registration is handled by Submittable (see AdminPanelUser+Submittable).
     public convenience init(_ registration: UserRegistration) throws {
         try self.init(
@@ -75,4 +67,17 @@ extension AdminPanelUser: AdminPanelUserType {
 
     // Update is handled by Submittable (see AdminPanelUser+Submittable).
     public func update(with updated: UserUpdate) throws {}
+
+    public func didCreate(with submission: Submission, on req: Request) throws -> Future<Void> {
+        guard submission.shouldSpecifyPassword == true else {
+            let config: ResetConfig<AdminPanelUser> = try req.make()
+            return try config.reset(
+                self,
+                context: AdminPanelResetPasswordContext.newUserWithoutPassword,
+                on: req
+            )
+        }
+
+        return Future.transform(to: (), on: req)
+    }
 }
