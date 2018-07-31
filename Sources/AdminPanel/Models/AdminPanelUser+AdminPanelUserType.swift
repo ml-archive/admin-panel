@@ -7,6 +7,7 @@ extension AdminPanelUser: AdminPanelUserType {
     public typealias Registration = UserRegistration
     public typealias Update = UserUpdate
     public typealias Public = UserPublic
+    public typealias Role = AdminPanelUserRole
 
     public static let usernameKey: WritableKeyPath<AdminPanelUser, String> = \.email
     public static let passwordKey: WritableKeyPath<AdminPanelUser, String> = \.password
@@ -34,6 +35,7 @@ extension AdminPanelUser: AdminPanelUserType {
         public let name: String
         public let title: String?
         public let avatarUrl: String?
+        public let role: AdminPanelUserRole
         public let password: String
         public let passwordRepeat: String
         public let shouldResetPassword: Bool?
@@ -48,6 +50,7 @@ extension AdminPanelUser: AdminPanelUserType {
         public let name: String?
         public let title: String?
         public let avatarUrl: String?
+        public let role: AdminPanelUserRole?
         public let password: String?
         public let oldPassword: String?
         public let passwordRepeat: String?
@@ -61,6 +64,7 @@ extension AdminPanelUser: AdminPanelUserType {
             name: registration.name,
             title: registration.title,
             avatarUrl: registration.avatarUrl,
+            role: registration.role,
             password: AdminPanelUser.hashPassword(registration.password)
         )
     }
@@ -79,5 +83,56 @@ extension AdminPanelUser: AdminPanelUserType {
         }
 
         return Future.transform(to: (), on: req)
+    }
+}
+
+// MARK: Roles
+
+public enum AdminPanelUserRole: String {
+    case superAdmin
+    case admin
+    case user
+    case unknown
+
+    public var weight: Int {
+        switch self {
+        case .superAdmin: return 3
+        case .admin: return 2
+        case .user: return 1
+        case .unknown: return 0
+        }
+    }
+
+    public typealias RawValue = String
+
+    init(rawValue: String?) {
+        guard let rawValue = rawValue else { self = .unknown; return }
+
+        switch rawValue {
+            case AdminPanelUserRole.superAdmin.rawValue: self = .superAdmin
+            case AdminPanelUserRole.admin.rawValue: self = .admin
+            case AdminPanelUserRole.user.rawValue: self = .user
+            default: self = .unknown
+        }
+    }
+}
+
+extension AdminPanelUserRole: ReflectionDecodable {
+    public static func reflectDecoded() throws -> (AdminPanelUserRole, AdminPanelUserRole) {
+        return (.superAdmin, .admin)
+    }
+}
+
+extension AdminPanelUserRole: AdminPanelUserRoleType {
+    public var description: String {
+        return self.rawValue
+    }
+
+    public static func < (lhs: AdminPanelUserRole, rhs: AdminPanelUserRole) -> Bool {
+        return lhs.weight < rhs.weight
+    }
+
+    public static func == (lhs: AdminPanelUserRole, rhs: AdminPanelUserRole) -> Bool {
+        return lhs.weight == rhs.weight
     }
 }

@@ -1,4 +1,5 @@
 import FluentMySQL
+import MySQL
 import Vapor
 
 public final class AdminPanelUser: Codable {
@@ -7,6 +8,7 @@ public final class AdminPanelUser: Codable {
     public var name: String
     public var title: String?
     public var avatarUrl: String?
+    public var role: AdminPanelUserRole
     public var password: String
     public var passwordChangeCount: Int
     public var shouldResetPassword: Bool
@@ -25,6 +27,7 @@ public final class AdminPanelUser: Codable {
         name: String,
         title: String? = nil,
         avatarUrl: String? = nil,
+        role: AdminPanelUserRole,
         password: String,
         passwordChangeCount: Int = 0,
         shouldResetPassword: Bool = false
@@ -34,6 +37,7 @@ public final class AdminPanelUser: Codable {
         self.name = name
         self.title = title
         self.avatarUrl = avatarUrl
+        self.role = role
         self.password = password
         self.passwordChangeCount = passwordChangeCount
         self.shouldResetPassword = shouldResetPassword
@@ -41,6 +45,23 @@ public final class AdminPanelUser: Codable {
 }
 
 extension AdminPanelUser: Content {}
-extension AdminPanelUser: Migration {}
+extension AdminPanelUser: Migration {
+    public static func prepare(on connection: MySQLConnection) -> Future<Void> {
+        return MySQLDatabase.create(self, on: connection) { builder in
+            try addProperties(to: builder, excluding: [
+                AdminPanelUser.reflectProperty(forKey: \.role),
+            ])
+
+            builder.field(
+                for: \.role,
+                type: .enum([
+                    AdminPanelUserRole.superAdmin.rawValue,
+                    AdminPanelUserRole.admin.rawValue,
+                    AdminPanelUserRole.user.rawValue,
+                    AdminPanelUserRole.unknown.rawValue
+                ]))
+        }
+    }
+}
 extension AdminPanelUser: MySQLModel {}
 extension AdminPanelUser: Parameter {}

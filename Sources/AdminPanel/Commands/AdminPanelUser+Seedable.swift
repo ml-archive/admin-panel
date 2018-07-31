@@ -51,6 +51,7 @@ extension AdminPanelUser: Seedable {
             name: name,
             title: "Tester",
             avatarUrl: nil,
+            role: .superAdmin,
             password: password,
             passwordRepeat: password,
             shouldResetPassword: false
