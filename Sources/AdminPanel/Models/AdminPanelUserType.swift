@@ -15,4 +15,11 @@ where
     Self.ResolvedParameter == Future<Self>
 {
     var shouldResetPassword: Bool { get }
+    func didCreate(with: Submission, on req: Request) throws -> Future<Void>
+}
+
+extension AdminPanelUserType {
+    func didCreate(with: Submission, on req: Request) throws -> Future<Void> {
+        return Future.transform(to: (), on: req)
+    }
 }

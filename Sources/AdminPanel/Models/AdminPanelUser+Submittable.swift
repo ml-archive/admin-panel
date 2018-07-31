@@ -1,7 +1,9 @@
 import Fluent
+import Reset
 import Submissions
 import Sugar
 import Validation
+import Vapor
 
 extension AdminPanelUser: Submittable {
     public struct Submission: SubmissionType {
@@ -11,6 +13,7 @@ extension AdminPanelUser: Submittable {
         let password: String?
         let passwordAgain: String?
         let shouldResetPassword: Bool?
+        let shouldSpecifyPassword: Bool?
 
         public init(_ user: AdminPanelUser?) {
             email = user?.email
@@ -19,6 +22,7 @@ extension AdminPanelUser: Submittable {
             password = nil
             passwordAgain = nil
             shouldResetPassword = user?.shouldResetPassword
+            shouldSpecifyPassword = true
         }
 
         public func fieldEntries() throws -> [FieldEntry<AdminPanelUser>] {
@@ -62,6 +66,11 @@ extension AdminPanelUser: Submittable {
                     keyPath: \.shouldResetPassword,
                     label: "Should reset password",
                     isRequired: false
+                ),
+                makeFieldEntry(
+                    keyPath: \.shouldSpecifyPassword,
+                    label: "Specify password",
+                    isRequired: false
                 )
             ]
         }
@@ -73,11 +82,12 @@ extension AdminPanelUser: Submittable {
         let title: String?
         let password: String
         let shouldResetPassword: Bool?
+        let shouldSpecifyPassword: Bool?
     }
 
     public convenience init(_ create: Create) throws {
         let password: String
-        if create.password.count > 0 {
+        if create.shouldSpecifyPassword == true {
             password = create.password
         } else {
             password = String.randomAlphaNumericString(12)

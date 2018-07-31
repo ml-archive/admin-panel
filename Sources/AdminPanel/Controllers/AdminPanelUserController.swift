@@ -46,9 +46,17 @@ public final class AdminPanelUserController
 
     public func create(_ req: Request) throws -> Future<Response> {
         let config: AdminPanelConfig<U> = try req.make()
-        return try req.content.decode(U.Submission.self)
+        let submission = try req.content.decode(U.Submission.self)
+
+        return submission
             .createValid(on: req)
             .save(on: req)
+            .flatTry { user in
+                return submission.flatTry { submission in
+                    return try user.didCreate(with: submission, on: req)
+                }
+                .transform(to: ())
+            }
             .map(to: Response.self) { user in
                 req
                     .redirect(to: "/admin/users")

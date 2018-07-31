@@ -21,7 +21,9 @@ let package = Package(
         .package(url: "https://github.com/nodes-vapor/flash.git", from: "3.0.0"),
         .package(url: "https://github.com/nodes-vapor/bootstrap.git", from: "2.0.0"),
         .package(url: "https://github.com/nodes-vapor/reset.git", .branch("master")),
-        .package(url: "https://github.com/nodes-vapor/submissions.git", from: "1.0.0-beta")
+        .package(url: "https://github.com/nodes-vapor/submissions.git", from: "1.0.0-beta"),
+
+        .package(url: "https://github.com/twof/VaporMailgunService.git", from: "1.1.0"),
     ],
     targets: [
         .target(
@@ -36,7 +38,8 @@ let package = Package(
                 "Flash",
                 "Bootstrap",
                 "Reset",
-                "Submissions"
+                "Submissions",
+                "Mailgun"
             ]),
         .testTarget(
             name: "AdminPanelTests",

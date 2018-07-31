@@ -1,7 +1,32 @@
 import Fluent
+import Sugar
 import Vapor
 
 public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
+    public struct ResetPasswordEmail {
+        let fromEmail: String
+        let subject: String
+
+        public static var `default`: ResetPasswordEmail {
+            return .init(
+                fromEmail: "no-reply@myadminpanel.com",
+                subject: "Reset Password"
+            )
+        }
+    }
+
+    public struct SpecifyPasswordEmail {
+        let fromEmail: String
+        let subject: String
+
+        public static var `default`: SpecifyPasswordEmail {
+            return .init(
+                fromEmail: "no-reply@myadminpanel.com",
+                subject: "Specify Password"
+            )
+        }
+    }
+
     let name: String
     let baseUrl: String
     let endpoints: AdminPanelEndpoints
@@ -11,6 +36,9 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
     let adminMenuPath: String?
     let superAdminMenuPath: String?
     let dashboardPath: String?
+    let resetPasswordEmail: ResetPasswordEmail
+    let specifyPasswordEmail: SpecifyPasswordEmail
+    let newUserSetPasswordSigner: ExpireableJWTSigner
 
     public init(
         name: String,
@@ -21,7 +49,10 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
         userMenuPath: String? = nil,
         adminMenuPath: String? = nil,
         superAdminMenuPath: String? = nil,
-        dashboardPath: String? = nil
+        dashboardPath: String? = nil,
+        resetPasswordEmail: ResetPasswordEmail = .default,
+        specifyPasswordEmail: SpecifyPasswordEmail = .default,
+        newUserSetPasswordSigner: ExpireableJWTSigner
     ) {
         self.name = name
         self.baseUrl = baseUrl
@@ -32,6 +63,9 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
         self.adminMenuPath = adminMenuPath
         self.superAdminMenuPath = superAdminMenuPath
         self.dashboardPath = dashboardPath
+        self.resetPasswordEmail = resetPasswordEmail
+        self.specifyPasswordEmail = specifyPasswordEmail
+        self.newUserSetPasswordSigner = newUserSetPasswordSigner
     }
 }
 
