@@ -105,7 +105,7 @@ public enum AdminPanelUserRole: String {
 
     public typealias RawValue = String
 
-    init(rawValue: String?) {
+    public init(rawValue: String?) {
         guard let rawValue = rawValue else { self = .unknown; return }
 
         switch rawValue {

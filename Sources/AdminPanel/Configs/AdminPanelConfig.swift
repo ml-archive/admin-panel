@@ -4,8 +4,8 @@ import Vapor
 
 public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
     public struct ResetPasswordEmail {
-        let fromEmail: String
-        let subject: String
+        public let fromEmail: String
+        public let subject: String
 
         public static var `default`: ResetPasswordEmail {
             return .init(
@@ -16,8 +16,8 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
     }
 
     public struct SpecifyPasswordEmail {
-        let fromEmail: String
-        let subject: String
+        public let fromEmail: String
+        public let subject: String
 
         public static var `default`: SpecifyPasswordEmail {
             return .init(
@@ -27,18 +27,18 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
         }
     }
 
-    let name: String
-    let baseUrl: String
-    let endpoints: AdminPanelEndpoints
-    let views: AdminPanelViews
-    let controllers: AdminPanelControllers<U>
-    let userMenuPath: String?
-    let adminMenuPath: String?
-    let superAdminMenuPath: String?
-    let dashboardPath: String?
-    let resetPasswordEmail: ResetPasswordEmail
-    let specifyPasswordEmail: SpecifyPasswordEmail
-    let newUserSetPasswordSigner: ExpireableJWTSigner
+    public let name: String
+    public let baseUrl: String
+    public let endpoints: AdminPanelEndpoints
+    public let views: AdminPanelViews
+    public let controllers: AdminPanelControllers<U>
+    public let userMenuPath: String?
+    public let adminMenuPath: String?
+    public let superAdminMenuPath: String?
+    public let dashboardPath: String?
+    public let resetPasswordEmail: ResetPasswordEmail
+    public let specifyPasswordEmail: SpecifyPasswordEmail
+    public let newUserSetPasswordSigner: ExpireableJWTSigner
 
     public init(
         name: String,
