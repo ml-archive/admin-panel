@@ -114,12 +114,9 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
         try services.register(resetProvider)
         try services.register(submissionsProvider)
 
-        services.register(AdminPanelConfigTagData(
+        services.register(AdminPanelConfigTagData<U>(
             name: config.name,
-            baseUrl: config.baseUrl,
-            userMenuPath: config.userMenuPath,
-            adminMenuPath: config.adminMenuPath,
-            superAdminMenuPath: config.superAdminMenuPath
+            baseUrl: config.baseUrl
         ))
         services.register(config)
         services.register(KeyedCacheSessions.self)
@@ -138,7 +135,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
         let tags: MutableLeafTagConfig = try container.make()
         tags.use([
             "adminpanel:avatarurl": AvatarURLTag(),
-            "adminpanel:config": AdminPanelConfigTag(),
+            "adminpanel:config": AdminPanelConfigTag<U>(),
             "adminpanel:sidebar:heading": SidebarHeadingTag(),
             "adminpanel:sidebar:menuitem": SidebarMenuItemTag(),
             "adminpanel:user": UserTag()
