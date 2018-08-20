@@ -1,4 +1,4 @@
- import Fluent
+import Fluent
 import Sugar
 import Vapor
 
