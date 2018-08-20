@@ -3,6 +3,8 @@ import Reset
 import Submissions
 import Sugar
 
+public typealias SidebarMenuPathGenerator = ((AdminPanelUserRole) -> String)
+
 public protocol AdminPanelUserType:
     Parameter,
     PasswordAuthenticatable,
@@ -27,12 +29,22 @@ extension AdminPanelUserType {
     }
 }
 
-public protocol AdminPanelUserRoleType: CustomStringConvertible, Comparable, Codable {}
+public protocol AdminPanelUserRoleType: CustomStringConvertible, Comparable, Codable {
+    var menuPath: String { get }
+}
 
 public extension AdminPanelUserType {
     public func requireRole(_ role: Self.Role) throws {
         guard self.role >= role else {
             throw Abort(.unauthorized)
+        }
+    }
+}
+
+public extension AdminPanelUserRoleType {
+    public static var menuPathGenerator: SidebarMenuPathGenerator {
+        return { role in
+            role.menuPath
         }
     }
 }

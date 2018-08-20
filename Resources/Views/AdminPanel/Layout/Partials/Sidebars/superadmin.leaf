@@ -1,0 +1,8 @@
+#set("sidebarContent") {
+    #embed("AdminPanel/Layout/Partials/Sidebars/Menus/shared")
+    #embed("AdminPanel/Layout/Partials/Sidebars/Menus/superadmin")
+    #embed("AdminPanel/Layout/Partials/Sidebars/Menus/admin")
+    #embed("AdminPanel/Layout/Partials/Sidebars/Menus/user")
+}
+
+#embed("AdminPanel/Layout/Partials/Sidebars/base")

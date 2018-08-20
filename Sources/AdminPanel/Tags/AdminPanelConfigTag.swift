@@ -1,51 +1,45 @@
 import Async
 import Leaf
+import Sugar
 import TemplateKit
 
-public final class AdminPanelConfigTag: TagRenderer {
+public final class AdminPanelConfigTag<U: AdminPanelUserType>: TagRenderer {
     public func render(tag: TagContext) throws -> Future<TemplateData> {
         try tag.requireParameterCount(1)
-        let config = try tag.container.make(AdminPanelConfigTagData.self)
-        return Future.map(on: tag) { try config.viewData(for: tag.parameters[0], tag: tag) }
+        let config = try tag.container.make(AdminPanelConfigTagData<U>.self)
+        let container = try tag.container.make(CurrentUserContainer<U>.self)
+
+        return Future.map(on: tag) {
+            try config.viewData(for: tag.parameters[0], user: container.user, tag: tag)
+        }
     }
 
     public init() {}
 }
 
-public final class AdminPanelConfigTagData: Service {
+public final class AdminPanelConfigTagData<U: AdminPanelUserType>: Service {
     enum Keys: String {
         case name = "name"
         case baseUrl = "baseUrl"
-        case userMenuPath = "userMenuPath"
-        case adminMenuPath = "adminMenuPath"
-        case superAdminMenuPath = "superAdminMenuPath"
+        case sidebarMenuPath = "sidebarMenuPath"
         case dashboardPath = "dashboardPath"
     }
 
     public var name = ""
     public var baseUrl = ""
-    public var userMenuPath: String?
-    public var adminMenuPath: String?
-    public var superAdminMenuPath: String?
     public var dashboardPath: String?
 
     init(
         name: String,
         baseUrl: String,
-        userMenuPath: String? = nil,
-        adminMenuPath: String? = nil,
-        superAdminMenuPath: String? = nil,
         dashboardPath: String? = nil
     ) {
         self.name = name
         self.baseUrl = baseUrl
-        self.userMenuPath = userMenuPath
-        self.adminMenuPath = adminMenuPath
-        self.superAdminMenuPath = superAdminMenuPath
         self.dashboardPath = dashboardPath
     }
 
-    func viewData(for data: TemplateData, tag: TagContext) throws -> TemplateData {
+    func viewData(for data: TemplateData, user: U?, tag: TagContext) throws -> TemplateData {
         guard let key = data.string else {
             throw tag.error(reason: "Wrong type given (expected a string): \(type(of: data))")
         }
@@ -59,14 +53,10 @@ public final class AdminPanelConfigTagData: Service {
             return .string(name)
         case .baseUrl:
             return .string(baseUrl)
-        case .userMenuPath:
-            return userMenuPath == nil ? .null: .string(userMenuPath!)
-        case .adminMenuPath:
-            return adminMenuPath == nil ? .null: .string(adminMenuPath!)
-        case .superAdminMenuPath:
-            return superAdminMenuPath == nil ? .null: .string(superAdminMenuPath!)
+        case .sidebarMenuPath:
+            return user.map { .string($0.role.menuPath) } ?? .null
         case .dashboardPath:
-            return dashboardPath == nil ? .null: .string(dashboardPath!)
+            return dashboardPath.map { .string($0) } ?? .null
         }
     }
 }

@@ -124,6 +124,19 @@ extension AdminPanelUserRole: ReflectionDecodable {
 }
 
 extension AdminPanelUserRole: AdminPanelUserRoleType {
+    public var menuPath: String {
+        switch self {
+        case .superAdmin:
+            return "AdminPanel/Layout/Partials/Sidebars/superadmin"
+        case .admin:
+            return "AdminPanel/Layout/Partials/Sidebars/admin"
+        case .user:
+            return "AdminPanel/Layout/Partials/Sidebars/user"
+        case .unknown:
+            return ""
+        }
+    }
+
     public var description: String {
         return self.rawValue
     }
