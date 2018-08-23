@@ -38,9 +38,7 @@ public final class AdminPanelUserController
         try req.populateFields(U.self)
         return try req.privateContainer
             .make(LeafRenderer.self)
-            // TODO: Remove empty context when this gets fixed
-            // https://github.com/vapor/template-kit/issues/17
-            .render(config.views.adminPanelUser.editAndCreate, [String: String]())
+            .render(config.views.adminPanelUser.editAndCreate)
             .encode(for: req)
     }
 

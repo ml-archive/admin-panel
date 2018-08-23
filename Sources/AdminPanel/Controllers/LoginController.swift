@@ -49,9 +49,7 @@ public final class LoginController<U: AdminPanelUserType>: LoginControllerType {
 
         return try req.privateContainer
             .make(LeafRenderer.self)
-            // TODO: Remove empty context when this gets fixed
-            // https://github.com/vapor/template-kit/issues/17
-            .render(config.views.login.index, [String: String]())
+            .render(config.views.login.index)
             .encode(for: req)
     }
 
