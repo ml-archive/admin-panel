@@ -10,7 +10,11 @@ public final class AdminPanelConfigTag<U: AdminPanelUserType>: TagRenderer {
         let container = try tag.container.make(CurrentUserContainer<U>.self)
 
         return Future.map(on: tag) {
-            try config.viewData(for: tag.parameters[0], user: container.user, tag: tag)
+            try config.viewData(
+                for: tag.parameters[0],
+                user: container.user,
+                tag: tag
+            )
         }
     }
 
@@ -28,14 +32,17 @@ public final class AdminPanelConfigTagData<U: AdminPanelUserType>: Service {
     public var name = ""
     public var baseUrl = ""
     public var dashboardPath: String?
+    public var sidebarMenuPathGenerator: SidebarMenuPathGenerator<U.Role>
 
     init(
         name: String,
         baseUrl: String,
+        sidebarMenuPathGenerator: @escaping SidebarMenuPathGenerator<U.Role>,
         dashboardPath: String? = nil
     ) {
         self.name = name
         self.baseUrl = baseUrl
+        self.sidebarMenuPathGenerator = sidebarMenuPathGenerator
         self.dashboardPath = dashboardPath
     }
 
@@ -54,7 +61,9 @@ public final class AdminPanelConfigTagData<U: AdminPanelUserType>: Service {
         case .baseUrl:
             return .string(baseUrl)
         case .sidebarMenuPath:
-            return user.map { .string($0.role.menuPath) } ?? .null
+            return user.map {
+                .string(self.sidebarMenuPathGenerator($0.role))
+            } ?? .null
         case .dashboardPath:
             return dashboardPath.map { .string($0) } ?? .null
         }

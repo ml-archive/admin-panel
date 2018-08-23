@@ -3,7 +3,7 @@ import Reset
 import Submissions
 import Sugar
 
-public typealias SidebarMenuPathGenerator = ((AdminPanelUserRole) -> String)
+public typealias SidebarMenuPathGenerator<U: AdminPanelUserRoleType> = ((U) -> String)
 
 public protocol AdminPanelUserType:
     Parameter,
@@ -42,7 +42,7 @@ public extension AdminPanelUserType {
 }
 
 public extension AdminPanelUserRoleType {
-    public static var menuPathGenerator: SidebarMenuPathGenerator {
+    public static var sidebarMenuPathGenerator: SidebarMenuPathGenerator<Self> {
         return { role in
             role.menuPath
         }

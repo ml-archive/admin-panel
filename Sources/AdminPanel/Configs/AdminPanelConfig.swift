@@ -32,7 +32,7 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
     public let endpoints: AdminPanelEndpoints
     public let views: AdminPanelViews
     public let controllers: AdminPanelControllers<U>
-    public let sidebarMenuPathGenerator: SidebarMenuPathGenerator
+    public let sidebarMenuPathGenerator: SidebarMenuPathGenerator<U.Role>
     public let dashboardPath: String?
     public let resetPasswordEmail: ResetPasswordEmail
     public let specifyPasswordEmail: SpecifyPasswordEmail
@@ -44,7 +44,7 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
         endpoints: AdminPanelEndpoints = .default,
         views: AdminPanelViews = .default,
         controllers: AdminPanelControllers<U> = .default,
-        sidebarMenuPathGenerator: @escaping SidebarMenuPathGenerator = U.Role.menuPathGenerator,
+        sidebarMenuPathGenerator: @escaping SidebarMenuPathGenerator<U.Role> = U.Role.sidebarMenuPathGenerator,
         dashboardPath: String? = nil,
         resetPasswordEmail: ResetPasswordEmail = .default,
         specifyPasswordEmail: SpecifyPasswordEmail = .default,
