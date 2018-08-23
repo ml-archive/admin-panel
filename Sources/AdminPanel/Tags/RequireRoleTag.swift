@@ -17,15 +17,15 @@ public final class RequireRoleTag<U: AdminPanelUserType>: TagRenderer {
                 let roleString: String = tag.parameters[0].string,
                 let requiredRole = U.Role.init(roleString)
             else {
-                throw Abort(.internalServerError, reason: "Invalid role requirement")
+                throw tag.error(reason: "Invalid role requirement")
             }
             
             if requiredRole.weight == 0 {
-                throw tag.error(reason: "User role is at minimum. no requirement needed")
+                throw tag.error(reason: "Required role is at minimum. No requirement needed")
             }
             
             guard let userRole = container.user?.role else {
-                throw Abort(.internalServerError, reason: "Invalid user role")
+                throw tag.error(reason: "Invalid user role")
             }
             
             if userRole >= requiredRole {
