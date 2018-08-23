@@ -94,7 +94,7 @@ public enum AdminPanelUserRole: String {
     case user
     case unknown
 
-    public var weight: Int {
+    public var weight: UInt {
         switch self {
         case .superAdmin: return 3
         case .admin: return 2
@@ -135,6 +135,10 @@ extension AdminPanelUserRole: AdminPanelUserRoleType {
         case .unknown:
             return ""
         }
+    }
+
+    public init?(_ description: String) {
+        self = AdminPanelUserRole.init(rawValue: description)
     }
 
     public var description: String {

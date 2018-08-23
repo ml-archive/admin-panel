@@ -29,8 +29,9 @@ extension AdminPanelUserType {
     }
 }
 
-public protocol AdminPanelUserRoleType: CustomStringConvertible, Comparable, Codable {
+public protocol AdminPanelUserRoleType: LosslessStringConvertible, Comparable, Codable {
     var menuPath: String { get }
+    var weight : UInt { get }
 }
 
 public extension AdminPanelUserType {
