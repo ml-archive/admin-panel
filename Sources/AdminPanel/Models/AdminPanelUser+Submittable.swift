@@ -20,7 +20,7 @@ extension AdminPanelUser: Submittable {
             email = user?.email
             name = user?.name
             title = user?.title
-            role = user?.role.rawValue
+            role = user?.role?.rawValue
             password = nil
             passwordAgain = nil
             shouldResetPassword = user?.shouldResetPassword
@@ -56,7 +56,7 @@ extension AdminPanelUser: Submittable {
                     keyPath: \.role,
                     label: "Role",
                     validators: [.count(...191)],
-                    isRequired: false
+                    isRequired: true
                 ),
                 makeFieldEntry(
                     keyPath: \.password,
@@ -88,7 +88,7 @@ extension AdminPanelUser: Submittable {
         let email: String
         let name: String
         let title: String?
-        let role: String
+        let role: String?
         let password: String
         let shouldResetPassword: Bool?
         let shouldSpecifyPassword: Bool?

@@ -8,7 +8,7 @@ public final class AdminPanelUser: Codable {
     public var name: String
     public var title: String?
     public var avatarUrl: String?
-    public var role: AdminPanelUserRole
+    public var role: AdminPanelUserRole?
     public var password: String
     public var passwordChangeCount: Int
     public var shouldResetPassword: Bool
@@ -27,7 +27,7 @@ public final class AdminPanelUser: Codable {
         name: String,
         title: String? = nil,
         avatarUrl: String? = nil,
-        role: AdminPanelUserRole,
+        role: AdminPanelUserRole?,
         password: String,
         passwordChangeCount: Int = 0,
         shouldResetPassword: Bool = false
@@ -57,8 +57,7 @@ extension AdminPanelUser: Migration {
                 type: .enum([
                     AdminPanelUserRole.superAdmin.rawValue,
                     AdminPanelUserRole.admin.rawValue,
-                    AdminPanelUserRole.user.rawValue,
-                    AdminPanelUserRole.unknown.rawValue
+                    AdminPanelUserRole.user.rawValue
                 ]))
         }
     }

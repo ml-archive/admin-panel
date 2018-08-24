@@ -35,7 +35,7 @@ extension AdminPanelUser: AdminPanelUserType {
         public let name: String
         public let title: String?
         public let avatarUrl: String?
-        public let role: AdminPanelUserRole
+        public let role: AdminPanelUserRole?
         public let password: String
         public let passwordRepeat: String
         public let shouldResetPassword: Bool?
@@ -59,12 +59,16 @@ extension AdminPanelUser: AdminPanelUserType {
 
     // Registration is handled by Submittable (see AdminPanelUser+Submittable).
     public convenience init(_ registration: UserRegistration) throws {
+        guard let registrationRole = registration.role else {
+            throw Abort(.unprocessableEntity)
+        }
+
         try self.init(
             email: registration.email,
             name: registration.name,
             title: registration.title,
             avatarUrl: registration.avatarUrl,
-            role: registration.role,
+            role: registrationRole,
             password: AdminPanelUser.hashPassword(registration.password)
         )
     }
@@ -92,27 +96,23 @@ public enum AdminPanelUserRole: String {
     case superAdmin
     case admin
     case user
-    case unknown
 
     public var weight: UInt {
         switch self {
         case .superAdmin: return 3
         case .admin: return 2
         case .user: return 1
-        case .unknown: return 0
         }
     }
 
     public typealias RawValue = String
 
-    public init(rawValue: String?) {
-        guard let rawValue = rawValue else { self = .unknown; return }
-
+    public init?(rawValue: String?) {
         switch rawValue {
             case AdminPanelUserRole.superAdmin.rawValue: self = .superAdmin
             case AdminPanelUserRole.admin.rawValue: self = .admin
             case AdminPanelUserRole.user.rawValue: self = .user
-            default: self = .unknown
+            default: return nil
         }
     }
 }
@@ -132,13 +132,15 @@ extension AdminPanelUserRole: AdminPanelUserRoleType {
             return "AdminPanel/Layout/Partials/Sidebars/admin"
         case .user:
             return "AdminPanel/Layout/Partials/Sidebars/user"
-        case .unknown:
-            return ""
         }
     }
 
     public init?(_ description: String) {
-        self = AdminPanelUserRole.init(rawValue: description)
+        guard let role = AdminPanelUserRole.init(rawValue: description) else {
+            return nil
+        }
+
+        self = role
     }
 
     public var description: String {
