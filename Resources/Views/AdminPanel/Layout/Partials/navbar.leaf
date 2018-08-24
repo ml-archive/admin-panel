@@ -1,5 +1,5 @@
 <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0">
-    #embed("AdminPanel/Layout/Partials/title")
+    #embed("AdminPanel/Layout/Partials/sitetitle")
   
     <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">

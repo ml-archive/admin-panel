@@ -1,4 +1,4 @@
-<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">
+<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/admin/dashboard">
     #adminpanel:config("name")
     #if(adminpanel:config("environment") != "production") {
         <span class="badge badge-primary">#adminpanel:config("environment")</span>
