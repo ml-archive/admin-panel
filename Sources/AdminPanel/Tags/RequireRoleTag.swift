@@ -20,6 +20,7 @@ public final class RequireRoleTag<U: AdminPanelUserType>: TagRenderer {
                 throw tag.error(reason: "Invalid role requirement")
             }
 
+            // User is either not logged in or not allowed to see content
             guard
                 let userRole = container.user?.role,
                 userRole >= requiredRole

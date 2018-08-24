@@ -59,16 +59,12 @@ extension AdminPanelUser: AdminPanelUserType {
 
     // Registration is handled by Submittable (see AdminPanelUser+Submittable).
     public convenience init(_ registration: UserRegistration) throws {
-        guard let registrationRole = registration.role else {
-            throw Abort(.unprocessableEntity)
-        }
-
         try self.init(
             email: registration.email,
             name: registration.name,
             title: registration.title,
             avatarUrl: registration.avatarUrl,
-            role: registrationRole,
+            role: registration.role,
             password: AdminPanelUser.hashPassword(registration.password)
         )
     }
