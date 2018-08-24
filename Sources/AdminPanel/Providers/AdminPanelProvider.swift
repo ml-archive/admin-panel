@@ -135,7 +135,8 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
             "adminpanel:config": AdminPanelConfigTag<U>(),
             "adminpanel:sidebar:heading": SidebarHeadingTag(),
             "adminpanel:sidebar:menuitem": SidebarMenuItemTag(),
-            "adminpanel:user": UserTag()
+            "adminpanel:user": UserTag(),
+            "adminpanel:user:requireRole": RequireRoleTag<U>()
         ])
 
         return .done(on: container)
