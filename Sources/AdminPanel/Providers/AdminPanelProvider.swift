@@ -113,7 +113,8 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
         services.register(AdminPanelConfigTagData<U>(
             name: config.name,
             baseUrl: config.baseUrl,
-            sidebarMenuPathGenerator: config.sidebarMenuPathGenerator
+            sidebarMenuPathGenerator: config.sidebarMenuPathGenerator,
+            environment: config.environment
         ))
         services.register(config)
         services.register(KeyedCacheSessions.self)
