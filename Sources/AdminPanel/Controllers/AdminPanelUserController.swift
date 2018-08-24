@@ -4,12 +4,12 @@ import Vapor
 import Leaf
 
 public protocol AdminPanelUserControllerType {
-    func renderList(_ req: Request) throws -> Future<View>
+    func renderList(_ req: Request) throws -> Future<Response>
     func renderCreate(_ req: Request) throws -> Future<Response>
     func create(_ req: Request) throws -> Future<Response>
-    func renderEditMe(_ req: Request) throws -> Future<View>
+    func renderEditMe(_ req: Request) throws -> Future<Response>
     func editMe(_ req: Request) throws -> Future<Response>
-    func renderEditUser(_ req: Request) throws -> Future<View>
+    func renderEditUser(_ req: Request) throws -> Future<Response>
     func editUser(_ req: Request) throws -> Future<Response>
     func delete(_ req: Request) throws -> Future<Response>
 }
@@ -21,13 +21,17 @@ public final class AdminPanelUserController
 
     // MARK: List
 
-    public func renderList(_ req: Request) throws -> Future<View> {
+    public func renderList(_ req: Request) throws -> Future<Response> {
         let config: AdminPanelConfig<U> = try req.make()
         return U.query(on: req).all()
-            .flatMap(to: View.self) { users in
+            .flatMap(to: Response.self) { users in
                 return try req.privateContainer
                     .make(LeafRenderer.self)
                     .render(config.views.adminPanelUser.index, MultipleUsers(users: users))
+                    .encode(
+                        status: .ok,
+                        for: req
+                    )
         }
     }
 
@@ -74,17 +78,17 @@ public final class AdminPanelUserController
 
     // MARK: Edit user
 
-    public func renderEditMe(_ req: Request) throws -> Future<View> {
+    public func renderEditMe(_ req: Request) throws -> Future<Response> {
         let user = try req.requireAuthenticated(U.self)
         return try renderEdit(req, user: Future.transform(to: user, on: req))
     }
 
-    public func renderEditUser(_ req: Request) throws -> Future<View> {
+    public func renderEditUser(_ req: Request) throws -> Future<Response> {
         let user = try req.parameters.next(U.self)
         return try renderEdit(req, user: user)
     }
 
-    private func renderEdit(_ req: Request, user: Future<U>) throws -> Future<View> {
+    private func renderEdit(_ req: Request, user: Future<U>) throws -> Future<Response> {
         let adminPanelUser: U = try req.requireAuthenticated()
 
         let config: AdminPanelConfig<U> = try req.make()
@@ -97,6 +101,10 @@ public final class AdminPanelUserController
                 try req.privateContainer
                     .make(LeafRenderer.self)
                     .render(config.views.adminPanelUser.editAndCreate, SingleUser(user: user))
+                    .encode(
+                        status: .ok,
+                        for: req
+                    )
             }
     }
 
