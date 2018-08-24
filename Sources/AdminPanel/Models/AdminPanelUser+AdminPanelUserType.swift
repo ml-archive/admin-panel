@@ -25,6 +25,13 @@ extension AdminPanelUser: AdminPanelUserType {
         public let name: String
         public let title: String?
         public let avatarUrl: String?
+
+        public init(email: String, name: String, title: String? = nil, avatarUrl: String? = nil) {
+            self.email = email
+            self.name = name
+            self.title = title
+            self.avatarUrl = avatarUrl
+        }
     }
 
     public struct UserRegistration: HasReadablePassword, HasReadableUsername {
