@@ -11,7 +11,8 @@ public protocol AdminPanelUserType:
     PasswordResettable,
     SessionAuthenticatable,
     Submittable,
-    UserType
+    UserType,
+    TemplateDataRepresentable
 where
     ID: LosslessStringConvertible,
     Self.ResolvedParameter == Future<Self>

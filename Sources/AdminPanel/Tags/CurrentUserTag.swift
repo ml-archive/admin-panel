@@ -3,47 +3,20 @@ import Leaf
 import Sugar
 import TemplateKit
 
-// TODO: make this compatible with generic user
-public final class UserTag: TagRenderer {
+public final class CurrentUserTag<U: AdminPanelUserType>: TagRenderer {
     public func render(tag: TagContext) throws -> Future<TemplateData> {
         try tag.requireParameterCount(1)
-        let container = try tag.container.make(CurrentUserContainer<AdminPanelUser>.self)
+        let container = try tag.container.make(CurrentUserContainer<U>.self)
 
-        return Future.map(on: tag) {
-            try container.user?.viewData(for: tag.parameters[0], tag: tag) ?? .null
-        }
-    }
-}
-
-private extension AdminPanelUser {
-    enum Keys: String {
-        case id
-        case email
-        case name
-        case title
-        case avatarUrl
-    }
-
-    func viewData(for data: TemplateData, tag: TagContext) throws -> TemplateData {
-        guard let key = data.string else {
-            throw tag.error(reason: "Wrong type given (expected a string): \(type(of: data))")
+        guard
+            let user = container.user,
+            let data = try user.convertToTemplateData().dictionary,
+            let key = tag.parameters[0].string,
+            let value = data[key]
+        else {
+            throw tag.error(reason: "No user is logged in or the key doesn't exist.")
         }
 
-        guard let parsedKey = Keys(rawValue: key) else {
-            throw tag.error(reason: "Wrong argument given: \(key)")
-        }
-
-        switch parsedKey {
-        case .id:
-            return id.map(TemplateData.int) ?? .null
-        case .email:
-            return .string(email)
-        case .name:
-            return .string(name)
-        case .title:
-            return title.map(TemplateData.string) ?? .null
-        case .avatarUrl:
-            return avatarUrl.map(TemplateData.string) ?? .null
-        }
+        return tag.future(value)
     }
 }

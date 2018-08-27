@@ -136,7 +136,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
             "adminpanel:config": AdminPanelConfigTag<U>(),
             "adminpanel:sidebar:heading": SidebarHeadingTag(),
             "adminpanel:sidebar:menuitem": SidebarMenuItemTag(),
-            "adminpanel:user": UserTag(),
+            "adminpanel:user": CurrentUserTag<U>(),
             "adminpanel:user:requireRole": RequireRoleTag<U>(),
             "adminpanel:user:roleAllows": RoleAllowsTag<U>()
         ])
