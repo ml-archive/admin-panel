@@ -91,6 +91,19 @@ extension AdminPanelUser: AdminPanelUserType {
 
         return Future.transform(to: (), on: req)
     }
+
+    // MARK: TemplateDataRepresentable
+
+    public func convertToTemplateData() throws -> TemplateData {
+        return .dictionary([
+            "id": id.map(TemplateData.int) ?? .null,
+            "email": .string(email),
+            "name": .string(name),
+            "title": title.map(TemplateData.string) ?? .null,
+            "avatarUrl": avatarUrl.map(TemplateData.string) ?? .null,
+            "role": role.map { .string($0.description) } ?? .null
+        ])
+    }
 }
 
 // MARK: Roles
