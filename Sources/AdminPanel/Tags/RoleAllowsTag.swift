@@ -16,18 +16,13 @@ public final class RoleAllowsTag<U: AdminPanelUserType>: TagRenderer {
         else {
             throw tag.error(reason: "Invalid role requirement")
         }
-
-        return tag.future()
-            .map(to: TemplateData.self) { _ in
-                // User is either not logged in or not allowed to see content
-                guard
-                    let userRole = container.user?.role
-                else {
-                    return TemplateData.bool(false)
-                }
-
-                return TemplateData.bool(userRole >= requiredRole)
+        
+        guard
+            let userRole = container.user?.role
+        else {
+             return tag.future(.bool(false))
         }
         
+        return tag.future(.bool(userRole >= requiredRole))
     }
 }
