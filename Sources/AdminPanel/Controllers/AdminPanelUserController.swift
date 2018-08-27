@@ -28,10 +28,7 @@ public final class AdminPanelUserController
                 return try req.privateContainer
                     .make(LeafRenderer.self)
                     .render(config.views.adminPanelUser.index, MultipleUsers(users: users))
-                    .encode(
-                        status: .ok,
-                        for: req
-                    )
+                    .encode(for: req)
         }
     }
 
@@ -101,10 +98,7 @@ public final class AdminPanelUserController
                 try req.privateContainer
                     .make(LeafRenderer.self)
                     .render(config.views.adminPanelUser.editAndCreate, SingleUser(user: user))
-                    .encode(
-                        status: .ok,
-                        for: req
-                    )
+                    .encode(for: req)
             }
     }
 
