@@ -36,6 +36,7 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
     public let resetPasswordEmail: ResetPasswordEmail
     public let specifyPasswordEmail: SpecifyPasswordEmail
     public let newUserSetPasswordSigner: ExpireableJWTSigner
+    public let environment: Environment
 
     public init(
         name: String,
@@ -46,7 +47,8 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
         sidebarMenuPathGenerator: @escaping SidebarMenuPathGenerator<U.Role> = U.Role.sidebarMenuPathGenerator,
         resetPasswordEmail: ResetPasswordEmail = .default,
         specifyPasswordEmail: SpecifyPasswordEmail = .default,
-        newUserSetPasswordSigner: ExpireableJWTSigner
+        newUserSetPasswordSigner: ExpireableJWTSigner,
+        environment: Environment
     ) {
         self.name = name
         self.baseUrl = baseUrl
@@ -57,6 +59,7 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
         self.resetPasswordEmail = resetPasswordEmail
         self.specifyPasswordEmail = specifyPasswordEmail
         self.newUserSetPasswordSigner = newUserSetPasswordSigner
+        self.environment = environment
     }
 }
 

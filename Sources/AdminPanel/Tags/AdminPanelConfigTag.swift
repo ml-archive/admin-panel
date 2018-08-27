@@ -27,23 +27,27 @@ public final class AdminPanelConfigTagData<U: AdminPanelUserType>: Service {
         case baseUrl = "baseUrl"
         case sidebarMenuPath = "sidebarMenuPath"
         case dashboardPath = "dashboardPath"
+        case environment = "environment"
     }
 
     public var name = ""
     public var baseUrl = ""
     public var dashboardPath: String?
     public var sidebarMenuPathGenerator: SidebarMenuPathGenerator<U.Role>
+    public var environment: Environment
 
     init(
         name: String,
         baseUrl: String,
         sidebarMenuPathGenerator: @escaping SidebarMenuPathGenerator<U.Role>,
-        dashboardPath: String? = nil
+        dashboardPath: String? = nil,
+        environment: Environment
     ) {
         self.name = name
         self.baseUrl = baseUrl
         self.sidebarMenuPathGenerator = sidebarMenuPathGenerator
         self.dashboardPath = dashboardPath
+        self.environment = environment
     }
 
     func viewData(for data: TemplateData, user: U?, tag: TagContext) throws -> TemplateData {
@@ -66,6 +70,8 @@ public final class AdminPanelConfigTagData<U: AdminPanelUserType>: Service {
             } ?? .null
         case .dashboardPath:
             return dashboardPath.map { .string($0) } ?? .null
+        case .environment:
+            return .string(environment.name)
         }
     }
 }
