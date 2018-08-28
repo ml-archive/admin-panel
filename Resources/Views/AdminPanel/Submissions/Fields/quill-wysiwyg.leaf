@@ -1,0 +1,50 @@
+<div class="form-group" data-edit="quill">
+    #if(label) {
+        <label for="#(key)">#(label)</label>
+    }
+
+    <div class="toolbar">
+        <span class="ql-formats">
+            <select class="ql-size">
+                <option value="small"></option>
+                <!-- Note a missing, thus falsy value, is used to reset to default -->
+                <option selected></option>
+                <option value="large"></option>
+                <option value="huge"></option>
+            </select>
+        </span>
+
+        <!-- Add a bold button -->
+        <span class="ql-formats">
+            <button class="ql-bold"></button>
+            <button class="ql-italic"></button>
+            <button class="ql-underline"></button>
+            <button class="ql-strike"></button>
+        </span>
+    
+        <span class="ql-formats">
+            <button class="ql-list" value="ordered" type="button"></button>
+            <button class="ql-list" value="bullet" type="button"></button>
+        </span>
+        
+        <span class="ql-formats">
+            <button class="ql-link"></button>
+        </span>
+    </div>
+
+    <input class="editor-placeholder" type="hidden" value="#(placeholder)">
+    <div class="editor form-control #if(hasErrors) { is-invalid }">#get(value)</div>
+    <input id="#(key)" name="#(key)" class="wysiwyg-value" type="hidden" value="#(value)">
+
+    #if(helpText) {
+        <small id="#(key)Help" class="form-text text-muted">#(helpText)</small>
+    }
+
+    #if(hasErrors) {
+        <div class='invalid-feedback'>
+            #for(error in errors) {
+                <div>#(error)</div>
+            }
+        </div>
+    }
+</div>

@@ -139,6 +139,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
             "adminpanel:user": CurrentUserTag<U>(),
             "adminpanel:user:requireRole": RequireRoleTag<U>(),
             "adminpanel:user:roleAllows": RoleAllowsTag<U>()
+            "submissions:wysiwyg": InputTag(templatePath: config.tagTemplatePaths.wysiwygField)
         ])
 
         return .done(on: container)
