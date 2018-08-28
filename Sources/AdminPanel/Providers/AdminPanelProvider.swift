@@ -132,13 +132,13 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
 
         let tags: MutableLeafTagConfig = try container.make()
         tags.use([
-            "adminpanel:avatarurl": AvatarURLTag(),
+            "adminpanel:avatarUrl": AvatarURLTag(),
             "adminpanel:config": AdminPanelConfigTag<U>(),
             "adminpanel:sidebar:heading": SidebarHeadingTag(),
-            "adminpanel:sidebar:menuitem": SidebarMenuItemTag(),
+            "adminpanel:sidebar:menuItem": SidebarMenuItemTag(),
             "adminpanel:user": CurrentUserTag<U>(),
-            "adminpanel:user:requirerole": RequireRoleTag<U>(),
-            "adminpanel:user:hasrequiredrole": HasRequiredRole<U>()
+            "adminpanel:user:requireRole": RequireRoleTag<U>(),
+            "adminpanel:user:hasRequiredRole": HasRequiredRole<U>()
         ])
 
         return .done(on: container)
