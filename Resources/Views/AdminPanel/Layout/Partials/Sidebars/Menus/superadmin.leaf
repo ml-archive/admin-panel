@@ -1,4 +1,4 @@
-#adminpanel:sidebar:heading() { Super Admin }
+#adminPanel:sidebar:heading() { Super Admin }
 <ul class="nav flex-column mb-2">
 
 </ul>
