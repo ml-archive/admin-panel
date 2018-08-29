@@ -37,6 +37,7 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
     public let specifyPasswordEmail: SpecifyPasswordEmail
     public let newUserSetPasswordSigner: ExpireableJWTSigner
     public let environment: Environment
+    public let tagTemplatePaths: TagTemplatePaths
 
     public init(
         name: String,
@@ -48,7 +49,8 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
         resetPasswordEmail: ResetPasswordEmail = .default,
         specifyPasswordEmail: SpecifyPasswordEmail = .default,
         newUserSetPasswordSigner: ExpireableJWTSigner,
-        environment: Environment
+        environment: Environment,
+        tagTemplatePaths: TagTemplatePaths = TagTemplatePaths()
     ) {
         self.name = name
         self.baseUrl = baseUrl
@@ -60,6 +62,7 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
         self.specifyPasswordEmail = specifyPasswordEmail
         self.newUserSetPasswordSigner = newUserSetPasswordSigner
         self.environment = environment
+        self.tagTemplatePaths = tagTemplatePaths
     }
 }
 
