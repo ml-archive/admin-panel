@@ -10,7 +10,7 @@ let modalConfirmation = (function() {
             modalText = !modalText ? 'Are you sure you want to continue?' : modalText;
 
             // Confirmation path
-            let modalConfirmationPath = $(element).attr('href')
+            let modalConfirmationPath = $(element).attr('href');
 
             // Confirmation type
             let modalConfirmButtonType = $(element).data('button');
@@ -18,11 +18,11 @@ let modalConfirmation = (function() {
 
             // Confirmation button text
             let confirmButtonText = $(element).data('confirm-btn');
-            confirmButtonText = !confirmButtonText ? 'Confirm' : confirmButtonText
+            confirmButtonText = !confirmButtonText ? 'Confirm' : confirmButtonText;
 
             // Dismiss button text
             let dismissButtonText = $(element).data('dismiss-btn');
-            dismissButtonText = !dismissButtonText ? 'Close' : dismissButtonText
+            dismissButtonText = !dismissButtonText ? 'Close' : dismissButtonText;
 
             let closure = function(e) {
                 e.preventDefault();
@@ -79,7 +79,7 @@ let modalConfirmation = (function() {
                 }
 
                 $('#modalConfirmation').on('hidden.bs.modal', function (e) {
-                    $('#modalConfirmation').remove()
+                    $('#modalConfirmation').remove();
                 })
             };
 
