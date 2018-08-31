@@ -23,7 +23,7 @@ By default confirm submits the form and dismiss will remove the HTML-element fro
 |---------|-----------|-------|
 |data-title|Sets the title of the modal|`data-title="Please confirm"`|
 |data-text|Sets the text of the modal|`data-text="Are you sure you want to continue?"`|
-|data-button|Sets bootstrap css selecto for the confirm button|`data-button="danger"` _[primary,secondary,success,danger,warning,info,light,dark]_|
+|data-button|Sets bootstrap css selector for the confirm button|`data-button="danger"` _[primary,secondary,success,danger,warning,info,light,dark]_|
 |data-confirm-btn|Set the text label on the "confirm"-button|`data-confirm-btn="Yes"`|
 |data-dismiss-btn|Set the text label on the "dismiss"-button|`data-confirm-btn="No"`|
 
