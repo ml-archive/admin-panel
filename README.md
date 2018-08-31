@@ -12,11 +12,13 @@ Triggering the modal will append a HTML-element form to the DOM, containing titl
 By default confirm submits the form and dismiss will remove the HTML-element from the DOM
 
 **Basic usage**
+
 ```HTML
 <a href="#" data-confirm="true">Open modal</a>
 ```
 
 **Data Attributes**
+
 |Attribute|Description|example|
 |---------|-----------|-------|
 |data-title|Sets the title of the modal|`data-title="Please confirm"`|
@@ -26,8 +28,9 @@ By default confirm submits the form and dismiss will remove the HTML-element fro
 |data-dismiss-btn|Set the text label on the "dismiss"-button|`data-confirm-btn="No"`|
 
 **Override default behavior**
+
 ```javascript
-// Overríde modal confirm action
+// Override modal confirm action
 modalConfirmation.actions.confirm = function(event) {
     alert("Confirmed");
 }
