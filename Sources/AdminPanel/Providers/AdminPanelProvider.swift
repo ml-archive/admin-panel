@@ -125,7 +125,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
         try routes(
             container.make(),
             middlewares: middlewares,
-            endpoints: AdminPanelEndpoints.default,
+            endpoints: config.endpoints,
             resetProvider: resetProvider,
             config: container.make()
         )

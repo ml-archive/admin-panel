@@ -15,13 +15,13 @@ public struct AdminPanelEndpoints {
     public let renderEditMe: String
 
     public init(
-        login: String,
-        logout: String,
-        dashboard: String,
-        renderAdminPanelUserList: String,
-        renderCreateAdminPanelUser: String,
-        createAdminPanelUser: String,
-        renderEditMe: String
+        login: String = "/admin/login",
+        logout: String = "/admin/logout",
+        dashboard: String = "/admin/dashboard",
+        renderAdminPanelUserList: String = "/admin/users",
+        renderCreateAdminPanelUser: String = "/admin/users/create",
+        createAdminPanelUser: String = "/admin/users/create",
+        renderEditMe: String = "/admin/users/me/edit"
     ) {
         self.login = login
         self.logout = logout
@@ -33,16 +33,7 @@ public struct AdminPanelEndpoints {
     }
 
     public static var `default`: AdminPanelEndpoints {
-        let admin = "/admin"
-        return .init(
-            login: admin + "/login",
-            logout: admin + "/logout",
-            dashboard: admin + "/dashboard",
-            renderAdminPanelUserList: admin + "/users",
-            renderCreateAdminPanelUser: admin + "/users/create",
-            createAdminPanelUser: admin + "/users/create",
-            renderEditMe: admin + "/users/me/edit"
-        )
+        return .init()
     }
 }
 
