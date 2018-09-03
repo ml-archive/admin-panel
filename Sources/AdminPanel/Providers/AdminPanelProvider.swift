@@ -50,7 +50,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
         resetProvider = ResetProvider<U>(
             config: .init(
                 name: config.name,
-                baseUrl: config.baseUrl,
+                baseURL: config.baseURL,
                 endpoints: ResetEndpoints(
                     renderResetPasswordRequest: "/admin/users/reset-password/request",
                     resetPasswordRequest: "/admin/users/reset-password/request",
@@ -112,7 +112,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
 
         services.register(AdminPanelConfigTagData<U>(
             name: config.name,
-            baseUrl: config.baseUrl,
+            baseURL: config.baseURL,
             sidebarMenuPathGenerator: config.sidebarMenuPathGenerator,
             environment: config.environment
         ))

@@ -24,27 +24,27 @@ public final class AdminPanelConfigTag<U: AdminPanelUserType>: TagRenderer {
 public final class AdminPanelConfigTagData<U: AdminPanelUserType>: Service {
     enum Keys: String {
         case name = "name"
-        case baseUrl = "baseUrl"
+        case baseURL = "baseURL"
         case sidebarMenuPath = "sidebarMenuPath"
         case dashboardPath = "dashboardPath"
         case environment = "environment"
     }
 
     public var name = ""
-    public var baseUrl = ""
+    public var baseURL = ""
     public var dashboardPath: String?
     public var sidebarMenuPathGenerator: SidebarMenuPathGenerator<U.Role>
     public var environment: Environment
 
     init(
         name: String,
-        baseUrl: String,
+        baseURL: String,
         sidebarMenuPathGenerator: @escaping SidebarMenuPathGenerator<U.Role>,
         dashboardPath: String? = nil,
         environment: Environment
     ) {
         self.name = name
-        self.baseUrl = baseUrl
+        self.baseURL = baseURL
         self.sidebarMenuPathGenerator = sidebarMenuPathGenerator
         self.dashboardPath = dashboardPath
         self.environment = environment
@@ -62,8 +62,8 @@ public final class AdminPanelConfigTagData<U: AdminPanelUserType>: Service {
         switch parsedKey {
         case .name:
             return .string(name)
-        case .baseUrl:
-            return .string(baseUrl)
+        case .baseURL:
+            return .string(baseURL)
         case .sidebarMenuPath:
             return user.map {
                 .string(self.sidebarMenuPathGenerator($0.role))

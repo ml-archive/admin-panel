@@ -26,9 +26,9 @@ public final class SidebarMenuItemTag: TagRenderer {
 
         if tag.parameters.count > 2 {
             let currentPath = try tag.container.make(CurrentURLContainer.self).path
-            let activeUrlPatterns = tag.parameters.dropFirst(2)
+            let activeURLPatterns = tag.parameters.dropFirst(2)
 
-            if isActive(currentPath: currentPath, pathPatterns: activeUrlPatterns) {
+            if isActive(currentPath: currentPath, pathPatterns: activeURLPatterns) {
                 activeLink = " active"
                 activeTitle = " <span class='sr-only'>(current)</span>"
             }
