@@ -68,7 +68,7 @@ let modalConfirmation = (function() {
 
                 // Custom "Dismiss"-action
                 if (typeof(modalConfirmation.actions.dismiss) === "function") {
-                    // Identify confirm button, interrupt default behavior, execute custom action
+                    // Identify dismiss button, interrupt default behavior, execute custom action
                     let dismissBtn = $("#modalConfirmation .modal-footer button[type='button']");
 
                     dismissBtn.click(function(event) {

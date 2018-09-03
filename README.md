@@ -5,7 +5,7 @@ A description of this package.
 
 #### Confirm Modal
 
-Admin Panel includes a generic confirmation modal for links, out of the box. Using HTML data attributes on `<a>`-tags the modal can be configured in diffenrent ways. Just add a data attribute to your link and you're all set.
+Admin Panel includes a generic confirmation modal for links, out of the box. Using HTML data attributes on `<a>`-tags the modal can be configured in different ways. Just add a data attribute to your link and you're all set.
 
 Triggering the modal will append a HTML-element form to the DOM, containing title, text, confirm button and dismiss button.
 
