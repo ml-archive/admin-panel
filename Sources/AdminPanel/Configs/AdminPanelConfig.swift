@@ -28,7 +28,7 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
     }
 
     public let name: String
-    public let baseUrl: String
+    public let baseURL: String
     public let endpoints: AdminPanelEndpoints
     public let views: AdminPanelViews
     public let controllers: AdminPanelControllers<U>
@@ -41,7 +41,7 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
 
     public init(
         name: String,
-        baseUrl: String,
+        baseURL: String,
         endpoints: AdminPanelEndpoints = .default,
         views: AdminPanelViews = .default,
         controllers: AdminPanelControllers<U> = .default,
@@ -53,7 +53,7 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
         tagTemplatePaths: TagTemplatePaths = TagTemplatePaths()
     ) {
         self.name = name
-        self.baseUrl = baseUrl
+        self.baseURL = baseURL
         self.endpoints = endpoints
         self.views = views
         self.controllers = controllers

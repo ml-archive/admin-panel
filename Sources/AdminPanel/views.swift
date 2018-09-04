@@ -69,11 +69,6 @@ public struct AdminPanelViews {
     }
 
     public static var `default`: AdminPanelViews {
-        return .init(
-            login: .init(),
-            dashboard: .init(),
-            adminPanelUser: .init(),
-            reset: .init()
-        )
+        return .init()
     }
 }
