@@ -1,7 +1,7 @@
 import Leaf
 import TemplateKit
 
-public final class AvatarUrlTag: TagRenderer {
+public final class avatarURLTag: TagRenderer {
     public func render(tag: TagContext) throws -> Future<TemplateData> {
         var identifier = ""
         var url: String?
@@ -19,8 +19,8 @@ public final class AvatarUrlTag: TagRenderer {
             }
         }
 
-        let avatarUrl = url ?? "https://api.adorable.io/avatars/150/\(identifier).png"
+        let avatarURL = url ?? "https://api.adorable.io/avatars/150/\(identifier).png"
 
-        return Future.map(on: tag) { return .string(avatarUrl) }
+        return Future.map(on: tag) { return .string(avatarURL) }
     }
 }
