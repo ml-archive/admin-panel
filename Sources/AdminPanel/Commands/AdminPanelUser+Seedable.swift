@@ -50,7 +50,7 @@ extension AdminPanelUser: Seedable {
             email: email,
             name: name,
             title: "Tester",
-            avatarUrl: nil,
+            avatarURL: nil,
             role: .superAdmin,
             password: password,
             passwordRepeat: password,

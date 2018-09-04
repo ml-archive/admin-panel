@@ -24,13 +24,13 @@ extension AdminPanelUser: AdminPanelUserType {
         public let email: String
         public let name: String
         public let title: String?
-        public let avatarUrl: String?
+        public let avatarURL: String?
 
-        public init(email: String, name: String, title: String? = nil, avatarUrl: String? = nil) {
+        public init(email: String, name: String, title: String? = nil, avatarURL: String? = nil) {
             self.email = email
             self.name = name
             self.title = title
-            self.avatarUrl = avatarUrl
+            self.avatarURL = avatarURL
         }
     }
 
@@ -41,7 +41,7 @@ extension AdminPanelUser: AdminPanelUserType {
         public let email: String
         public let name: String
         public let title: String?
-        public let avatarUrl: String?
+        public let avatarURL: String?
         public let role: AdminPanelUserRole?
         public let password: String
         public let passwordRepeat: String
@@ -56,7 +56,7 @@ extension AdminPanelUser: AdminPanelUserType {
         public let email: String?
         public let name: String?
         public let title: String?
-        public let avatarUrl: String?
+        public let avatarURL: String?
         public let role: AdminPanelUserRole?
         public let password: String?
         public let oldPassword: String?
@@ -70,7 +70,7 @@ extension AdminPanelUser: AdminPanelUserType {
             email: registration.email,
             name: registration.name,
             title: registration.title,
-            avatarUrl: registration.avatarUrl,
+            avatarURL: registration.avatarURL,
             role: registration.role,
             password: AdminPanelUser.hashPassword(registration.password)
         )
@@ -100,7 +100,7 @@ extension AdminPanelUser: AdminPanelUserType {
             "email": .string(email),
             "name": .string(name),
             "title": title.map(TemplateData.string) ?? .null,
-            "avatarUrl": avatarUrl.map(TemplateData.string) ?? .null,
+            "avatarURL": avatarURL.map(TemplateData.string) ?? .null,
             "role": role.map { .string($0.description) } ?? .null
         ])
     }

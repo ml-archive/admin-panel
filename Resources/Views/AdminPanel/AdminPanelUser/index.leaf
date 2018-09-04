@@ -20,7 +20,7 @@
         <tbody>    
             #for(user in users) {
                 <tr>
-                    <th><img src="#adminPanel:avatarUrl(user.email, user.avatarUrl)" alt="Profile picture" class="img-thumbnail" width="40"></th>
+                    <th><img src="#adminPanel:avatarURL(user.email, user.avatarURL)" alt="Profile picture" class="img-thumbnail" width="40"></th>
                     <td>#(user.name)</td>
                     <td>#(user.title)</td>
                     <td>#(user.email)</td>

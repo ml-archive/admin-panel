@@ -7,7 +7,7 @@ public final class AdminPanelUser: Codable {
     public var email: String
     public var name: String
     public var title: String?
-    public var avatarUrl: String?
+    public var avatarURL: String?
     public var role: AdminPanelUserRole?
     public var password: String
     public var passwordChangeCount: Int
@@ -26,7 +26,7 @@ public final class AdminPanelUser: Codable {
         email: String,
         name: String,
         title: String? = nil,
-        avatarUrl: String? = nil,
+        avatarURL: String? = nil,
         role: AdminPanelUserRole?,
         password: String,
         passwordChangeCount: Int = 0,
@@ -36,7 +36,7 @@ public final class AdminPanelUser: Codable {
         self.email = email
         self.name = name
         self.title = title
-        self.avatarUrl = avatarUrl
+        self.avatarURL = avatarURL
         self.role = role
         self.password = password
         self.passwordChangeCount = passwordChangeCount
