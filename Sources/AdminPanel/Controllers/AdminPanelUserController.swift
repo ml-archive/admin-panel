@@ -1,7 +1,8 @@
 import Fluent
+import Leaf
+import Paginator
 import Submissions
 import Vapor
-import Leaf
 
 public protocol AdminPanelUserControllerType {
     func renderList(_ req: Request) throws -> Future<Response>
@@ -23,13 +24,18 @@ public final class AdminPanelUserController
 
     public func renderList(_ req: Request) throws -> Future<Response> {
         let config: AdminPanelConfig<U> = try req.make()
-        return U.query(on: req).all()
-            .flatMap(to: Response.self) { users in
+        let paginator: Future<OffsetPaginator<U>> = try U.query(on: req).paginate(for: req)
+        return paginator
+            .flatMap(to: Response.self) { paginator in
                 return try req.privateContainer
                     .make(LeafRenderer.self)
-                    .render(config.views.adminPanelUser.index, MultipleUsers(users: users))
+                    .render(
+                        config.views.adminPanelUser.index,
+                        MultipleUsers(users: paginator.data ?? []),
+                        userInfo: try paginator.userInfo()
+                    )
                     .encode(for: req)
-        }
+            }
     }
 
     // MARK: Create user

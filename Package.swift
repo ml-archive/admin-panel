@@ -22,6 +22,7 @@ let package = Package(
         .package(url: "https://github.com/nodes-vapor/bootstrap.git", from: "2.0.0"),
         .package(url: "https://github.com/nodes-vapor/reset.git", from: "1.0.0-beta"),
         .package(url: "https://github.com/nodes-vapor/submissions.git", from: "1.0.0-beta"),
+        .package(url: "https://github.com/nodes-vapor/paginator.git", from: "3.0.0-rc"),
 
         .package(url: "https://github.com/twof/VaporMailgunService.git", from: "1.1.0"),
     ],
@@ -39,7 +40,8 @@ let package = Package(
                 "Bootstrap",
                 "Reset",
                 "Submissions",
-                "Mailgun"
+                "Mailgun",
+                "Paginator"
             ]),
         .testTarget(
             name: "AdminPanelTests",

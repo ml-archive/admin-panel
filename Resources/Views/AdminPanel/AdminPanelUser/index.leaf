@@ -38,6 +38,8 @@
             }        
         </tbody>
     </table>
+
+    #offsetPaginator()
 }
 
 #embed("AdminPanel/Layout/base")
