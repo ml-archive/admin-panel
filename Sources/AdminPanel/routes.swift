@@ -37,7 +37,7 @@ public struct AdminPanelEndpoints {
     }
 }
 
-public struct AdminPanelMiddlewares {
+public struct AdminPanelMiddlewares: Service {
     public let unsecure: [Middleware]
     public let secure: [Middleware]
 }
@@ -50,7 +50,6 @@ internal extension AdminPanelProvider {
         resetProvider: ResetProvider<U>,
         config: AdminPanelConfig<U>
     ) throws {
-
         let unprotected = router.grouped(middlewares.unsecure)
         let protected = router.grouped(middlewares.secure)
 

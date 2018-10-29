@@ -3,13 +3,14 @@ import Bootstrap
 import Flash
 import Fluent
 import Leaf
+import Paginator
 import Reset
 import Submissions
 import Sugar
 import Vapor
 
 // MARK: - Commands
-extension AdminPanelProvider where U.ID: ExpressibleByStringLiteral, U: Seedable {
+public extension AdminPanelProvider where U: Seedable {
     public static func commands(
         databaseIdentifier: DatabaseIdentifier<U.Database>
     ) -> [String: Command] {
@@ -118,6 +119,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
         ))
         services.register(config)
         services.register(KeyedCacheSessions.self)
+        services.register(self.middlewares)
     }
 
     /// See Service.Provider.boot
@@ -139,7 +141,8 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
             "adminPanel:user": CurrentUserTag<U>(),
             "adminPanel:user:requireRole": RequireRoleTag<U>(),
             "adminPanel:user:hasRequiredRole": HasRequiredRole<U>(),
-            "submissions:WYSIWYG": InputTag(templatePath: config.tagTemplatePaths.wysiwygField)
+            "submissions:WYSIWYG": InputTag(templatePath: config.tagTemplatePaths.wysiwygField),
+            "offsetPaginator": OffsetPaginatorTag(templatePath: "Paginator/offsetpaginator")
         ])
 
         return .done(on: container)
