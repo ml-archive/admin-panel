@@ -2,12 +2,12 @@ version: 2
 jobs:
   MacOS:
     macos:
-      xcode: "9.3.0"
+      xcode: "10.0.0"
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v3-spm-deps-{{ checksum "Package.swift" }}
+            - v1-spm-deps-{{ checksum "Package.swift" }}
       - run:
           name: Install CMySQL and CTLS
           command: |
@@ -31,12 +31,12 @@ jobs:
             - .build
   Linux:
     docker:
-      - image: nodesvapor/vapor-ci:swift-4.1
+      - image: nodesvapor/vapor-ci:swift-4.2
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v4-spm-deps-{{ checksum "Package.swift" }}
+            - v2-spm-deps-{{ checksum "Package.swift" }}
       - run:
           name: Copy Package file
           command: cp Package.swift res
