@@ -66,8 +66,8 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
                     resetPassword: "/admin/users/reset-password"
                 ),
                 signer: ExpireableJWTSigner(
-                    expirationPeriod: 3600, // 1 hour
-                    signer: .hs256(key: "secret-reset".convertToData())
+                    expirationPeriod: 1.hoursInSecs,
+                    signer: .hs256(key: config.resetPasswordSignerKey.convertToData())
                 ),
                 responses: ResetResponses(
                     resetPasswordRequestForm: { req in
