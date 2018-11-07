@@ -133,14 +133,14 @@ extension AdminPanelUser: PasswordResettable {
 
     public func signer(
         for context: AdminPanelResetPasswordContext,
-        on req: Request
+        on container: Container
     ) throws -> ExpireableJWTSigner {
-        let resetConfig: ResetConfig<AdminPanelUser> = try req.make()
-        let adminPaneConfig: AdminPanelConfig<AdminPanelUser> = try req.make()
+        let resetConfig: ResetConfig<AdminPanelUser> = try container.make()
+        let adminPanelConfig: AdminPanelConfig<AdminPanelUser> = try container.make()
 
         switch context {
         case .userRequestedToResetPassword: return resetConfig.signer
-        case .newUserWithoutPassword: return adminPaneConfig.newUserSetPasswordSigner
+        case .newUserWithoutPassword: return adminPanelConfig.newUserSetPasswordSigner
         }
     }
 }

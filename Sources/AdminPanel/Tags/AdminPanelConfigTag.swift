@@ -30,11 +30,11 @@ public final class AdminPanelConfigTagData<U: AdminPanelUserType>: Service {
         case environment = "environment"
     }
 
-    public var name = ""
-    public var baseURL = ""
-    public var dashboardPath: String?
-    public var sidebarMenuPathGenerator: SidebarMenuPathGenerator<U.Role>
-    public var environment: Environment
+    public let name: String
+    public let baseURL: String
+    public let dashboardPath: String?
+    public let sidebarMenuPathGenerator: SidebarMenuPathGenerator<U.Role>
+    public let environment: Environment
 
     init(
         name: String,

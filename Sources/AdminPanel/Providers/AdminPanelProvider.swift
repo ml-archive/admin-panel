@@ -22,11 +22,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
     /// See Service.Provider.repositoryName
     public static var repositoryName: String { return "admin-panel" }
     public let config: AdminPanelConfig<U>
-
-    public var middlewares: AdminPanelMiddlewares
-
-    private let resetProvider: ResetProvider<U>
-    private let submissionsProvider: SubmissionsProvider
+    public let middlewares: AdminPanelMiddlewares
 
     public init(config: AdminPanelConfig<U>) {
         self.config = config
@@ -47,8 +43,19 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
             unsecure: unsecure,
             secure: secure
         )
+    }
 
-        resetProvider = ResetProvider<U>(
+    /// See Service.Provider.Register
+    public func register(_ services: inout Services) throws {
+        try services.register(AuthenticationProvider())
+        try services.register(BootstrapProvider())
+        try services.register(CurrentURLProvider())
+        try services.register(CurrentUserProvider<U>())
+        try services.register(FlashProvider())
+        try services.register(MutableLeafTagConfigProvider())
+        try services.register(LeafProvider())
+
+        try services.register(ResetProvider<U>(
             config: .init(
                 name: config.name,
                 baseURL: config.baseURL,
@@ -58,7 +65,6 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
                     renderResetPassword: "/admin/users/reset-password",
                     resetPassword: "/admin/users/reset-password"
                 ),
-                shouldRegisterRoutes: false,
                 signer: ExpireableJWTSigner(
                     expirationPeriod: 3600, // 1 hour
                     signer: .hs256(key: "secret-reset".convertToData())
@@ -71,7 +77,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
                             .render(config.views.login.requestResetPassword)
                             .encode(for: req)
                     },
-                    resetPasswordEmailSent: { req in
+                    resetPasswordUserNotified: { req in
                         return Future.map(on: req) {
                             req
                                 .redirect(to: "/admin/login")
@@ -94,22 +100,8 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
                     }
                 )
             )
-        )
-        submissionsProvider = SubmissionsProvider()
-    }
-
-    /// See Service.Provider.Register
-    public func register(_ services: inout Services) throws {
-        try services.register(AuthenticationProvider())
-        try services.register(BootstrapProvider())
-        try services.register(CurrentURLProvider())
-        try services.register(CurrentUserProvider<U>())
-        try services.register(FlashProvider())
-        try services.register(MutableLeafTagConfigProvider())
-        try services.register(LeafProvider())
-
-        try services.register(resetProvider)
-        try services.register(submissionsProvider)
+        ))
+        try services.register(SubmissionsProvider())
 
         services.register(AdminPanelConfigTagData<U>(
             name: config.name,
@@ -124,14 +116,6 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
 
     /// See Service.Provider.boot
     public func didBoot(_ container: Container) throws -> Future<Void> {
-        try routes(
-            container.make(),
-            middlewares: middlewares,
-            endpoints: config.endpoints,
-            resetProvider: resetProvider,
-            config: container.make()
-        )
-
         let tags: MutableLeafTagConfig = try container.make()
         tags.use([
             "adminPanel:avatarURL": AvatarURLTag(),

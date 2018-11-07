@@ -49,7 +49,7 @@ public final class LoginController<U: AdminPanelUserType>: LoginControllerType {
 
         return try req.privateContainer
             .make(LeafRenderer.self)
-            .render(config.views.login.index)
+            .render(config.views.login.index, RenderLogin(queryString: req.http.url.query))
             .encode(for: req)
     }
 
@@ -62,9 +62,13 @@ public final class LoginController<U: AdminPanelUserType>: LoginControllerType {
     }
 }
 
-extension LoginController {
-    struct Login: Decodable {
-        let email: String
-        let password: String
+fileprivate extension LoginController {
+    private struct Login: Decodable {
+        private let email: String
+        private let password: String
+    }
+
+    fileprivate struct RenderLogin: Encodable {
+        fileprivate let queryString: String?
     }
 }
