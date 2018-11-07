@@ -67,10 +67,8 @@ public final class AdminPanelUserController
                     .redirect(to: "/admin/users")
                     .flash(
                         .success,
-                        """
-                        The user with email '\(user[keyPath: U.usernameKey])'
-                        was created successfully.
-                        """
+                        "The user with email '\(user[keyPath: U.usernameKey])' " +
+                        "was created successfully."
                     )
             }
             .catchFlatMap(handleValidationError(
@@ -128,10 +126,8 @@ public final class AdminPanelUserController
                     .redirect(to: "/admin/users")
                     .flash(
                         .success,
-                        """
-                        The user with username '\(user[keyPath: U.usernameKey])'
-                         got updated successfully.
-                        """
+                        "The user with username '\(user[keyPath: U.usernameKey])' " +
+                        "got updated successfully."
                     )
             }
             .catchFlatMap(handleValidationError(
@@ -159,10 +155,8 @@ public final class AdminPanelUserController
                     .redirect(to: "/admin/users")
                     .flash(
                         .success,
-                        """
-                        The user with username '\(user[keyPath: U.usernameKey])'
-                         got deleted successfully.
-                        """
+                        "The user with username '\(user[keyPath: U.usernameKey])' " +
+                        "got deleted successfully."
                     )
             }
     }
