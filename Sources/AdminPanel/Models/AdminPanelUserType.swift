@@ -15,7 +15,9 @@ public protocol AdminPanelUserType:
     TemplateDataRepresentable
 where
     ID: LosslessStringConvertible,
-    Self.ResolvedParameter == Future<Self>
+    Self.ResolvedParameter == Future<Self>,
+    Self.RequestReset: Submittable,
+    Self.ResetPassword: Submittable
 {
     associatedtype Role: AdminPanelUserRoleType
 

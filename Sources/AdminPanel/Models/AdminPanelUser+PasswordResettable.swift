@@ -23,15 +23,15 @@ extension AdminPanelUser: PasswordResettable {
 
     public struct RequestReset: HasReadableUsername, RequestCreatable, Submittable {
         public struct Submission: SubmissionType {
-            public func fieldEntries() throws -> [FieldEntry<RequestReset>] {
-                return try [makeFieldEntry(keyPath: \.email, label: "Email", validators: [.email])]
-            }
+            let email: String?
 
             public init(_ requestLink: RequestReset?) {
                 self.email = requestLink?.email
             }
 
-            let email: String?
+            public func fieldEntries() throws -> [FieldEntry<RequestReset>] {
+                return try [makeFieldEntry(keyPath: \.email, label: "Email", validators: [.email])]
+            }
         }
 
         public struct Create: Decodable {
@@ -48,16 +48,28 @@ extension AdminPanelUser: PasswordResettable {
 
     public struct ResetPassword: HasReadablePassword, RequestCreatable, Submittable {
         public struct Submission: SubmissionType {
-            public func fieldEntries() throws -> [FieldEntry<ResetPassword>] {
-                // TODO: add password validator
-                return try [makeFieldEntry(keyPath: \.password, label: "Password")]
-            }
+            let password: String?
+            let passwordAgain: String?
 
             public init(_ resetPassword: ResetPassword?) {
                 self.password = resetPassword?.password
+                self.passwordAgain = resetPassword?.password
             }
 
-            let password: String?
+            public func fieldEntries() throws -> [FieldEntry<ResetPassword>] {
+                return try [
+                    makeFieldEntry(
+                        keyPath: \.password,
+                        label: "New password",
+                        validators: [.count(8...), .strongPassword()]
+                    ),
+                    makeFieldEntry(
+                        keyPath: \.passwordAgain,
+                        label: "New password again",
+                        validators: [.count(8...), .strongPassword()]
+                    )
+                ]
+            }
         }
 
         public struct Create: Decodable {

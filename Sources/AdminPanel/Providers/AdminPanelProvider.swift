@@ -69,36 +69,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
                     expirationPeriod: 1.hoursInSecs,
                     signer: .hs256(key: config.resetPasswordSignerKey.convertToData())
                 ),
-                responses: ResetResponses(
-                    resetPasswordRequestForm: { req in
-                        let config: AdminPanelConfig<U> = try req.make()
-                        return try req.privateContainer
-                            .make(LeafRenderer.self)
-                            .render(config.views.login.requestResetPassword)
-                            .encode(for: req)
-                    },
-                    resetPasswordUserNotified: { req in
-                        return Future.map(on: req) {
-                            req
-                                .redirect(to: "/admin/login")
-                                .flash(.success, "Email with reset link sent.")
-                        }
-                    },
-                    resetPasswordForm: { req, user in
-                        let config: AdminPanelConfig<U> = try req.make()
-                        return try req.privateContainer
-                            .make(LeafRenderer.self)
-                            .render(config.views.login.resetPassword)
-                            .encode(for: req)
-                    },
-                    resetPasswordSuccess: { req, user in
-                        return Future.map(on: req) {
-                            req
-                                .redirect(to: "/admin/login")
-                                .flash(.success, "Your password has been updated.")
-                        }
-                    }
-                )
+                controller: AdminPanel.ResetController<U>()
             )
         ))
         try services.register(SubmissionsProvider())

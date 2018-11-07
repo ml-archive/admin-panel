@@ -24,7 +24,7 @@ extension AdminPanelUser: Submittable {
             password = nil
             passwordAgain = nil
             shouldResetPassword = user?.shouldResetPassword
-            shouldSpecifyPassword = true
+            shouldSpecifyPassword = false
         }
 
         public func fieldEntries() throws -> [FieldEntry<AdminPanelUser>] {
@@ -61,14 +61,14 @@ extension AdminPanelUser: Submittable {
                 makeFieldEntry(
                     keyPath: \.password,
                     label: "Password",
-                    validators: [.count(8...)],
-                    isRequired: false
+                    validators: [.count(8...), .strongPassword()],
+                    isRequired: shouldSpecifyPassword ?? false
                 ),
                 makeFieldEntry(
                     keyPath: \.passwordAgain,
                     label: "Password again",
-                    validators: [.count(8...)],
-                    isRequired: false
+                    validators: [.count(8...), .strongPassword()],
+                    isRequired: shouldSpecifyPassword ?? false
                 ),
                 makeFieldEntry(
                     keyPath: \.shouldResetPassword,
