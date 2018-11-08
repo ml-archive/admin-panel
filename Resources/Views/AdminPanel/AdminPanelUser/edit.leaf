@@ -41,25 +41,18 @@
         #if(user == nil) {
             <p>If you don't specify a password, then the user will receive an email with instructions on how to set one. If you specify a password, then no email will be sent to the new user.</p>
 
-            <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="shouldSpecifyPassword" name="shouldSpecifyPassword" aria-describedby="shouldSpecifyPasswordHelp" value="1">
-                <label class="form-check-label" for="shouldSpecifyPassword">Specify password</label>
-                <small id="shouldSpecifyPasswordHelp" class="form-text text-muted">Leave this out and the user will have to specify one themselves.</small>
-            </div>
-        }
+            #submissions:checkbox("shouldSpecifyPassword", "Specify password", "Leave this out and the user will have to specify one themselves.")
 
-        <div id="specifyPassword" style="#if(user == nil) { display:none; }">
+            <div id="specifyPassword" style="display:none;">
+                #submissions:password("password", "Enter password", "Minimum 8 characters.")
+                #submissions:password("passwordAgain", "Enter password again")
+            </div>
+
+            #submissions:checkbox("shouldResetPassword", "Should reset password", "This will require the user to set a new password after logging in the first time.")
+        } else {
             #submissions:password("password", "Enter password", "Minimum 8 characters.")
             #submissions:password("passwordAgain", "Enter password again")
-
-            #if(user == nil) {
-                <div class="form-group form-check">
-                    <input type="checkbox" class="form-check-input" id="shouldResetPassword" name="shouldResetPassword" aria-describedby="shouldResetPasswordHelp" value="1">
-                    <label class="form-check-label" for="shouldResetPassword">Should reset password</label>
-                    <small id="shouldResetPasswordHelp" class="form-text text-muted">This will require the user to set a new password after logging in the first time.</small>
-                </div>
-            }
-        </div>
+        }
   
         <button type="submit" class="btn btn-primary">Submit</button>
         <a href="/admin/users" class="btn btn-secondary">Cancel</a>
@@ -85,10 +78,18 @@
 
         // Password toggle
         $(function () {
-            $("#shouldSpecifyPassword").click(function(){
+            $("#specifyPassword").toggle($("#shouldSpecifyPassword").prop("checked"));
+            $("#shouldSpecifyPassword").click(function() {
+                if (!this.checked) {
+                    $("#password").val("");
+                    $("#passwordAgain").val("");
+                \}
+
+                $("#password").prop('required', (this.checked))
+                $("#passwordAgain").prop('required', (this.checked))
+
                 $("#specifyPassword").toggle();
             \});
-
         \});
     </script>
 }
