@@ -7,7 +7,7 @@ import Vapor
 internal final class ResetController
     <U: AdminPanelUserType>: ResetControllerType
 {
-    internal func renderResetPasswordRequestForm(req: Request) throws -> Future<Response> {
+    internal func renderResetPasswordRequestForm(_ req: Request) throws -> Future<Response> {
         let adminPanelConfig: AdminPanelConfig<U> = try req.make()
         try req.populateFields(U.RequestReset.self)
         return try req.privateContainer
@@ -16,7 +16,7 @@ internal final class ResetController
             .encode(for: req)
     }
 
-    internal func resetPasswordRequest(req: Request) throws -> Future<Response> {
+    internal func resetPasswordRequest(_ req: Request) throws -> Future<Response> {
         let resetConfig: ResetConfig<U> = try req.make()
         let adminPanelConfig: AdminPanelConfig<U> = try req.make()
         let submission = try req.content.decode(U.RequestReset.Submission.self)
@@ -50,7 +50,7 @@ internal final class ResetController
             )
     }
 
-    internal func renderResetPasswordForm(req: Request) throws -> Future<Response> {
+    internal func renderResetPasswordForm(_ req: Request) throws -> Future<Response> {
         let resetConfig: ResetConfig<U> = try req.make()
         let adminPanelConfig: AdminPanelConfig<U> = try req.make()
         try req.populateFields(U.ResetPassword.self)
@@ -70,7 +70,7 @@ internal final class ResetController
             }
     }
 
-    internal func resetPassword(req: Request) throws -> Future<Response> {
+    internal func resetPassword(_ req: Request) throws -> Future<Response> {
         let resetConfig: ResetConfig<U> = try req.make()
         let adminPanelConfig: AdminPanelConfig<U> = try req.make()
         let payload = try resetConfig.extractVerifiedPayload(from: req.parameters.next())
