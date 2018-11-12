@@ -49,7 +49,7 @@ extension AdminPanelUser: Migration {
     public static func prepare(on connection: MySQLConnection) -> Future<Void> {
         return MySQLDatabase.create(self, on: connection) { builder in
             try addProperties(to: builder, excluding: [
-                AdminPanelUser.reflectProperty(forKey: \.role),
+                AdminPanelUser.reflectProperty(forKey: \.role)
             ])
 
             builder.field(

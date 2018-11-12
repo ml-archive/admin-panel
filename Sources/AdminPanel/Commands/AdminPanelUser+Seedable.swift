@@ -33,7 +33,7 @@ extension AdminPanelUser: Seedable {
                 short: "n",
                 default: AdminPanelUser.defaultName,
                 help: ["Change name"]
-            ),
+            )
         ]
     }
 

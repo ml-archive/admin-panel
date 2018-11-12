@@ -16,13 +16,13 @@ public final class HasRequiredRole<U: AdminPanelUserType>: TagRenderer {
         else {
             throw tag.error(reason: "Invalid role requirement")
         }
-        
+
         guard
             let userRole = container.user?.role
         else {
              return tag.future(.bool(false))
         }
-        
+
         return tag.future(.bool(userRole >= requiredRole))
     }
 }

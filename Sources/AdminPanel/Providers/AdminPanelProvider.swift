@@ -3,13 +3,14 @@ import Bootstrap
 import Flash
 import Fluent
 import Leaf
+import Paginator
 import Reset
 import Submissions
 import Sugar
 import Vapor
 
 // MARK: - Commands
-extension AdminPanelProvider where U.ID: ExpressibleByStringLiteral, U: Seedable {
+public extension AdminPanelProvider where U: Seedable {
     public static func commands(
         databaseIdentifier: DatabaseIdentifier<U.Database>
     ) -> [String: Command] {
@@ -21,11 +22,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
     /// See Service.Provider.repositoryName
     public static var repositoryName: String { return "admin-panel" }
     public let config: AdminPanelConfig<U>
-
-    public var middlewares: AdminPanelMiddlewares
-
-    private let resetProvider: ResetProvider<U>
-    private let submissionsProvider: SubmissionsProvider
+    public let middlewares: AdminPanelMiddlewares
 
     public init(config: AdminPanelConfig<U>) {
         self.config = config
@@ -46,55 +43,6 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
             unsecure: unsecure,
             secure: secure
         )
-
-        resetProvider = ResetProvider<U>(
-            config: .init(
-                name: config.name,
-                baseURL: config.baseURL,
-                endpoints: ResetEndpoints(
-                    renderResetPasswordRequest: "/admin/users/reset-password/request",
-                    resetPasswordRequest: "/admin/users/reset-password/request",
-                    renderResetPassword: "/admin/users/reset-password",
-                    resetPassword: "/admin/users/reset-password"
-                ),
-                shouldRegisterRoutes: false,
-                signer: ExpireableJWTSigner(
-                    expirationPeriod: 3600, // 1 hour
-                    signer: .hs256(key: "secret-reset".convertToData())
-                ),
-                responses: ResetResponses(
-                    resetPasswordRequestForm: { req in
-                        let config: AdminPanelConfig<U> = try req.make()
-                        return try req.privateContainer
-                            .make(LeafRenderer.self)
-                            .render(config.views.login.requestResetPassword)
-                            .encode(for: req)
-                    },
-                    resetPasswordEmailSent: { req in
-                        return Future.map(on: req) {
-                            req
-                                .redirect(to: "/admin/login")
-                                .flash(.success, "Email with reset link sent.")
-                        }
-                    },
-                    resetPasswordForm: { req, user in
-                        let config: AdminPanelConfig<U> = try req.make()
-                        return try req.privateContainer
-                            .make(LeafRenderer.self)
-                            .render(config.views.login.resetPassword)
-                            .encode(for: req)
-                    },
-                    resetPasswordSuccess: { req, user in
-                        return Future.map(on: req) {
-                            req
-                                .redirect(to: "/admin/login")
-                                .flash(.success, "Your password has been updated.")
-                        }
-                    }
-                )
-            )
-        )
-        submissionsProvider = SubmissionsProvider()
     }
 
     /// See Service.Provider.Register
@@ -107,8 +55,24 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
         try services.register(MutableLeafTagConfigProvider())
         try services.register(LeafProvider())
 
-        try services.register(resetProvider)
-        try services.register(submissionsProvider)
+        try services.register(ResetProvider<U>(
+            config: .init(
+                name: config.name,
+                baseURL: config.baseURL,
+                endpoints: ResetEndpoints(
+                    renderResetPasswordRequest: "/admin/users/reset-password/request",
+                    resetPasswordRequest: "/admin/users/reset-password/request",
+                    renderResetPassword: "/admin/users/reset-password",
+                    resetPassword: "/admin/users/reset-password"
+                ),
+                signer: ExpireableJWTSigner(
+                    expirationPeriod: 1.hoursInSecs,
+                    signer: .hs256(key: config.resetPasswordSignerKey.convertToData())
+                ),
+                controller: AdminPanel.ResetController<U>()
+            )
+        ))
+        try services.register(SubmissionsProvider())
 
         services.register(AdminPanelConfigTagData<U>(
             name: config.name,
@@ -118,18 +82,11 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
         ))
         services.register(config)
         services.register(KeyedCacheSessions.self)
+        services.register(self.middlewares)
     }
 
     /// See Service.Provider.boot
     public func didBoot(_ container: Container) throws -> Future<Void> {
-        try routes(
-            container.make(),
-            middlewares: middlewares,
-            endpoints: config.endpoints,
-            resetProvider: resetProvider,
-            config: container.make()
-        )
-
         let tags: MutableLeafTagConfig = try container.make()
         tags.use([
             "adminPanel:avatarURL": AvatarURLTag(),
@@ -139,7 +96,8 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
             "adminPanel:user": CurrentUserTag<U>(),
             "adminPanel:user:requireRole": RequireRoleTag<U>(),
             "adminPanel:user:hasRequiredRole": HasRequiredRole<U>(),
-            "submissions:WYSIWYG": InputTag(templatePath: config.tagTemplatePaths.wysiwygField)
+            "submissions:WYSIWYG": InputTag(templatePath: config.tagTemplatePaths.wysiwygField),
+            "offsetPaginator": OffsetPaginatorTag(templatePath: "Paginator/offsetpaginator")
         ])
 
         return .done(on: container)

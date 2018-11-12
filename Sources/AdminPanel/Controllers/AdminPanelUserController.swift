@@ -1,7 +1,8 @@
 import Fluent
+import Leaf
+import Paginator
 import Submissions
 import Vapor
-import Leaf
 
 public protocol AdminPanelUserControllerType {
     func renderList(_ req: Request) throws -> Future<Response>
@@ -23,13 +24,18 @@ public final class AdminPanelUserController
 
     public func renderList(_ req: Request) throws -> Future<Response> {
         let config: AdminPanelConfig<U> = try req.make()
-        return U.query(on: req).all()
-            .flatMap(to: Response.self) { users in
+        let paginator: Future<OffsetPaginator<U>> = try U.query(on: req).paginate(for: req)
+        return paginator
+            .flatMap(to: Response.self) { paginator in
                 return try req.privateContainer
                     .make(LeafRenderer.self)
-                    .render(config.views.adminPanelUser.index, MultipleUsers(users: users))
+                    .render(
+                        config.views.adminPanelUser.index,
+                        MultipleUsers(users: paginator.data ?? []),
+                        userInfo: try paginator.userInfo()
+                    )
                     .encode(for: req)
-        }
+            }
     }
 
     // MARK: Create user
@@ -61,10 +67,8 @@ public final class AdminPanelUserController
                     .redirect(to: "/admin/users")
                     .flash(
                         .success,
-                        """
-                        The user with email '\(user[keyPath: U.usernameKey])'
-                        was created successfully.
-                        """
+                        "The user with email '\(user[keyPath: U.usernameKey])' " +
+                        "was created successfully."
                     )
             }
             .catchFlatMap(handleValidationError(
@@ -91,7 +95,8 @@ public final class AdminPanelUserController
         let config: AdminPanelConfig<U> = try req.make()
         return user
             .try { user in
-                try adminPanelUser.requireRole(user.role) // A user cannot edit another user of a higher role
+                // A user cannot edit another user of a higher role
+                try adminPanelUser.requireRole(user.role)
             }
             .populateFields(on: req)
             .flatMap { user in
@@ -122,10 +127,8 @@ public final class AdminPanelUserController
                     .redirect(to: "/admin/users")
                     .flash(
                         .success,
-                        """
-                        The user with username '\(user[keyPath: U.usernameKey])'
-                         got updated successfully.
-                        """
+                        "The user with username '\(user[keyPath: U.usernameKey])' " +
+                        "got updated successfully."
                     )
             }
             .catchFlatMap(handleValidationError(
@@ -153,10 +156,8 @@ public final class AdminPanelUserController
                     .redirect(to: "/admin/users")
                     .flash(
                         .success,
-                        """
-                        The user with username '\(user[keyPath: U.usernameKey])'
-                         got deleted successfully.
-                        """
+                        "The user with username '\(user[keyPath: U.usernameKey])' " +
+                        "got deleted successfully."
                     )
             }
     }

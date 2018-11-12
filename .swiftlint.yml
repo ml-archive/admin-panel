@@ -8,5 +8,6 @@ identifier_name:
 line_length: 100
 disabled_rules:
   - opening_brace
+  - nesting
 colon:
   flexible_right_spacing: true

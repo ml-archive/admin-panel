@@ -1,9 +1,9 @@
-import Routing
-import Vapor
 import Authentication
 import Flash
 import Reset
+import Routing
 import Sugar
+import Vapor
 
 public struct AdminPanelEndpoints {
     public let login: String
@@ -17,7 +17,7 @@ public struct AdminPanelEndpoints {
     public init(
         login: String = "/admin/login",
         logout: String = "/admin/logout",
-        dashboard: String = "/admin/dashboard",
+        dashboard: String = "/admin",
         renderAdminPanelUserList: String = "/admin/users",
         renderCreateAdminPanelUser: String = "/admin/users/create",
         createAdminPanelUser: String = "/admin/users/create",
@@ -37,28 +37,27 @@ public struct AdminPanelEndpoints {
     }
 }
 
-public struct AdminPanelMiddlewares {
+public struct AdminPanelMiddlewares: Service {
     public let unsecure: [Middleware]
     public let secure: [Middleware]
 }
 
-internal extension AdminPanelProvider {
-    internal func routes(
-        _ router: Router,
-        middlewares: AdminPanelMiddlewares,
-        endpoints: AdminPanelEndpoints,
-        resetProvider: ResetProvider<U>,
-        config: AdminPanelConfig<U>
+public extension Router {
+    public func useAdminPanelRoutes<U: AdminPanelUserType>(
+        _ type: U.Type,
+        on container: Container
     ) throws {
+        let config: AdminPanelConfig<U> = try container.make()
+        let middlewares: AdminPanelMiddlewares = try container.make()
 
-        let unprotected = router.grouped(middlewares.unsecure)
-        let protected = router.grouped(middlewares.secure)
+        let unprotected = self.grouped(middlewares.unsecure)
+        let protected = self.grouped(middlewares.secure)
 
         // MARK: Login routes
 
-        unprotected.get(endpoints.login, use: config.controllers.loginController.renderLogin)
-        unprotected.post(endpoints.login, use: config.controllers.loginController.login)
-        unprotected.get(endpoints.logout, use: config.controllers.loginController.logout)
+        unprotected.get(config.endpoints.login, use: config.controllers.loginController.renderLogin)
+        unprotected.post(config.endpoints.login, use: config.controllers.loginController.login)
+        unprotected.get(config.endpoints.logout, use: config.controllers.loginController.logout)
 
         // MARK: Dashboard routes
 
@@ -108,36 +107,8 @@ internal extension AdminPanelProvider {
             use: config.controllers.adminPanelUserController.editMe
         )
 
-        // Reset routes
-        let resetEndpoints = resetProvider.config.endpoints
-        if let renderResetPasswordRequestPath = resetEndpoints.renderResetPasswordRequest {
-            unprotected.get(
-                renderResetPasswordRequestPath,
-                use: resetProvider.renderResetPasswordRequestForm
-            )
-        }
+        // MARK: Reset routes
 
-        if let resetPasswordRequestPath = resetEndpoints.resetPasswordRequest {
-            unprotected.post(
-                resetPasswordRequestPath,
-                use: resetProvider.resetPasswordRequest
-            )
-        }
-
-        if let renderResetPasswordPath = resetEndpoints.renderResetPassword {
-            unprotected.get(
-                renderResetPasswordPath,
-                String.parameter,
-                use: resetProvider.renderResetPasswordForm
-            )
-        }
-
-        if let resetPasswordPath = resetEndpoints.resetPassword {
-            unprotected.post(
-                resetPasswordPath,
-                String.parameter,
-                use: resetProvider.resetPassword
-            )
-        }
+        try unprotected.useResetRoutes(type, on: container)
     }
 }
