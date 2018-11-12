@@ -34,7 +34,7 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
     public let controllers: AdminPanelControllers<U>
     public let sidebarMenuPathGenerator: SidebarMenuPathGenerator<U.Role>
     public let resetPasswordEmail: ResetPasswordEmail
-    public let resetPasswordSignerKey: String
+    public let resetPasswordSignerKey: LosslessDataConvertible
     public let specifyPasswordEmail: SpecifyPasswordEmail
     public let newUserSetPasswordSigner: ExpireableJWTSigner
     public let environment: Environment
@@ -48,7 +48,7 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
         controllers: AdminPanelControllers<U> = .default,
         sidebarMenuPathGenerator: @escaping SidebarMenuPathGenerator<U.Role> = U.Role.sidebarMenuPathGenerator,
         resetPasswordEmail: ResetPasswordEmail = .default,
-        resetPasswordSignerKey: String,
+        resetPasswordSignerKey: LosslessDataConvertible,
         specifyPasswordEmail: SpecifyPasswordEmail = .default,
         newUserSetPasswordSigner: ExpireableJWTSigner,
         environment: Environment,
