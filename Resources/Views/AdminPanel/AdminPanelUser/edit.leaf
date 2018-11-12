@@ -44,7 +44,7 @@
             #submissions:checkbox("shouldSpecifyPassword", "Specify password", "Leave this out and the user will have to specify one themselves.")
 
             <div id="specifyPassword" style="display:none;">
-                #submissions:password("password", "Enter password", "Minimum 8 characters.")
+                #submissions:password("password", "Enter password", "Minimum 8 characters and needs to satisfy three of the following: has a lowercase character, has an uppercase character, has a digit or has a special character.")
                 #submissions:password("passwordAgain", "Enter password again")
             </div>
 
