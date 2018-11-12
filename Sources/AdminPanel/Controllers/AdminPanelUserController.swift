@@ -95,7 +95,8 @@ public final class AdminPanelUserController
         let config: AdminPanelConfig<U> = try req.make()
         return user
             .try { user in
-                try adminPanelUser.requireRole(user.role) // A user cannot edit another user of a higher role
+                // A user cannot edit another user of a higher role
+                try adminPanelUser.requireRole(user.role)
             }
             .populateFields(on: req)
             .flatMap { user in

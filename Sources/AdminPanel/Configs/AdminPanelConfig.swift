@@ -46,7 +46,8 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
         endpoints: AdminPanelEndpoints = .default,
         views: AdminPanelViews = .default,
         controllers: AdminPanelControllers<U> = .default,
-        sidebarMenuPathGenerator: @escaping SidebarMenuPathGenerator<U.Role> = U.Role.sidebarMenuPathGenerator,
+        sidebarMenuPathGenerator: @escaping SidebarMenuPathGenerator<U.Role>
+            = U.Role.sidebarMenuPathGenerator,
         resetPasswordEmail: ResetPasswordEmail = .default,
         resetPasswordSignerKey: LosslessDataConvertible,
         specifyPasswordEmail: SpecifyPasswordEmail = .default,

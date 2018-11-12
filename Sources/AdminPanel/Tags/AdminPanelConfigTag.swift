@@ -23,11 +23,11 @@ public final class AdminPanelConfigTag<U: AdminPanelUserType>: TagRenderer {
 
 public final class AdminPanelConfigTagData<U: AdminPanelUserType>: Service {
     enum Keys: String {
-        case name = "name"
-        case baseURL = "baseURL"
-        case sidebarMenuPath = "sidebarMenuPath"
-        case dashboardPath = "dashboardPath"
-        case environment = "environment"
+        case name
+        case baseURL
+        case sidebarMenuPath
+        case dashboardPath
+        case environment
     }
 
     public let name: String

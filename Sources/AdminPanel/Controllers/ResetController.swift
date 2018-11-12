@@ -97,7 +97,7 @@ internal final class ResetController
                         return user.save(on: req)
                     }
             }
-            .map(to: Response.self) { user in
+            .map(to: Response.self) { _ in
                 req
                     .redirect(to: "/admin/login")
                     .flash(.success, "Your password has been updated.")

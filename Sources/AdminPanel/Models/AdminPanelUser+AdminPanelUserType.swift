@@ -125,10 +125,10 @@ public enum AdminPanelUserRole: String {
 
     public init?(rawValue: String?) {
         switch rawValue {
-            case AdminPanelUserRole.superAdmin.rawValue: self = .superAdmin
-            case AdminPanelUserRole.admin.rawValue: self = .admin
-            case AdminPanelUserRole.user.rawValue: self = .user
-            default: return nil
+        case AdminPanelUserRole.superAdmin.rawValue: self = .superAdmin
+        case AdminPanelUserRole.admin.rawValue: self = .admin
+        case AdminPanelUserRole.user.rawValue: self = .user
+        default: return nil
         }
     }
 }
