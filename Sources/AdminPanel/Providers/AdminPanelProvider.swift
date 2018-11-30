@@ -2,6 +2,7 @@ import Authentication
 import Bootstrap
 import Flash
 import Fluent
+import JWT
 import Leaf
 import Paginator
 import Reset
@@ -65,10 +66,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
                     renderResetPassword: "/admin/users/reset-password",
                     resetPassword: "/admin/users/reset-password"
                 ),
-                signer: ExpireableJWTSigner(
-                    expirationPeriod: 1.hoursInSecs,
-                    signer: .hs256(key: config.resetPasswordSignerKey.convertToData())
-                ),
+                signer: .hs256(key: config.resetPasswordSignerKey.convertToData()),
                 controller: AdminPanel.ResetController<U>()
             )
         ))
