@@ -66,7 +66,7 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
                     renderResetPassword: "/admin/users/reset-password",
                     resetPassword: "/admin/users/reset-password"
                 ),
-                signer: .hs256(key: config.resetPasswordSignerKey.convertToData()),
+                signer: config.resetSigner,
                 controller: AdminPanel.ResetController<U>()
             )
         ))

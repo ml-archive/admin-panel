@@ -1,4 +1,5 @@
 import Fluent
+import JWT
 import Sugar
 import Vapor
 
@@ -34,9 +35,8 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
     public let controllers: AdminPanelControllers<U>
     public let sidebarMenuPathGenerator: SidebarMenuPathGenerator<U.Role>
     public let resetPasswordEmail: ResetPasswordEmail
-    public let resetPasswordSignerKey: LosslessDataConvertible
+    public let resetSigner: JWTSigner
     public let specifyPasswordEmail: SpecifyPasswordEmail
-    public let newUserSetPasswordSigner: ExpireableJWTSigner
     public let environment: Environment
     public let tagTemplatePaths: TagTemplatePaths
 
@@ -49,9 +49,8 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
         sidebarMenuPathGenerator: @escaping SidebarMenuPathGenerator<U.Role>
             = U.Role.sidebarMenuPathGenerator,
         resetPasswordEmail: ResetPasswordEmail = .default,
-        resetPasswordSignerKey: LosslessDataConvertible,
+        resetSigner: JWTSigner,
         specifyPasswordEmail: SpecifyPasswordEmail = .default,
-        newUserSetPasswordSigner: ExpireableJWTSigner,
         environment: Environment,
         tagTemplatePaths: TagTemplatePaths = TagTemplatePaths()
     ) {
@@ -62,9 +61,8 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
         self.controllers = controllers
         self.sidebarMenuPathGenerator = sidebarMenuPathGenerator
         self.resetPasswordEmail = resetPasswordEmail
-        self.resetPasswordSignerKey = resetPasswordSignerKey
+        self.resetSigner = resetSigner
         self.specifyPasswordEmail = specifyPasswordEmail
-        self.newUserSetPasswordSigner = newUserSetPasswordSigner
         self.environment = environment
         self.tagTemplatePaths = tagTemplatePaths
     }
