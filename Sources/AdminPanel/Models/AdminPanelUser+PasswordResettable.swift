@@ -143,16 +143,12 @@ extension AdminPanelUser: PasswordResettable {
             .transform(to: ())
     }
 
-    public func signer(
-        for context: AdminPanelResetPasswordContext,
-        on container: Container
-    ) throws -> ExpireableJWTSigner {
-        let resetConfig: ResetConfig<AdminPanelUser> = try container.make()
-        let adminPanelConfig: AdminPanelConfig<AdminPanelUser> = try container.make()
-
+    public static func expirationPeriod(
+        for context: AdminPanelResetPasswordContext
+    ) -> TimeInterval {
         switch context {
-        case .userRequestedToResetPassword: return resetConfig.signer
-        case .newUserWithoutPassword: return adminPanelConfig.newUserSetPasswordSigner
+        case .userRequestedToResetPassword: return 1.hoursInSecs
+        case .newUserWithoutPassword: return 30.daysInSecs
         }
     }
 }
