@@ -53,7 +53,6 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
         try services.register(CurrentURLProvider())
         try services.register(CurrentUserProvider<U>())
         try services.register(FlashProvider())
-        try services.register(MutableLeafTagConfigProvider())
         try services.register(LeafProvider())
 
         try services.register(ResetProvider<U>(
@@ -85,8 +84,18 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
 
     /// See Service.Provider.boot
     public func didBoot(_ container: Container) throws -> Future<Void> {
-        let tags: MutableLeafTagConfig = try container.make()
-        tags.use([
+        return .done(on: container)
+    }
+}
+
+public extension LeafTagConfig {
+    public mutating func useAdminPanelLeafTags<U: AdminPanelUserType>(
+        _ type: U.Type,
+        on container: Container
+    ) throws {
+        let config: AdminPanelConfig<U> = try container.make()
+
+        use([
             "adminPanel:avatarURL": AvatarURLTag(),
             "adminPanel:config": AdminPanelConfigTag<U>(),
             "adminPanel:sidebar:heading": SidebarHeadingTag(),
@@ -97,7 +106,5 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
             "submissions:WYSIWYG": InputTag(templatePath: config.tagTemplatePaths.wysiwygField),
             "offsetPaginator": OffsetPaginatorTag(templatePath: "Paginator/offsetpaginator")
         ])
-
-        return .done(on: container)
     }
 }
