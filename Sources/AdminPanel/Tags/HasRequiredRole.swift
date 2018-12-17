@@ -5,14 +5,12 @@ import Sugar
 public final class HasRequiredRole<U: AdminPanelUserType>: TagRenderer {
     public func render(tag: TagContext) throws -> Future<TemplateData> {
         try tag.requireParameterCount(1)
-
-        let container = try tag.container.make(
-            CurrentUserContainer<U>.self
-        )
+        let request = try tag.requireRequest()
+        let container = try request.privateContainer.make(CurrentUserContainer<U>.self)
 
         guard
             let roleString: String = tag.parameters[0].string,
-            let requiredRole = U.Role.init(roleString)
+            let requiredRole = U.Role(roleString)
         else {
             throw tag.error(reason: "Invalid role requirement")
         }
@@ -20,7 +18,7 @@ public final class HasRequiredRole<U: AdminPanelUserType>: TagRenderer {
         guard
             let userRole = container.user?.role
         else {
-             return tag.future(.bool(false))
+            return tag.future(.bool(false))
         }
 
         return tag.future(.bool(userRole >= requiredRole))

@@ -9,10 +9,9 @@ public func handleValidationError(
 ) -> (Error) throws -> Future<Response> {
     return { error in
         try req
-            .privateContainer
             .flash(.error, message)
-            .make(LeafRenderer.self)
-            .render(path, [String: String]())
+            .view()
+            .render(path, on: req)
             .encode(for: req)
     }
 }
@@ -25,10 +24,9 @@ public func handleValidationError<E: Encodable>(
 ) -> (Error) throws -> Future<Response> {
     return { error in
         try req
-            .privateContainer
             .flash(.error, message)
-            .make(LeafRenderer.self)
-            .render(path, context)
+            .view()
+            .render(path, context, on: req)
             .encode(for: req)
     }
 }
@@ -42,10 +40,9 @@ public func handleValidationError<E: Encodable>(
     return { error in
         return context.flatMap(to: Response.self) { context in
             try req
-                .privateContainer
                 .flash(.error, message)
-                .make(LeafRenderer.self)
-                .render(path, context)
+                .view()
+                .render(path, context, on: req)
                 .encode(for: req)
         }
     }

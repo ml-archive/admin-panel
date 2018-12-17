@@ -4,14 +4,13 @@ import Submissions
 import Sugar
 import Vapor
 
-internal final class ResetController
-    <U: AdminPanelUserType>: ResetControllerType
-{
+internal final class ResetController<U: AdminPanelUserType>: ResetControllerType {
     internal func renderResetPasswordRequestForm(_ req: Request) throws -> Future<Response> {
         let adminPanelConfig: AdminPanelConfig<U> = try req.make()
-        try req.populateFields(U.RequestReset.self)
-        return try req.privateContainer
-            .make(LeafRenderer.self)
+        try req.fieldCache().addFields(U.RequestReset.Submission.makeFields(), on: req)
+
+        return try req
+            .view()
             .render(adminPanelConfig.views.login.requestResetPassword)
             .encode(for: req)
     }
@@ -19,13 +18,8 @@ internal final class ResetController
     internal func resetPasswordRequest(_ req: Request) throws -> Future<Response> {
         let resetConfig: ResetConfig<U> = try req.make()
         let adminPanelConfig: AdminPanelConfig<U> = try req.make()
-        let submission = try req.content.decode(U.RequestReset.Submission.self)
 
-        return submission
-            .createValid(on: req)
-            .flatMap(to: U.RequestReset.self) { _ in
-                try U.RequestReset.create(on: req)
-            }
+        return U.RequestReset.create(on: req)
             .flatMap(to: U?.self) { try U.find(by: $0, on: req) }
             .flatTry { user -> Future<Void> in
                 guard let user = user else {
@@ -53,7 +47,8 @@ internal final class ResetController
     internal func renderResetPasswordForm(_ req: Request) throws -> Future<Response> {
         let resetConfig: ResetConfig<U> = try req.make()
         let adminPanelConfig: AdminPanelConfig<U> = try req.make()
-        try req.populateFields(U.ResetPassword.self)
+        try req.fieldCache().addFields(U.ResetPassword.Submission.makeFields(), on: req)
+
         let payload = try resetConfig.extractVerifiedPayload(from: req.parameters.next())
 
         return try U
@@ -63,8 +58,8 @@ internal final class ResetController
                 guard user.passwordChangeCount == payload.passwordChangeCount else {
                     throw ResetError.tokenAlreadyUsed
                 }
-                return try req.privateContainer
-                    .make(LeafRenderer.self)
+                return try req
+                    .view()
                     .render(adminPanelConfig.views.login.resetPassword)
                     .encode(for: req)
             }
@@ -74,32 +69,25 @@ internal final class ResetController
         let resetConfig: ResetConfig<U> = try req.make()
         let adminPanelConfig: AdminPanelConfig<U> = try req.make()
         let payload = try resetConfig.extractVerifiedPayload(from: req.parameters.next())
-        let submission = try req.content.decode(U.ResetPassword.Submission.self)
 
-        return submission
-            .createValid(on: req)
-            .flatMap(to: U?.self) { _ in
-                return try U.authenticate(using: payload, on: req)
-            }
+        return try U
+            .authenticate(using: payload, on: req)
             .unwrap(or: ResetError.userNotFound)
             .try { user in
                 guard user.passwordChangeCount == payload.passwordChangeCount else {
                     throw ResetError.tokenAlreadyUsed
                 }
             }
-            .flatMap(to: U.self) { user in
-                try U.ResetPassword.create(on: req)
-                    .flatMap(to: U.self) { resetPassword in
-                        var user = user
-                        let password = resetPassword[keyPath: U.ResetPassword.readablePasswordKey]
-                        user[keyPath: U.passwordKey] = try U.hashPassword(password)
-                        user.passwordChangeCount += 1
-                        return user.save(on: req)
-                    }
+            .and(U.ResetPassword.create(on: req))
+            .flatMap(to: U.self) { user, resetPassword in
+                var user = user
+                let password = resetPassword[keyPath: U.ResetPassword.readablePasswordKey]
+                user[keyPath: U.passwordKey] = try U.hashPassword(password)
+                user.passwordChangeCount += 1
+                return user.save(on: req)
             }
             .map(to: Response.self) { _ in
-                req
-                    .redirect(to: "/admin/login")
+                req.redirect(to: "/admin/login")
                     .flash(.success, "Your password has been updated.")
             }
             .catchFlatMap(handleValidationError(

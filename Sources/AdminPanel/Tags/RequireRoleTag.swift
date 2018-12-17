@@ -5,17 +5,14 @@ import Sugar
 public final class RequireRoleTag<U: AdminPanelUserType>: TagRenderer {
     public func render(tag: TagContext) throws -> Future<TemplateData> {
         try tag.requireParameterCount(1)
-
-        let container = try tag.container.make(
-            CurrentUserContainer<U>.self
-        )
-
+        let request = try tag.requireRequest()
+        let container = try request.privateContainer.make(CurrentUserContainer<U>.self)
         let body = try tag.requireBody()
 
         return tag.serializer.serialize(ast: body).map(to: TemplateData.self) { body in
             guard
                 let roleString: String = tag.parameters[0].string,
-                let requiredRole = U.Role.init(roleString)
+                let requiredRole = U.Role(roleString)
             else {
                 throw tag.error(reason: "Invalid role requirement")
             }

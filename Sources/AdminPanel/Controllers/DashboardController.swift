@@ -11,8 +11,8 @@ public final class DashboardController<U: AdminPanelUserType>: DashboardControll
     public func renderDashboard(_ req: Request) throws -> Future<Response> {
         let config = try req.make(AdminPanelConfig<U>.self)
 
-        return try req.privateContainer
-            .make(LeafRenderer.self)
+        return try req
+            .view()
             .render(config.views.dashboard.index)
             .encode(for: req)
     }

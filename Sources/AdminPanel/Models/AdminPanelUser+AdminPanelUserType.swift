@@ -3,24 +3,20 @@ import Sugar
 import Vapor
 
 extension AdminPanelUser: AdminPanelUserType {
-    public typealias Login = UserLogin
-    public typealias Registration = UserRegistration
-    public typealias Update = UserUpdate
-    public typealias Public = UserPublic
     public typealias Role = AdminPanelUserRole
 
     public static let usernameKey: WritableKeyPath<AdminPanelUser, String> = \.email
     public static let passwordKey: WritableKeyPath<AdminPanelUser, String> = \.password
 
-    public struct UserLogin: HasReadablePassword, HasReadableUsername {
-        public static let readablePasswordKey = \UserLogin.password
-        public static let readableUsernameKey = \UserLogin.email
+    public struct Login: SelfCreatable, HasReadablePassword, HasReadableUsername {
+        public static let readablePasswordKey = \Login.password
+        public static let readableUsernameKey = \Login.email
 
         public let email: String
         public let password: String
     }
 
-    public struct UserPublic: Content {
+    public struct Public: Content {
         public let email: String
         public let name: String
         public let title: String?
@@ -34,62 +30,37 @@ extension AdminPanelUser: AdminPanelUserType {
         }
     }
 
-    public struct UserRegistration: HasReadablePassword, HasReadableUsername {
-        public static let readablePasswordKey = \UserRegistration.password
-        public static let readableUsernameKey = \UserRegistration.email
-
-        public let email: String
-        public let name: String
-        public let title: String?
-        public let avatarURL: String?
-        public let role: AdminPanelUserRole?
-        public let password: String
-        public let passwordRepeat: String
-        public let shouldResetPassword: Bool?
-    }
-
-    public struct UserUpdate: Decodable, HasUpdatableUsername, HasUpdatablePassword {
-        public static let oldPasswordKey = \UserUpdate.oldPassword
-        public static let updatablePasswordKey = \UserUpdate.password
-        public static let updatableUsernameKey = \UserUpdate.email
-
-        public let email: String?
-        public let name: String?
-        public let title: String?
-        public let avatarURL: String?
-        public let role: AdminPanelUserRole?
-        public let password: String?
-        public let oldPassword: String?
-        public let passwordRepeat: String?
-        public let shouldResetPassword: Bool?
-    }
-
-    // Registration is handled by Submittable (see AdminPanelUser+Submittable).
-    public convenience init(_ registration: UserRegistration) throws {
-        try self.init(
-            email: registration.email,
-            name: registration.name,
-            title: registration.title,
-            avatarURL: registration.avatarURL,
-            role: registration.role,
-            password: AdminPanelUser.hashPassword(registration.password)
-        )
-    }
-
-    // Update is handled by Submittable (see AdminPanelUser+Submittable).
-    public func update(with updated: UserUpdate) throws {}
-
-    public func didCreate(with submission: Submission, on req: Request) throws -> Future<Void> {
-        guard submission.shouldSpecifyPassword == true else {
-            let config: ResetConfig<AdminPanelUser> = try req.make()
-            return try config.reset(
-                self,
-                context: AdminPanelResetPasswordContext.newUserWithoutPassword,
-                on: req
-            )
+    public func update(_ submission: Submission) throws {
+        if let email = submission.email, !email.isEmpty {
+            self.email = email
         }
 
-        return Future.transform(to: (), on: req)
+        if let name = submission.name, !name.isEmpty {
+            self.name = name
+        }
+
+        self.title = submission.title
+        self.role = AdminPanelUserRole(rawValue: submission.role)
+
+        if let password = submission.password, !password.isEmpty {
+            self.password = try AdminPanelUser.hashPassword(password)
+            self.shouldResetPassword = false
+        }
+    }
+
+    public func didCreate(on req: Request) throws -> Future<Void> {
+        struct ShouldSpecifyPassword: Decodable {
+            let shouldSpecifyPassword: Bool?
+        }
+
+        guard
+            try req.content.syncDecode(ShouldSpecifyPassword.self).shouldSpecifyPassword == true
+        else {
+            let config: ResetConfig<AdminPanelUser> = try req.make()
+            return try config.reset(self, context: .newUserWithoutPassword, on: req)
+        }
+
+        return req.future()
     }
 
     // MARK: TemplateDataRepresentable
@@ -152,7 +123,7 @@ extension AdminPanelUserRole: AdminPanelUserRoleType {
     }
 
     public init?(_ description: String) {
-        guard let role = AdminPanelUserRole.init(rawValue: description) else {
+        guard let role = AdminPanelUserRole(rawValue: description) else {
             return nil
         }
 

@@ -6,15 +6,20 @@ import Sugar
 public typealias SidebarMenuPathGenerator<U: AdminPanelUserRoleType> = ((U?) -> String)
 
 public protocol AdminPanelUserType:
+    Creatable,
+    Loginnable,
     Parameter,
     PasswordAuthenticatable,
     PasswordResettable,
     SessionAuthenticatable,
     Submittable,
-    UserType,
-    TemplateDataRepresentable
+    TemplateDataRepresentable,
+    Updatable
 where
     ID: LosslessStringConvertible,
+    Self.Create: Decodable,
+    Self.Login: SelfCreatable,
+    Self.Update: Decodable,
     Self.ResolvedParameter == Future<Self>,
     Self.RequestReset: Submittable,
     Self.ResetPassword: Submittable
@@ -23,12 +28,12 @@ where
 
     var shouldResetPassword: Bool { get }
     var role: Role? { get }
-    func didCreate(with: Submission, on req: Request) throws -> Future<Void>
+    func didCreate(on req: Request) throws -> Future<Void>
 }
 
 extension AdminPanelUserType {
     func didCreate(with: Submission, on req: Request) throws -> Future<Void> {
-        return Future.transform(to: (), on: req)
+        return req.future()
     }
 }
 
