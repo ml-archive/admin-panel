@@ -3,11 +3,9 @@ import Reset
 import Submissions
 import Sugar
 
-public typealias SidebarMenuPathGenerator<U: AdminPanelUserRoleType> = ((U?) -> String)
-
 public protocol AdminPanelUserType:
     Creatable,
-    Loginnable,
+    Loginable,
     Parameter,
     PasswordAuthenticatable,
     PasswordResettable,
@@ -16,9 +14,8 @@ public protocol AdminPanelUserType:
     TemplateDataRepresentable,
     Updatable
 where
-    ID: LosslessStringConvertible,
     Self.Create: Decodable,
-    Self.Login: SelfCreatable,
+    Self.Login: Decodable,
     Self.Update: Decodable,
     Self.ResolvedParameter == Future<Self>,
     Self.RequestReset: Submittable,
@@ -49,14 +46,6 @@ public extension AdminPanelUserType {
             myRole >= requiredRole
         else {
             throw Abort(.unauthorized)
-        }
-    }
-}
-
-public extension AdminPanelUserRoleType {
-    public static var sidebarMenuPathGenerator: SidebarMenuPathGenerator<Self> {
-        return { role in
-            role?.menuPath ?? ""
         }
     }
 }

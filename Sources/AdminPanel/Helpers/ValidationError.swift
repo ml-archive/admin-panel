@@ -19,7 +19,7 @@ public func handleValidationError(
 public func handleValidationError<E: Encodable>(
     path: String,
     message: String = "Something went wrong while validating the form.",
-    context: E? = nil,
+    context: E?,
     on req: Request
 ) -> (Error) throws -> Future<Response> {
     return { error in
@@ -28,22 +28,5 @@ public func handleValidationError<E: Encodable>(
             .view()
             .render(path, context, on: req)
             .encode(for: req)
-    }
-}
-
-public func handleValidationError<E: Encodable>(
-    path: String,
-    message: String = "Something went wrong while validating the form.",
-    context: Future<E>,
-    on req: Request
-) -> (Error) throws -> Future<Response> {
-    return { error in
-        return context.flatMap(to: Response.self) { context in
-            try req
-                .flash(.error, message)
-                .view()
-                .render(path, context, on: req)
-                .encode(for: req)
-        }
     }
 }

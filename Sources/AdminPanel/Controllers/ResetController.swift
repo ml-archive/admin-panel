@@ -5,9 +5,10 @@ import Sugar
 import Vapor
 
 internal final class ResetController<U: AdminPanelUserType>: ResetControllerType {
+
     internal func renderResetPasswordRequestForm(_ req: Request) throws -> Future<Response> {
         let adminPanelConfig: AdminPanelConfig<U> = try req.make()
-        try req.fieldCache().addFields(U.RequestReset.Submission.makeFields(), on: req)
+        try req.addFields(for: U.self)
 
         return try req
             .view()
@@ -40,14 +41,14 @@ internal final class ResetController<U: AdminPanelUserType>: ResetControllerType
             }
             .catchFlatMap(handleValidationError(
                 path: adminPanelConfig.views.login.requestResetPassword,
-                on: req)
-            )
+                on: req
+            ))
     }
 
     internal func renderResetPasswordForm(_ req: Request) throws -> Future<Response> {
         let resetConfig: ResetConfig<U> = try req.make()
         let adminPanelConfig: AdminPanelConfig<U> = try req.make()
-        try req.fieldCache().addFields(U.ResetPassword.Submission.makeFields(), on: req)
+        try req.addFields(for: U.self)
 
         let payload = try resetConfig.extractVerifiedPayload(from: req.parameters.next())
 
@@ -87,12 +88,13 @@ internal final class ResetController<U: AdminPanelUserType>: ResetControllerType
                 return user.save(on: req)
             }
             .map(to: Response.self) { _ in
-                req.redirect(to: "/admin/login")
+                req
+                    .redirect(to: "/admin/login")
                     .flash(.success, "Your password has been updated.")
             }
             .catchFlatMap(handleValidationError(
                 path: adminPanelConfig.views.login.resetPassword,
-                on: req)
-            )
+                on: req
+            ))
     }
 }

@@ -42,7 +42,7 @@ public final class AdminPanelUserController
 
     public func renderCreate(_ req: Request) throws -> Future<Response> {
         let config: AdminPanelConfig<U> = try req.make()
-        try req.fieldCache().addFields(U.Submission.makeFields(), on: req)
+        try req.addFields(for: U.self)
         return try req
             .view()
             .render(config.views.adminPanelUser.editAndCreate)
@@ -68,8 +68,8 @@ public final class AdminPanelUserController
             }
             .catchFlatMap(handleValidationError(
                 path: config.views.adminPanelUser.editAndCreate,
-                on: req)
-            )
+                on: req
+            ))
     }
 
     // MARK: Edit user
@@ -131,8 +131,8 @@ public final class AdminPanelUserController
             .catchFlatMap(handleValidationError(
                 path: config.views.adminPanelUser.editAndCreate,
                 context: SingleUser(user: user),
-                on: req)
-            )
+                on: req
+            ))
     }
 
     // MARK: Delete user
@@ -140,7 +140,8 @@ public final class AdminPanelUserController
     public func delete(_ req: Request) throws -> Future<Response> {
         let auth = try req.requireAuthenticated(U.self)
         let user = try req.parameters.next(U.self)
-        return user.delete(on: req)
+        return user
+            .delete(on: req)
             .map(to: Response.self) { user in
                 guard auth[keyPath: U.usernameKey] != user[keyPath: U.usernameKey] else {
                     return req

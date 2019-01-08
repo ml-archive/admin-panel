@@ -13,13 +13,9 @@ public final class AdminPanelUser: Codable {
     public var passwordChangeCount: Int
     public var shouldResetPassword: Bool
 
-    public static let createdAtKey = \AdminPanelUser.createdAt
-    public static let updatedAtKey = \AdminPanelUser.updatedAt
-    public static let deletedAtKey = \AdminPanelUser.deletedAt
-
     public var createdAt: Date?
-    public var updatedAt: Date?
     public var deletedAt: Date?
+    public var updatedAt: Date?
 
     public init(
         id: Int? = nil,
@@ -62,5 +58,9 @@ extension AdminPanelUser: Migration {
         }
     }
 }
-extension AdminPanelUser: MySQLModel {}
+extension AdminPanelUser: MySQLModel {
+    public static let createdAtKey: TimestampKey? = \.createdAt
+    public static let updatedAtKey: TimestampKey? = \.updatedAt
+    public static let deletedAtKey: TimestampKey? = \.deletedAt
+}
 extension AdminPanelUser: Parameter {}

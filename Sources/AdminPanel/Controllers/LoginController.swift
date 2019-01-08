@@ -11,6 +11,7 @@ public protocol LoginControllerType {
 }
 
 public final class LoginController<U: AdminPanelUserType>: LoginControllerType {
+
     public init() {}
 
     // MARK: Login
@@ -19,9 +20,8 @@ public final class LoginController<U: AdminPanelUserType>: LoginControllerType {
         let endpoints = try req.make(AdminPanelConfig<U>.self).endpoints
         return U
             .logIn(on: req)
-            .map(to: U.self) { (user: U) -> U in
-                try req.authenticate(user)
-                return user
+            .try {
+                try req.authenticate($0)
             }
             .map(to: Response.self) { user in
                 req
