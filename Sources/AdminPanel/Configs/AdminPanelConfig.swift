@@ -38,7 +38,6 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
     public let resetSigner: JWTSigner
     public let specifyPasswordEmail: SpecifyPasswordEmail
     public let environment: Environment
-    public let tagTemplatePaths: TagTemplatePaths
 
     public init(
         name: String,
@@ -51,8 +50,7 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
         resetPasswordEmail: ResetPasswordEmail = .default,
         resetSigner: JWTSigner,
         specifyPasswordEmail: SpecifyPasswordEmail = .default,
-        environment: Environment,
-        tagTemplatePaths: TagTemplatePaths = TagTemplatePaths()
+        environment: Environment
     ) {
         self.name = name
         self.baseURL = baseURL
@@ -64,7 +62,6 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
         self.resetSigner = resetSigner
         self.specifyPasswordEmail = specifyPasswordEmail
         self.environment = environment
-        self.tagTemplatePaths = tagTemplatePaths
     }
 }
 

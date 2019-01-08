@@ -91,10 +91,9 @@ public final class AdminPanelProvider<U: AdminPanelUserType>: Provider {
 public extension LeafTagConfig {
     public mutating func useAdminPanelLeafTags<U: AdminPanelUserType>(
         _ type: U.Type,
-        on container: Container
-    ) throws {
-        let config: AdminPanelConfig<U> = try container.make()
-
+        paths: TagTemplatePaths = .init()
+    ) {
+        useBootstrapLeafTags()
         use([
             "adminPanel:avatarURL": AvatarURLTag(),
             "adminPanel:config": AdminPanelConfigTag<U>(),
@@ -103,8 +102,8 @@ public extension LeafTagConfig {
             "adminPanel:user": CurrentUserTag<U>(),
             "adminPanel:user:requireRole": RequireRoleTag<U>(),
             "adminPanel:user:hasRequiredRole": HasRequiredRole<U>(),
-            "submissions:WYSIWYG": InputTag(templatePath: config.tagTemplatePaths.wysiwygField),
-            "offsetPaginator": OffsetPaginatorTag(templatePath: "Paginator/offsetpaginator")
+            "offsetPaginator": OffsetPaginatorTag(templatePath: "Paginator/offsetpaginator"),
+            "submissions:WYSIWYG": InputTag(templatePath: paths.wysiwygField)
         ])
     }
 }
