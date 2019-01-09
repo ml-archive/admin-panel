@@ -51,7 +51,7 @@ extension AdminPanelUser: Seedable {
             name: name,
             title: "Tester",
             role: .superAdmin,
-            password: password
+            password: AdminPanelUser.hashPassword(password)
         )
     }
 }
