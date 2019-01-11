@@ -82,15 +82,15 @@ extension AdminPanelUser {
                     keyPath: \.role,
                     instance: instance,
                     label: "Role",
-                    validators: [.count(...191)],
-                    isRequired: true
+                    validators: [.count(...191)]
                 ),
                 Field(
                     keyPath: \.password,
                     instance: instance,
                     label: "Password",
                     validators: [.count(8...), .strongPassword()],
-                    isRequired: isPasswordRequired
+                    isRequired: isPasswordRequired,
+                    isAbsentWhen: .equal(to: "")
                 ),
                 Field(
                     keyPath: \.passwordAgain,
@@ -101,7 +101,8 @@ extension AdminPanelUser {
                             throw BasicValidationError("Passwords do not match")
                         }
                     }],
-                    isRequired: isPasswordRequired
+                    isRequired: isPasswordRequired,
+                    isAbsentWhen: .equal(to: "")
                 ),
                 Field(
                     keyPath: \.shouldResetPassword,
