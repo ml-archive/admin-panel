@@ -95,7 +95,7 @@ public final class AdminPanelUserController
         // A user cannot edit another user of a higher role
         try adminPanelUser.requireRole(user.role)
 
-        try user.validate(inContext: .update, on: req)
+        try req.addFields(for: user.makeSubmission())
 
         return try req
             .view()
