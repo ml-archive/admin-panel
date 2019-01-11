@@ -12,7 +12,7 @@ internal final class ResetController<U: AdminPanelUserType>: ResetControllerType
 
         return try req
             .view()
-            .render(adminPanelConfig.views.login.requestResetPassword)
+            .render(adminPanelConfig.views.login.requestResetPassword, on: req)
             .encode(for: req)
     }
 
@@ -21,8 +21,8 @@ internal final class ResetController<U: AdminPanelUserType>: ResetControllerType
         let adminPanelConfig: AdminPanelConfig<U> = try req.make()
 
         return U.RequestReset.create(on: req)
-            .flatMap(to: U?.self) { try U.find(by: $0, on: req) }
-            .flatTry { user -> Future<Void> in
+            .flatMap { try U.find(by: $0, on: req) }
+            .flatTry { (user: U?) -> Future<Void> in
                 guard let user = user else {
                     // ignore case where user could not be found to prevent malicious attackers from
                     // finding out which accounts are available on the system
@@ -34,7 +34,7 @@ internal final class ResetController<U: AdminPanelUserType>: ResetControllerType
                     on: req
                 )
             }
-            .map(to: Response.self) { _ in
+            .map { _ in
                 req
                     .redirect(to: "/admin/login")
                     .flash(.success, "Email with reset link sent.")
@@ -55,13 +55,13 @@ internal final class ResetController<U: AdminPanelUserType>: ResetControllerType
         return try U
             .authenticate(using: payload, on: req)
             .unwrap(or: ResetError.userNotFound)
-            .flatMap(to: Response.self) { user in
+            .flatMap { user in
                 guard user.passwordChangeCount == payload.passwordChangeCount else {
                     throw ResetError.tokenAlreadyUsed
                 }
                 return try req
                     .view()
-                    .render(adminPanelConfig.views.login.resetPassword)
+                    .render(adminPanelConfig.views.login.resetPassword, on: req)
                     .encode(for: req)
             }
     }
@@ -87,7 +87,7 @@ internal final class ResetController<U: AdminPanelUserType>: ResetControllerType
                 user.passwordChangeCount += 1
                 return user.save(on: req)
             }
-            .map(to: Response.self) { _ in
+            .map { _ in
                 req
                     .redirect(to: "/admin/login")
                     .flash(.success, "Your password has been updated.")

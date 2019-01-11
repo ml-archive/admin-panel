@@ -13,7 +13,7 @@ public final class DashboardController<U: AdminPanelUserType>: DashboardControll
 
         return try req
             .view()
-            .render(config.views.dashboard.index)
+            .render(config.views.dashboard.index, on: req)
             .encode(for: req)
     }
 }

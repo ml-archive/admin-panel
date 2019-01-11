@@ -43,7 +43,7 @@ public final class LoginController<U: AdminPanelUserType>: LoginControllerType {
 
         return try req
             .view()
-            .render(config.views.login.index, RenderLogin(queryString: req.http.url.query))
+            .render(config.views.login.index, RenderLogin(queryString: req.http.url.query), on: req)
             .encode(for: req)
     }
 

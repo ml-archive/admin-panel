@@ -32,7 +32,8 @@ public final class AdminPanelUserController
                     .render(
                         config.views.adminPanelUser.index,
                         MultipleUsers(users: paginator.data ?? []),
-                        userInfo: try paginator.userInfo()
+                        userInfo: try paginator.userInfo(),
+                        on: req
                     )
                     .encode(for: req)
             }
@@ -45,7 +46,7 @@ public final class AdminPanelUserController
         try req.addFields(for: U.self)
         return try req
             .view()
-            .render(config.views.adminPanelUser.editAndCreate)
+            .render(config.views.adminPanelUser.editAndCreate, on: req)
             .encode(for: req)
     }
 
@@ -98,7 +99,7 @@ public final class AdminPanelUserController
 
         return try req
             .view()
-            .render(config.views.adminPanelUser.editAndCreate, SingleUser(user: user))
+            .render(config.views.adminPanelUser.editAndCreate, SingleUser(user: user), on: req)
             .encode(for: req)
     }
 
