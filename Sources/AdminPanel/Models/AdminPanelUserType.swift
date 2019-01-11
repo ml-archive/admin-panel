@@ -14,7 +14,6 @@ public protocol AdminPanelUserType:
     TemplateDataRepresentable,
     Updatable
 where
-    Self.Create: Decodable,
     Self.Login: Decodable,
     Self.Update: Decodable,
     Self.ResolvedParameter == Future<Self>,

@@ -43,7 +43,8 @@ public final class AdminPanelUserController
 
     public func renderCreate(_ req: Request) throws -> Future<Response> {
         let config: AdminPanelConfig<U> = try req.make()
-        try req.addFields(for: U.self)
+        try req.addFields(forType: U.self)
+
         return try req
             .view()
             .render(config.views.adminPanelUser.editAndCreate, on: req)

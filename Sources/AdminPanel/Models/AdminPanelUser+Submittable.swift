@@ -29,7 +29,17 @@ extension AdminPanelUser {
     }
 
     public func makeSubmission() -> Submission {
-        return Submission(self)
+        return Submission(
+            email: email,
+            name: name,
+            title: title,
+            role: role?.rawValue,
+            oldPassword: role?.rawValue,
+            password: nil,
+            passwordAgain: nil,
+            shouldResetPassword: shouldResetPassword,
+            shouldSpecifyPassword: false
+        )
     }
 
     public struct Submission: Decodable, Reflectable, FieldsRepresentable, HasUpdatableUsername, HasUpdatablePassword {
@@ -46,18 +56,6 @@ extension AdminPanelUser {
         let passwordAgain: String?
         let shouldResetPassword: Bool?
         let shouldSpecifyPassword: Bool?
-
-        public init(_ user: AdminPanelUser?) {
-            email = user?.email
-            name = user?.name
-            title = user?.title
-            role = user?.role?.rawValue
-            oldPassword = nil
-            password = nil
-            passwordAgain = nil
-            shouldResetPassword = user?.shouldResetPassword
-            shouldSpecifyPassword = false
-        }
 
         public static func makeFields(for instance: Submission?) throws -> [Field] {
             let isPasswordRequired = instance?.shouldSpecifyPassword ?? false

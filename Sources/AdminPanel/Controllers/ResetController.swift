@@ -8,7 +8,7 @@ internal final class ResetController<U: AdminPanelUserType>: ResetControllerType
 
     internal func renderResetPasswordRequestForm(_ req: Request) throws -> Future<Response> {
         let adminPanelConfig: AdminPanelConfig<U> = try req.make()
-        try req.addFields(for: U.self)
+        try req.addFields(forType: U.self)
 
         return try req
             .view()
@@ -48,7 +48,7 @@ internal final class ResetController<U: AdminPanelUserType>: ResetControllerType
     internal func renderResetPasswordForm(_ req: Request) throws -> Future<Response> {
         let resetConfig: ResetConfig<U> = try req.make()
         let adminPanelConfig: AdminPanelConfig<U> = try req.make()
-        try req.addFields(for: U.self)
+        try req.addFields(forType: U.self)
 
         let payload = try resetConfig.extractVerifiedPayload(from: req.parameters.next())
 
