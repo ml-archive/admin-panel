@@ -19,7 +19,7 @@ public func handleValidationError(
 public func handleValidationError<E: Encodable>(
     path: String,
     message: String = "Something went wrong while validating the form.",
-    context: E?,
+    context: E,
     on req: Request
 ) -> (Error) throws -> Future<Response> {
     return { error in
