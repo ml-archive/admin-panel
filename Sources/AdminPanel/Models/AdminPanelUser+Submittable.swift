@@ -73,6 +73,12 @@ extension AdminPanelUser {
                     validators: [.count(...191)]
                 ),
                 Field(
+                    keyPath: \.email,
+                    instance: instance,
+                    label: "Email",
+                    validators: [.email]
+                ),
+                Field(
                     keyPath: \.role,
                     instance: instance,
                     label: "Role",
