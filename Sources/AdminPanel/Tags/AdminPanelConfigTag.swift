@@ -6,16 +6,17 @@ import TemplateKit
 public final class AdminPanelConfigTag<U: AdminPanelUserType>: TagRenderer {
     public func render(tag: TagContext) throws -> Future<TemplateData> {
         try tag.requireParameterCount(1)
-        let config = try tag.container.make(AdminPanelConfigTagData<U>.self)
-        let container = try tag.container.make(CurrentUserContainer<U>.self)
+        let request = try tag.requireRequest()
+        let config = try request.privateContainer.make(AdminPanelConfigTagData<U>.self)
+        let container = try request.privateContainer.make(CurrentUserContainer<U>.self)
 
-        return Future.map(on: tag) {
-            try config.viewData(
+        return try tag.future(
+            config.viewData(
                 for: tag.parameters[0],
                 user: container.user,
                 tag: tag
             )
-        }
+        )
     }
 
     public init() {}
@@ -66,7 +67,7 @@ public final class AdminPanelConfigTagData<U: AdminPanelUserType>: Service {
             return .string(baseURL)
         case .sidebarMenuPath:
             return user.map {
-                .string(self.sidebarMenuPathGenerator($0.role))
+                .string(sidebarMenuPathGenerator($0.role))
             } ?? .null
         case .dashboardPath:
             return dashboardPath.map { .string($0) } ?? .null
