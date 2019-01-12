@@ -18,8 +18,8 @@ extension AdminPanelUser: PasswordResettable {
         }
     }
 
-    public typealias JWTPayload = ModelPayload<AdminPanelUser>
     public typealias Context = AdminPanelResetPasswordContext
+    public typealias JWTPayload = ModelPayload<AdminPanelUser>
 
     public struct RequestReset: HasReadableUsername, SelfCreatable, Submittable {
         public func makeSubmission() -> Submission {
