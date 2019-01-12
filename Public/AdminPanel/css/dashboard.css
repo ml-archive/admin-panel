@@ -9,21 +9,21 @@ body {
 }
 
 .sticky-top {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    z-index: 1030;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
 }
 
 .sidebar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 100;
-    padding: 48px 0 0;
-    box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  padding: 48px 0 0;
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-sticky {
@@ -67,11 +67,15 @@ body {
 }
 
 [role="main"] {
-    padding-top: 48px;
+  padding-top: 48px;
 }
 
 .alerts {
-    padding-top: 1rem;
+  padding-top: 1rem;
+}
+
+.alert {
+  overflow: auto;
 }
 
 .navbar-brand {
