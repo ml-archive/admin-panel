@@ -1,7 +1,3 @@
-import Fluent
-import Foundation
-import JWT
-import Leaf
 import Mailgun
 import Reset
 import Submissions
@@ -117,7 +113,7 @@ extension AdminPanelUser: PasswordResettable {
         let emailData = ResetPasswordEmail(url: url, expire: expiration)
 
         return try req
-            .make(LeafRenderer.self)
+            .view()
             .render(view, emailData)
             .map(to: String.self) { view in
                 String(bytes: view.data, encoding: .utf8) ?? ""

@@ -1,14 +1,18 @@
 import Flash
 import Leaf
+import Submissions
 import Vapor
 
-public func handleValidationError(
+func handleValidationError(
     path: String,
     message: String = "Something went wrong while validating the form.",
     on req: Request
 ) -> (Error) throws -> Future<Response> {
     return { error in
-        try req
+        guard error is SubmissionValidationError else {
+            throw error
+        }
+        return try req
             .flash(.error, message)
             .view()
             .render(path, on: req)
@@ -16,14 +20,17 @@ public func handleValidationError(
     }
 }
 
-public func handleValidationError<E: Encodable>(
+func handleValidationError<E: Encodable>(
     path: String,
     message: String = "Something went wrong while validating the form.",
     context: E,
     on req: Request
 ) -> (Error) throws -> Future<Response> {
     return { error in
-        try req
+        guard error is SubmissionValidationError else {
+            throw error
+        }
+        return try req
             .flash(.error, message)
             .view()
             .render(path, context, on: req)

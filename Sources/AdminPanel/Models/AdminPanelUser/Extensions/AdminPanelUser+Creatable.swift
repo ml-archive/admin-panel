@@ -1,6 +1,6 @@
 import Sugar
 
-extension AdminPanelUser {
+extension AdminPanelUser: Creatable {
     public struct Create: Decodable, HasReadablePassword, HasReadableUsername {
         public static let readablePasswordKey = \Create.password
         public static var readableUsernameKey = \Create.email

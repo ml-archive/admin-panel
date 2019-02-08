@@ -61,7 +61,7 @@ public final class AdminPanelUserController
                 try user.didCreate(on: req)
             }
             .map { user in
-                req.redirect(to: "/admin/users")
+                req.redirect(to: config.endpoints.adminPanelUserBasePath)
                     .flash(
                         .success,
                         "The user with email '\(user[keyPath: U.usernameKey])' " +
@@ -90,13 +90,10 @@ public final class AdminPanelUserController
 
     private func renderEdit(_ req: Request, user: U) throws -> Future<Response> {
         let adminPanelUser: U = try req.requireAuthenticated()
-
-        let config: AdminPanelConfig<U> = try req.make()
-
-        // A user cannot edit another user of a higher role
-        try adminPanelUser.requireRole(user.role)
+        try adminPanelUser.requireRole(user.role) // A user may not edit a user of a higher role
 
         try req.addFields(for: user.makeSubmission())
+        let config: AdminPanelConfig<U> = try req.make()
 
         return try req
             .view()
@@ -123,7 +120,7 @@ public final class AdminPanelUserController
             .applyUpdate(on: req)
             .save(on: req)
             .map(to: Response.self) { user in
-                req.redirect(to: "/admin/users")
+                req.redirect(to: config.endpoints.adminPanelUserBasePath)
                     .flash(
                         .success,
                         "The user with username '\(user[keyPath: U.usernameKey])' " +
@@ -142,17 +139,19 @@ public final class AdminPanelUserController
     public func delete(_ req: Request) throws -> Future<Response> {
         let auth = try req.requireAuthenticated(U.self)
         let user = try req.parameters.next(U.self)
+        let config: AdminPanelConfig<U> = try req.make()
+
         return user
             .delete(on: req)
             .map(to: Response.self) { user in
                 guard auth[keyPath: U.usernameKey] != user[keyPath: U.usernameKey] else {
                     return req
-                        .redirect(to: "/admin/login")
+                        .redirect(to: config.endpoints.adminPanelUserBasePath)
                         .flash(.success, "Your user has now been deleted.")
                 }
 
                 return req
-                    .redirect(to: "/admin/users")
+                    .redirect(to: config.endpoints.adminPanelUserBasePath)
                     .flash(
                         .success,
                         "The user with username '\(user[keyPath: U.usernameKey])' " +

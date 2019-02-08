@@ -17,7 +17,7 @@ public struct ShouldResetPasswordMiddleware<U>: Middleware where U: AdminPanelUs
         self.path = path
     }
 
-    /// See Middleware.respond
+    /// See `Middleware.respond`.
     public func respond(to req: Request, chainingTo next: Responder) throws -> Future<Response> {
         guard
             let user = try req.authenticated(U.self),

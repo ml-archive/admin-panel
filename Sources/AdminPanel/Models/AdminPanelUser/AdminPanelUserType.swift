@@ -33,10 +33,6 @@ extension AdminPanelUserType {
     }
 }
 
-public protocol AdminPanelUserRoleType: LosslessStringConvertible, Comparable, Codable {
-    var menuPath: String { get }
-}
-
 public extension AdminPanelUserType {
     public func requireRole(_ role: Self.Role?) throws {
         guard

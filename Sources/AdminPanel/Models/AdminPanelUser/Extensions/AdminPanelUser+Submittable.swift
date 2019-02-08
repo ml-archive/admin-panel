@@ -5,7 +5,7 @@ import Sugar
 import Validation
 import Vapor
 
-extension AdminPanelUser {
+extension AdminPanelUser: Submittable {
     public static func makeFields(
         for submission: Submission?,
         given user: AdminPanelUser?
