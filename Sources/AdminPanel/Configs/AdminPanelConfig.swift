@@ -1,5 +1,6 @@
 import Fluent
 import JWT
+import Reset
 import Sugar
 import Vapor
 
@@ -34,6 +35,7 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
     public let views: AdminPanelViews
     public let controllers: AdminPanelControllers<U>
     public let sidebarMenuPathGenerator: SidebarMenuPathGenerator<U.Role>
+    public let resetEndpoints: ResetEndpoints
     public let resetPasswordEmail: ResetPasswordEmail
     public let resetSigner: JWTSigner
     public let specifyPasswordEmail: SpecifyPasswordEmail
@@ -47,6 +49,12 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
         controllers: AdminPanelControllers<U> = .default,
         sidebarMenuPathGenerator: @escaping SidebarMenuPathGenerator<U.Role>
             = U.Role.sidebarMenuPathGenerator,
+        resetEndpoints: ResetEndpoints = ResetEndpoints(
+            renderResetPasswordRequest: "/admin/users/reset-password/request",
+            resetPasswordRequest: "/admin/users/reset-password/request",
+            renderResetPassword: "/admin/users/reset-password",
+            resetPassword: "/admin/users/reset-password"
+        ),
         resetPasswordEmail: ResetPasswordEmail = .default,
         resetSigner: JWTSigner,
         specifyPasswordEmail: SpecifyPasswordEmail = .default,
@@ -58,6 +66,7 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
         self.views = views
         self.controllers = controllers
         self.sidebarMenuPathGenerator = sidebarMenuPathGenerator
+        self.resetEndpoints = resetEndpoints
         self.resetPasswordEmail = resetPasswordEmail
         self.resetSigner = resetSigner
         self.specifyPasswordEmail = specifyPasswordEmail
