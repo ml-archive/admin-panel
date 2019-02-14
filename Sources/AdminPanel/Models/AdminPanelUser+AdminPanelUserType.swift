@@ -1,6 +1,7 @@
 import Reset
 import Sugar
 import Vapor
+import FluentMySQL
 
 extension AdminPanelUser: AdminPanelUserType {
     public typealias Login = UserLogin
@@ -130,6 +131,20 @@ public enum AdminPanelUserRole: String {
         case AdminPanelUserRole.user.rawValue: self = .user
         default: return nil
         }
+    }
+}
+
+extension AdminPanelUserRole: MySQLDataConvertible {
+
+    public func convertToMySQLData() -> MySQLData {
+        return MySQLData(string: self.rawValue)
+    }
+
+    public static func convertFromMySQLData(_ mysqlData: MySQLData) throws -> AdminPanelUserRole {
+        guard let role = AdminPanelUserRole(rawValue: mysqlData.string()) else {
+            throw Abort(.internalServerError, reason: "Could not convert MySQLData to AdminPanelUserRole")
+        }
+        return role
     }
 }
 
