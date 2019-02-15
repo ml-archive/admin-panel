@@ -1,7 +1,7 @@
+import FluentMySQL
 import Reset
 import Sugar
 import Vapor
-import FluentMySQL
 
 extension AdminPanelUser: AdminPanelUserType {
     public typealias Login = UserLogin
