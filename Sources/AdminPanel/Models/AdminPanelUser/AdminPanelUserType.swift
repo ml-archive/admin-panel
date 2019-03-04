@@ -28,7 +28,7 @@ where
 }
 
 extension AdminPanelUserType {
-    func didCreate(with: Submission, on req: Request) throws -> Future<Void> {
+    public func didCreate(on req: Request) throws -> Future<Void> {
         return req.future()
     }
 }

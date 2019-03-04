@@ -92,7 +92,7 @@ public final class AdminPanelUserController
         let adminPanelUser: U = try req.requireAuthenticated()
         try adminPanelUser.requireRole(user.role) // A user may not edit a user of a higher role
 
-        try req.addFields(for: user.makeSubmission())
+        try req.addFields(given: user)
         let config: AdminPanelConfig<U> = try req.make()
 
         return try req

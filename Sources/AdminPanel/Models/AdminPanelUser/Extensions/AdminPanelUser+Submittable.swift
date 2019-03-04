@@ -28,7 +28,7 @@ extension AdminPanelUser: Submittable {
         ]
     }
 
-    public func makeSubmission() -> Submission {
+    public func makeSubmission() -> Submission? {
         return Submission(
             email: email,
             name: name,
@@ -42,7 +42,13 @@ extension AdminPanelUser: Submittable {
         )
     }
 
-    public struct Submission: Decodable, Reflectable, FieldsRepresentable, HasUpdatableUsername, HasUpdatablePassword {
+    public struct Submission:
+        Decodable,
+        Reflectable,
+        FieldsRepresentable,
+        HasUpdatableUsername,
+        HasUpdatablePassword
+    {
         public static let oldPasswordKey = \Update.oldPassword
         public static let updatablePasswordKey = \Update.password
         public static let updatableUsernameKey = \Update.email
