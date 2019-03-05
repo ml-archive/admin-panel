@@ -114,7 +114,7 @@ extension AdminPanelUser: PasswordResettable {
 
         return try req
             .view()
-            .render(view, emailData)
+            .render(view, emailData, on: req)
             .map(to: String.self) { view in
                 String(bytes: view.data, encoding: .utf8) ?? ""
             }
