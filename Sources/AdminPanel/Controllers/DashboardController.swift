@@ -1,16 +1,19 @@
 import Vapor
-import HTTP
-import AuthProvider
+import Leaf
 
-public final class DashboardController {
-    
-    public let drop: Droplet
-    
-    public init(droplet: Droplet) {
-        drop = droplet
-    }
-    
-    public func index(request: Request) throws -> ResponseRepresentable {
-        return try drop.view.make("Dashboard/view", for: request)
+public protocol DashboardControllerType {
+    func renderDashboard(_ req: Request) throws -> Future<Response>
+}
+
+public final class DashboardController<U: AdminPanelUserType>: DashboardControllerType {
+    public init() {}
+
+    public func renderDashboard(_ req: Request) throws -> Future<Response> {
+        let config = try req.make(AdminPanelConfig<U>.self)
+
+        return try req
+            .view()
+            .render(config.views.dashboard.index, on: req)
+            .encode(for: req)
     }
 }

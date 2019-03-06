@@ -1,8 +1,0 @@
-<div class="application-brand">
-    <a class="logo" href="/admin/dashboard">
-        #embed("Layout/Partials/Elements/logo")
-    </a>
-    <h1 class="application-title">
-        #(request.storage.adminPanel.name)
-    </h1>
-</div>

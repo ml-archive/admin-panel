@@ -1,0 +1,97 @@
+#set("pageTitle") { 
+    #if(user) { Edit '#(user.name)' } else { Create Admin Panel User }
+}
+
+#set("breadcrumb") { 
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin/users">Admin Panel Users</a></li>
+        <li class="breadcrumb-item active" aria-current="page">
+            #if(user) { Edit } else { Create }
+        </li>
+      </ol>
+    </nav>
+}
+
+#set("content") {
+    #if(user) {
+        <form method="post">
+    } else {
+        <form method="post" action="/admin/users/create">
+    }
+        <h4>User details</h4>
+
+        #submissions:text("name", "Enter name")
+        #submissions:text("title", "Enter title")
+        #submissions:email("email", "Enter email")
+
+        <div class="form-group">
+            <label for="role">Role</label>
+            <select class="form-control" name="role" id="role">
+                  <option value="superAdmin" #if(user.role == "superAdmin") { selected }>Super Admin</option>
+                  <option value="admin" #if(user.role == "admin") { selected }>Admin</option>
+                  <option value="user" #if(user.role == "user") { selected }>User</option>
+            </select>
+        </div>
+
+        <hr>
+
+        <h4>Choose password</h4>
+
+        #if(user == nil) {
+            <p>If you don't specify a password, then the user will receive an email with instructions on how to set one. If you specify a password, then no email will be sent to the new user.</p>
+
+            #submissions:checkbox("shouldSpecifyPassword", "Specify password", "Leave this out and the user will have to specify one themselves.")
+
+            <div id="specifyPassword" style="display:none;">
+                #submissions:password("password", "Enter password", "Minimum 8 characters and needs to satisfy three of the following: has a lowercase character, has an uppercase character, has a digit or has a special character.")
+                #submissions:password("passwordAgain", "Enter password again")
+            </div>
+
+            #submissions:checkbox("shouldResetPassword", "Should reset password", "This will require the user to set a new password after logging in the first time.")
+        } else {
+            #submissions:password("password", "Enter password", "Minimum 8 characters.")
+            #submissions:password("passwordAgain", "Enter password again")
+        }
+  
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="/admin/users" class="btn btn-secondary">Cancel</a>
+    </form>
+}
+
+#set("javascript") {
+    <script>
+        // Password verification
+        let password = $("#password").get(0);
+        let passwordAgain = $("#passwordAgain").get(0);
+
+        function validatePassword(){
+          if(password.value != passwordAgain.value) {
+            passwordAgain.setCustomValidity("Passwords do not match.");
+          \} else {
+            passwordAgain.setCustomValidity('');
+          \}
+        \}
+
+        password.onchange = validatePassword;
+        passwordAgain.onkeyup = validatePassword;
+
+        // Password toggle
+        $(function () {
+            $("#specifyPassword").toggle($("#shouldSpecifyPassword").prop("checked"));
+            $("#shouldSpecifyPassword").click(function() {
+                if (!this.checked) {
+                    $("#password").val("");
+                    $("#passwordAgain").val("");
+                \}
+
+                $("#password").prop('required', (this.checked))
+                $("#passwordAgain").prop('required', (this.checked))
+
+                $("#specifyPassword").toggle();
+            \});
+        \});
+    </script>
+}
+
+#embed("AdminPanel/Layout/base")

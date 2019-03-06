@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="/favicon.ico">
+
+        <title>#get(pageTitle) | #adminPanel:config("name") </title>
+
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+        <!-- Quill WYSIWYG editor -->
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+        <!-- Dashboard -->
+        <link href="/AdminPanel/css/dashboard.css" rel="stylesheet">
+
+        #get(styles)
+    </head>
+
+    <body>
+        #embed("AdminPanel/Layout/Partials/content")
+        
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <!-- Popper - tooltips -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <!-- Bootstrap -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+        <!-- Feather - SVG icons -->
+        <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+        <!-- Quill WYSIWYG editor -->
+        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+        <!-- Modal confirmation -->
+        <script src="/AdminPanel/js/modal-confirmation.js"></script>
+
+        <script>
+            // Load icons
+            feather.replace()
+
+            $(function () {
+                // Load tooltips
+                $('[data-toggle="tooltip"]').tooltip();
+
+                // Load Quill WYSIWYG editors
+                $('[data-edit="quill"]').each(function(index, value) {
+                    var quill = new Quill($(value).children('.editor').get(0), {
+                        theme: 'snow',
+                        modules: {
+                            toolbar: $(value).children('.toolbar').get(0)
+                        },
+                        placeholder: $(value).children('.editor-placeholder').first().val()
+                    });
+
+                    quill.on('text-change', function() {
+                        $(value).children('.wysiwyg-value').first().val(quill.root.innerHTML);
+                    });
+                });
+            });
+        </script>
+
+        #get(javascript)
+    </body>
+</html>

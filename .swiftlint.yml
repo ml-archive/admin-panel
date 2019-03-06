@@ -1,0 +1,13 @@
+included:
+  - Sources
+function_body_length:
+  warning: 60
+identifier_name:
+  min_length:
+    warning: 2
+line_length: 100
+disabled_rules:
+  - opening_brace
+  - nesting
+colon:
+  flexible_right_spacing: true

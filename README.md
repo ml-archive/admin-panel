@@ -1,176 +1,43 @@
-# ! Please note !
-**This package is being replaced by the [AdminPanel provider](https://github.com/nodes-vapor/admin-panel-provider). This package will most likely not be maintained anymore.**
+# admin-panel
 
-# Admin Panel ✍️
-[![Swift Version](https://img.shields.io/badge/Swift-3.1-brightgreen.svg)](http://swift.org)
-[![Vapor Version](https://img.shields.io/badge/Vapor-2-F6CBCA.svg)](http://vapor.codes)
-[![Linux Build Status](https://img.shields.io/circleci/project/github/nodes-vapor/admin-panel.svg?label=Linux)](https://circleci.com/gh/nodes-vapor/admin-panel)
-[![macOS Build Status](https://img.shields.io/travis/nodes-vapor/admin-panel.svg?label=macOS)](https://travis-ci.org/nodes-vapor/admin-panel)
-[![codebeat badge](https://codebeat.co/badges/52c2f960-625c-4a63-ae63-52a24d747da1)](https://codebeat.co/projects/github-com-nodes-vapor-admin-panel)
-[![codecov](https://codecov.io/gh/nodes-vapor/admin-panel/branch/master/graph/badge.svg)](https://codecov.io/gh/nodes-vapor/admin-panel)
-[![Readme Score](http://readme-score-api.herokuapp.com/score.svg?url=https://github.com/nodes-vapor/admin-panel)](http://clayallsopp.github.io/readme-score?url=https://github.com/nodes-vapor/admin-panel)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/nodes-vapor/admin-panel/master/LICENSE)
+A description of this package.
 
 
-Build easy customizable admin features for your app!
+#### Confirm Modal
 
-## Features
- - Admin user system with roles
- - Welcome mails
- - Reset password
- - Dashboard with easy graphs
- - SSO logins
- 
-![image](https://cloud.githubusercontent.com/assets/1279756/21502899/83ff79dc-cc53-11e6-8222-40bfa773d361.png)
+Admin Panel includes a generic confirmation modal for links, out of the box. Using HTML data attributes on `<a>`-tags the modal can be configured in different ways. Just add a data attribute to your link and you're all set.
 
+Triggering the modal will append a HTML-element form to the DOM, containing title, text, confirm button and dismiss button.
 
-## 📦 Installation
+By default confirm submits the form and dismiss will remove the HTML-element from the DOM
 
-Update your `Package.swift` file.
-```swift
-.Package(url: "https://github.com/nodes-vapor/admin-panel.git", majorVersion: 1)
+**Basic usage**
+
+```HTML
+<a href="#" data-confirm="true">Open modal</a>
 ```
 
+**Data Attributes**
 
-## Getting started 🚀
+|Attribute|Description|example|
+|---------|-----------|-------|
+|data-confirm|Initialize the modal|`data-confirm="true"`|
+|data-title|Sets the title of the modal|`data-title="Please confirm"`|
+|data-text|Sets the text of the modal|`data-text="Are you sure you want to continue?"`|
+|data-button|Sets bootstrap css selector for the confirm button|`data-button="danger"` _[primary,secondary,success,danger,warning,info,light,dark]_|
+|data-confirm-btn|Set the text label on the "confirm"-button|`data-confirm-btn="Yes"`|
+|data-dismiss-btn|Set the text label on the "dismiss"-button|`data-confirm-btn="No"`|
 
-### Configs
-Create config `adminpanel.json`
+**Override default behavior**
 
-```json
-{
-    "name": "Nodes Admin Panel",
-    "unauthorizedPath": "/admin/login",
-    "loginSuccessPath": "admin/dashboard",
-    "loadRoutes": true,
-    "loadDashboardRoute": true,
-    "profileImageFallbackUrl": "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg",
-    "welcomeMailViewPath": "Emails/welcome",
-    "resetPasswordViewPath": "Emails/reset-password",
-    "autoLoginFirstUser": false,
-    "ssoRedirectUrl": "https://mysso.com",
-    "ssoCallbackPath": "/admin/ssocallback",
-    "roles": [
-        {
-            "title": "Super admin",
-            "slug": "super-admin",
-            "is_default": false
-        },
-        {
-            "title": "Admin",
-            "slug": "admin",
-            "is_default": false
-        },
-        {
-            "title": "User",
-            "slug": "user",
-            "is_default": true
-        }
-    ]
+```javascript
+// Override modal confirm action
+modalConfirmation.actions.confirm = function(event) {
+    alert("Confirmed");
 }
 
-```
-
-Create config `mail.json`
-```json
-{
-    "smtpHost": "smtp.mailgun.org",
-    "smtpPort": "465",
-    "user": "",
-    "password": "",
-    "fromEmail": ""
+// Overríde modal dismiss action
+modalConfirmation.actions.dismiss = function(event) {
+    alert("Dismissed");
 }
 ```
-
-Make sure to have config `app.json` setup
-```json
-{
-    "name": "MY-PROJECT",
-    "url": "0.0.0.0:8080"
-}
-
-```
-The url here will be used as redirect link in invite emails fx.
-
-
-### Add provider
-In your `Config+Setup.swift` (or wherever you setup your providers), make sure to add the `AdminPanel` provider.
-
-```swift
-import AdminPanel
-
-// ...
-
-private func setupProviders() throws {
-    // ...
-    try addProvider(AdminPanel.Provider.self)
-}
-```
-
-### Seed data
-Add the seeder command to your `Config+Setup.swift` (or wherever you setup your commands):
-```swift
-addConfigurable(command: AdminPanel.Seeder.init, name: "seeder")
-```
-
-Next, add it to your `Config/droplet.json` file, like this:
-```json
-"commands": [
-    "prepare",
-     "seeder"
-]
-```
-
-Finally, run the command in your terminal (remember to build the project first):
-```swift
-vapor run seeder
-```
-
-### UI package
-
-#### Prerequisites
-
-- node.js > v4.0
-- npm > v3.0
-- bower > 2.0
-
-With brew
-```
-brew install node
-brew install npm
-brew install bower
-npm install -g gulp
-```
-
-#### Setup
-
-- Copy the files from `Sources/AdminPanel/gulp` (of this repo) to the ROOT of your project
-- Copy the files from `Sources/AdminPanel/Resources` (of this repo) to the `Resources` folder in your project
-- Copy the files from `Sources/AdminPanel/Public/favicon.ico` (of this repo) and the `favicon` folder to the `Public` folder in your project
-- Run `npm install` > `bower install` > `gulp build`
-
-#### Read more
-
-Wiki: https://github.com/nodes-vapor/admin-panel/wiki
-
-Github: https://github.com/nodes-frontend/nodes-ui
-
-Doc: https://nodes-frontend.github.io/nodes-ui/
-
-#### Using views from packages (for development)
-```swift
-drop.view = LeafRenderer(
-    viewsDir: Droplet().workDir + "/Packages/AdminPanel-0.5.4/Sources/AdminPanel/Resources/Views"
-)
-```
-
-
-## 🏆 Credits
-
-This package is developed and maintained by the Vapor team at [Nodes](https://www.nodesagency.com).
-The package owner for this project is [Steffen](https://github.com/steffendsommer).
-
-
-## 📄 License
-
-This package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)

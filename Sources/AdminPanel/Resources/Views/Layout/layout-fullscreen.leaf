@@ -1,7 +1,0 @@
-#extend("Layout/base")
-
-#export("page") {
-    <div class="layout vertical fit page-login">
-        #import("content")
-    </div>
-}

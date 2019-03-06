@@ -1,0 +1,4 @@
+#adminPanel:sidebar:heading() { Admin }
+<ul class="nav flex-column mb-2">
+    #adminPanel:sidebar:menuItem("/admin/users", "users", "/admin/users*") { Admin Panel Users }
+</ul>

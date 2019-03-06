@@ -1,16 +1,16 @@
 import XCTest
 @testable import AdminPanel
 
-class AdminPanelTests: XCTestCase {
-    func testRandomString() {
-        let length = 10
-        let randomString = String.randomAlphaNumericString(length)
-        XCTAssertEqual(randomString.characters.count, length)
+final class AdminPanelTests: XCTestCase {
+    func testExample() {
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct
+        // results.
+        XCTAssertTrue(true)
     }
-    
-    static var allTests : [(String, (AdminPanelTests) -> () throws -> Void)] {
-        return [
-            ("testRandomString", testRandomString),
-        ]
-    }
+
+
+    static var allTests = [
+        ("testExample", testExample),
+    ]
 }

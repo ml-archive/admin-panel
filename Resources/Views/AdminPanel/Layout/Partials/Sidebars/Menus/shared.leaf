@@ -1,0 +1,3 @@
+<ul class="nav flex-column">
+    #adminPanel:sidebar:menuItem("/admin/dashboard", "home", "/admin/dashboard*") { Home }
+</ul>

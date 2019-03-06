@@ -1,0 +1,26 @@
+#if(body) {
+  #get(body)
+} else {
+  #embed("AdminPanel/Layout/Partials/navbar")
+
+  <div class="container-fluid">
+    <div class="row">
+
+      #embed(adminPanel:config("sidebarMenuPath"))
+
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        #embed("AdminPanel/Layout/Partials/alerts")
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">#get(pageTitle)</h1>
+
+          #embed("AdminPanel/Layout/Partials/breadcrumb")
+
+        </div>
+
+        #get(content)
+
+      </main>
+
+    </div>
+  </div>  
+}

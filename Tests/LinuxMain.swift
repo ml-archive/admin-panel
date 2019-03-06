@@ -1,6 +1,7 @@
 import XCTest
-@testable import AdminPanelTests
 
-XCTMain([
-     testCase(AdminPanelTests.allTests),
-])
+import AdminPanelTests
+
+var tests = [XCTestCaseEntry]()
+tests += AdminPanelTests.allTests()
+XCTMain(tests)

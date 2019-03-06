@@ -1,0 +1,7 @@
+#set("pageTitle") { Dashboard }
+
+#set("content") {
+    <blockquote>Hello, world!</blockquote>
+}
+
+#embed("AdminPanel/Layout/base")
