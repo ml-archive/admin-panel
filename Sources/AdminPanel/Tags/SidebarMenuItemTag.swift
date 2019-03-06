@@ -5,6 +5,7 @@ import TemplateKit
 public final class SidebarMenuItemTag: TagRenderer {
     public func render(tag: TagContext) throws -> Future<TemplateData> {
         let body = try tag.requireBody()
+        let request = try tag.requireRequest()
 
         var url = "#"
         var icon = ""
@@ -25,7 +26,7 @@ public final class SidebarMenuItemTag: TagRenderer {
         }
 
         if tag.parameters.count > 2 {
-            let currentPath = try tag.container.make(CurrentURLContainer.self).path
+            let currentPath = try request.privateContainer.make(CurrentURLContainer.self).path
             let activeURLPatterns = tag.parameters.dropFirst(2)
 
             if isActive(currentPath: currentPath, pathPatterns: activeURLPatterns) {

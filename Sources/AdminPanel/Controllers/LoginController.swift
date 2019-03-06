@@ -11,21 +11,17 @@ public protocol LoginControllerType {
 }
 
 public final class LoginController<U: AdminPanelUserType>: LoginControllerType {
+
     public init() {}
 
     // MARK: Login
 
     public func login(_ req: Request) throws -> Future<Response> {
         let endpoints = try req.make(AdminPanelConfig<U>.self).endpoints
-        return try req
-            .content
-            .decode(U.Login.self)
-            .flatMap(to: U.self) { login in
-                U.logIn(with: login, on: req)
-            }
-            .map(to: U.self) { (user: U) -> U in
-                try req.authenticate(user)
-                return user
+        return U
+            .logIn(on: req)
+            .try {
+                try req.authenticate($0)
             }
             .map(to: Response.self) { user in
                 req
@@ -42,14 +38,12 @@ public final class LoginController<U: AdminPanelUserType>: LoginControllerType {
     public func renderLogin(_ req: Request) throws -> Future<Response> {
         let config: AdminPanelConfig<U> = try req.make()
         guard try !req.isAuthenticated(U.self) else {
-            return Future.map(on: req) {
-                req.redirect(to: config.endpoints.dashboard)
-            }
+            return req.future(req.redirect(to: config.endpoints.dashboard))
         }
 
-        return try req.privateContainer
-            .make(LeafRenderer.self)
-            .render(config.views.login.index, RenderLogin(queryString: req.http.url.query))
+        return try req
+            .view()
+            .render(config.views.login.index, RenderLogin(queryString: req.http.url.query), on: req)
             .encode(for: req)
     }
 

@@ -21,6 +21,6 @@ public final class AvatarURLTag: TagRenderer {
 
         let avatarURL = url ?? "https://api.adorable.io/avatars/150/\(identifier).png"
 
-        return Future.map(on: tag) { return .string(avatarURL) }
+        return tag.future(.string(avatarURL))
     }
 }

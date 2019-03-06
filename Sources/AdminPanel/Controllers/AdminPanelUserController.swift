@@ -24,15 +24,16 @@ public final class AdminPanelUserController
 
     public func renderList(_ req: Request) throws -> Future<Response> {
         let config: AdminPanelConfig<U> = try req.make()
-        let paginator: Future<OffsetPaginator<U>> = try U.query(on: req).paginate(for: req)
-        return paginator
-            .flatMap(to: Response.self) { paginator in
-                return try req.privateContainer
-                    .make(LeafRenderer.self)
+        return try U.query(on: req)
+            .paginate(for: req)
+            .flatMap(to: Response.self) { (paginator: OffsetPaginator) in
+                try req
+                    .view()
                     .render(
                         config.views.adminPanelUser.index,
                         MultipleUsers(users: paginator.data ?? []),
-                        userInfo: try paginator.userInfo()
+                        userInfo: try paginator.userInfo(),
+                        on: req
                     )
                     .encode(for: req)
             }
@@ -42,29 +43,25 @@ public final class AdminPanelUserController
 
     public func renderCreate(_ req: Request) throws -> Future<Response> {
         let config: AdminPanelConfig<U> = try req.make()
-        try req.populateFields(U.self)
-        return try req.privateContainer
-            .make(LeafRenderer.self)
-            .render(config.views.adminPanelUser.editAndCreate)
+        try req.addFields(forType: U.self)
+
+        return try req
+            .view()
+            .render(config.views.adminPanelUser.editAndCreate, on: req)
             .encode(for: req)
     }
 
     public func create(_ req: Request) throws -> Future<Response> {
         let config: AdminPanelConfig<U> = try req.make()
-        let submission = try req.content.decode(U.Submission.self)
 
-        return submission
-            .createValid(on: req)
+        return U
+            .create(on: req)
             .save(on: req)
             .flatTry { user in
-                return submission.flatTry { submission in
-                    return try user.didCreate(with: submission, on: req)
-                }
-                .transform(to: ())
+                try user.didCreate(on: req)
             }
-            .map(to: Response.self) { user in
-                req
-                    .redirect(to: "/admin/users")
+            .map { user in
+                req.redirect(to: config.endpoints.adminPanelUserBasePath)
                     .flash(
                         .success,
                         "The user with email '\(user[keyPath: U.usernameKey])' " +
@@ -73,58 +70,57 @@ public final class AdminPanelUserController
             }
             .catchFlatMap(handleValidationError(
                 path: config.views.adminPanelUser.editAndCreate,
-                on: req)
-            )
+                on: req
+            ))
     }
 
     // MARK: Edit user
 
     public func renderEditMe(_ req: Request) throws -> Future<Response> {
-        let user = try req.requireAuthenticated(U.self)
-        return try renderEdit(req, user: Future.transform(to: user, on: req))
+        return try renderEdit(req, user: try req.requireAuthenticated(U.self))
     }
 
     public func renderEditUser(_ req: Request) throws -> Future<Response> {
-        let user = try req.parameters.next(U.self)
-        return try renderEdit(req, user: user)
+        return try req.parameters
+            .next(U.self)
+            .flatMap { user in
+                try self.renderEdit(req, user: user)
+            }
     }
 
-    private func renderEdit(_ req: Request, user: Future<U>) throws -> Future<Response> {
+    private func renderEdit(_ req: Request, user: U) throws -> Future<Response> {
         let adminPanelUser: U = try req.requireAuthenticated()
+        try adminPanelUser.requireRole(user.role) // A user may not edit a user of a higher role
 
+        try req.addFields(given: user)
         let config: AdminPanelConfig<U> = try req.make()
-        return user
-            .try { user in
-                // A user cannot edit another user of a higher role
-                try adminPanelUser.requireRole(user.role)
-            }
-            .populateFields(on: req)
-            .flatMap { user in
-                try req.privateContainer
-                    .make(LeafRenderer.self)
-                    .render(config.views.adminPanelUser.editAndCreate, SingleUser(user: user))
-                    .encode(for: req)
-            }
+
+        return try req
+            .view()
+            .render(config.views.adminPanelUser.editAndCreate, SingleUser(user: user), on: req)
+            .encode(for: req)
     }
 
     public func editMe(_ req: Request) throws -> Future<Response> {
         let user = try req.requireAuthenticated(U.self)
-        return try edit(req, user: Future.transform(to: user, on: req))
-    }
-
-    public func editUser(_ req: Request) throws -> Future<Response> {
-        let user = try req.parameters.next(U.self)
         return try edit(req, user: user)
     }
 
-    private func edit(_ req: Request, user: Future<U>) throws -> Future<Response> {
+    public func editUser(_ req: Request) throws -> Future<Response> {
+        return try req.parameters.next(U.self)
+            .flatMap { user in
+                try self.edit(req, user: user)
+            }
+    }
+
+    private func edit(_ req: Request, user: U) throws -> Future<Response> {
         let config: AdminPanelConfig<U> = try req.make()
+
         return user
-            .updateValid(on: req)
+            .applyUpdate(on: req)
             .save(on: req)
             .map(to: Response.self) { user in
-                req
-                    .redirect(to: "/admin/users")
+                req.redirect(to: config.endpoints.adminPanelUserBasePath)
                     .flash(
                         .success,
                         "The user with username '\(user[keyPath: U.usernameKey])' " +
@@ -133,9 +129,9 @@ public final class AdminPanelUserController
             }
             .catchFlatMap(handleValidationError(
                 path: config.views.adminPanelUser.editAndCreate,
-                context: user.map(to: SingleUser.self) { .init(user: $0) },
-                on: req)
-            )
+                context: SingleUser(user: user),
+                on: req
+            ))
     }
 
     // MARK: Delete user
@@ -143,17 +139,19 @@ public final class AdminPanelUserController
     public func delete(_ req: Request) throws -> Future<Response> {
         let auth = try req.requireAuthenticated(U.self)
         let user = try req.parameters.next(U.self)
-        return user.delete(on: req)
+        let config: AdminPanelConfig<U> = try req.make()
+
+        return user
+            .delete(on: req)
             .map(to: Response.self) { user in
                 guard auth[keyPath: U.usernameKey] != user[keyPath: U.usernameKey] else {
                     return req
-                        .redirect(to: "/admin/login")
+                        .redirect(to: config.endpoints.adminPanelUserBasePath)
                         .flash(.success, "Your user has now been deleted.")
-
                 }
 
                 return req
-                    .redirect(to: "/admin/users")
+                    .redirect(to: config.endpoints.adminPanelUserBasePath)
                     .flash(
                         .success,
                         "The user with username '\(user[keyPath: U.usernameKey])' " +

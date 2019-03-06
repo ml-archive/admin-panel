@@ -1,7 +1,3 @@
-import Fluent
-import Foundation
-import JWT
-import Leaf
 import Mailgun
 import Reset
 import Submissions
@@ -18,70 +14,64 @@ extension AdminPanelUser: PasswordResettable {
         }
     }
 
-    public typealias JWTPayload = ModelPayload<AdminPanelUser>
     public typealias Context = AdminPanelResetPasswordContext
+    public typealias JWTPayload = ModelPayload<AdminPanelUser>
 
-    public struct RequestReset: HasReadableUsername, RequestCreatable, Submittable {
-        public struct Submission: SubmissionType {
+    public struct RequestReset: HasReadableUsername, SelfCreatable, Submittable {
+        public func makeSubmission() -> Submission {
+            return Submission(email: email)
+        }
+
+        public struct Submission: Decodable, FieldsRepresentable, Reflectable {
             let email: String?
 
-            public init(_ requestLink: RequestReset?) {
-                self.email = requestLink?.email
-            }
-
-            public func fieldEntries() throws -> [FieldEntry<RequestReset>] {
-                return try [makeFieldEntry(keyPath: \.email, label: "Email", validators: [.email])]
+            public static func makeFields(for instance: Submission?) throws -> [Field] {
+                return try [Field(
+                    keyPath: \.email,
+                    instance: instance,
+                    label: "Email",
+                    validators: [.email]
+                )]
             }
         }
 
-        public struct Create: Decodable {
-            let email: String
-        }
-
-        public static let readableUsernameKey = \RequestReset.email
+        public static let readableUsernameKey: KeyPath<RequestReset, String> = \.email
         public let email: String
-
-        public init(_ create: Create) throws {
-            self.email = create.email
-        }
     }
 
-    public struct ResetPassword: HasReadablePassword, RequestCreatable, Submittable {
-        public struct Submission: SubmissionType {
+    public struct ResetPassword: HasReadablePassword, SelfCreatable, Submittable {
+        public func makeSubmission() -> Submission {
+            return Submission(password: password, passwordAgain: password)
+        }
+
+        public struct Submission: Decodable, FieldsRepresentable, Reflectable {
             let password: String?
             let passwordAgain: String?
 
-            public init(_ resetPassword: ResetPassword?) {
-                self.password = resetPassword?.password
-                self.passwordAgain = resetPassword?.password
-            }
-
-            public func fieldEntries() throws -> [FieldEntry<ResetPassword>] {
+            public static func makeFields(for instance: Submission?) throws -> [Field] {
                 return try [
-                    makeFieldEntry(
+                    Field(
                         keyPath: \.password,
+                        instance: instance,
                         label: "New password",
                         validators: [.count(8...), .strongPassword()]
                     ),
-                    makeFieldEntry(
+                    Field(
                         keyPath: \.passwordAgain,
+                        instance: instance,
                         label: "New password again",
-                        validators: [.count(8...), .strongPassword()]
+                        validators: [Validator("") {
+                            guard $0 == instance?.password else {
+                                throw BasicValidationError("Passwords do not match")
+                            }
+                        }]
                     )
                 ]
             }
         }
 
-        public struct Create: Decodable {
-            let password: String
-        }
-
-        public static let readablePasswordKey = \ResetPassword.password
+        public static let readablePasswordKey: KeyPath<ResetPassword, String> = \.password
         public let password: String
-
-        public init(_ create: Create) throws {
-            self.password = create.password
-        }
     }
 
     internal struct ResetPasswordEmail: Codable {
@@ -97,8 +87,8 @@ extension AdminPanelUser: PasswordResettable {
         on req: Request
     ) throws -> Future<Void> {
         guard let mailgun = try? req.make(Mailgun.self) else {
-            print("WARNING (AdminPanel): Mailgun not setup - no emails will be sent.")
-            return Future.transform(to: (), on: req)
+            print("WARNING (AdminPanel): Mailgun not set up - no emails will be sent.")
+            return req.future()
         }
 
         let config = try req.make(AdminPanelConfig<AdminPanelUser>.self)
@@ -123,8 +113,8 @@ extension AdminPanelUser: PasswordResettable {
         let emailData = ResetPasswordEmail(url: url, expire: expiration)
 
         return try req
-            .make(LeafRenderer.self)
-            .render(view, emailData)
+            .view()
+            .render(view, emailData, on: req)
             .map(to: String.self) { view in
                 String(bytes: view.data, encoding: .utf8) ?? ""
             }

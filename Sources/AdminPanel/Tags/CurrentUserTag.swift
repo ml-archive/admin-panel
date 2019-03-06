@@ -6,7 +6,8 @@ import TemplateKit
 public final class CurrentUserTag<U: AdminPanelUserType>: TagRenderer {
     public func render(tag: TagContext) throws -> Future<TemplateData> {
         try tag.requireParameterCount(1)
-        let container = try tag.container.make(CurrentUserContainer<U>.self)
+        let request = try tag.requireRequest()
+        let container = try request.privateContainer.make(CurrentUserContainer<U>.self)
 
         guard
             let user = container.user,
