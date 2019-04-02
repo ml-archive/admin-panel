@@ -3,7 +3,7 @@ import Leaf
 import Submissions
 import Vapor
 
-func handleValidationError(
+public func handleValidationError(
     path: String,
     message: String = "Something went wrong while validating the form.",
     on req: Request
@@ -20,7 +20,7 @@ func handleValidationError(
     }
 }
 
-func handleValidationError<E: Encodable>(
+public func handleValidationError<E: Encodable>(
     path: String,
     message: String = "Something went wrong while validating the form.",
     context: E,
