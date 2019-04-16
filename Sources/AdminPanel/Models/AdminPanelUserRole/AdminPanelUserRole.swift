@@ -77,3 +77,5 @@ extension AdminPanelUserRole: MySQLDataConvertible {
         return role
     }
 }
+
+extension AdminPanelUserRole: CaseIterable {}
