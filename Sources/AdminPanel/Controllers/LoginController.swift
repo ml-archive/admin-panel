@@ -62,7 +62,7 @@ fileprivate extension LoginController {
         private let password: String
     }
 
-    fileprivate struct RenderLogin: Encodable {
+    struct RenderLogin: Encodable {
         fileprivate let queryString: String?
     }
 }

@@ -34,7 +34,7 @@ extension AdminPanelUserType {
 }
 
 public extension AdminPanelUserType {
-    public func requireRole(_ role: Self.Role?) throws {
+    func requireRole(_ role: Self.Role?) throws {
         guard
             let myRole = self.role,
             let requiredRole = role,

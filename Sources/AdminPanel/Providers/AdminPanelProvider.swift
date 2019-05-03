@@ -12,7 +12,7 @@ import Vapor
 
 // MARK: - Commands
 public extension AdminPanelProvider where U: Seedable {
-    public static func commands(
+    static func commands(
         databaseIdentifier: DatabaseIdentifier<U.Database>
     ) -> [String: Command] {
         return ["adminpanel:user-seeder": SeederCommand<U>(databaseIdentifier: databaseIdentifier)]
@@ -126,7 +126,7 @@ extension ResetResponses {
 }
 
 public extension LeafTagConfig {
-    public mutating func useAdminPanelLeafTags<U: AdminPanelUserType>(
+    mutating func useAdminPanelLeafTags<U: AdminPanelUserType>(
         _ type: U.Type,
         paths: TagTemplatePaths = .init()
     ) {

@@ -49,7 +49,7 @@ public struct AdminPanelMiddlewares: Service {
 }
 
 public extension Router {
-    public func useAdminPanelRoutes<U: AdminPanelUserType>(
+    func useAdminPanelRoutes<U: AdminPanelUserType>(
         _ type: U.Type,
         on container: Container
     ) throws {
