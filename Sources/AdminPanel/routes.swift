@@ -1,6 +1,5 @@
 import Authentication
 import Flash
-import Reset
 import Routing
 import Sugar
 import Vapor
