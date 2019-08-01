@@ -1,0 +1,1356 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Commands/AdminPanelUser+Seedable.swift",
+      "line": 18,
+      "symbol": "AdminPanelUser.options",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Commands/AdminPanelUser+Seedable.swift",
+      "line": 40,
+      "symbol": "AdminPanelUser.help",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Commands/AdminPanelUser+Seedable.swift",
+      "line": 44,
+      "symbol": "AdminPanelUser.init(command:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 7,
+      "symbol": "AdminPanelConfig",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 8,
+      "symbol": "AdminPanelConfig.ResetPasswordEmail",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 9,
+      "symbol": "AdminPanelConfig.ResetPasswordEmail.fromEmail",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 10,
+      "symbol": "AdminPanelConfig.ResetPasswordEmail.subject",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 12,
+      "symbol": "AdminPanelConfig.ResetPasswordEmail.init(fromEmail:subject:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 17,
+      "symbol": "AdminPanelConfig.ResetPasswordEmail.default",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 25,
+      "symbol": "AdminPanelConfig.SpecifyPasswordEmail",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 26,
+      "symbol": "AdminPanelConfig.SpecifyPasswordEmail.fromEmail",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 27,
+      "symbol": "AdminPanelConfig.SpecifyPasswordEmail.subject",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 29,
+      "symbol": "AdminPanelConfig.SpecifyPasswordEmail.init(fromEmail:subject:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 34,
+      "symbol": "AdminPanelConfig.SpecifyPasswordEmail.default",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 42,
+      "symbol": "AdminPanelConfig.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 43,
+      "symbol": "AdminPanelConfig.baseURL",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 44,
+      "symbol": "AdminPanelConfig.endpoints",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 45,
+      "symbol": "AdminPanelConfig.views",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 46,
+      "symbol": "AdminPanelConfig.controllers",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 47,
+      "symbol": "AdminPanelConfig.sidebarMenuPathGenerator",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 48,
+      "symbol": "AdminPanelConfig.resetEndpoints",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 49,
+      "symbol": "AdminPanelConfig.resetPasswordEmail",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 50,
+      "symbol": "AdminPanelConfig.resetSigner",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 51,
+      "symbol": "AdminPanelConfig.specifyPasswordEmail",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 52,
+      "symbol": "AdminPanelConfig.environment",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 54,
+      "symbol": "AdminPanelConfig.init(name:baseURL:endpoints:views:controllers:sidebarMenuPathGenerator:resetEndpoints:resetPasswordEmail:resetSigner:specifyPasswordEmail:environment:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 87,
+      "symbol": "AdminPanelControllers",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 88,
+      "symbol": "AdminPanelControllers.loginController",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 89,
+      "symbol": "AdminPanelControllers.dashboardController",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 90,
+      "symbol": "AdminPanelControllers.adminPanelUserController",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 92,
+      "symbol": "AdminPanelControllers.init(loginController:dashboardController:adminPanelUserController:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 103,
+      "symbol": "AdminPanelControllers",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Configs/AdminPanelConfig.swift",
+      "line": 104,
+      "symbol": "AdminPanelControllers.default",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/AdminPanelUserController.swift",
+      "line": 7,
+      "symbol": "AdminPanelUserControllerType",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/AdminPanelUserController.swift",
+      "line": 8,
+      "symbol": "AdminPanelUserControllerType.renderList(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/AdminPanelUserController.swift",
+      "line": 9,
+      "symbol": "AdminPanelUserControllerType.renderCreate(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/AdminPanelUserController.swift",
+      "line": 10,
+      "symbol": "AdminPanelUserControllerType.create(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/AdminPanelUserController.swift",
+      "line": 11,
+      "symbol": "AdminPanelUserControllerType.renderEditMe(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/AdminPanelUserController.swift",
+      "line": 12,
+      "symbol": "AdminPanelUserControllerType.editMe(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/AdminPanelUserController.swift",
+      "line": 13,
+      "symbol": "AdminPanelUserControllerType.renderEditUser(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/AdminPanelUserController.swift",
+      "line": 14,
+      "symbol": "AdminPanelUserControllerType.editUser(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/AdminPanelUserController.swift",
+      "line": 15,
+      "symbol": "AdminPanelUserControllerType.delete(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/AdminPanelUserController.swift",
+      "line": 18,
+      "symbol": "AdminPanelUserController",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/AdminPanelUserController.swift",
+      "line": 21,
+      "symbol": "AdminPanelUserController.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/AdminPanelUserController.swift",
+      "line": 25,
+      "symbol": "AdminPanelUserController.renderList(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/AdminPanelUserController.swift",
+      "line": 44,
+      "symbol": "AdminPanelUserController.renderCreate(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/AdminPanelUserController.swift",
+      "line": 54,
+      "symbol": "AdminPanelUserController.create(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/AdminPanelUserController.swift",
+      "line": 79,
+      "symbol": "AdminPanelUserController.renderEditMe(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/AdminPanelUserController.swift",
+      "line": 83,
+      "symbol": "AdminPanelUserController.renderEditUser(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/AdminPanelUserController.swift",
+      "line": 104,
+      "symbol": "AdminPanelUserController.editMe(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/AdminPanelUserController.swift",
+      "line": 109,
+      "symbol": "AdminPanelUserController.editUser(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/AdminPanelUserController.swift",
+      "line": 139,
+      "symbol": "AdminPanelUserController.delete(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/DashboardController.swift",
+      "line": 4,
+      "symbol": "DashboardControllerType",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/DashboardController.swift",
+      "line": 5,
+      "symbol": "DashboardControllerType.renderDashboard(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/DashboardController.swift",
+      "line": 8,
+      "symbol": "DashboardController",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/DashboardController.swift",
+      "line": 9,
+      "symbol": "DashboardController.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/DashboardController.swift",
+      "line": 11,
+      "symbol": "DashboardController.renderDashboard(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/LoginController.swift",
+      "line": 7,
+      "symbol": "LoginControllerType",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/LoginController.swift",
+      "line": 8,
+      "symbol": "LoginControllerType.login(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/LoginController.swift",
+      "line": 9,
+      "symbol": "LoginControllerType.renderLogin(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/LoginController.swift",
+      "line": 10,
+      "symbol": "LoginControllerType.logout(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/LoginController.swift",
+      "line": 13,
+      "symbol": "LoginController",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/LoginController.swift",
+      "line": 15,
+      "symbol": "LoginController.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/LoginController.swift",
+      "line": 19,
+      "symbol": "LoginController.login(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/LoginController.swift",
+      "line": 38,
+      "symbol": "LoginController.renderLogin(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Controllers/LoginController.swift",
+      "line": 52,
+      "symbol": "LoginController.logout(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Helpers/SidebarMenuPathGenerator.swift",
+      "line": 1,
+      "symbol": "SidebarMenuPathGenerator",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Helpers/SidebarMenuPathGenerator.swift",
+      "line": 4,
+      "symbol": "AdminPanelUserRoleType.sidebarMenuPathGenerator",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Helpers/ValidationError.swift",
+      "line": 6,
+      "symbol": "handleValidationError(path:message:on:)",
+      "symbol_kind": "source.lang.swift.decl.function.free",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Helpers/ValidationError.swift",
+      "line": 23,
+      "symbol": "handleValidationError(path:message:context:on:)",
+      "symbol_kind": "source.lang.swift.decl.function.free",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 3,
+      "symbol": "AdminPanelUser",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 3,
+      "symbol": "AdminPanelUser",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 3,
+      "symbol": "AdminPanelUser",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 3,
+      "symbol": "AdminPanelUser",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 4,
+      "symbol": "AdminPanelUser",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 5,
+      "symbol": "AdminPanelUser",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 5,
+      "symbol": "AdminPanelUser",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 7,
+      "symbol": "AdminPanelUser",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 7,
+      "symbol": "AdminPanelUser",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 7,
+      "symbol": "AdminPanelUser.email",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 8,
+      "symbol": "AdminPanelUser.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 9,
+      "symbol": "AdminPanelUser.title",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 10,
+      "symbol": "AdminPanelUser.avatarURL",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 11,
+      "symbol": "AdminPanelUser.role",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 12,
+      "symbol": "AdminPanelUser.password",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 14,
+      "symbol": "AdminPanelUser.shouldResetPassword",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 16,
+      "symbol": "AdminPanelUser.createdAt",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 17,
+      "symbol": "AdminPanelUser.deletedAt",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 18,
+      "symbol": "AdminPanelUser.updatedAt",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 20,
+      "symbol": "AdminPanelUser.init(id:email:name:title:avatarURL:role:password:passwordChangeCount:shouldResetPassword:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 44,
+      "symbol": "AdminPanelUser",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUser.swift",
+      "line": 61,
+      "symbol": "AdminPanelUser",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUserType.swift",
+      "line": 6,
+      "symbol": "AdminPanelUserType",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUserType.swift",
+      "line": 23,
+      "symbol": "AdminPanelUserType.Role",
+      "symbol_kind": "source.lang.swift.decl.associatedtype",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUserType.swift",
+      "line": 25,
+      "symbol": "AdminPanelUserType.shouldResetPassword",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUserType.swift",
+      "line": 26,
+      "symbol": "AdminPanelUserType.role",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUserType.swift",
+      "line": 27,
+      "symbol": "AdminPanelUserType.didCreate(on:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUserType.swift",
+      "line": 30,
+      "symbol": "AdminPanelUserType",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUserType.swift",
+      "line": 31,
+      "symbol": "AdminPanelUserType.didCreate(on:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUserType.swift",
+      "line": 36,
+      "symbol": "AdminPanelUserType",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/AdminPanelUserType.swift",
+      "line": 37,
+      "symbol": "AdminPanelUserType.requireRole(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+AdminPanelUserType.swift",
+      "line": 5,
+      "symbol": "AdminPanelUser.Role",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+AdminPanelUserType.swift",
+      "line": 10,
+      "symbol": "AdminPanelUser.didCreate(on:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+Loginable.swift",
+      "line": 8,
+      "symbol": "AdminPanelUser.Login.email",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+Loginable.swift",
+      "line": 9,
+      "symbol": "AdminPanelUser.Login.password",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+PasswordResettable.swift",
+      "line": 8,
+      "symbol": "AdminPanelUser.AdminPanelResetPasswordContext",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+PasswordResettable.swift",
+      "line": 9,
+      "symbol": "AdminPanelUser.AdminPanelResetPasswordContext.userRequestedToResetPassword",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+PasswordResettable.swift",
+      "line": 10,
+      "symbol": "AdminPanelUser.AdminPanelResetPasswordContext.newUserWithoutPassword",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+PasswordResettable.swift",
+      "line": 12,
+      "symbol": "AdminPanelUser.AdminPanelResetPasswordContext.requestResetPassword()",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+PasswordResettable.swift",
+      "line": 17,
+      "symbol": "AdminPanelUser.Context",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+PasswordResettable.swift",
+      "line": 18,
+      "symbol": "AdminPanelUser.JWTPayload",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+PasswordResettable.swift",
+      "line": 20,
+      "symbol": "AdminPanelUser.RequestReset",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+PasswordResettable.swift",
+      "line": 21,
+      "symbol": "AdminPanelUser.RequestReset.makeSubmission()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+PasswordResettable.swift",
+      "line": 39,
+      "symbol": "AdminPanelUser.RequestReset.email",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+PasswordResettable.swift",
+      "line": 42,
+      "symbol": "AdminPanelUser.ResetPassword",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+PasswordResettable.swift",
+      "line": 43,
+      "symbol": "AdminPanelUser.ResetPassword.makeSubmission()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+PasswordResettable.swift",
+      "line": 74,
+      "symbol": "AdminPanelUser.ResetPassword.password",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+PasswordResettable.swift",
+      "line": 82,
+      "symbol": "AdminPanelUser.sendPasswordReset(url:token:expirationPeriod:context:on:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+PasswordResettable.swift",
+      "line": 136,
+      "symbol": "AdminPanelUser.expirationPeriod(for:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+Submittable.swift",
+      "line": 8,
+      "symbol": "AdminPanelUser.makeFields(for:given:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+Submittable.swift",
+      "line": 30,
+      "symbol": "AdminPanelUser.makeSubmission()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUser/Extensions/AdminPanelUser+Updatable.swift",
+      "line": 4,
+      "symbol": "AdminPanelUser.update(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUserRole/AdminPanelUserRole.swift",
+      "line": 4,
+      "symbol": "AdminPanelUserRole",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUserRole/AdminPanelUserRole.swift",
+      "line": 5,
+      "symbol": "AdminPanelUserRole.superAdmin",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUserRole/AdminPanelUserRole.swift",
+      "line": 6,
+      "symbol": "AdminPanelUserRole.admin",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUserRole/AdminPanelUserRole.swift",
+      "line": 7,
+      "symbol": "AdminPanelUserRole.user",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUserRole/AdminPanelUserRole.swift",
+      "line": 9,
+      "symbol": "AdminPanelUserRole.weight",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUserRole/AdminPanelUserRole.swift",
+      "line": 19,
+      "symbol": "AdminPanelUserRole.init(rawValue:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUserRole/AdminPanelUserRole.swift",
+      "line": 29,
+      "symbol": "AdminPanelUserRole",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUserRole/AdminPanelUserRole.swift",
+      "line": 35,
+      "symbol": "AdminPanelUserRole",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUserRole/AdminPanelUserRole.swift",
+      "line": 36,
+      "symbol": "AdminPanelUserRole.menuPath",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUserRole/AdminPanelUserRole.swift",
+      "line": 68,
+      "symbol": "AdminPanelUserRole",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUserRole/AdminPanelUserRoleType.swift",
+      "line": 1,
+      "symbol": "AdminPanelUserRoleType",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUserRole/AdminPanelUserRoleType.swift",
+      "line": 2,
+      "symbol": "AdminPanelUserRoleType.menuPath",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Models/AdminPanelUserRole/AdminPanelUserRoleType.swift",
+      "line": 3,
+      "symbol": "AdminPanelUserRoleType",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Providers/AdminPanelProvider.swift",
+      "line": 14,
+      "symbol": "AdminPanelProvider",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Providers/AdminPanelProvider.swift",
+      "line": 15,
+      "symbol": "AdminPanelProvider.commands(databaseIdentifier:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Providers/AdminPanelProvider.swift",
+      "line": 22,
+      "symbol": "AdminPanelProvider",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Providers/AdminPanelProvider.swift",
+      "line": 28,
+      "symbol": "AdminPanelProvider.init(configFactory:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Providers/AdminPanelProvider.swift",
+      "line": 129,
+      "symbol": "LeafTagConfig.useAdminPanelLeafTags(_:paths:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Tags/AdminPanelConfigTag.swift",
+      "line": 6,
+      "symbol": "AdminPanelConfigTag",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Tags/AdminPanelConfigTag.swift",
+      "line": 22,
+      "symbol": "AdminPanelConfigTag.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Tags/AdminPanelConfigTag.swift",
+      "line": 25,
+      "symbol": "AdminPanelConfigTagData",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Tags/AdminPanelConfigTag.swift",
+      "line": 34,
+      "symbol": "AdminPanelConfigTagData.name",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Tags/AdminPanelConfigTag.swift",
+      "line": 35,
+      "symbol": "AdminPanelConfigTagData.baseURL",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Tags/AdminPanelConfigTag.swift",
+      "line": 36,
+      "symbol": "AdminPanelConfigTagData.dashboardPath",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Tags/AdminPanelConfigTag.swift",
+      "line": 37,
+      "symbol": "AdminPanelConfigTagData.sidebarMenuPathGenerator",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Tags/AdminPanelConfigTag.swift",
+      "line": 38,
+      "symbol": "AdminPanelConfigTagData.environment",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Tags/AvatarURLTag.swift",
+      "line": 4,
+      "symbol": "AvatarURLTag",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Tags/CurrentUserTag.swift",
+      "line": 6,
+      "symbol": "CurrentUserTag",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Tags/HasRequiredRole.swift",
+      "line": 5,
+      "symbol": "HasRequiredRole",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Tags/RequireRoleTag.swift",
+      "line": 5,
+      "symbol": "RequireRoleTag",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Tags/SidebarHeadingTag.swift",
+      "line": 4,
+      "symbol": "SidebarHeadingTag",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/Tags/SidebarMenuItemTag.swift",
+      "line": 5,
+      "symbol": "SidebarMenuItemTag",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/routes.swift",
+      "line": 7,
+      "symbol": "AdminPanelEndpoints",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/routes.swift",
+      "line": 8,
+      "symbol": "AdminPanelEndpoints.login",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/routes.swift",
+      "line": 9,
+      "symbol": "AdminPanelEndpoints.logout",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/routes.swift",
+      "line": 10,
+      "symbol": "AdminPanelEndpoints.dashboard",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/routes.swift",
+      "line": 11,
+      "symbol": "AdminPanelEndpoints.adminPanelUserBasePath",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/routes.swift",
+      "line": 13,
+      "symbol": "AdminPanelEndpoints.createSlug",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/routes.swift",
+      "line": 14,
+      "symbol": "AdminPanelEndpoints.deleteSlug",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/routes.swift",
+      "line": 15,
+      "symbol": "AdminPanelEndpoints.editSlug",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/routes.swift",
+      "line": 16,
+      "symbol": "AdminPanelEndpoints.meSlug",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/routes.swift",
+      "line": 18,
+      "symbol": "AdminPanelEndpoints.init(adminPanelUserBasePath:dashboard:login:logout:createSlug:deleteSlug:editSlug:meSlug:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/routes.swift",
+      "line": 40,
+      "symbol": "AdminPanelEndpoints.default",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/routes.swift",
+      "line": 45,
+      "symbol": "AdminPanelMiddlewares",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/routes.swift",
+      "line": 46,
+      "symbol": "AdminPanelMiddlewares.secure",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/routes.swift",
+      "line": 47,
+      "symbol": "AdminPanelMiddlewares.unsecure",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/routes.swift",
+      "line": 51,
+      "symbol": "Router.useAdminPanelRoutes(_:on:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 1,
+      "symbol": "AdminPanelViews",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 2,
+      "symbol": "AdminPanelViews.prefix",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 4,
+      "symbol": "AdminPanelViews.Login",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 5,
+      "symbol": "AdminPanelViews.Login.index",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 6,
+      "symbol": "AdminPanelViews.Login.requestResetPassword",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 7,
+      "symbol": "AdminPanelViews.Login.resetPassword",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 9,
+      "symbol": "AdminPanelViews.Login.init(index:requestResetPassword:resetPassword:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 20,
+      "symbol": "AdminPanelViews.Dashboard",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 21,
+      "symbol": "AdminPanelViews.Dashboard.index",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 23,
+      "symbol": "AdminPanelViews.Dashboard.init(index:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 28,
+      "symbol": "AdminPanelViews.AdminPanelUser",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 29,
+      "symbol": "AdminPanelViews.AdminPanelUser.index",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 30,
+      "symbol": "AdminPanelViews.AdminPanelUser.editAndCreate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 32,
+      "symbol": "AdminPanelViews.AdminPanelUser.init(index:editAndCreate:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 41,
+      "symbol": "AdminPanelViews.Reset",
+      "symbol_kind": "source.lang.swift.decl.struct",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 42,
+      "symbol": "AdminPanelViews.Reset.requestResetPasswordEmail",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 43,
+      "symbol": "AdminPanelViews.Reset.newUserResetPasswordEmail",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 45,
+      "symbol": "AdminPanelViews.Reset.init(requestResetPasswordEmail:newUserResetPasswordEmail:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 54,
+      "symbol": "AdminPanelViews.login",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 55,
+      "symbol": "AdminPanelViews.dashboard",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 56,
+      "symbol": "AdminPanelViews.adminPanelUser",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 57,
+      "symbol": "AdminPanelViews.reset",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 59,
+      "symbol": "AdminPanelViews.init(login:dashboard:adminPanelUser:reset:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/emilmarashliev/Projects/admin-panel/Sources/AdminPanel/views.swift",
+      "line": 71,
+      "symbol": "AdminPanelViews.default",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/emilmarashliev/Projects/admin-panel"
+}
