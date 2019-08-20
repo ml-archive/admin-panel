@@ -13,7 +13,7 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
             self.fromEmail = fromEmail
             self.subject = subject
         }
-        
+
         public static var `default`: ResetPasswordEmail {
             return .init(
                 fromEmail: "no-reply@myadminpanel.com",
@@ -30,7 +30,7 @@ public struct AdminPanelConfig<U: AdminPanelUserType>: Service {
             self.fromEmail = fromEmail
             self.subject = subject
         }
-        
+
         public static var `default`: SpecifyPasswordEmail {
             return .init(
                 fromEmail: "no-reply@myadminpanel.com",
