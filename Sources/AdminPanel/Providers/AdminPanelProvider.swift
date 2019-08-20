@@ -107,14 +107,14 @@ extension ResetResponses {
                     .flash(.success, "Email with reset link sent.")
                 )
             },
-            resetPasswordForm: { [config] req, user in
+            resetPasswordForm: { [config] req, _ in
                 try req.addFields(forType: U.self)
                 return try req
                     .view()
                     .render(config.views.login.resetPassword, on: req)
                     .encode(for: req)
             },
-            resetPasswordSuccess: { [config] req, user in
+            resetPasswordSuccess: { [config] req, _ in
                 req.future(req
                     // TODO: make configurable
                     .redirect(to: config.endpoints.login)

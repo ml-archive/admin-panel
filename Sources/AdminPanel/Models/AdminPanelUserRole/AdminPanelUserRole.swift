@@ -72,7 +72,10 @@ extension AdminPanelUserRole: MySQLDataConvertible {
 
     public static func convertFromMySQLData(_ mysqlData: MySQLData) throws -> AdminPanelUserRole {
         guard let role = AdminPanelUserRole(rawValue: mysqlData.string()) else {
-            throw Abort(.internalServerError, reason: "Could not convert MySQLData to AdminPanelUserRole")
+            throw Abort(
+                .internalServerError,
+                reason: "Could not convert MySQLData to AdminPanelUserRole"
+            )
         }
         return role
     }
