@@ -63,3 +63,37 @@ Example usage
 ```
 <img src="#adminPanel:avatarURL(user.email, user.avatarURL)" alt="Profile picture" class="img-thumbnail" width="40">
 ```
+
+#### #adminPanel:config
+Convenience method to output configuration strings such as app or environment name or paths to certain templates
+
+Supported input values and what they output
+
+ - `name`: App name
+ - `baseURL`: App base URL
+ - `sidebarMenuPath`: Path to sidebar menu view template
+ - `dashboardPath`: Path to dashboard view template
+ - `environment`: Environment name
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|`configName`|String| _Config variable name_|
+
+Example usage
+```HTML
+<!-- outputs app name ->
+#adminPanel:config("name")
+```
+
+#### adminPanel:user
+Outputs a field on the current user object as a string
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|`fieldName`|String| _User field name_|
+
+Example usage
+```HTML
+<!-- outputs user's name ->
+#adminPanel:user("name")
+```
