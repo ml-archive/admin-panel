@@ -80,12 +80,12 @@ Supported input values and what they output
 |`configName`|String| _Config variable name_|
 
 Example usage
-```HTML
+```
 <!-- outputs app name ->
 #adminPanel:config("name")
 ```
 
-#### adminPanel:user
+#### #adminPanel:user
 Outputs a field on the current user object as a string
 
 |Parameter|Type|Description|
@@ -93,7 +93,59 @@ Outputs a field on the current user object as a string
 |`fieldName`|String| _User field name_|
 
 Example usage
-```HTML
+```
 <!-- outputs user's name ->
 #adminPanel:user("name")
+```
+
+#### #adminPanel:user:requireRole
+Make sure user has required role to output element. If not throws an error.
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|`roleName`|String| _User role_|
+
+Example usage
+```
+#adminPanel:user:requireRole("superAdmin") {
+    <div>I show if user is super admin</div>
+}
+```
+
+#### #adminPanel:user:hasRequiredRole
+Check if user has a required role
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|`roleName`|String| _User role_|
+
+Example usage
+```
+#if(adminPanel:user:hasRequiredRole("superAdmin")) {
+    // Do something
+} else {
+    // Do something else
+}
+```
+
+#### #adminPanel:sidebar:heading
+Renders a header, styled in a certain way, for the navigation sidebar.
+
+Example usage
+```
+#adminPanel:sidebar:heading() { Super Admin }
+```
+
+#### #adminPanel:sidebar:menuItem
+Renders a sidebar menu item, styled in a certain way, for the navigation sidebar.
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|`url`|String| _Menu item link reference_|
+|`icon`|String| _Feather icon for menu item_|
+|`activeURLPatterns`|String| _URL pattern to determine active state_|
+
+Example usage
+```
+#adminPanel:sidebar:menuItem("/admin/dashboard", "home", "/admin/dashboard*") { Home }
 ```
