@@ -63,3 +63,89 @@ Example usage
 ```
 <img src="#adminPanel:avatarURL(user.email, user.avatarURL)" alt="Profile picture" class="img-thumbnail" width="40">
 ```
+
+#### #adminPanel:config
+Convenience method to output configuration strings such as app or environment name or paths to certain templates
+
+Supported input values and what they output
+
+ - `name`: App name
+ - `baseURL`: App base URL
+ - `sidebarMenuPath`: Path to sidebar menu view template
+ - `dashboardPath`: Path to dashboard view template
+ - `environment`: Environment name
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|`configName`|String| _Config variable name_|
+
+Example usage
+```
+<!-- outputs app name ->
+#adminPanel:config("name")
+```
+
+#### #adminPanel:user
+Outputs a field on the current user object as a string
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|`fieldName`|String| _User field name_|
+
+Example usage
+```
+<!-- outputs user's name ->
+#adminPanel:user("name")
+```
+
+#### #adminPanel:user:requireRole
+Make sure user has required role to output element. If not throws an error.
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|`roleName`|String| _User role_|
+
+Example usage
+```
+#adminPanel:user:requireRole("superAdmin") {
+    <div>I show if user is super admin</div>
+}
+```
+
+#### #adminPanel:user:hasRequiredRole
+Check if user has a required role
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|`roleName`|String| _User role_|
+
+Example usage
+```
+#if(adminPanel:user:hasRequiredRole("superAdmin")) {
+    // Do something
+} else {
+    // Do something else
+}
+```
+
+#### #adminPanel:sidebar:heading
+Renders a header, styled in a certain way, for the navigation sidebar.
+
+Example usage
+```
+#adminPanel:sidebar:heading() { Super Admin }
+```
+
+#### #adminPanel:sidebar:menuItem
+Renders a sidebar menu item, styled in a certain way, for the navigation sidebar.
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|`url`|String| _Menu item link reference_|
+|`icon`|String| _Feather icon for menu item_|
+|`activeURLPatterns`|String| _URL pattern to determine active state_|
+
+Example usage
+```
+#adminPanel:sidebar:menuItem("/admin/dashboard", "home", "/admin/dashboard*") { Home }
+```
