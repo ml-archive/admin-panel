@@ -139,7 +139,7 @@ public extension LeafTagConfig {
             "adminPanel:user": CurrentUserTag<U>(),
             "adminPanel:user:requireRole": RequireRoleTag<U>(),
             "adminPanel:user:hasRequiredRole": HasRequiredRole<U>(),
-            "numberformat": NumberFormatTag(),
+            "number": NumberFormatTag(),
             "offsetPaginator": OffsetPaginatorTag(templatePath: "Paginator/offsetpaginator"),
             "submissions:WYSIWYG": InputTag(templatePath: paths.wysiwygField)
         ])
