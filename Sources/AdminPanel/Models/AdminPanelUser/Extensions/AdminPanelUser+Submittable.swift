@@ -5,18 +5,19 @@ import Validation
 import Vapor
 
 extension AdminPanelUser: Submittable {
-    public static func makeFields(
+    public static func makeAdditionalFields(
         for submission: Submission?,
         given user: AdminPanelUser?
     ) throws -> [Field] {
-        guard let submission = submission else { return [] }
         return try [
             Field(
                 keyPath: \.email,
                 instance: submission,
-                label: "Email address",
+                label: "Email",
+                validators: [.email],
                 asyncValidators: [{ req, _ in
-                    validateThat(
+                    guard let submission = submission else { return req.future([]) }
+                    return validateThat(
                         only: user,
                         has: submission.email,
                         for: \.email,
@@ -76,12 +77,6 @@ extension AdminPanelUser: Submittable {
                     instance: instance,
                     label: "Title",
                     validators: [.count(...191)]
-                ),
-                Field(
-                    keyPath: \.email,
-                    instance: instance,
-                    label: "Email",
-                    validators: [.email]
                 ),
                 Field(
                     keyPath: \.role,
