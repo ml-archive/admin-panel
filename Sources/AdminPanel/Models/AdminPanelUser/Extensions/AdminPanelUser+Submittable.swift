@@ -9,13 +9,14 @@ extension AdminPanelUser: Submittable {
         for submission: Submission?,
         given user: AdminPanelUser?
     ) throws -> [Field] {
-        guard let submission = submission else { return [] }
         return try [
             Field(
                 keyPath: \.email,
                 instance: submission,
-                label: "Email address",
+                label: "Email",
+                validators: [.email],
                 asyncValidators: [{ req, _ in
+                    guard let submission = submission else { return }
                     validateThat(
                         only: user,
                         has: submission.email,
@@ -76,12 +77,6 @@ extension AdminPanelUser: Submittable {
                     instance: instance,
                     label: "Title",
                     validators: [.count(...191)]
-                ),
-                Field(
-                    keyPath: \.email,
-                    instance: instance,
-                    label: "Email",
-                    validators: [.email]
                 ),
                 Field(
                     keyPath: \.role,
