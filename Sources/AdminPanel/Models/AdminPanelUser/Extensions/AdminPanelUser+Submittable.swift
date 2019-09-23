@@ -5,7 +5,7 @@ import Validation
 import Vapor
 
 extension AdminPanelUser: Submittable {
-    public static func makeFields(
+    public static func makeAdditionalFields(
         for submission: Submission?,
         given user: AdminPanelUser?
     ) throws -> [Field] {
