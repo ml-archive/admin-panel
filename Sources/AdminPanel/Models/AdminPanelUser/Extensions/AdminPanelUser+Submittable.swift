@@ -16,7 +16,7 @@ extension AdminPanelUser: Submittable {
                 label: "Email",
                 validators: [.email],
                 asyncValidators: [{ req, _ in
-                    guard let submission = submission else { return }
+                    guard let submission = submission else { return req.future([]) }
                     validateThat(
                         only: user,
                         has: submission.email,
