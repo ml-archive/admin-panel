@@ -1,5 +1,6 @@
 Packages
 .build
+.idea
 .DS_Store
 *.xcodeproj
 DerivedData/
