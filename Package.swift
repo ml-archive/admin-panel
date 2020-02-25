@@ -13,7 +13,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/nodes-vapor/bootstrap.git", from: "4.0.0"),
         .package(url: "https://github.com/nodes-vapor/flash.git", from: "5.0.0"),
-        .package(url: "https://github.com/nodes-vapor/paginator.git", from: "3.2.0"),
+        .package(url: "https://github.com/nodes-vapor/paginator.git", from: "4.0.0"),
         .package(url: "https://github.com/nodes-vapor/reset.git", from: "1.0.0"),
         .package(url: "https://github.com/nodes-vapor/submissions.git", from: "2.0.0"),
         .package(url: "https://github.com/nodes-vapor/sugar.git", from: "4.0.0"),
