@@ -24,14 +24,14 @@ public final class AdminPanelUserController
 
     public func renderList(_ req: Request) throws -> Future<Response> {
         let config: AdminPanelConfig<U> = try req.make()
-        return try U.query(on: req)
-            .paginate(for: req)
+        return U.query(on: req)
+            .paginate(on: req)
             .flatMap(to: Response.self) { (paginator: OffsetPaginator) in
                 try req
                     .view()
                     .render(
                         config.views.adminPanelUser.index,
-                        MultipleUsers(users: paginator.data ?? []),
+                        MultipleUsers(users: paginator.data),
                         userInfo: try paginator.userInfo(),
                         on: req
                     )

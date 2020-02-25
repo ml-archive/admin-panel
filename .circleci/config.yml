@@ -11,6 +11,7 @@ jobs:
       - run:
           name: Install CMySQL and CTLS
           command: |
+            export HOMEBREW_NO_AUTO_UPDATE=1
             brew tap vapor/homebrew-tap
             brew install cmysql
             brew install ctls
@@ -44,7 +45,7 @@ jobs:
           name: Build and Run Tests
           no_output_timeout: 1800
           command: |
-            swift test -Xswiftc -DNOJSON
+            swift test
       - run:
           name: Restoring Package file
           command: mv res Package.swift
