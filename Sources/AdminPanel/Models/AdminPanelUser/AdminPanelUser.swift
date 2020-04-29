@@ -59,6 +59,8 @@ extension AdminPanelUser: Migration {
     }
 }
 extension AdminPanelUser: MySQLModel {
+    public typealias Database = MySQLDatabase
+
     public static let createdAtKey: TimestampKey? = \.createdAt
     public static let updatedAtKey: TimestampKey? = \.updatedAt
     public static let deletedAtKey: TimestampKey? = \.deletedAt
