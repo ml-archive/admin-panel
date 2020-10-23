@@ -71,10 +71,9 @@ public extension Router {
 
         // MARK: Dashboard routes
 
-        protected.get(
-            endpoints.dashboard,
-            use: controllers.dashboardController.renderDashboard
-        )
+        protected.get(endpoints.dashboard) { req in 
+            try dashboardController.renderDashboard(req)
+        }
 
         // MARK: Admin Panel User routes
 
