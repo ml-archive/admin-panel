@@ -60,6 +60,8 @@ public extension Router {
 
         let endpoints = config.endpoints
         let controllers = config.controllers
+        let dashboardController = controllers.dashboardController
+        let adminPanelUserController = controllers.adminPanelUserController
 
         // MARK: Login routes
 
@@ -76,49 +78,29 @@ public extension Router {
 
         // MARK: Admin Panel User routes
 
-        protected.get(
-            endpoints.adminPanelUserBasePath,
-            use: controllers.adminPanelUserController.renderList
+        protected.get(endpoints.adminPanelUserBasePath) { req in
+            try adminPanelUserController.renderList(req)
+        }
+        protected.get(endpoints.adminPanelUserBasePath, endpoints.createSlug) { req in
+            try adminPanelUserController.renderCreate(req)
+        }
+        protected.post(endpoints.adminPanelUserBasePath, endpoints.createSlug) { req in
+            try adminPanelUserController.create(req)
+        }
+        protected.get(endpoints.adminPanelUserBasePath, U.parameter, endpoints.editSlug) { req in 
+            try adminPanelUserController.renderEditUser(req)
+        }
+        protected.post(endpoints.adminPanelUserBasePath, U.parameter, endpoints.editSlug) { req in
+            try adminPanelUserController.editUser(req)
+        }
+        protected.post(endpoints.adminPanelUserBasePath, U.parameter, endpoints.deleteSlug) { req in
+            try adminPanelUserController.delete(req)
+        }
+        protected.get(endpoints.adminPanelUserBasePath, endpoints.meSlug, endpoints.editSlug) { req in
+            try adminPanelUserController.renderEditMe(req)
         )
-        protected.get(
-            endpoints.adminPanelUserBasePath,
-            endpoints.createSlug,
-            use: controllers.adminPanelUserController.renderCreate
-        )
-        protected.post(
-            endpoints.adminPanelUserBasePath,
-            endpoints.createSlug,
-            use: controllers.adminPanelUserController.create
-        )
-        protected.get(
-            endpoints.adminPanelUserBasePath,
-            U.parameter,
-            endpoints.editSlug,
-            use: controllers.adminPanelUserController.renderEditUser
-        )
-        protected.post(
-            endpoints.adminPanelUserBasePath,
-            U.parameter,
-            endpoints.editSlug,
-            use: controllers.adminPanelUserController.editUser
-        )
-        protected.post(
-            endpoints.adminPanelUserBasePath,
-            U.parameter,
-            endpoints.deleteSlug,
-            use: controllers.adminPanelUserController.delete
-        )
-        protected.get(
-            endpoints.adminPanelUserBasePath,
-            endpoints.meSlug,
-            endpoints.editSlug,
-            use: controllers.adminPanelUserController.renderEditMe
-        )
-        protected.post(
-            endpoints.adminPanelUserBasePath,
-            endpoints.meSlug,
-            endpoints.editSlug,
-            use: controllers.adminPanelUserController.editMe
+        protected.post(endpoints.adminPanelUserBasePath, endpoints.meSlug, endpoints.editSlug) { req in
+            try adminPanelUserController.editMe(req)
         )
 
         // MARK: Reset routes
