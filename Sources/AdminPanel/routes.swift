@@ -98,10 +98,10 @@ public extension Router {
         }
         protected.get(endpoints.adminPanelUserBasePath, endpoints.meSlug, endpoints.editSlug) { req in
             try adminPanelUserController.renderEditMe(req)
-        )
+        }
         protected.post(endpoints.adminPanelUserBasePath, endpoints.meSlug, endpoints.editSlug) { req in
             try adminPanelUserController.editMe(req)
-        )
+        }
 
         // MARK: Reset routes
 
