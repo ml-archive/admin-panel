@@ -60,14 +60,22 @@ public extension Router {
 
         let endpoints = config.endpoints
         let controllers = config.controllers
+
+        let loginController = controllers.loginController
         let dashboardController = controllers.dashboardController
         let adminPanelUserController = controllers.adminPanelUserController
 
         // MARK: Login routes
 
-        unprotected.get(endpoints.login, use: controllers.loginController.renderLogin)
-        unprotected.post(endpoints.login, use: controllers.loginController.login)
-        unprotected.get(endpoints.logout, use: controllers.loginController.logout)
+        unprotected.get(endpoints.login) { req in 
+            try loginController.renderLogin(req)
+        }
+        unprotected.post(endpoints.login) { req in 
+            try loginController.login(req)
+        }
+        unprotected.get(endpoints.logout) { req in 
+            try loginController.logout(req)
+        }
 
         // MARK: Dashboard routes
 
